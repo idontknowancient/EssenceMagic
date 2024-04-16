@@ -11,6 +11,7 @@ public enum SystemMessage implements Message{
     INADEQUATE_PERMISSION("inadequate-permission"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),
     UNSUCCESSFULLY_RELOADED("unsuccessfully-reloaded"),
+
     ;
 
     private final String path;
