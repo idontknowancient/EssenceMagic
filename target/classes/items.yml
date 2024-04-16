@@ -1,0 +1,30 @@
+flame_sword:
+  display_name: "&c烈焰之劍"
+  type: iron_sword
+  # item lore is not necessary
+  lore:
+    - "&7=======&f<&a物品介紹&f>&7======"
+    - "&8利用燃燒的火焰將敵人燒成灰燼"
+    - "&8對木屬性敵人有加成傷害"
+    - "&7=======&f<&a物品資訊&f>&7======"
+    - "&d元素&7: &c火"
+    - "&b附魔&7:"
+    - "  &8- &7耐久 III"
+    - "  &8- &7燃燒 II"
+  # if the element is not provided, the system will use 'none' instead
+  element: flame
+  # enchantments are not necessary
+  enchantments:
+    durability: 3
+    fire_aspect: 2
+  # options are not necessary
+  options:
+    hide_enchants: true
+    hide_attributes: false
+  # attributes are not necessary
+  attributes:
+    attack_damage:
+      # add or multiply
+      type: add
+      value: 4
+      slot: hand

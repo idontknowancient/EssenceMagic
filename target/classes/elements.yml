@@ -1,0 +1,67 @@
+# necessary element
+# if the element of an item is not set, the system will use none instead
+none:
+  display_name: "&7無"
+  symbol_item: barrier
+  slot: 10
+  # not necessary
+  description:
+    - "&7屬性與我無緣"
+  # not necessary
+  glowing: true
+  # not necessary
+  suppress:
+    wood:
+      damage_modifier: 1
+  # not necessary
+  suppressed:
+    water:
+      damage_modifier: 1
+
+flame:
+  display_name: "&c火"
+  symbol_item: red_dye
+  slot: 11
+  description:
+    - "&4操縱火焰 燒毀一切"
+  glowing: false
+  suppress:
+    wood:
+      damage_modifier: 1.5
+    none:
+      damage_modifier: 1.5
+  suppressed:
+    water:
+      damage_modifier: 0.3
+
+water:
+  display_name: "&9水"
+  symbol_item: blue_dye
+  slot: 12
+  description:
+    - "&3萬物皆水 生命之源"
+  glowing: false
+  suppress:
+    flame:
+      damage_modifier: 1.5
+    none:
+      damage_modifier: 1.5
+  suppressed:
+    wood:
+      damage_modifier: 0.3
+
+wood:
+  display_name: "&2木"
+  symbol_item: green_dye
+  slot: 13
+  description:
+    - "&a森林庇蔭 文明基底"
+  glowing: false
+  suppress:
+    water:
+      damage_modifier: 1.5
+    none:
+      damage_modifier: 1.5
+  suppressed:
+    flame:
+      damage_modifier: 0.3

@@ -1,0 +1,7 @@
+player-join-message: "&a+ &e歡迎玩家 &6%player_name% &e加入伺服器"
+player-quit-message: "&c- &d玩家 &7%player_name% &d離開了伺服器"
+too-little-argument: "&c參數不足! &7用法: "
+too-much-argument: "&c參數過多! &7用法: "
+inadequate-permission: "&c權限不足!"
+successfully-reloaded: "&e重新載入成功!"
+unsuccessfully-reloaded: "&c重新載入失敗!"

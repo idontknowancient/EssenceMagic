@@ -1,0 +1,13 @@
+#######   #######   #######
+#         #         #
+#####     #######   #######
+#               #         #
+#######   #######   #######
+
+# Custom join/quit messages applies to the original ones,
+# which means if send-custom-message-when-join is true but send-message-when-join is false,
+# it will not send any messages.
+send-message-when-join: true
+send-custom-message-when-join: true
+send-message-when-quit: true
+send-custom-message-when-quit: true

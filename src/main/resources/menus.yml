@@ -1,0 +1,9 @@
+element:
+  title: "&8元素一覽"
+  size: 45
+  show_suppress_elements: true
+  suppress_elements_opening: "&b克制:"
+  show_suppressed_elements: true
+  suppressed_elements_opening: "&d被克制:"
+  # not necessary
+  occupation: gray_stained_glass_pane
