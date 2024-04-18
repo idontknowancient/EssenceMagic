@@ -1,5 +1,6 @@
 package com.idk.essencemagic.utils.messages;
 
+import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.command.CommandSender;
 
 public enum SystemMessage implements Message{
@@ -20,7 +21,7 @@ public enum SystemMessage implements Message{
         this.path = path;
     }
 
-    public void send(CommandSender sender, String s) {
-        Message.send(sender, s);
+    public void send(CommandSender sender) {
+        Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path));
     }
 }

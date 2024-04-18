@@ -1,7 +1,7 @@
 package com.idk.essencemagic.menus;
 
 import com.idk.essencemagic.elements.Element;
-import com.idk.essencemagic.utils.Util;
+import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -9,11 +9,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class Menu {
 
-    private static final Util cm = Util.getUtil("menus"); //config menus, no .yml needed
-
     public static Inventory getElementMenu() {
 
-        Inventory elementMenu = Bukkit.createInventory(new CustomHolder(), cm.geti("element.size"), cm.outs("element.title"));
+        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
+
+        Inventory elementMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("element.size"), cm.outString("element.title"));
 
         Element.elements.forEach((s, e)->{
             //s is name of an Element and e is an Element
@@ -21,10 +21,10 @@ public class Menu {
         });
 
         //occupation
-        if(cm.gets("element.occupation") != null) {
-            for(int i = 0; i < cm.geti("element.size"); i++) {
+        if(cm.getString("element.occupation") != null) {
+            for(int i = 0; i < cm.getInteger("element.size"); i++) {
                 if(elementMenu.getItem(i) == null) elementMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cm.gets("element.occupation").toUpperCase())));
+                        i, new ItemStack(Material.valueOf(cm.getString("element.occupation").toUpperCase())));
             }
         }
 

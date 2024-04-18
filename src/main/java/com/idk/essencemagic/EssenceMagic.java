@@ -17,8 +17,8 @@ public final class EssenceMagic extends JavaPlugin {
         ConfigFile.initialize();
         Register.registerListeners();
         Register.registerCommands();
-        ElementHandler.setElements();
-        ItemHandler.setItems();
+        ElementHandler.initialize();
+        ItemHandler.initialize();
     }
 
     public static void registerDependencies() {

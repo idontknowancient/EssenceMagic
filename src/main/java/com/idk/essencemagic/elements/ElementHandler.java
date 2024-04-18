@@ -2,9 +2,8 @@ package com.idk.essencemagic.elements;
 
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.utils.Util;
+import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,17 +15,17 @@ import java.util.Set;
 
 public class ElementHandler implements Listener {
 
-    private static final Util ce = Util.getUtil("elements"); //config elements, no .yml needed
-    private static final Util cm = Util.getUtil("menus"); //config menus
-
-    private static final FileConfiguration config = ce.getConfig();
+    public static void initialize() {
+        setElements();
+    }
 
     public static void setElements() {
-        //directly use getKeys, not getDefaultSection
-        Set<String> elementSet = config.getKeys(false);
+        //config instance
+        ConfigFile.ConfigName ce = ConfigFile.ConfigName.ELEMENTS; //config elements
+        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS; //config menus
 
-        // set necessary element (none)
-        Element.elements.put("none", new Element("none"));
+        //directly use getKeys, not getDefaultSection
+        Set<String> elementSet = ce.getConfig().getKeys(false);
 
         //register elements
         for(String s : elementSet) {
@@ -35,43 +34,44 @@ public class ElementHandler implements Listener {
 
         //set suppress and suppressed elements
         for(String s : elementSet) {
-            ConfigurationSection suppressSection = config.getConfigurationSection(s+".suppress");
+            ConfigurationSection suppressSection = ce.getConfigurationSection(s+".suppress");
             if(suppressSection != null) {
                 Set<String> suppressElement = suppressSection.getKeys(false);
                 for(String s2 : suppressElement) {
                     Element.elements.get(s).getSuppressMap().put(
-                            Element.elements.get(s2), ce.getd(s+".suppress."+s2+".damage_modifier"));
+                            Element.elements.get(s2), ce.getDouble(s+".suppress."+s2+".damage_modifier"));
                 }
             }
 
-            ConfigurationSection suppressedSection = config.getConfigurationSection(s+".suppressed");
+            ConfigurationSection suppressedSection = ce.getConfigurationSection(s+".suppressed");
             if(suppressedSection != null) {
                 Set<String> suppressedElement = suppressedSection.getKeys(false);
                 for(String s2 : suppressedElement) {
                     Element.elements.get(s).getSuppressedMap().put(
-                            Element.elements.get(s2), ce.getd(s+".suppressed."+s2+".damage_modifier"));
+                            Element.elements.get(s2), ce.getDouble(s+".suppressed."+s2+".damage_modifier"));
                 }
             }
         }
 
+        //set new lore if we want it to show suppress/suppressed elements
         Element.elements.forEach((s, e)->{
             //s is String and e is Element
             List<String> newLore = e.getDescription();
 
-            if(cm.getb("element.show_suppress_elements")) {
+            if(cm.getBoolean("element.show_suppress_elements")) {
                 newLore.add("");
-                newLore.add(cm.outs("element.suppress_elements_opening"));
+                newLore.add(cm.outString("element.suppress_elements_opening"));
                 e.getSuppressMap().forEach((se,d)->{
                     //se is a SuppressElement and d is the scale
-                    newLore.add(se.getDisplayName() + cm.colorize(" &7x" + d.toString()));
+                    newLore.add(se.getDisplayName() + Util.colorize(" &7x" + d.toString()));
                 });
             }
-            if(cm.getb("element.show_suppressed_elements")) {
+            if(cm.getBoolean("element.show_suppressed_elements")) {
                 newLore.add("");
-                newLore.add(cm.outs("element.suppressed_elements_opening"));
+                newLore.add(cm.outString("element.suppressed_elements_opening"));
                 e.getSuppressedMap().forEach((se,d)->{
                     //se is a SuppressedElement and d is the scale
-                    newLore.add(se.getDisplayName() + cm.colorize(" &7x" + d.toString()));
+                    newLore.add(se.getDisplayName() +Util.colorize(" &7x" + d.toString()));
                 });
             }
 

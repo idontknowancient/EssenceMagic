@@ -2,7 +2,7 @@ package com.idk.essencemagic.items;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.elements.Element;
-import com.idk.essencemagic.utils.Util;
+import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -22,9 +22,6 @@ import java.util.*;
 public class Item {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
-
-    //config item
-    private final Util ci = Util.getUtil("items");
 
     public static final Map<String, Item> items = new HashMap<>();
 
@@ -65,16 +62,18 @@ public class Item {
     }
 
     public Item(String itemName) {
+        ConfigFile.ConfigName ci = ConfigFile.ConfigName.ITEMS;
+
         //variable setting
         name = itemName;
-        displayName = ci.outs(itemName+".display_name");
-        type = Material.valueOf(ci.gets(itemName+".type").toUpperCase());
-        if(ci.getl(itemName+".lore") != null)
-            lore = ci.outl(itemName+".lore");
+        displayName = ci.outString(itemName+".display_name");
+        type = Material.valueOf(ci.getString(itemName+".type").toUpperCase());
+        if(ci.getStringList(itemName+".lore") != null)
+            lore = ci.outStringList(itemName+".lore");
         id = getClass().getSimpleName();
         //element setting, if not provided, use none instead
-        if(ci.getl(itemName+".element") != null)
-            element = Element.elements.get(ci.gets(itemName+".element"));
+        if(ci.getString(itemName+".element") != null)
+            element = Element.elements.get(ci.getString(itemName+".element"));
         else
             element = Element.elements.get("none");
 
@@ -89,17 +88,17 @@ public class Item {
         //enchant setting
         ConfigurationSection enchantmentSection = ci.getConfig().getConfigurationSection(itemName+".enchantments");
         if(enchantmentSection != null)
-            setItemEnchantments(enchantmentSection.getKeys(false));
+            setItemEnchantments(enchantmentSection.getKeys(false), ci);
 
         //options setting
         ConfigurationSection optionSection = ci.getConfig().getConfigurationSection(itemName+".options");
         if(optionSection != null)
-            setItemOptions(optionSection.getKeys(false));
+            setItemOptions(optionSection.getKeys(false), ci);
 
         //attributes setting
         ConfigurationSection attributeSection = ci.getConfig().getConfigurationSection(itemName+".attributes");
         if(attributeSection != null)
-            setItemAttributes(attributeSection.getKeys(false));
+            setItemAttributes(attributeSection.getKeys(false), ci);
 
         //key setting
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
@@ -108,39 +107,39 @@ public class Item {
         item.setItemMeta(itemMeta);
     }
 
-    private void setItemEnchantments(Set<String> enchantmentSet) {
+    private void setItemEnchantments(Set<String> enchantmentSet, ConfigFile.ConfigName ci) {
         for(String s : enchantmentSet) {
             //can use Registry to modify lots of things, but i'm not able to
 //            itemMeta.addEnchant(Registry.ENCHANTMENT.get(NamespacedKey.minecraft(s)),
 //                    ci.geti(itemName+".enchantments."+s), true);
-            itemMeta.addEnchant(Enchantment.getByName(s), ci.geti(name+".enchantments."+s), true);
+            itemMeta.addEnchant(Enchantment.getByName(s), ci.getInteger(name+".enchantments."+s), true);
         }
     }
 
-    private void setItemOptions(Set<String> optionSet) {
+    private void setItemOptions(Set<String> optionSet, ConfigFile.ConfigName ci) {
         for(String s : optionSet) {
             String prefix = name+".options.";
-            if(optionList.contains(s) && ci.getb(prefix+s)) {
+            if(optionList.contains(s) && ci.getBoolean(prefix+s)) {
                 itemMeta.addItemFlags(ItemFlag.valueOf(s.toUpperCase()));
             }
         }
     }
 
-    private void setItemAttributes(Set<String> attributeSet) {
+    private void setItemAttributes(Set<String> attributeSet, ConfigFile.ConfigName ci) {
         for(String s : attributeSet) {
             String prefix = name+".attributes.";
             if(attributeList.contains(s)) {
                 //add
-                if(getAttributeType(s) == 0) {
+                if(getAttributeType(s, ci) == 0) {
                     itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
-                            new AttributeModifier(UUID.randomUUID(), s, ci.getd(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
-                                    EquipmentSlot.valueOf(ci.gets(prefix+s+".slot").toUpperCase())));
+                            new AttributeModifier(UUID.fromString(s), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
+                                    EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
                 //multiply
-                if(getAttributeType(s) == 1) {
+                if(getAttributeType(s, ci) == 1) {
                     itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
-                            new AttributeModifier(UUID.fromString(s), s, ci.getd(prefix+s+".value"), AttributeModifier.Operation.MULTIPLY_SCALAR_1,
-                                    EquipmentSlot.valueOf(ci.gets(prefix+s+".slot").toUpperCase())));
+                            new AttributeModifier(UUID.fromString(s), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.MULTIPLY_SCALAR_1,
+                                    EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
             }
         }
@@ -148,9 +147,9 @@ public class Item {
 
     //get the type of the attribute and return an int
     //add - 0 / multiply - 1
-    private int getAttributeType(String attributeName) {
-        if(ci.gets(name+".attributes."+attributeName+".type").equalsIgnoreCase("add")) return 0;
-        if(ci.gets(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply")) return 1;
+    private int getAttributeType(String attributeName, ConfigFile.ConfigName ci) {
+        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("add")) return 0;
+        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply")) return 1;
 
         //-1 represents error
         return -1;

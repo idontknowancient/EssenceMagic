@@ -3,13 +3,12 @@ package com.idk.essencemagic.commands.essence_sub;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.utils.configs.ConfigFile;
+import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public class ReloadCommand extends SubCommand {
-
-    ConfigFile.ConfigName config = ConfigFile.ConfigName.MESSAGES;
 
     @Override
     public String getName() {
@@ -34,5 +33,6 @@ public class ReloadCommand extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         EssenceMagic.initialize();
+        SystemMessage.SUCCESSFULLY_RELOADED.send(p);
     }
 }

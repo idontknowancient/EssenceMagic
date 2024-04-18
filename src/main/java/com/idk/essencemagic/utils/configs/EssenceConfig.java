@@ -2,6 +2,7 @@ package com.idk.essencemagic.utils.configs;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.utils.Util;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -52,6 +53,10 @@ public interface EssenceConfig {
 
     default List<String> getStringList(String path) {
         return getConfig().getStringList(path);
+    }
+
+    default ConfigurationSection getConfigurationSection(String path) {
+        return getConfig().getConfigurationSection(path);
     }
 
     default String outString(String path) { //with no placeholders

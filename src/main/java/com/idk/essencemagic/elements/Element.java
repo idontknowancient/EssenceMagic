@@ -1,7 +1,7 @@
 package com.idk.essencemagic.elements;
 
 import com.idk.essencemagic.EssenceMagic;
-import com.idk.essencemagic.utils.Util;
+import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
@@ -47,13 +47,13 @@ public class Element {
 
     public Element(String elementName) {
         //config elements
-        Util ce = Util.getUtil("elements");
+        ConfigFile.ConfigName ce = ConfigFile.ConfigName.ELEMENTS; //config elements
         name = elementName;
-        displayName = ce.outs(elementName+".display_name");
-        symbolItem = new ItemStack(Material.valueOf(ce.gets(elementName+".symbol_item").toUpperCase()));
-        slot = ce.geti(elementName+".slot");
-        if(ce.getl(elementName+".description") != null)
-            description = ce.outl(elementName+".description");
+        displayName = ce.outString(elementName+".display_name");
+        symbolItem = new ItemStack(Material.valueOf(ce.getString(elementName+".symbol_item").toUpperCase()));
+        slot = ce.getInteger(elementName+".slot");
+        if(ce.getStringList(elementName+".description") != null)
+            description = ce.outStringList(elementName+".description");
         id = getClass().getSimpleName();
 
 
@@ -61,7 +61,7 @@ public class Element {
         itemMeta.setDisplayName(displayName);
         if(description != null)
             itemMeta.setLore(description);
-        if(ce.getb(elementName+".glowing")) { //if not exist?
+        if(ce.getBoolean(elementName+".glowing")) { //if not exist?
             glowing = true;
             itemMeta.addEnchant(Enchantment.DURABILITY, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

@@ -2,15 +2,13 @@ package com.idk.essencemagic.commands.essence_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.commands.essence_sub.item_sub.GetCommand;
-import com.idk.essencemagic.utils.Util;
+import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemCommand extends SubCommand {
-
-    private final Util cm = Util.getUtil("messages"); //config messages
 
     private static final List<SubCommand> subCommands = new ArrayList<>();
 
@@ -44,7 +42,7 @@ public class ItemCommand extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         if(args.length <= 1) {
-            p.sendMessage(cm.outs("too-little-argument"));
+            SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
             return;
         }
         for (SubCommand subCommand : subCommands) {
