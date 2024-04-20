@@ -3,7 +3,7 @@ package com.idk.essencemagic.utils.messages;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.command.CommandSender;
 
-public enum SystemMessage implements Message{
+public enum SystemMessage implements Message {
 
     PLAYER_JOIN_MESSAGE("player-join-message"),
     PLAYER_QUIT_MESSAGE("player-quit-message"),

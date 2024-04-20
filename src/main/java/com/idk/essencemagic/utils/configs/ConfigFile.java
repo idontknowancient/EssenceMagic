@@ -24,7 +24,7 @@ public class ConfigFile {
         ELEMENTS("elements"),
         ITEMS("items"),
         MENUS("menus"),
-        MESSAGES("MESSAGES")
+        MESSAGES("messages")
         ;
 
         private final String configName;

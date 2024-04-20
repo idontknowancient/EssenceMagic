@@ -3,6 +3,7 @@ package com.idk.essencemagic.utils.configs;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.utils.Util;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -28,8 +29,15 @@ public interface EssenceConfig {
             try(InputStream is = getPlugin().getClass().getResourceAsStream("/" + getConfigName())) {
                 if(is != null) {
                     Files.copy(is, Paths.get(file.toURI()));
+                    config.load(file);
                 }
-            } catch (IOException e) {
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                config.load(file);
+            } catch (IOException | InvalidConfigurationException e) {
                 e.printStackTrace();
             }
         }

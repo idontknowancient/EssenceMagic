@@ -3,7 +3,6 @@ package com.idk.essencemagic.elements;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -35,7 +34,13 @@ public class Element {
 
     @Getter private final int slot;
 
-    @Getter @Setter private List<String> description;
+    @Getter private List<String> description;
+
+    public void setDescription(List<String> description) {
+        this.description = description;
+        itemMeta.setLore(this.description);
+        symbolItem.setItemMeta(itemMeta);
+    }
 
     @Getter private boolean glowing = false;
 

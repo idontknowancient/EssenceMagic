@@ -132,7 +132,7 @@ public class Item {
                 //add
                 if(getAttributeType(s, ci) == 0) {
                     itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
-                            new AttributeModifier(UUID.fromString(s), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
+                            new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
                 //multiply

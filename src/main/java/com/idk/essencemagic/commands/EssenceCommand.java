@@ -4,6 +4,8 @@ import com.idk.essencemagic.commands.essence_sub.ElementCommand;
 import com.idk.essencemagic.commands.essence_sub.ItemCommand;
 import com.idk.essencemagic.commands.essence_sub.ReloadCommand;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.utils.configs.ConfigFile;
+import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,6 +30,10 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(sender instanceof Player p) {
             for (SubCommand subCommand : subCommands) {
+                if(args.length == 0) {
+                    SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+                    return true;
+                }
                 if (args[0].equalsIgnoreCase(subCommand.getName())) {
                     subCommand.perform(p, args);
                 }
