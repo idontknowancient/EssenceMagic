@@ -5,6 +5,7 @@ com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
 com\idk\essencemagic\commands\EssenceCommand.class
 com\idk\essencemagic\menus\Menu.class
 com\idk\essencemagic\EssenceMagic.class
+com\idk\essencemagic\commands\essence_sub\item_sub\InfoCommand.class
 com\idk\essencemagic\menus\CustomHolder.class
 com\idk\essencemagic\utils\configs\EssenceConfig.class
 com\idk\essencemagic\utils\configs\ConfigFile.class

@@ -7,6 +7,7 @@ import java.util.Set;
 public class ItemHandler {
 
     public static void initialize() {
+        Item.items.clear();
         setItems();
     }
 

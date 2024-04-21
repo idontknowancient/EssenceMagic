@@ -11,12 +11,16 @@ import java.util.regex.Pattern;
 
 public interface Message {
 
-    static void send(CommandSender sender, String string) {
-        sender.sendMessage(translatePlaceholder(sender, getPrefix() + string));
+    static void send(CommandSender sender, String path) {
+        sender.sendMessage(translatePlaceholder(sender, getPrefix() + path));
+    }
+
+    static String out(String path) {
+        return ConfigFile.ConfigName.MESSAGES.outString(path);
     }
 
     static String getPrefix() {
-        return ConfigFile.ConfigName.MESSAGES.outString("prefix");
+        return SystemMessage.PREFIX.out();
     }
 
     static String translatePlaceholder(CommandSender sender, String string) {

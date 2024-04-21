@@ -3,14 +3,14 @@ flame_sword:
   type: iron_sword
   # item lore is not necessary
   lore:
-    - "&7=======&f<&a物品介紹&f>&7======"
-    - "&8利用燃燒的火焰將敵人燒成灰燼"
-    - "&8對木屬性敵人有加成傷害"
-    - "&7=======&f<&a物品資訊&f>&7======"
-    - "&d元素&7: &c火"
-    - "&b附魔&7:"
-    - "  &8- &7耐久 III"
-    - "  &8- &7燃燒 II"
+    - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
+    - " &7利用燃燒的火焰將敵人燒成灰燼"
+    - " &7對木屬性敵人有加成傷害"
+    - "&8|&m           &7<&f物品資訊&7>&8&m           &r&8|"
+    - " &d元素&7: &c火"
+    - " &b附魔&7:"
+    - "   &8- &7耐久 III"
+    - "   &8- &7燃燒 II"
   # if the element is not provided, the system will use 'none' instead
   element: flame
   # enchantments are not necessary

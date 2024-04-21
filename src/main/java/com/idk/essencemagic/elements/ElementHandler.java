@@ -16,6 +16,7 @@ import java.util.Set;
 public class ElementHandler implements Listener {
 
     public static void initialize() {
+        Element.elements.clear();
         setElements();
     }
 

@@ -15,8 +15,6 @@ public final class EssenceMagic extends JavaPlugin {
 
     public static void initialize() {
         ConfigFile.initialize();
-        Register.registerListeners();
-        Register.registerCommands();
         ElementHandler.initialize();
         ItemHandler.initialize();
     }
@@ -41,11 +39,13 @@ public final class EssenceMagic extends JavaPlugin {
 
         registerDependencies();
         initialize();
+        Register.registerListeners();
+        Register.registerCommands();
 
         try {
             new CustomPlaceholder().register();
         } catch(NoClassDefFoundError e) {
-            //
+            e.printStackTrace();
         }
     }
 

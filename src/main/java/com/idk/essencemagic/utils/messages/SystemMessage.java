@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 
 public enum SystemMessage implements Message {
 
+    PREFIX("prefix"),
     PLAYER_JOIN_MESSAGE("player-join-message"),
     PLAYER_QUIT_MESSAGE("player-quit-message"),
     TOO_LITTLE_ARGUMENT("too-little-argument"),
@@ -12,13 +13,18 @@ public enum SystemMessage implements Message {
     INADEQUATE_PERMISSION("inadequate-permission"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),
     UNSUCCESSFULLY_RELOADED("unsuccessfully-reloaded"),
-
+    NO_ITEM_IN_HAND("no-item-in-hand"),
+    NOT_CUSTOM_ITEM("not-custom-item"),
     ;
 
     private final String path;
 
     SystemMessage(String path) {
         this.path = path;
+    }
+
+    public String out() {
+        return Message.out(path);
     }
 
     public void send(CommandSender sender) {

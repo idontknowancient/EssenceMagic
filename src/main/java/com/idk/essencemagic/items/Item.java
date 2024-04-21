@@ -103,6 +103,7 @@ public class Item {
         //key setting
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
         container.set(itemKey, PersistentDataType.STRING, getId());
+        container.set(new NamespacedKey(plugin, name), PersistentDataType.STRING, getId());
 
         item.setItemMeta(itemMeta);
     }
@@ -138,7 +139,7 @@ public class Item {
                 //multiply
                 if(getAttributeType(s, ci) == 1) {
                     itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
-                            new AttributeModifier(UUID.fromString(s), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.MULTIPLY_SCALAR_1,
+                            new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.MULTIPLY_SCALAR_1,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
             }

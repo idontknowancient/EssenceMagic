@@ -20,7 +20,7 @@ public class GetCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/essence item get";
+        return "/essence item get <item>";
     }
 
     @Override
@@ -34,6 +34,7 @@ public class GetCommand extends SubCommand {
             if(args[2].equalsIgnoreCase(s)) {
                 p.getInventory().addItem(Item.items.get(s).getItem());
             }
+            return;
         }
     }
 }
