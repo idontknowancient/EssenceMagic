@@ -10,6 +10,7 @@ com\idk\essencemagic\menus\CustomHolder.class
 com\idk\essencemagic\utils\configs\EssenceConfig.class
 com\idk\essencemagic\utils\configs\ConfigFile.class
 com\idk\essencemagic\commands\essence_sub\ItemCommand.class
+com\idk\essencemagic\elements\ElementDamage.class
 com\idk\essencemagic\utils\Util.class
 com\idk\essencemagic\utils\messages\SystemMessage.class
 com\idk\essencemagic\elements\Element.class

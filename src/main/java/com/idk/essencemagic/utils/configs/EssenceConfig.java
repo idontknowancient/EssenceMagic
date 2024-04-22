@@ -43,24 +43,46 @@ public interface EssenceConfig {
         }
     }
 
+    default boolean isString(String path) {
+        return getConfig().isString(path);
+    }
+
     default String getString(String path) {
         return getConfig().getString(path);
+    }
+
+    default boolean isInteger(String path) {
+        return getConfig().isInt(path);
     }
 
     default int getInteger(String path) {
         return getConfig().getInt(path);
     }
+    default boolean isDouble(String path) {
+        return getConfig().isDouble(path);
+    }
 
     default double getDouble(String path) {
         return getConfig().getDouble(path);
+    }
+    default boolean isBoolean(String path) {
+        return getConfig().isBoolean(path);
     }
 
     default boolean getBoolean(String path) {
         return getConfig().getBoolean(path);
     }
 
+    default boolean isList(String path) {
+        return getConfig().isList(path);
+    }
+
     default List<String> getStringList(String path) {
         return getConfig().getStringList(path);
+    }
+
+    default boolean isConfigurationSection(String path) {
+        return getConfig().isConfigurationSection(path);
     }
 
     default ConfigurationSection getConfigurationSection(String path) {

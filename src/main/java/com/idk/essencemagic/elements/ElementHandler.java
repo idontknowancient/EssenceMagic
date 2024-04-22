@@ -1,19 +1,13 @@
 package com.idk.essencemagic.elements;
 
-import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.List;
 import java.util.Set;
 
-public class ElementHandler implements Listener {
+public class ElementHandler {
 
     public static void initialize() {
         Element.elements.clear();
@@ -32,24 +26,25 @@ public class ElementHandler implements Listener {
         for(String s : elementSet) {
             Element.elements.put(s, new Element(s));
         }
+        //default element setting
+        if(!Element.elements.containsKey("none"))
+            Element.elements.put("none", new Element("none"));
 
         //set suppress and suppressed elements
         for(String s : elementSet) {
+            if(!ce.isConfigurationSection(s+".suppress")) continue;
             ConfigurationSection suppressSection = ce.getConfigurationSection(s+".suppress");
             if(suppressSection != null) {
                 Set<String> suppressElement = suppressSection.getKeys(false);
                 for(String s2 : suppressElement) {
+                    //suppress
                     Element.elements.get(s).getSuppressMap().put(
                             Element.elements.get(s2), ce.getDouble(s+".suppress."+s2+".damage_modifier"));
-                }
-            }
-
-            ConfigurationSection suppressedSection = ce.getConfigurationSection(s+".suppressed");
-            if(suppressedSection != null) {
-                Set<String> suppressedElement = suppressedSection.getKeys(false);
-                for(String s2 : suppressedElement) {
-                    Element.elements.get(s).getSuppressedMap().put(
-                            Element.elements.get(s2), ce.getDouble(s+".suppressed."+s2+".damage_modifier"));
+                    //suppressed
+                    Element.elements.get(s2).getSuppressedMap().put(
+                            Element.elements.get(s),
+                            //*100d / 100d means rounding, decimal 2
+                            (double) Math.round(1 / ce.getDouble(s+".suppress."+s2+".damage_modifier")*100d)/100d);
                 }
             }
         }
@@ -78,20 +73,5 @@ public class ElementHandler implements Listener {
 
             e.setDescription(newLore);
         });
-    }
-
-    @EventHandler
-    public static void onAttack(EntityDamageByEntityEvent e) {
-        LivingEntity entity = (LivingEntity) e.getEntity();
-        LivingEntity damager = (LivingEntity) e.getDamager();
-        Element entityElement = Element.elements.get("none");
-        PersistentDataContainer damagerContainer = entity.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer();
-        if(damagerContainer.has(Item.getItemKey())) {
-            for(String s : Item.items.keySet()) {
-                if(Item.items.get(s).getItem().equals(entity.getEquipment().getItemInMainHand())) {
-                    entityElement = Item.items.get(s).getElement();
-                }
-            }
-        }
     }
 }

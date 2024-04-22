@@ -2,6 +2,7 @@ package com.idk.essencemagic.commands.essence_sub.item_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
@@ -37,35 +38,24 @@ public class InfoCommand extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         ItemStack itemInMainHand = p.getInventory().getItemInMainHand();
-        if(!itemInMainHand.hasItemMeta()) {
+        if(!ItemHandler.isHoldingCustomItem(p)) {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
-        if(!itemInMainHand.getItemMeta().
-                getPersistentDataContainer().has(Item.getItemKey())) {
-            SystemMessage.NOT_CUSTOM_ITEM.send(p);
-            return;
-        }
-        Item item = null;
-        for(Item i : Item.items.values()) {
-            if(i.getItem().getItemMeta().getPersistentDataContainer()
-                    .equals(itemInMainHand.getItemMeta().getPersistentDataContainer())) {
-                item = i;
-            }
-        }
+        Item item = ItemHandler.getCorrespondingItem(p);
         if(item == null) {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
         addToInfo(
-                "&f--------------------",
-                "&fInfo of " + item.getDisplayName() + " &f:",
-                "&fInterior Name: " + item.getName(), //interior name
-                "&fDisplay Name: " + itemInMainHand.getItemMeta().getDisplayName(),
-                "&fType: " + item.getType(),
-                "&fId: " + item.getId(),
-                "&fElement: " + item.getElement().getDisplayName(),
-                "&f--------------------"
+                "&f&m                                 ",
+                "&7Info of &f" + item.getDisplayName() + " &7:",
+                "&7Interior Name: &f" + item.getName(), //interior name
+                "&7Display Name: &f" + itemInMainHand.getItemMeta().getDisplayName(),
+                "&7Type: &f" + item.getType(),
+                "&7Id: &f" + item.getId(),
+                "&7Element: &f" + item.getElement().getDisplayName(),
+                "&f&m                                 "
         );
         info.forEach(p::sendMessage);
     }

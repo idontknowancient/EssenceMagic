@@ -130,14 +130,20 @@ public class Item {
         for(String s : attributeSet) {
             String prefix = name+".attributes.";
             if(attributeList.contains(s)) {
-                //add
+                //add, highest priority
                 if(getAttributeType(s, ci) == 0) {
                     itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
                             new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
-                //multiply
+                //multiply A*(1+a+b+c) usually smaller, second highest
                 if(getAttributeType(s, ci) == 1) {
+                    itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
+                            new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_SCALAR,
+                                    EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
+                }
+                //multiply A*(1+a)(1+b)(1+c) usually larger, lowest
+                if(getAttributeType(s, ci) == 2) {
                     itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
                             new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.MULTIPLY_SCALAR_1,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
@@ -147,10 +153,11 @@ public class Item {
     }
 
     //get the type of the attribute and return an int
-    //add - 0 / multiply - 1
+    //add - 0 / multiply - 1 /
     private int getAttributeType(String attributeName, ConfigFile.ConfigName ci) {
         if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("add")) return 0;
-        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply")) return 1;
+        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply_continuous")) return 1;
+        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply_separate")) return 2;
 
         //-1 represents error
         return -1;

@@ -24,7 +24,7 @@ flame_sword:
   # attributes are not necessary
   attributes:
     attack_damage:
-      # add or multiply
+      # add / multiply_continuous / multiply_separate
       type: add
       value: 4
       slot: hand

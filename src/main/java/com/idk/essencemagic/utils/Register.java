@@ -2,6 +2,7 @@ package com.idk.essencemagic.utils;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.commands.EssenceCommand;
+import com.idk.essencemagic.elements.ElementDamage;
 import com.idk.essencemagic.listeners.MenuListener;
 import com.idk.essencemagic.listeners.PlayerJoinQuitListener;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +23,7 @@ public class Register {
     public static void registerListeners() {
         register(new PlayerJoinQuitListener());
         register(new MenuListener());
+        register(new ElementDamage());
     }
 
     public static void registerCommands() {
