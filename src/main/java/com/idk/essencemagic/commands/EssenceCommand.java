@@ -1,6 +1,7 @@
 package com.idk.essencemagic.commands;
 
 import com.idk.essencemagic.commands.essence_sub.ElementCommand;
+import com.idk.essencemagic.commands.essence_sub.GodCommand;
 import com.idk.essencemagic.commands.essence_sub.ItemCommand;
 import com.idk.essencemagic.commands.essence_sub.ReloadCommand;
 import com.idk.essencemagic.items.Item;
@@ -25,7 +26,9 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         subCommands.add(new ElementCommand());
         subCommands.add(new ItemCommand());
         subCommands.add(new ReloadCommand());
+        subCommands.add(new GodCommand());
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(sender instanceof Player p) {

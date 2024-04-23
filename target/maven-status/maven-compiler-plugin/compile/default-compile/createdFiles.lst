@@ -2,6 +2,7 @@ com\idk\essencemagic\items\ItemHandler.class
 com\idk\essencemagic\elements\ElementHandler.class
 com\idk\essencemagic\utils\Register.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
+com\idk\essencemagic\commands\essence_sub\item_sub\MenuCommand.class
 com\idk\essencemagic\commands\EssenceCommand.class
 com\idk\essencemagic\menus\Menu.class
 com\idk\essencemagic\EssenceMagic.class
@@ -19,6 +20,7 @@ com\idk\essencemagic\commands\essence_sub\ReloadCommand.class
 com\idk\essencemagic\utils\messages\Message.class
 com\idk\essencemagic\commands\essence_sub\item_sub\GetCommand.class
 com\idk\essencemagic\utils\configs\ConfigFile$ConfigName.class
+com\idk\essencemagic\commands\essence_sub\GodCommand.class
 com\idk\essencemagic\commands\essence_sub\element_sub\MenuCommand.class
 com\idk\essencemagic\commands\essence_sub\ElementCommand.class
 com\idk\essencemagic\commands\SubCommand.class

@@ -2,6 +2,7 @@ package com.idk.essencemagic.commands.essence_sub.item_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -31,10 +32,15 @@ public class GetCommand extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         for(String s : Item.items.keySet()) {
+            if(args.length <= 2) {
+                SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+                return;
+            }
             if(args[2].equalsIgnoreCase(s)) {
                 p.getInventory().addItem(Item.items.get(s).getItem());
+                return;
             }
-            return;
         }
+        SystemMessage.ITEM_NOT_FOUND.send(p);
     }
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EssenceMagic.iml" filepath="$PROJECT_DIR$/EssenceMagic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/EssenceMagic.iml" filepath="$PROJECT_DIR$/.idea/EssenceMagic.iml" />
     </modules>
   </component>
 </project>

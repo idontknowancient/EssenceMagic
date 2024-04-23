@@ -1,7 +1,6 @@
 package com.idk.essencemagic.items;
 
 import com.idk.essencemagic.utils.configs.ConfigFile;
-import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 

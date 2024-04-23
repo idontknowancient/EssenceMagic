@@ -43,8 +43,8 @@ public class ElementHandler {
                     //suppressed
                     Element.elements.get(s2).getSuppressedMap().put(
                             Element.elements.get(s),
-                            //*100d / 100d means rounding, decimal 2
-                            (double) Math.round(1 / ce.getDouble(s+".suppress."+s2+".damage_modifier")*100d)/100d);
+                            //*10000d / 10000d means rounding, decimal 4
+                            (double) Math.round(1 / ce.getDouble(s+".suppress."+s2+".damage_modifier")*10000d)/10000d);
                 }
             }
         }

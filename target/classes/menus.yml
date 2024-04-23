@@ -7,3 +7,9 @@ element:
   suppressed_elements_opening: "&d被克制:"
   # not necessary
   occupation: gray_stained_glass_pane
+
+item:
+  title: "&8物品一覽"
+  size: 45
+  # not necessary
+  occupation: gray_stained_glass_pane

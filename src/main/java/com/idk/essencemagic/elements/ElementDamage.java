@@ -36,7 +36,6 @@ public class ElementDamage implements Listener {
 
     //itemInMainHand : item in attacker's main hand / entity : entity who gets damaged / magnification : the original magnification
     public static double getElementMagnification(Element element, LivingEntity entity, double magnification) {
-
         setSingularArmorElement(entity.getEquipment().getHelmet());
         setSingularArmorElement(entity.getEquipment().getChestplate());
         setSingularArmorElement(entity.getEquipment().getLeggings());
@@ -44,11 +43,11 @@ public class ElementDamage implements Listener {
         for(Element e : armorElementMap.keySet()) {
             if (element.getSuppressMap().containsKey(e)) //suppress elements
                 if (e.equals(Element.elements.get("none")))
-                    magnification *= Math.pow(element.getSuppressMap().get(e), armorElementMap.get(e));
+                    magnification *= Math.round(Math.pow(element.getSuppressMap().get(e), armorElementMap.get(e))*10000d)/10000d;
                 else
-                    magnification *= Math.pow(element.getSuppressMap().get(e), 1d / armorElementMap.get(e));
+                    magnification *= Math.round(Math.pow(element.getSuppressMap().get(e), 1d / armorElementMap.get(e))*10000d)/10000d;
             else if (element.getSuppressedMap().containsKey(e)) //suppressed elements
-                magnification *= Math.pow(element.getSuppressedMap().get(e), armorElementMap.get(e) / 1.75);
+                magnification *= Math.round(Math.pow(element.getSuppressedMap().get(e), armorElementMap.get(e) / 1.75d)*10000d)/10000d;
             else //nothing
                 magnification *= 1;
         }

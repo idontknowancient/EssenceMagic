@@ -3,6 +3,7 @@ package com.idk.essencemagic.commands.essence_sub;
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.commands.essence_sub.item_sub.GetCommand;
 import com.idk.essencemagic.commands.essence_sub.item_sub.InfoCommand;
+import com.idk.essencemagic.commands.essence_sub.item_sub.MenuCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,7 @@ public class ItemCommand extends SubCommand {
     public ItemCommand() {
         subCommands.add(new GetCommand());
         subCommands.add(new InfoCommand());
+        subCommands.add(new MenuCommand());
     }
 
     @Override
