@@ -44,8 +44,13 @@ public class ElementDamage implements Listener {
             if (element.getSuppressMap().containsKey(e)) //suppress elements
                 if (e.equals(Element.elements.get("none")))
                     magnification *= Math.round(Math.pow(element.getSuppressMap().get(e), armorElementMap.get(e))*10000d)/10000d;
-                else
-                    magnification *= Math.round(Math.pow(element.getSuppressMap().get(e), 1d / armorElementMap.get(e))*10000d)/10000d;
+                else {
+                    double reciprocal_sum = 0;
+                    for(int i = 1; i <= armorElementMap.get(e); i++) {
+                        reciprocal_sum += (1d / i);
+                    }
+                    magnification *= Math.round(Math.pow(element.getSuppressMap().get(e), reciprocal_sum)*10000d)/10000d;
+                }
             else if (element.getSuppressedMap().containsKey(e)) //suppressed elements
                 magnification *= Math.round(Math.pow(element.getSuppressedMap().get(e), armorElementMap.get(e) / 1.75d)*10000d)/10000d;
             else //nothing
