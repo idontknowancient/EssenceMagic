@@ -13,3 +13,9 @@ item:
   size: 45
   # not necessary
   occupation: gray_stained_glass_pane
+
+mob:
+  title: "&8生物一覽"
+  size: 45
+  # not necessary
+  occupation: gray_stained_glass_pane

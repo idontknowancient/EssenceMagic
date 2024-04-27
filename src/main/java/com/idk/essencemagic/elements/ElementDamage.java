@@ -1,41 +1,22 @@
 package com.idk.essencemagic.elements;
 
-import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.items.ItemHandler;
+import com.idk.essencemagic.mobs.MobHandler;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ElementDamage implements Listener {
+public class ElementDamage {
 
     //record what is the type of the element of an armor to attacker's weapon
     private static final Map<Element, Integer> armorElementMap = new HashMap<>();
 
-    @EventHandler
-    public static void onAttack(EntityDamageByEntityEvent e) {
-        if(!(e.getDamager() instanceof LivingEntity attacker)) return;
-        if(!(e.getEntity() instanceof LivingEntity entity)) return;
-        armorElementMap.clear();
-
-        double magnification = 1L;
-
-        if(ItemHandler.isHoldingCustomItem(attacker)) {
-            Item itemInMainHand = ItemHandler.getCorrespondingItem(attacker);
-            magnification = getElementMagnification(itemInMainHand.getElement(), entity, magnification);
-        } else {
-            magnification = getElementMagnification(Element.elements.get("none"), entity, magnification);
-        }
-        e.setDamage(e.getDamage() * magnification);
-        attacker.sendMessage("attack damage x" + magnification + ", " + e.getDamage());
-    }
-
     //itemInMainHand : item in attacker's main hand / entity : entity who gets damaged / magnification : the original magnification
-    public static double getElementMagnification(Element element, LivingEntity entity, double magnification) {
+    public static double getArmorElementMagnification(Element element, LivingEntity entity) {
+        double magnification = 1;
+        armorElementMap.clear();
         setSingularArmorElement(entity.getEquipment().getHelmet());
         setSingularArmorElement(entity.getEquipment().getChestplate());
         setSingularArmorElement(entity.getEquipment().getLeggings());
@@ -73,5 +54,23 @@ public class ElementDamage implements Listener {
             else
                 armorElementMap.put(none, armorElementMap.get(none) + 1);
         }
+    }
+
+    public static double getMobElementMagnification(Element element, LivingEntity entity) {
+        double magnification = 1;
+        if(MobHandler.isCustomMob(entity)) {
+            Element mobElement = MobHandler.getCorrespondingMob(entity).getElement();
+            if(element.getSuppressMap().containsKey(mobElement))
+                magnification *= element.getSuppressMap().get(mobElement);
+            if(element.getSuppressedMap().containsKey(mobElement))
+                magnification *= element.getSuppressedMap().get(mobElement);
+        } else {
+            Element none = Element.elements.get("none");
+            if(element.getSuppressMap().containsKey(none))
+                magnification *= element.getSuppressMap().get(none);
+            if(element.getSuppressedMap().containsKey(none))
+                magnification *= element.getSuppressedMap().get(none);
+        }
+        return magnification;
     }
 }

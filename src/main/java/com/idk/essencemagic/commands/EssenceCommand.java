@@ -1,10 +1,8 @@
 package com.idk.essencemagic.commands;
 
-import com.idk.essencemagic.commands.essence_sub.ElementCommand;
-import com.idk.essencemagic.commands.essence_sub.GodCommand;
-import com.idk.essencemagic.commands.essence_sub.ItemCommand;
-import com.idk.essencemagic.commands.essence_sub.ReloadCommand;
+import com.idk.essencemagic.commands.essence_sub.*;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.command.Command;
@@ -27,6 +25,8 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         subCommands.add(new ItemCommand());
         subCommands.add(new ReloadCommand());
         subCommands.add(new GodCommand());
+        subCommands.add(new MobCommand());
+        subCommands.add(new ManaCommand());
     }
 
     @Override
@@ -64,6 +64,9 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         if(args.length == 3) {
             if(args[0].equalsIgnoreCase("item") && args[1].equalsIgnoreCase("get")) {
                 return new ArrayList<>(Item.items.keySet());
+            }
+            if(args[0].equalsIgnoreCase("mob") && args[1].equalsIgnoreCase("spawn")) {
+                return new ArrayList<>(Mob.mobs.keySet());
             }
         }
 

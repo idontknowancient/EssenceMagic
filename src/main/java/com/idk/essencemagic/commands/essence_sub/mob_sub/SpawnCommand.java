@@ -1,27 +1,30 @@
-package com.idk.essencemagic.commands.essence_sub.item_sub;
+package com.idk.essencemagic.commands.essence_sub.mob_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
-import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.mobs.Mob;
+import com.idk.essencemagic.mobs.MobHandler;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class GetCommand extends SubCommand {
+public class SpawnCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return "get";
+        return "spawn";
     }
 
     @Override
     public String getDescription() {
-        return "Get a custom item";
+        return "Spawn a custom mob";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence item get <item>";
+        return "/essence mob spawn <name>";
     }
 
     @Override
@@ -35,12 +38,11 @@ public class GetCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
             return;
         }
-        for(String s : Item.items.keySet()) {
-            if(args[2].equalsIgnoreCase(s)) {
-                p.getInventory().addItem(Item.items.get(s).getItem());
-                return;
-            }
+        Mob mob = Mob.mobs.get(args[2]);
+        if(mob == null) {
+            SystemMessage.MOB_NOT_FOUND.send(p);
+            return;
         }
-        SystemMessage.ITEM_NOT_FOUND.send(p);
+        MobHandler.spawnMob(p.getLocation(), mob);
     }
 }

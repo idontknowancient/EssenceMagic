@@ -1,0 +1,56 @@
+package com.idk.essencemagic.commands.essence_sub;
+
+import com.idk.essencemagic.commands.SubCommand;
+import com.idk.essencemagic.commands.essence_sub.mob_sub.MenuCommand;
+import com.idk.essencemagic.commands.essence_sub.mob_sub.SpawnCommand;
+import com.idk.essencemagic.utils.messages.SystemMessage;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MobCommand extends SubCommand {
+
+    private static final List<SubCommand> subCommands = new ArrayList<>();
+
+    public MobCommand() {
+        subCommands.add(new SpawnCommand());
+        subCommands.add(new MenuCommand());
+    }
+
+    @Override
+    public String getName() {
+        return "mob";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Check and modify all mobs";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/essence mob";
+    }
+
+    @Override
+    public List<String> getSubCommands() {
+        List<String> subCommandsNames = new ArrayList<>();
+        subCommands.forEach(s->subCommandsNames.add(s.getName()));
+
+        return subCommandsNames;
+    }
+
+    @Override
+    public void perform(Player p, String[] args) {
+        if(args.length <= 1) {
+            SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+            return;
+        }
+        for (SubCommand subCommand : subCommands) {
+            if (args[1].equalsIgnoreCase(subCommand.getName())) {
+                subCommand.perform(p, args);
+            }
+        }
+    }
+}

@@ -16,6 +16,7 @@ public enum SystemMessage implements Message {
     NO_ITEM_IN_HAND("no-item-in-hand"),
     NOT_CUSTOM_ITEM("not-custom-item"),
     ITEM_NOT_FOUND("item-not-found"),
+    MOB_NOT_FOUND("mob-not-found"),
     PLAYER_NOT_EXIST("player-not-exist"),
     GOD_MODE_ENABLED("god-mode-enabled"),
     GOD_MODE_DISABLED("god-mode-disabled"),

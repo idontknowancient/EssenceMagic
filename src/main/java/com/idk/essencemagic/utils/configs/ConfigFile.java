@@ -24,7 +24,9 @@ public class ConfigFile {
         ELEMENTS("elements"),
         ITEMS("items"),
         MENUS("menus"),
-        MESSAGES("messages")
+        MESSAGES("messages"),
+        MOBS("mobs"),
+        MANA("mana"),
         ;
 
         private final String configName;

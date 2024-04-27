@@ -10,13 +10,11 @@ flame_sword:
     - " &d元素&7: &c火"
     - " &b附魔&7:"
     - "   &8- &7耐久 III"
-    - "   &8- &7燃燒 II"
   # if the element is not provided, the system will use 'none' instead
   element: flame
   # enchantments are not necessary
   enchantments:
     durability: 3
-    fire_aspect: 2
   # options are not necessary
   options:
     hide_enchants: true
@@ -28,3 +26,43 @@ flame_sword:
       type: add
       value: 4
       slot: hand
+test_helmet:
+  display_name: "&2測試用頭盔"
+  type: iron_helmet
+  lore:
+    - "&fAll for test."
+  element: wood
+  enchantments:
+    durability: 3
+  options:
+    hide_enchants: true
+test_chestplate:
+  display_name: "&2測試用胸甲"
+  type: iron_chestplate
+  lore:
+    - "&fAll for test."
+  element: water
+  enchantments:
+    durability: 3
+  options:
+    hide_enchants: true
+test_leggings:
+  display_name: "&2測試用護腿"
+  type: iron_leggings
+  lore:
+    - "&fAll for test."
+  element: wood
+  enchantments:
+    durability: 3
+  options:
+    hide_enchants: true
+test_boots:
+  display_name: "&2測試用靴子"
+  type: iron_boots
+  lore:
+    - "&fAll for test."
+  element: wood
+  enchantments:
+    durability: 3
+  options:
+    hide_enchants: true
