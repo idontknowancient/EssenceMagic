@@ -3,7 +3,7 @@ package com.idk.essencemagic.commands;
 import com.idk.essencemagic.commands.essence_sub.*;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.mobs.Mob;
-import com.idk.essencemagic.utils.configs.ConfigFile;
+import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -67,6 +67,10 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             }
             if(args[0].equalsIgnoreCase("mob") && args[1].equalsIgnoreCase("spawn")) {
                 return new ArrayList<>(Mob.mobs.keySet());
+            }
+            if(args[0].equalsIgnoreCase("mana") &&
+                    (args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set"))) {
+                return new ArrayList<>(PlayerData.dataMap.keySet());
             }
         }
 

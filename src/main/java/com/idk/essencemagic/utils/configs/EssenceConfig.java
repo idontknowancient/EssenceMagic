@@ -89,6 +89,10 @@ public interface EssenceConfig {
         return getConfig().getConfigurationSection(path);
     }
 
+    default void set(String path, Object value) {
+        getConfig().set(path, value);
+    }
+
     default String outString(String path) { //with no placeholders
         return Util.colorize(getString(path));
     }

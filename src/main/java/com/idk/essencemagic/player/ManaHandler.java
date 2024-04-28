@@ -7,73 +7,71 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ManaHandler implements Listener {
+public interface ManaHandler {
 
-    private static ConfigFile.ConfigName cm;
-    private static double defaultMana;
-    public static final Map<Player, Double> manaMap = new HashMap<>();
+    EssenceMagic plugin = EssenceMagic.getPlugin();
+    ConfigFile.ConfigName cm = ConfigFile.ConfigName.MANA;
+    double defaultMana = cm.getDouble("default-value");
+    List<Integer> taskIds = new ArrayList<>();
 
-    public static void initialize() {
-        manaMap.clear();
-        setMana();
+    double getMana();
+
+    void setMana(double mana);
+
+    double getManaRecoverySpeed();
+
+    Player getPlayer();
+
+    static void initialize() {
+        //notice!
+        for(int id : taskIds)
+            Bukkit.getScheduler().cancelTask(id);
+        taskIds.clear();
+    }
+
+    default void setup() {
+        setMana(defaultMana);
         showInActionBar();
         recover();
     }
 
-    public static void setMana() {
-        cm = ConfigFile.ConfigName.MANA;
-        defaultMana = cm.getDouble("default-value");
-        for(Player p : Bukkit.getOnlinePlayers()) {
-            manaMap.put(p, defaultMana);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-        if(!manaMap.containsKey(p))
-            manaMap.put(p, defaultMana);
-    }
-
-    private static void showInActionBar() {
-        new BukkitRunnable() {
+    default void showInActionBar() {
+        taskIds.add(new BukkitRunnable() {
             @Override
             public void run() {
                 //self-cancelling bukkit runnable
-                if(!cm.getBoolean("show-in-action-bar"))
+                if (!cm.getBoolean("show-in-action-bar"))
                     this.cancel();
-                for(Player p : Bukkit.getOnlinePlayers()) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(
-                            Util.colorize("&7                        Mana: &b" + manaMap.get(p) + "&7/&b" + defaultMana)));
+                if(getPlayer() != null) {
+                    getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(
+                            Util.colorize("&7                        Mana: &b" +
+                                    getMana() + "&7/&b" + defaultMana)));
                 }
             }
-        }.runTaskTimer(EssenceMagic.getPlugin(), 0L, 5L);
+        }.runTaskTimer(plugin, 0L, cm.getInteger("update-interval")).getTaskId());
     }
 
-    private static void recover() {
-        new BukkitRunnable() {
+    default void recover() {
+        taskIds.add(new BukkitRunnable() {
             @Override
             public void run() {
-                if(!cm.getBoolean("naturally-recover"))
+                if (!cm.getBoolean("naturally-recover"))
                     this.cancel();
-                for(Player p : manaMap.keySet()) {
-                    double mana = manaMap.get(p);
-                    if(mana <= defaultMana) {
-                        if(mana + 1 > 20)
-                            manaMap.put(p, 20d);
+                if(getPlayer() != null) {
+                    if (getMana() <= defaultMana) {
+                        if (getMana() + 1 > 20)
+                            setMana(20);
                         else
-                            manaMap.put(p, mana + 1);
+                            setMana(getMana() + 1);
                     }
                 }
             }
-        }.runTaskTimer(EssenceMagic.getPlugin(), 0L, (long) cm.getDouble("recovery-speed") * 20);
+        }.runTaskTimer(plugin, 0L,
+                (long) getManaRecoverySpeed() * 20).getTaskId());
     }
 }

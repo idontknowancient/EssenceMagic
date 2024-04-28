@@ -2,26 +2,27 @@ package com.idk.essencemagic.commands.essence_sub.mana_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.player.PlayerData;
+import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class SetCommand extends SubCommand {
+public class GetCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return "set";
+        return "get";
     }
 
     @Override
     public String getDescription() {
-        return "set a player's mana";
+        return "get a player's mana";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence mana set <player> <amount>";
+        return "/essence mana get <player>";
     }
 
     @Override
@@ -31,8 +32,10 @@ public class SetCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(args.length <= 3) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+        if(args.length <= 2) {
+            for(String playerName : PlayerData.dataMap.keySet()) {
+                p.sendMessage(playerName + ": " + PlayerData.dataMap.get(playerName).getMana());
+            }
             return;
         }
         String playerName = args[2];
@@ -40,7 +43,7 @@ public class SetCommand extends SubCommand {
             SystemMessage.PLAYER_NOT_EXIST.send(p);
             return;
         }
-        double amount = Double.parseDouble(args[3]);
-        PlayerData.dataMap.get(playerName).setMana(amount);
+        p.sendMessage(Util.colorize("&7" + playerName + "'s mana: &b" +
+                PlayerData.dataMap.get(playerName).getMana()));
     }
 }

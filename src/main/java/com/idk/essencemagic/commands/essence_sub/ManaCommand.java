@@ -1,6 +1,7 @@
 package com.idk.essencemagic.commands.essence_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
+import com.idk.essencemagic.commands.essence_sub.mana_sub.GetCommand;
 import com.idk.essencemagic.commands.essence_sub.mana_sub.SetCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ public class ManaCommand extends SubCommand {
 
     public ManaCommand() {
         subCommands.add(new SetCommand());
+        subCommands.add(new GetCommand());
     }
 
     @Override
@@ -23,7 +25,7 @@ public class ManaCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Adjust all player's mana";
+        return "adjust all player's mana";
     }
 
     @Override

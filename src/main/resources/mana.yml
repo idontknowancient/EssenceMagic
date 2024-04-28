@@ -1,6 +1,8 @@
 default-value: 20
+default-level: 1
 naturally-recover: true
 # Past how many seconds to recover 1 mana
 recovery-speed: 10
 # Whether to show current mana in the action bar
 show-in-action-bar: true
+update-interval: 5 # In ticks

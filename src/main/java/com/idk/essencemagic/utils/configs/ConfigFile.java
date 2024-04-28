@@ -27,6 +27,7 @@ public class ConfigFile {
         MESSAGES("messages"),
         MOBS("mobs"),
         MANA("mana"),
+        PLAYER_DATA("player_data")
         ;
 
         private final String configName;
