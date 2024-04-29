@@ -1,7 +1,7 @@
 package com.idk.essencemagic.utils.messages;
 
 import com.idk.essencemagic.utils.configs.ConfigFile;
-import me.clip.placeholderapi.PlaceholderAPI;
+import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,22 +12,29 @@ import java.util.regex.Pattern;
 public interface Message {
 
     static void send(CommandSender sender, String path) {
-        sender.sendMessage(translatePlaceholder(sender, getPrefix() + path));
+        sender.sendMessage(colorize(getPrefix() + path));
+    }
+
+    static void send(CommandSender sender, String path, Object info) {
+        sender.sendMessage(colorize(
+                translatePlaceholder(sender, getPrefix() + path, info)));
     }
 
     static String out(String path) {
         return ConfigFile.ConfigName.MESSAGES.outString(path);
     }
 
+    static String out(String path, Player player) {
+        return ConfigFile.ConfigName.MESSAGES.outString(player, path, player);
+    }
+
     static String getPrefix() {
         return SystemMessage.PREFIX.out();
     }
 
-    static String translatePlaceholder(CommandSender sender, String string) {
+    static String translatePlaceholder(CommandSender sender, String string, Object info) {
         if(string != null) {
-            if (sender instanceof Player p)
-                string = PlaceholderAPI.setPlaceholders(p, string);
-            return colorize(string);
+            return InternalPlaceholderHandler.translatePlaceholders(sender, string, info);
         }
         return null;
     }

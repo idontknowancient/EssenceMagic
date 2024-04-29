@@ -5,5 +5,4 @@ naturally-recover: true
 recovery-speed: 10
 # Whether to show current mana in the action bar
 show-in-action-bar: true
-show-message: "&7                        Mana: &b%mana%&7/&b%max_mana%"
 update-interval: 5 # In ticks

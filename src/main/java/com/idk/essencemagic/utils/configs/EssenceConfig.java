@@ -2,6 +2,7 @@ package com.idk.essencemagic.utils.configs;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.utils.Util;
+import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -58,6 +59,7 @@ public interface EssenceConfig {
     default int getInteger(String path) {
         return getConfig().getInt(path);
     }
+
     default boolean isDouble(String path) {
         return getConfig().isDouble(path);
     }
@@ -65,6 +67,7 @@ public interface EssenceConfig {
     default double getDouble(String path) {
         return getConfig().getDouble(path);
     }
+
     default boolean isBoolean(String path) {
         return getConfig().isBoolean(path);
     }
@@ -97,8 +100,9 @@ public interface EssenceConfig {
         return Util.colorize(getString(path));
     }
 
-    default String outString(String path, Player p) { //with placeholders
-        return Util.colorize(Util.translatePlaceholder(p, getString(path)));
+    default String outString(Player player, String path, Object info) { //with placeholders
+        return Util.colorize(
+                InternalPlaceholderHandler.translatePlaceholders(player, getString(path), info));
     }
 
     default List<String> outStringList(String path) {
@@ -110,7 +114,8 @@ public interface EssenceConfig {
 
     default List<String> outStringList(String path, Player p) {
         List<String> colorized = new ArrayList<>();
-        getStringList(path).forEach(s->colorized.add(Util.colorize(Util.translatePlaceholder(p, s))));
+        getStringList(path).forEach(s->colorized.add(Util.colorize(
+                InternalPlaceholderHandler.translatePlaceholders(p, s, p))));
 
         return colorized;
     }

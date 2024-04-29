@@ -2,6 +2,7 @@ package com.idk.essencemagic.utils.messages;
 
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public enum SystemMessage implements Message {
 
@@ -32,7 +33,16 @@ public enum SystemMessage implements Message {
         return Message.out(path);
     }
 
+    public String out(Player p) {
+        return Message.out(path, p);
+    }
+
     public void send(CommandSender sender) {
         Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path));
+    }
+
+    //use for placeholders
+    public void send(CommandSender sender, Object info) {
+        Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path), info);
     }
 }

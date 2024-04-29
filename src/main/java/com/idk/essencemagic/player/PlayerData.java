@@ -18,8 +18,9 @@ public class PlayerData implements ManaHandler {
     };
     @Getter private final String playerName;
     @Getter private final String playerUUID;
-    @Setter @Getter private double mana;
     @Setter @Getter private int manaLevel;
+    @Setter @Getter private double mana;
+    @Setter @Getter private double maxMana;
     @Setter @Getter private double manaRecoverySpeed;
 
     public PlayerData(Player player) {

@@ -1,6 +1,7 @@
 package com.idk.essencemagic.listeners;
 
 import com.idk.essencemagic.utils.configs.ConfigFile;
+import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,7 +15,7 @@ public class PlayerJoinQuitListener implements Listener {
             e.setJoinMessage("");
         } else if(ConfigFile.ConfigName.CONFIG.getBoolean("send-custom-message-when-join")) {
             //with placeholders
-            e.setJoinMessage(ConfigFile.ConfigName.MESSAGES.outString("player-join-message", e.getPlayer()));
+            e.setJoinMessage(SystemMessage.PLAYER_JOIN_MESSAGE.out(e.getPlayer()));
         }
     }
 
@@ -24,7 +25,7 @@ public class PlayerJoinQuitListener implements Listener {
             e.setQuitMessage("");
         } else if(ConfigFile.ConfigName.CONFIG.getBoolean("send-custom-message-when-quit")) {
             //with placeholders
-            e.setQuitMessage(ConfigFile.ConfigName.MESSAGES.outString("player-quit-message", e.getPlayer()));
+            e.setQuitMessage(SystemMessage.PLAYER_QUIT_MESSAGE.out(e.getPlayer()));
         }
     }
 }

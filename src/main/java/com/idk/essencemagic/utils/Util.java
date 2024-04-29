@@ -39,10 +39,6 @@ public class Util {
         Arrays.stream(EssenceMagic.getConfigNames()).forEach(s-> utilList.put(s, new Util(s))); //custom config
     }*/
 
-    public static String translatePlaceholder(Player p, String s) {
-        return PlaceholderAPI.setPlaceholders(p, s);
-    }
-
     public static String colorize(String string) { //hex support
         Matcher match = hexCode.matcher(string); //find regex in a string
         while(match.find()) {

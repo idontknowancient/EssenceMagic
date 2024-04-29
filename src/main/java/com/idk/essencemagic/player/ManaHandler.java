@@ -19,7 +19,13 @@ public interface ManaHandler {
     double defaultMana = cm.getDouble("default-value");
     List<Integer> taskIds = new ArrayList<>();
 
+    int getManaLevel();
+
     double getMana();
+
+    double getMaxMana();
+
+    void setMaxMana(double maxMana);
 
     void setMana(double mana);
 
@@ -35,7 +41,8 @@ public interface ManaHandler {
     }
 
     default void setup() {
-        setMana(defaultMana);
+        setMaxMana(defaultMana + getManaLevel() * 5);
+        setMana(getMaxMana());
         showInActionBar();
         recover();
     }
@@ -49,8 +56,7 @@ public interface ManaHandler {
                     this.cancel();
                 if(getPlayer() != null) {
                     getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(
-                            Util.colorize("&7                        Mana: &b" +
-                                    getMana() + "&7/&b" + defaultMana)));
+                            ConfigFile.ConfigName.MANA.getString("")));
                 }
             }
         }.runTaskTimer(plugin, 0L, cm.getInteger("update-interval")).getTaskId());
