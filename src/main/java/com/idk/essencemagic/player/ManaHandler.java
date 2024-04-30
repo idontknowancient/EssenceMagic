@@ -16,22 +16,25 @@ public interface ManaHandler {
 
     EssenceMagic plugin = EssenceMagic.getPlugin();
     ConfigFile.ConfigName cm = ConfigFile.ConfigName.MANA;
-    double defaultMana = cm.getDouble("default-value");
     List<Integer> taskIds = new ArrayList<>();
 
     int getManaLevel();
 
     double getMana();
 
+    static double getDefaultMana() {
+        return cm.getDouble("default-value");
+    }
+
     double getMaxMana();
-
-    void setMaxMana(double maxMana);
-
-    void setMana(double mana);
 
     double getManaRecoverySpeed();
 
     Player getPlayer();
+
+    void setMaxMana(double maxMana);
+
+    void setMana(double mana);
 
     static void initialize() {
         //notice!
@@ -41,7 +44,7 @@ public interface ManaHandler {
     }
 
     default void setup() {
-        setMaxMana(defaultMana + getManaLevel() * 5);
+        setMaxMana(getDefaultMana() + getManaLevel() * cm.getDouble("max-mana-modifier"));
         setMana(getMaxMana());
         showInActionBar();
         recover();
@@ -52,11 +55,11 @@ public interface ManaHandler {
             @Override
             public void run() {
                 //self-cancelling bukkit runnable
-                if (!cm.getBoolean("show-in-action-bar"))
+                if(!cm.getBoolean("show-in-action-bar"))
                     this.cancel();
                 if(getPlayer() != null) {
                     getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(
-                            ConfigFile.ConfigName.MANA.getString("")));
+                           cm.outString("show-message", PlayerData.dataMap.get(getPlayer().getName()))));
                 }
             }
         }.runTaskTimer(plugin, 0L, cm.getInteger("update-interval")).getTaskId());
@@ -66,14 +69,11 @@ public interface ManaHandler {
         taskIds.add(new BukkitRunnable() {
             @Override
             public void run() {
-                if (!cm.getBoolean("naturally-recover"))
+                if(!cm.getBoolean("naturally-recover"))
                     this.cancel();
                 if(getPlayer() != null) {
-                    if (getMana() <= defaultMana) {
-                        if (getMana() + 1 > 20)
-                            setMana(20);
-                        else
-                            setMana(getMana() + 1);
+                    if(getMana() <= getMaxMana()) {
+                        setMana(Math.min(getMana() + 1, getMaxMana()));
                     }
                 }
             }

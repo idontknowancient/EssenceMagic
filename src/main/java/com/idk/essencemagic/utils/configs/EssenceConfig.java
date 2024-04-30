@@ -100,9 +100,9 @@ public interface EssenceConfig {
         return Util.colorize(getString(path));
     }
 
-    default String outString(Player player, String path, Object info) { //with placeholders
+    default String outString(String path, Object info) { //with placeholders
         return Util.colorize(
-                InternalPlaceholderHandler.translatePlaceholders(player, getString(path), info));
+                InternalPlaceholderHandler.translatePlaceholders(getString(path), info));
     }
 
     default List<String> outStringList(String path) {
@@ -112,10 +112,10 @@ public interface EssenceConfig {
         return colorized;
     }
 
-    default List<String> outStringList(String path, Player p) {
+    default List<String> outStringList(String path, Object info) {
         List<String> colorized = new ArrayList<>();
         getStringList(path).forEach(s->colorized.add(Util.colorize(
-                InternalPlaceholderHandler.translatePlaceholders(p, s, p))));
+                InternalPlaceholderHandler.translatePlaceholders(s, info))));
 
         return colorized;
     }

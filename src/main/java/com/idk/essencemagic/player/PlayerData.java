@@ -1,5 +1,6 @@
 package com.idk.essencemagic.player;
 
+import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 import lombok.Setter;

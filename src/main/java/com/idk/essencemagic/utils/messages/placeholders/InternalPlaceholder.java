@@ -7,6 +7,7 @@ public enum InternalPlaceholder {
     ITEM_DISPLAY_NAME("item_display_name"),
     MANA_LEVEL("mana_level"),
     MANA("mana"),
+    DEFAULT_MANA("default_mana"),
     MAX_MANA("max_mana"),
     MANA_RECOVERY_SPEED("mana_recovery_speed"),
     ;

@@ -49,7 +49,11 @@ public class Util {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public void consoleOuts(String s) {
+    public static void consoleOuts(String s) {
         plugin.getLogger().log(Level.INFO, s);
+    }
+
+    public static double stringExpressionConverter(String s) {
+        return 0;
     }
 }
