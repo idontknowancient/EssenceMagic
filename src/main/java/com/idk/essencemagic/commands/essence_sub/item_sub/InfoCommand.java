@@ -4,6 +4,7 @@ import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.utils.Util;
+import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +14,6 @@ import java.util.List;
 
 public class InfoCommand extends SubCommand {
 
-    private final List<String> info = new ArrayList<>();
-
     @Override
     public String getName() {
         return "info";
@@ -22,7 +21,7 @@ public class InfoCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "show the custom item info in main hand";
+        return "Show the custom item info in main hand.";
     }
 
     @Override
@@ -47,22 +46,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
-        addToInfo(
-                "&f&m                                 ",
-                "&7Info of &f" + item.getDisplayName() + " &7:",
-                "&7Interior Name: &f" + item.getName(), //interior name
-                "&7Display Name: &f" + itemInMainHand.getItemMeta().getDisplayName(),
-                "&7Type: &f" + item.getType(),
-                "&7Id: &f" + item.getId(),
-                "&7Element: &f" + item.getElement().getDisplayName(),
-                "&f&m                                 "
-        );
+        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", item);
         info.forEach(p::sendMessage);
-    }
-
-    private void addToInfo(String ... strings) {
-        for(String string : strings) {
-            info.add(Util.colorize(string));
-        }
     }
 }

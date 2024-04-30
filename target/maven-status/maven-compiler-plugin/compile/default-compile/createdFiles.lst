@@ -16,7 +16,9 @@ com\idk\essencemagic\commands\essence_sub\GodCommand.class
 com\idk\essencemagic\commands\essence_sub\ElementCommand.class
 com\idk\essencemagic\damage\DamageCalculator.class
 com\idk\essencemagic\player\ManaHandler.class
+com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholderHandler.class
 com\idk\essencemagic\utils\Register.class
+com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholder.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
 com\idk\essencemagic\commands\EssenceCommand.class
 com\idk\essencemagic\EssenceMagic.class

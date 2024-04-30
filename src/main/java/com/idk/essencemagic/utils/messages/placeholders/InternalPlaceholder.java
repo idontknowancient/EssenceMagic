@@ -3,8 +3,12 @@ package com.idk.essencemagic.utils.messages.placeholders;
 public enum InternalPlaceholder {
 
     PLAYER_NAME("player_name"),
+    USAGE("usage"),
     ITEM_NAME("item_name"),
     ITEM_DISPLAY_NAME("item_display_name"),
+    ITEM_TYPE("item_type"),
+    ITEM_ID("item_id"),
+    ITEM_ELEMENT("item_element"),
     MANA_LEVEL("mana_level"),
     MANA("mana"),
     DEFAULT_MANA("default_mana"),

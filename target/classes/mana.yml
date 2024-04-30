@@ -1,8 +1,11 @@
 default-value: 20
-default-level: 1
+default-level: 0
 naturally-recover: true
+# What amount should max mana be added when mana level add 1
+max-mana-modifier: 5
 # Past how many seconds to recover 1 mana
 recovery-speed: 10
 # Whether to show current mana in the action bar
 show-in-action-bar: true
+show-message: "&7                        Lv.&b%mana_level% &7Mana: &b%mana%&7/&b%max_mana%"
 update-interval: 5 # In ticks

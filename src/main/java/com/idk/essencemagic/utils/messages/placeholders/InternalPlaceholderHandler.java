@@ -4,7 +4,6 @@ import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.player.ManaHandler;
 import com.idk.essencemagic.player.PlayerData;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class InternalPlaceholderHandler {
@@ -26,6 +25,8 @@ public class InternalPlaceholderHandler {
     private static String handleString(String string, String info) {
         if(string.contains(InternalPlaceholder.PLAYER_NAME.name))
             string = string.replaceAll(InternalPlaceholder.PLAYER_NAME.name, info);
+        if(string.contains(InternalPlaceholder.USAGE.name))
+            string = string.replaceAll(InternalPlaceholder.USAGE.name, info);
         return string;
     }
 
@@ -34,6 +35,12 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.ITEM_NAME.name, info.getName());
         if(string.contains(InternalPlaceholder.ITEM_DISPLAY_NAME.name))
             string = string.replaceAll(InternalPlaceholder.ITEM_DISPLAY_NAME.name, info.getDisplayName());
+        if(string.contains(InternalPlaceholder.ITEM_TYPE.name))
+            string = string.replaceAll(InternalPlaceholder.ITEM_TYPE.name, info.getType().name());
+        if(string.contains(InternalPlaceholder.ITEM_ID.name))
+            string = string.replaceAll(InternalPlaceholder.ITEM_ID.name, info.getId());
+        if(string.contains(InternalPlaceholder.ITEM_ELEMENT.name))
+            string = string.replaceAll(InternalPlaceholder.ITEM_ELEMENT.name, info.getElement().getDisplayName());
         return string;
     }
 

@@ -20,7 +20,7 @@ public class GodCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/essence god <player>";
+        return "/essence god [player]";
     }
 
     @Override

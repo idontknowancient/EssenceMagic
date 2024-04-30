@@ -29,12 +29,22 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         subCommands.add(new ManaCommand());
     }
 
+    private String getSyntax() {
+        StringBuilder subs = new StringBuilder();
+        subs.append("/essence [");
+        for(SubCommand s : subCommands)
+            subs.append(s.getName()).append(" | ");
+        subs.delete(subs.length() - 3, subs.length());
+        subs.append("]");
+        return subs + "";
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(sender instanceof Player p) {
             for (SubCommand subCommand : subCommands) {
                 if(args.length == 0) {
-                    SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+                    SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
                     return true;
                 }
                 if (args[0].equalsIgnoreCase(subCommand.getName())) {

@@ -1,7 +1,6 @@
 package com.idk.essencemagic.player;
 
 import com.idk.essencemagic.EssenceMagic;
-import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;

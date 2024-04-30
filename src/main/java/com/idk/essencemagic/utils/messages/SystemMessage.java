@@ -14,6 +14,7 @@ public enum SystemMessage implements Message {
     INADEQUATE_PERMISSION("inadequate-permission"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),
     UNSUCCESSFULLY_RELOADED("unsuccessfully-reloaded"),
+    ITEM_GOT("item-got"),
     NO_ITEM_IN_HAND("no-item-in-hand"),
     NOT_CUSTOM_ITEM("not-custom-item"),
     ITEM_NOT_FOUND("item-not-found"),

@@ -1,6 +1,5 @@
 package com.idk.essencemagic.player;
 
-import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class PlayerData implements ManaHandler {
 

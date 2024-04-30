@@ -15,7 +15,7 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show all elements";
+        return "Show all elements.";
     }
 
     @Override

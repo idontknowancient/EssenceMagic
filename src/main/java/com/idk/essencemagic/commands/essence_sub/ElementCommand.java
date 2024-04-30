@@ -23,12 +23,18 @@ public class ElementCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Check and modify all elements";
+        return "Check and modify all elements.";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence element ";
+        StringBuilder subs = new StringBuilder();
+        subs.append("/essence ").append(getName()).append(" [");
+        for(SubCommand s : subCommands)
+            subs.append(s.getName()).append(" | ");
+        subs.delete(subs.length() - 3, subs.length());
+        subs.append("]");
+        return subs + "";
     }
 
     @Override
@@ -42,7 +48,7 @@ public class ElementCommand extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         if(args.length <= 1) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+            SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
         for (SubCommand subCommand : subCommands) {

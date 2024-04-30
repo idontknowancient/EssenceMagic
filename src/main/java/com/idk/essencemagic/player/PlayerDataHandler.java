@@ -29,18 +29,25 @@ public class PlayerDataHandler implements Listener {
     //initialize a player's dataName in player_data.yml
     public static void initPlayerData(String playerName) {
         //mana-level
-        if(cp.isString(playerName + "." + PlayerData.dataName[0]))
-            cp.set(playerName + "." + PlayerData.dataName[0], cm.getDouble("default-level"));
+        if(!cp.isInteger(playerName + "." + PlayerData.dataName[0]))
+            cp.set(playerName + "." + PlayerData.dataName[0], cm.getInteger("default-level"));
         //mana-recovery-speed
-        if(cp.isString(playerName + "." + PlayerData.dataName[1]))
+        if(!cp.isDouble(playerName + "." + PlayerData.dataName[1]))
             cp.set(playerName + "." + PlayerData.dataName[1], cm.getDouble("recovery-speed"));
         cp.save();
+    }
+
+    public static void updatePlayerData(String playerName) {
+        PlayerData.dataMap.get(playerName).setManaLevel(cp.getInteger(playerName + ".mana-level"));
+        PlayerData.dataMap.get(playerName).setManaRecoverySpeed(cp.getDouble(playerName + ".mana-recovery-speed"));
     }
 
     public static void setSinglePlayerData(Player player) {
         String playerName = player.getName();
         initPlayerData(playerName);
-        if(!PlayerData.dataMap.containsKey(playerName))
+        if(PlayerData.dataMap.containsKey(playerName))
+            updatePlayerData(playerName);
+        else
             PlayerData.dataMap.put(playerName, new PlayerData(player));
     }
 
