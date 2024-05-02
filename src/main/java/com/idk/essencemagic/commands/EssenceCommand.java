@@ -49,8 +49,10 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
                 }
                 if (args[0].equalsIgnoreCase(subCommand.getName())) {
                     subCommand.perform(p, args);
+                    return true;
                 }
             }
+            SystemMessage.UNKNOWN_COMMAND.send(p);
         }
 
         return true;
@@ -61,7 +63,8 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 1) { //when complete typing /essence <- a blank is here
             List<String> subCommandsNames = new ArrayList<>();
-            subCommands.forEach(s->subCommandsNames.add(s.getName()));
+            for(SubCommand sub : subCommands)
+                subCommandsNames.add(sub.getName());
             return subCommandsNames;
         }
         if(args.length == 2) { //when complete typing /essence <subcommand, such as element> <- a blank is here
@@ -81,6 +84,11 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             if(args[0].equalsIgnoreCase("mana") &&
                     (args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set"))) {
                 return new ArrayList<>(PlayerData.dataMap.keySet());
+            }
+        }
+        if(args.length == 4) {
+            if(args[0].equalsIgnoreCase("mana") && args[1].equalsIgnoreCase("set")) {
+                return List.of("max");
             }
         }
 

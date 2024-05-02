@@ -2,7 +2,7 @@ package com.idk.essencemagic.utils.messages.placeholders;
 
 public enum InternalPlaceholder {
 
-    PLAYER_NAME("player_name"),
+    PLAYER("player"),
     USAGE("usage"),
     ITEM_NAME("item_name"),
     ITEM_DISPLAY_NAME("item_display_name"),

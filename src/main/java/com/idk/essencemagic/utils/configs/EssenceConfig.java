@@ -107,15 +107,16 @@ public interface EssenceConfig {
 
     default List<String> outStringList(String path) {
         List<String> colorized = new ArrayList<>();
-        getStringList(path).forEach(s->colorized.add(Util.colorize(s)));
+        for(String s : getStringList(path))
+            colorized.add(Util.colorize(s));
 
         return colorized;
     }
 
     default List<String> outStringList(String path, Object info) {
         List<String> colorized = new ArrayList<>();
-        getStringList(path).forEach(s->colorized.add(Util.colorize(
-                InternalPlaceholderHandler.translatePlaceholders(s, info))));
+        for(String s : getStringList(path))
+            colorized.add(Util.colorize(InternalPlaceholderHandler.translatePlaceholders(s, info)));
 
         return colorized;
     }

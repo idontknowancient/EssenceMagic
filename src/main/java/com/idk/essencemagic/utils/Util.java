@@ -12,32 +12,7 @@ import java.util.regex.Pattern;
 public class Util {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
-
-
     private static final Pattern hexCode = Pattern.compile("#[a-fA-F0-9]{6}"); //regex
-
-    /*private static final Map<String, Util> utilList = new HashMap();
-
-    public static Util getUtil() { //get default config
-        return utilList.get("");
-    }
-
-    public static Util getUtil(String configName) { //get custom config, no .yml needed
-        return utilList.get(configName+".yml");
-    }
-
-    private Util() { //the constructors should be prior to other methods using these
-        config = plugin.getConfig();
-    }
-
-    private Util(String config_file) {
-        config = EssenceConfig.getConfigMap().get(config_file).getConfig();
-    }
-
-    public static void setUtil() {
-        utilList.put("", new Util()); //default config
-        Arrays.stream(EssenceMagic.getConfigNames()).forEach(s-> utilList.put(s, new Util(s))); //custom config
-    }*/
 
     public static String colorize(String string) { //hex support
         Matcher match = hexCode.matcher(string); //find regex in a string

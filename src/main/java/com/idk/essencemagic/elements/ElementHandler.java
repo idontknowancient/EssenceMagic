@@ -50,28 +50,23 @@ public class ElementHandler {
         }
 
         //set new lore if we want it to show suppress/suppressed elements
-        Element.elements.forEach((s, e)->{
-            //s is String and e is Element
+        for(Element e : Element.elements.values()) {
             List<String> newLore = e.getDescription();
 
             if(cm.getBoolean("element.show_suppress_elements")) {
                 newLore.add("");
                 newLore.add(cm.outString("element.suppress_elements_opening"));
-                e.getSuppressMap().forEach((se,d)->{
-                    //se is a SuppressElement and d is the scale
-                    newLore.add(se.getDisplayName() + Util.colorize(" &7x" + d.toString()));
-                });
+                for(Element se : e.getSuppressMap().keySet())
+                    newLore.add(se.getDisplayName() + Util.colorize(" &7x" + e.getSuppressMap().get(se)));
             }
             if(cm.getBoolean("element.show_suppressed_elements")) {
                 newLore.add("");
                 newLore.add(cm.outString("element.suppressed_elements_opening"));
-                e.getSuppressedMap().forEach((se,d)->{
-                    //se is a SuppressedElement and d is the scale
-                    newLore.add(se.getDisplayName() +Util.colorize(" &7x" + d.toString()));
-                });
+                for(Element se : e.getSuppressedMap().keySet())
+                    newLore.add(se.getDisplayName() + Util.colorize(" &7x" + e.getSuppressedMap().get(se)));
             }
 
             e.setDescription(newLore);
-        });
+        }
     }
 }

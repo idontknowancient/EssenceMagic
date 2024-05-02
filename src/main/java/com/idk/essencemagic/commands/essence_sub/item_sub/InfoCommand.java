@@ -6,6 +6,7 @@ import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,6 +38,10 @@ public class InfoCommand extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         ItemStack itemInMainHand = p.getInventory().getItemInMainHand();
+        if(itemInMainHand.getType().equals(Material.AIR)) {
+            SystemMessage.NO_ITEM_IN_HAND.send(p);
+            return;
+        }
         if(!ItemHandler.isHoldingCustomItem(p)) {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
@@ -47,6 +52,7 @@ public class InfoCommand extends SubCommand {
             return;
         }
         List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", item);
-        info.forEach(p::sendMessage);
+        for(String string : info)
+            p.sendMessage(string);
     }
 }

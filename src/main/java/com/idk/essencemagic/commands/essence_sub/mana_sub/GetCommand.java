@@ -17,12 +17,12 @@ public class GetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "get a player's mana";
+        return "Get specific or all players' mana.";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence mana get <player>";
+        return "/essence mana get [player]";
     }
 
     @Override
@@ -34,7 +34,7 @@ public class GetCommand extends SubCommand {
     public void perform(Player p, String[] args) {
         if(args.length <= 2) {
             for(String playerName : PlayerData.dataMap.keySet()) {
-                p.sendMessage(playerName + ": " + PlayerData.dataMap.get(playerName).getMana());
+                SystemMessage.GET_MANA.send(p, PlayerData.dataMap.get(playerName));
             }
             return;
         }
@@ -43,7 +43,6 @@ public class GetCommand extends SubCommand {
             SystemMessage.PLAYER_NOT_EXIST.send(p);
             return;
         }
-        p.sendMessage(Util.colorize("&7" + playerName + "'s mana: &b" +
-                PlayerData.dataMap.get(playerName).getMana()));
+        SystemMessage.GET_MANA.send(p, PlayerData.dataMap.get(playerName));
     }
 }

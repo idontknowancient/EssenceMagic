@@ -42,7 +42,8 @@ public class ManaCommand extends SubCommand {
     @Override
     public List<String> getSubCommands() {
         List<String> subCommandsNames = new ArrayList<>();
-        subCommands.forEach(s->subCommandsNames.add(s.getName()));
+        for(SubCommand sub : subCommands)
+            subCommandsNames.add(sub.getName());
 
         return subCommandsNames;
     }

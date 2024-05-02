@@ -23,8 +23,8 @@ public class InternalPlaceholderHandler {
     }
 
     private static String handleString(String string, String info) {
-        if(string.contains(InternalPlaceholder.PLAYER_NAME.name))
-            string = string.replaceAll(InternalPlaceholder.PLAYER_NAME.name, info);
+        if(string.contains(InternalPlaceholder.PLAYER.name))
+            string = string.replaceAll(InternalPlaceholder.PLAYER.name, info);
         if(string.contains(InternalPlaceholder.USAGE.name))
             string = string.replaceAll(InternalPlaceholder.USAGE.name, info);
         return string;
@@ -45,6 +45,8 @@ public class InternalPlaceholderHandler {
     }
 
     private static String handlePlayerData(String string, PlayerData info) {
+        if(string.contains(InternalPlaceholder.PLAYER.name))
+            string = string.replaceAll(InternalPlaceholder.PLAYER.name, String.valueOf(info.getPlayerName()));
         if(string.contains(InternalPlaceholder.MANA_LEVEL.name))
             string = string.replaceAll(InternalPlaceholder.MANA_LEVEL.name, String.valueOf(info.getManaLevel()));
         if(string.contains(InternalPlaceholder.MANA.name))

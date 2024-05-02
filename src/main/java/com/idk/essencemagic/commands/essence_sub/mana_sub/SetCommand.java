@@ -16,12 +16,12 @@ public class SetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "set a player's mana";
+        return "Set a specific player's mana.";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence mana set <player> <amount>";
+        return "/essence mana set <player> <<amount>/max>";
     }
 
     @Override
@@ -32,7 +32,7 @@ public class SetCommand extends SubCommand {
     @Override
     public void perform(Player p, String[] args) {
         if(args.length <= 3) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+            SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
         String playerName = args[2];
@@ -40,7 +40,12 @@ public class SetCommand extends SubCommand {
             SystemMessage.PLAYER_NOT_EXIST.send(p);
             return;
         }
-        double amount = Double.parseDouble(args[3]);
-        PlayerData.dataMap.get(playerName).setMana(amount);
+        if(args[3].equalsIgnoreCase("max")) {
+            PlayerData.dataMap.get(playerName).setMana(PlayerData.dataMap.get(playerName).getMaxMana());
+        } else {
+            double amount = Double.parseDouble(args[3]);
+            PlayerData.dataMap.get(playerName).setMana(amount);
+        }
+        SystemMessage.SET_MANA.send(p, PlayerData.dataMap.get(playerName));
     }
 }

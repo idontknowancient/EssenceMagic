@@ -19,10 +19,8 @@ public class Menu {
     public static Inventory getElementMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
         Inventory elementMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("element.size"), cm.outString("element.title"));
-        Element.elements.forEach((s, e)->{
-            //s is name of an Element and e is an Element
+        for(Element e : Element.elements.values())
             elementMenu.setItem(e.getSlot(), e.getSymbolItem());
-        });
 
         //occupation
         if(cm.getString("element.occupation") != null) {
@@ -37,8 +35,8 @@ public class Menu {
     public static Inventory getItemMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
         Inventory itemMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("item.size"), cm.outString("item.title"));
-        Item.items.forEach((s, e)-> itemMenu.addItem(e.getItem()));
-
+        for(Item i : Item.items.values())
+            itemMenu.addItem(i.getItem());
         if(cm.getString("item.occupation") != null) {
             for(int i = 0; i < cm.getInteger("item.size"); i++) {
                 if(itemMenu.getItem(i) == null) itemMenu.setItem(
@@ -52,7 +50,7 @@ public class Menu {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
         Inventory mobMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("mob.size"), cm.outString("mob.title"));
 
-        Mob.mobs.forEach((s, m)->{
+        for(Mob m : Mob.mobs.values()) {
             ItemStack item = new ItemStack(
                     Material.valueOf(m.getType().toString() + "_spawn_egg" .toUpperCase()));
             ItemMeta meta = item.getItemMeta();
@@ -72,7 +70,7 @@ public class Menu {
 
             item.setItemMeta(meta);
             mobMenu.addItem(item);
-        });
+        }
 
         if(cm.getString("mob.occupation") != null) {
             for(int i = 0; i < cm.getInteger("mob.size"); i++) {

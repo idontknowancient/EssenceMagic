@@ -4,8 +4,6 @@ import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.mobs.MobHandler;
 import com.idk.essencemagic.utils.messages.SystemMessage;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
