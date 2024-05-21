@@ -2,6 +2,8 @@ package com.idk.essencemagic.commands.essence_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import com.idk.essencemagic.utils.permissions.Permission;
+import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -30,6 +32,8 @@ public class GodCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_GOD.name))
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
         if(args.length <= 1) {
             if(p.isInvulnerable()) {
                 p.setInvulnerable(false);

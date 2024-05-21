@@ -6,6 +6,8 @@ import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import com.idk.essencemagic.utils.permissions.Permission;
+import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,6 +39,8 @@ public class InfoCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_INFO.name))
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
         ItemStack itemInMainHand = p.getInventory().getItemInMainHand();
         if(itemInMainHand.getType().equals(Material.AIR)) {
             SystemMessage.NO_ITEM_IN_HAND.send(p);

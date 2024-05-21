@@ -4,6 +4,8 @@ import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.mobs.MobHandler;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import com.idk.essencemagic.utils.permissions.Permission;
+import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -32,6 +34,8 @@ public class SpawnCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB_SPAWN.name))
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
         if(args.length <= 2) {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
             return;

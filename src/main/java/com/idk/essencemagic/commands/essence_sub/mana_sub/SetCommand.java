@@ -3,6 +3,8 @@ package com.idk.essencemagic.commands.essence_sub.mana_sub;
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import com.idk.essencemagic.utils.permissions.Permission;
+import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -31,6 +33,8 @@ public class SetCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_SET.name))
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
         if(args.length <= 3) {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;

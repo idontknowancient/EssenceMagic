@@ -5,6 +5,8 @@ import com.idk.essencemagic.commands.essence_sub.item_sub.GetCommand;
 import com.idk.essencemagic.commands.essence_sub.item_sub.InfoCommand;
 import com.idk.essencemagic.commands.essence_sub.item_sub.MenuCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import com.idk.essencemagic.utils.permissions.Permission;
+import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -52,6 +54,8 @@ public class ItemCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM.name))
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
         if(args.length <= 1) {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;

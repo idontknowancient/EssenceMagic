@@ -4,6 +4,8 @@ import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import com.idk.essencemagic.utils.permissions.Permission;
+import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -32,6 +34,8 @@ public class GetCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_GET.name))
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
         if(args.length <= 2) {
             for(String playerName : PlayerData.dataMap.keySet()) {
                 SystemMessage.GET_MANA.send(p, PlayerData.dataMap.get(playerName));
