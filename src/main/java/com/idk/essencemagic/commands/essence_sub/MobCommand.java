@@ -52,8 +52,10 @@ public class MobCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         if(args.length <= 1) {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;

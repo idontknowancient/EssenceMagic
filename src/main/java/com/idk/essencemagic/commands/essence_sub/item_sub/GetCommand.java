@@ -33,8 +33,10 @@ public class GetCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_GET.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_GET.name)){
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         if(args.length <= 2) {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;

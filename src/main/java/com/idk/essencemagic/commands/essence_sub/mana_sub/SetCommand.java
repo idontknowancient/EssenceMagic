@@ -33,8 +33,10 @@ public class SetCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_SET.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_SET.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         if(args.length <= 3) {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;

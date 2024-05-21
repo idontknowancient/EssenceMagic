@@ -32,8 +32,10 @@ public class GodCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_GOD.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_GOD.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         if(args.length <= 1) {
             if(p.isInvulnerable()) {
                 p.setInvulnerable(false);

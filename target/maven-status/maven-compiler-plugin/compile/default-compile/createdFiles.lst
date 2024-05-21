@@ -11,12 +11,14 @@ com\idk\essencemagic\commands\essence_sub\ItemCommand.class
 com\idk\essencemagic\commands\essence_sub\mob_sub\SpawnCommand.class
 com\idk\essencemagic\commands\essence_sub\mana_sub\SetCommand.class
 com\idk\essencemagic\elements\Element.class
+com\idk\essencemagic\utils\permissions\SystemPermission.class
 com\idk\essencemagic\player\PlayerData.class
 com\idk\essencemagic\commands\essence_sub\GodCommand.class
 com\idk\essencemagic\commands\essence_sub\ElementCommand.class
 com\idk\essencemagic\damage\DamageCalculator.class
 com\idk\essencemagic\player\ManaHandler.class
 com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholderHandler.class
+com\idk\essencemagic\utils\permissions\Permission.class
 com\idk\essencemagic\utils\Register.class
 com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholder.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class

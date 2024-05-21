@@ -39,8 +39,10 @@ public class InfoCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_INFO.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_INFO.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         ItemStack itemInMainHand = p.getInventory().getItemInMainHand();
         if(itemInMainHand.getType().equals(Material.AIR)) {
             SystemMessage.NO_ITEM_IN_HAND.send(p);

@@ -34,8 +34,10 @@ public class GetCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_GET.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_GET.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         if(args.length <= 2) {
             for(String playerName : PlayerData.dataMap.keySet()) {
                 SystemMessage.GET_MANA.send(p, PlayerData.dataMap.get(playerName));

@@ -34,8 +34,10 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_RELOAD.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_RELOAD.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         EssenceMagic.initialize();
         SystemMessage.SUCCESSFULLY_RELOADED.send(p);
     }

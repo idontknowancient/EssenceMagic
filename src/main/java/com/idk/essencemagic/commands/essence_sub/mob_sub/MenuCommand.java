@@ -33,8 +33,10 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB_MENU.name))
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB_MENU.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
+            return;
+        }
         p.openInventory(Menu.getMobMenu());
     }
 }
