@@ -20,7 +20,7 @@ public class Element {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
-    public static final HashMap<String, Element> elements = new HashMap<>();
+    public static final Map<String, Element> elements = new HashMap<>();
 
     @Getter private static final NamespacedKey elementKey = new NamespacedKey(plugin, "element-key");
 

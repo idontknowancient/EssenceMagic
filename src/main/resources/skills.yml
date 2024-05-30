@@ -1,0 +1,8 @@
+fire_ball:
+  name: "&c大火球"
+  conditions:
+    - ttt
+  cooldown: 3
+  cooldown-message: "default"
+  skills:
+    - shoot fire_ball{time=5}
