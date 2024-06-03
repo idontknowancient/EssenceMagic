@@ -1,4 +1,4 @@
-package com.idk.essencemagic.commands.essence_sub.mob_sub;
+package com.idk.essencemagic.commands.essence_sub.skill_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.menus.Menu;
@@ -18,12 +18,12 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show all custom mobs.";
+        return "Show all available skills.";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence mob menu";
+        return "/essence skill menu";
     }
 
     @Override
@@ -33,10 +33,10 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB_MENU.name)) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_SKILL_MENU.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
-        p.openInventory(Menu.getMobMenu());
+        p.openInventory(Menu.getSkillMenu());
     }
 }

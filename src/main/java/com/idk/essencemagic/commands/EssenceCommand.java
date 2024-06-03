@@ -27,6 +27,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         subCommands.add(new GodCommand());
         subCommands.add(new MobCommand());
         subCommands.add(new ManaCommand());
+        subCommands.add(new SkillCommand());
     }
 
     private String getSyntax() {

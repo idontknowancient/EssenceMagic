@@ -1,14 +1,18 @@
 com\idk\essencemagic\commands\essence_sub\ManaCommand.class
+com\idk\essencemagic\commands\essence_sub\SkillCommand.class
 com\idk\essencemagic\items\ItemHandler.class
 com\idk\essencemagic\elements\ElementHandler.class
+com\idk\essencemagic\skills\SkillType.class
 com\idk\essencemagic\player\ManaHandler$2.class
 com\idk\essencemagic\commands\essence_sub\item_sub\MenuCommand.class
 com\idk\essencemagic\commands\essence_sub\MobCommand.class
 com\idk\essencemagic\menus\Menu.class
+com\idk\essencemagic\skills\ClickType.class
 com\idk\essencemagic\menus\CustomHolder.class
 com\idk\essencemagic\utils\configs\EssenceConfig.class
 com\idk\essencemagic\commands\essence_sub\ItemCommand.class
 com\idk\essencemagic\commands\essence_sub\mob_sub\SpawnCommand.class
+com\idk\essencemagic\skills\Skill.class
 com\idk\essencemagic\commands\essence_sub\mana_sub\SetCommand.class
 com\idk\essencemagic\elements\Element.class
 com\idk\essencemagic\utils\permissions\SystemPermission.class
@@ -29,7 +33,9 @@ com\idk\essencemagic\commands\essence_sub\item_sub\InfoCommand.class
 com\idk\essencemagic\commands\essence_sub\mana_sub\GetCommand.class
 com\idk\essencemagic\commands\essence_sub\mob_sub\MenuCommand.class
 com\idk\essencemagic\mobs\MobHandler.class
+com\idk\essencemagic\commands\essence_sub\skill_sub\MenuCommand.class
 com\idk\essencemagic\utils\configs\ConfigFile.class
+com\idk\essencemagic\skills\SkillHandler.class
 com\idk\essencemagic\mobs\Mob.class
 com\idk\essencemagic\elements\ElementDamage.class
 com\idk\essencemagic\utils\Util.class
@@ -37,6 +43,7 @@ com\idk\essencemagic\utils\messages\SystemMessage.class
 com\idk\essencemagic\listeners\MenuListener.class
 com\idk\essencemagic\commands\essence_sub\ReloadCommand.class
 com\idk\essencemagic\utils\messages\Message.class
+com\idk\essencemagic\skills\SingleSkill.class
 com\idk\essencemagic\commands\essence_sub\item_sub\GetCommand.class
 com\idk\essencemagic\utils\configs\ConfigFile$ConfigName.class
 com\idk\essencemagic\player\ManaHandler$1.class

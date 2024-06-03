@@ -16,6 +16,8 @@ public enum Permission {
     COMMAND_MOB_MENU("command.menu"),
     COMMAND_MOB_SPAWN("command.spawn"),
     COMMAND_RELOAD("command.reload"),
+    COMMAND_SKILL("command.skill"),
+    COMMAND_SKILL_MENU("command.skill.menu"),
     ;
 
     public final String name;

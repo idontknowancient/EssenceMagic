@@ -31,7 +31,7 @@ public class Skill {
         else
             displayName = null;
         if(cs.isConfigurationSection(skillName + ".skills")) {
-            for(String skill : cs.getStringList(skillName + ".skills")) {
+            for(String skill : cs.getConfigurationSection(skillName + ".skills").getKeys(false)) {
                 singleSkills.add(new SingleSkill(skillName, skill));
             }
         } else {

@@ -20,10 +20,10 @@ public final class EssenceMagic extends JavaPlugin {
     public static void initialize() {
         ConfigFile.initialize();
         ElementHandler.initialize();
+        SkillHandler.initialize();
         ItemHandler.initialize();
         MobHandler.initialize();
         PlayerDataHandler.initialize();
-        SkillHandler.initialize();
     }
 
     public static void registerDependencies() {

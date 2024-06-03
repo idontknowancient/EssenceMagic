@@ -3,6 +3,8 @@ package com.idk.essencemagic.menus;
 import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.mobs.Mob;
+import com.idk.essencemagic.skills.SingleSkill;
+import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.Bukkit;
@@ -23,7 +25,7 @@ public class Menu {
             elementMenu.setItem(e.getSlot(), e.getSymbolItem());
 
         //occupation
-        if(cm.getString("element.occupation") != null) {
+        if(cm.isString("element.occupation")) {
             for(int i = 0; i < cm.getInteger("element.size"); i++) {
                 if(elementMenu.getItem(i) == null) elementMenu.setItem(
                         i, new ItemStack(Material.valueOf(cm.getString("element.occupation").toUpperCase())));
@@ -37,7 +39,7 @@ public class Menu {
         Inventory itemMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("item.size"), cm.outString("item.title"));
         for(Item i : Item.items.values())
             itemMenu.addItem(i.getItem());
-        if(cm.getString("item.occupation") != null) {
+        if(cm.isString("item.occupation")) {
             for(int i = 0; i < cm.getInteger("item.size"); i++) {
                 if(itemMenu.getItem(i) == null) itemMenu.setItem(
                         i, new ItemStack(Material.valueOf(cm.getString("item.occupation").toUpperCase())));
@@ -72,12 +74,61 @@ public class Menu {
             mobMenu.addItem(item);
         }
 
-        if(cm.getString("mob.occupation") != null) {
+        if(cm.isString("mob.occupation")) {
             for(int i = 0; i < cm.getInteger("mob.size"); i++) {
                 if(mobMenu.getItem(i) == null) mobMenu.setItem(
                         i, new ItemStack(Material.valueOf(cm.getString("mob.occupation").toUpperCase())));
             }
         }
         return mobMenu;
+    }
+
+    public static Inventory getSkillMenu() {
+        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
+        Inventory skillMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("skill.size"), cm.outString("skill.title"));
+
+        for(Skill s : Skill.skills.values()) {
+            ItemStack item = new ItemStack(Material.valueOf(cm.getString("skill.item").toUpperCase()));
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(s.getDisplayName());
+            List<String> lore = new ArrayList<>();
+
+            if(s.getSingleSkills().isEmpty()) {
+                lore.add(cm.outString("skill.no-skill"));
+            } else if(s.getSingleSkills().size() == 1) {
+                SingleSkill ss = s.getSingleSkills().get(0);
+                lore.add("&f" + ss.getName() + "&f:");
+                lore.add("  &7Type: " + ss.getType().name);
+                lore.add("  &7Triggers: " + ss.getTriggers());
+                lore.add("  &7Targets: " + ss.getTargets());
+                lore.add("  &7Requirements: " + ss.getRequirements());
+                lore.add("  &7Cooldown: " + ss.getCooldown());
+                lore.add("  &7Probability: " + ss.getProbability());
+                lore.add("  &7Costs: " + ss.getCosts());
+            } else {
+                for(SingleSkill ss : s.getSingleSkills()) {
+                    lore.add("&f" + ss.getName() + "&f:");
+                    lore.add("  &7Type: " + ss.getType().name);
+                    lore.add("  &7Triggers: " + ss.getTriggers());
+                    lore.add("  &7Targets: " + ss.getTargets());
+                    lore.add("  &7Requirements: " + ss.getRequirements());
+                    lore.add("  &7Cooldown: " + ss.getCooldown());
+                    lore.add("  &7Probability: " + ss.getProbability());
+                    lore.add("  &7Costs: " + ss.getCosts());
+                }
+            }
+            lore.replaceAll(Util::colorize);
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+            skillMenu.addItem(item);
+        }
+
+        if(cm.isString("skill.occupation")) {
+            for(int i = 0; i < cm.getInteger("mob.size"); i++) {
+                if(skillMenu.getItem(i) == null) skillMenu.setItem(
+                        i, new ItemStack(Material.valueOf(cm.getString("skill.occupation").toUpperCase())));
+            }
+        }
+        return skillMenu;
     }
 }

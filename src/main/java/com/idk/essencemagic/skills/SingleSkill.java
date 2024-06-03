@@ -6,9 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 public class SingleSkill {
@@ -23,11 +21,11 @@ public class SingleSkill {
 
     @Nullable private final List<String> requirements = new ArrayList<>();
 
-    @Nullable private final int cooldown;
+    private final double cooldown;
 
-    @Nullable private final double probability;
+    private final double probability;
 
-    @Nullable private final Map<String, Object> costs = new HashMap<>();
+    @Nullable private final List<String> costs = new ArrayList<>();
 
     /*
      * Use when a skill only has one single skill.
@@ -36,32 +34,40 @@ public class SingleSkill {
         ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS;
         String path = skillName;
         name = skillName;
-        type = SkillType.valueOf(cs.getString(cs + ".type"));
+        type = SkillType.valueOf(cs.getString(path + ".type").toUpperCase());
 
         String triggersPath = path + ".triggers";
         //should check if a single string is counted in
-        if(cs.isList(triggersPath)) {
+        if(cs.isString(triggersPath)) {
+            triggers.add(ClickType.valueOf(cs.getString(triggersPath).toUpperCase()));
+        } else if(cs.isList(triggersPath)) {
             for(String s : cs.getStringList(triggersPath)) {
-                triggers.add(ClickType.valueOf(s));
+                triggers.add(ClickType.valueOf(s.toUpperCase()));
             }
         }
 
         String targetsPath = path + ".targets";
         //should check if a single string is counted in
         //unhandled
-        if(cs.isList(targetsPath)) {
+        if(cs.isString(targetsPath)) {
+            targets.add(cs.getString(targetsPath));
+        } else if(cs.isList(targetsPath)) {
             targets.addAll(cs.getStringList(targetsPath));
         }
 
         String requirementsPath = path + ".requirements";
         //should check if a single string is counted in
         //unhandled
-        if(cs.isList(requirementsPath)) {
-            targets.addAll(cs.getStringList(requirementsPath));
+        if(cs.isString(requirementsPath)) {
+            requirements.add(cs.getString(requirementsPath));
+        } else if(cs.isList(requirementsPath)) {
+            requirements.addAll(cs.getStringList(requirementsPath));
         }
 
         String cooldownPath = path + ".cooldown";
-        if(cs.isInteger(cooldownPath))
+        if(cs.isDouble(cooldownPath))
+            cooldown = cs.getDouble(cooldownPath);
+        else if(cs.isInteger(cooldownPath))
             cooldown = cs.getInteger(cooldownPath);
         else
             cooldown = 0;
@@ -69,21 +75,17 @@ public class SingleSkill {
         String probabilityPath = path + ".probability";
         if(cs.isDouble(probabilityPath))
             probability = cs.getDouble(probabilityPath);
+        else if(cs.isInteger(probabilityPath))
+            probability = cs.getInteger(probabilityPath);
         else
             probability = 0d;
 
         String costsPath = path + ".costs";
         //unhandled
-        if(cs.isConfigurationSection(costsPath)) {
-            for(String s : cs.getConfigurationSection(costsPath).getKeys(false)) {
-                String  costPath = costsPath + s;
-                if(cs.isString(costPath))
-                    costs.put(s, cs.getString(costPath));
-                else if(cs.isInteger(costPath))
-                    costs.put(s, cs.getInteger(costPath));
-                else if(cs.isDouble(costPath))
-                    costs.put(s, cs.getDouble(costPath));
-            }
+        if(cs.isString(costsPath)) {
+            costs.add(cs.getString(costsPath));
+        } else if(cs.isList(costsPath)) {
+            costs.addAll(cs.getStringList(costsPath));
         }
     }
 
@@ -94,32 +96,40 @@ public class SingleSkill {
         ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS;
         String path = skillName + ".skills." + singleSkillName;
         name = singleSkillName;
-        type = SkillType.valueOf(cs.getString(cs + ".type"));
+        type = SkillType.valueOf(cs.getString(path + ".type").toUpperCase());
 
         String triggersPath = path + ".triggers";
         //should check if a single string is counted in
-        if(cs.isList(triggersPath)) {
+        if(cs.isString(triggersPath)) {
+            triggers.add(ClickType.valueOf(cs.getString(triggersPath).toUpperCase()));
+        } else if(cs.isList(triggersPath)) {
             for(String s : cs.getStringList(triggersPath)) {
-                triggers.add(ClickType.valueOf(s));
+                triggers.add(ClickType.valueOf(s.toUpperCase()));
             }
         }
 
         String targetsPath = path + ".targets";
         //should check if a single string is counted in
         //unhandled
-        if(cs.isList(targetsPath)) {
+        if(cs.isString(targetsPath)) {
+            targets.add(cs.getString(targetsPath));
+        } else if(cs.isList(targetsPath)) {
             targets.addAll(cs.getStringList(targetsPath));
         }
 
         String requirementsPath = path + ".requirements";
         //should check if a single string is counted in
         //unhandled
-        if(cs.isList(requirementsPath)) {
-            targets.addAll(cs.getStringList(requirementsPath));
+        if(cs.isString(requirementsPath)) {
+            requirements.add(cs.getString(requirementsPath));
+        } else if(cs.isList(requirementsPath)) {
+            requirements.addAll(cs.getStringList(requirementsPath));
         }
 
         String cooldownPath = path + ".cooldown";
-        if(cs.isInteger(cooldownPath))
+        if(cs.isDouble(cooldownPath))
+            cooldown = cs.getDouble(cooldownPath);
+        else if(cs.isInteger(cooldownPath))
             cooldown = cs.getInteger(cooldownPath);
         else
             cooldown = 0;
@@ -127,21 +137,17 @@ public class SingleSkill {
         String probabilityPath = path + ".probability";
         if(cs.isDouble(probabilityPath))
             probability = cs.getDouble(probabilityPath);
+        else if(cs.isInteger(probabilityPath))
+            probability = cs.getInteger(probabilityPath);
         else
             probability = 0d;
 
         String costsPath = path + ".costs";
         //unhandled
-        if(cs.isConfigurationSection(costsPath)) {
-            for(String s : cs.getConfigurationSection(costsPath).getKeys(false)) {
-                String  costPath = costsPath + s;
-                if(cs.isString(costPath))
-                    costs.put(s, cs.getString(costPath));
-                else if(cs.isInteger(costPath))
-                    costs.put(s, cs.getInteger(costPath));
-                else if(cs.isDouble(costPath))
-                    costs.put(s, cs.getDouble(costPath));
-            }
+        if(cs.isString(costsPath)) {
+            costs.add(cs.getString(costsPath));
+        } else if(cs.isList(costsPath)) {
+            costs.addAll(cs.getStringList(costsPath));
         }
     }
 }
