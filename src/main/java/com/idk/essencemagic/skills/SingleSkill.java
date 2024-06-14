@@ -15,8 +15,6 @@ public class SingleSkill {
 
     @NotNull private final SkillType type;
 
-    @Nullable private final List<ClickType> triggers = new ArrayList<>();
-
     @Nullable private final List<String> targets = new ArrayList<>();
 
     @Nullable private final List<String> requirements = new ArrayList<>();
@@ -27,6 +25,15 @@ public class SingleSkill {
 
     @Nullable private final List<String> costs = new ArrayList<>();
 
+    /*for only shoot type*/
+    @NotNull private final String projectile;
+
+    private final double velocity;
+
+    private final double power;
+
+    private final double duration;
+
     /*
      * Use when a skill only has one single skill.
      */
@@ -36,19 +43,7 @@ public class SingleSkill {
         name = skillName;
         type = SkillType.valueOf(cs.getString(path + ".type").toUpperCase());
 
-        String triggersPath = path + ".triggers";
-        //should check if a single string is counted in
-        if(cs.isString(triggersPath)) {
-            triggers.add(ClickType.valueOf(cs.getString(triggersPath).toUpperCase()));
-        } else if(cs.isList(triggersPath)) {
-            for(String s : cs.getStringList(triggersPath)) {
-                triggers.add(ClickType.valueOf(s.toUpperCase()));
-            }
-        }
-
         String targetsPath = path + ".targets";
-        //should check if a single string is counted in
-        //unhandled
         if(cs.isString(targetsPath)) {
             targets.add(cs.getString(targetsPath));
         } else if(cs.isList(targetsPath)) {
@@ -56,8 +51,6 @@ public class SingleSkill {
         }
 
         String requirementsPath = path + ".requirements";
-        //should check if a single string is counted in
-        //unhandled
         if(cs.isString(requirementsPath)) {
             requirements.add(cs.getString(requirementsPath));
         } else if(cs.isList(requirementsPath)) {
@@ -81,12 +74,42 @@ public class SingleSkill {
             probability = 0d;
 
         String costsPath = path + ".costs";
-        //unhandled
         if(cs.isString(costsPath)) {
             costs.add(cs.getString(costsPath));
         } else if(cs.isList(costsPath)) {
             costs.addAll(cs.getStringList(costsPath));
         }
+
+        /*only for shoot type*/
+        String projectilePath = path + ".projectile";
+        if(cs.isString(projectilePath))
+            projectile = cs.getString(projectilePath);
+        else
+            projectile = "snowball";
+
+        String velocityPath = path + ".velocity";
+        if(cs.isDouble(velocityPath))
+            velocity = cs.getDouble(velocityPath);
+        else if(cs.isInteger(velocityPath))
+            velocity = cs.getInteger(velocityPath);
+        else
+            velocity = 1;
+
+        String powerPath = path + ".power";
+        if(cs.isDouble(powerPath))
+            power = cs.getDouble(powerPath);
+        else if(cs.isInteger(powerPath))
+            power = cs.getInteger(powerPath);
+        else
+            power = 1;
+
+        String durationPath = path + ".duration";
+        if(cs.isDouble(durationPath))
+            duration = cs.getDouble(durationPath);
+        else if(cs.isInteger(durationPath))
+            duration = cs.getInteger(durationPath);
+        else
+            duration = 3;
     }
 
     /*
@@ -98,19 +121,7 @@ public class SingleSkill {
         name = singleSkillName;
         type = SkillType.valueOf(cs.getString(path + ".type").toUpperCase());
 
-        String triggersPath = path + ".triggers";
-        //should check if a single string is counted in
-        if(cs.isString(triggersPath)) {
-            triggers.add(ClickType.valueOf(cs.getString(triggersPath).toUpperCase()));
-        } else if(cs.isList(triggersPath)) {
-            for(String s : cs.getStringList(triggersPath)) {
-                triggers.add(ClickType.valueOf(s.toUpperCase()));
-            }
-        }
-
         String targetsPath = path + ".targets";
-        //should check if a single string is counted in
-        //unhandled
         if(cs.isString(targetsPath)) {
             targets.add(cs.getString(targetsPath));
         } else if(cs.isList(targetsPath)) {
@@ -118,8 +129,6 @@ public class SingleSkill {
         }
 
         String requirementsPath = path + ".requirements";
-        //should check if a single string is counted in
-        //unhandled
         if(cs.isString(requirementsPath)) {
             requirements.add(cs.getString(requirementsPath));
         } else if(cs.isList(requirementsPath)) {
@@ -143,11 +152,41 @@ public class SingleSkill {
             probability = 0d;
 
         String costsPath = path + ".costs";
-        //unhandled
         if(cs.isString(costsPath)) {
             costs.add(cs.getString(costsPath));
         } else if(cs.isList(costsPath)) {
             costs.addAll(cs.getStringList(costsPath));
         }
+
+        /*only for shoot type*/
+        String projectilePath = path + ".projectile";
+        if(cs.isString(projectilePath))
+            projectile = cs.getString(projectilePath);
+        else
+           projectile = "snowball";
+
+        String velocityPath = path + ".velocity";
+        if(cs.isDouble(velocityPath))
+            velocity = cs.getDouble(velocityPath);
+        else if(cs.isInteger(velocityPath))
+            velocity = cs.getInteger(velocityPath);
+        else
+            velocity = 1;
+
+        String powerPath = path + ".power";
+        if(cs.isDouble(powerPath))
+            power = cs.getDouble(powerPath);
+        else if(cs.isInteger(powerPath))
+            power = cs.getInteger(powerPath);
+        else
+            power = 1;
+
+        String durationPath = path + ".duration";
+        if(cs.isDouble(durationPath))
+            duration = cs.getDouble(durationPath);
+        else if(cs.isInteger(durationPath))
+            duration = cs.getInteger(durationPath);
+        else
+            duration = 3;
     }
 }

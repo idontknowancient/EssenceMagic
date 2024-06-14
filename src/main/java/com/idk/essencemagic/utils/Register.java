@@ -6,6 +6,7 @@ import com.idk.essencemagic.damage.DamageCalculator;
 import com.idk.essencemagic.listeners.MenuListener;
 import com.idk.essencemagic.listeners.PlayerJoinQuitListener;
 import com.idk.essencemagic.player.PlayerDataHandler;
+import com.idk.essencemagic.skills.SkillHandler;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 
@@ -26,6 +27,7 @@ public class Register {
         register(new MenuListener());
         register(new DamageCalculator());
         register(new PlayerDataHandler());
+        register(new SkillHandler());
     }
 
     public static void registerCommands() {

@@ -3,6 +3,7 @@ package com.idk.essencemagic.utils.messages.placeholders;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.player.ManaHandler;
 import com.idk.essencemagic.player.PlayerData;
+import com.idk.essencemagic.skills.Skill;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -13,6 +14,8 @@ public class InternalPlaceholderHandler {
             string = handleString(string, s);
         if(info instanceof Item i)
             string = handleItem(string, i);
+        if(info instanceof Skill s)
+            string = handleSkill(string ,s);
         if(info instanceof PlayerData d)
             string = handlePlayerData(string, d);
         if(info instanceof Double d)
@@ -41,6 +44,12 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.ITEM_ID.name, info.getId());
         if(string.contains(InternalPlaceholder.ITEM_ELEMENT.name))
             string = string.replaceAll(InternalPlaceholder.ITEM_ELEMENT.name, info.getElement().getDisplayName());
+        return string;
+    }
+
+    private static String handleSkill(String string, Skill info) {
+        if(string.contains(InternalPlaceholder.SKILL_DISPLAY_NAME.name))
+            string = string.replaceAll(InternalPlaceholder.SKILL_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
         return string;
     }
 

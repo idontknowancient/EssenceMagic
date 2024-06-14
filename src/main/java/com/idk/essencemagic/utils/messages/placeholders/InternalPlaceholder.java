@@ -14,6 +14,7 @@ public enum InternalPlaceholder {
     DEFAULT_MANA("default_mana"),
     MAX_MANA("max_mana"),
     MANA_RECOVERY_SPEED("mana_recovery_speed"),
+    SKILL_DISPLAY_NAME("skill_display_name"),
     ;
 
     public final String name;

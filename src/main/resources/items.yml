@@ -10,6 +10,8 @@ flame_sword:
     - " &d元素&7: &c火"
     - " &b附魔&7:"
     - "   &8- &7耐久 III"
+    - " &e技能&7:"
+    - "   &c大火球"
   # if the element is not provided, the system will use 'none' instead
   element: flame
   # enchantments are not necessary
@@ -26,6 +28,8 @@ flame_sword:
       type: add
       value: 4
       slot: hand
+  skills:
+    - fire_ball
 test_helmet:
   display_name: "&2測試用頭盔"
   type: iron_helmet

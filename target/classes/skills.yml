@@ -1,15 +1,16 @@
 fire_ball:
   name: "&c大火球"
+  # necessary
+  trigger: right_click
   skills:
-    #single skill
+    # single skill
     fire_ball:
-      #skill type
+      # skill type
       type: shoot
-      #adjusable attributes are varied by skill type
+      # adjustable attributes are varied by skill type
       projectile: fireball
       power: 3
       duration: 5
-      triggers: right_click #should also can function if array is used
       targets:
       requirements:
         - "mana >= 5"
@@ -17,3 +18,25 @@ fire_ball:
       probability: 1
       costs:
         mana: 5
+snow_ball:
+  name: "&f大雪球"
+  trigger: right_click #should also can function if array is used
+  skills:
+    #single skill
+    snowball:
+      #skill type
+      type: shoot
+      #adjusable attributes are varied by skill type
+      projectile: snowball
+      velocity: 3
+      power: 3
+      duration: 5
+      targets:
+        - none
+      requirements:
+        - "%mana% >= 5"
+        - "%player_level% >= 10"
+      cooldown: 10
+      probability: 1
+      costs:
+        - "mana:5"

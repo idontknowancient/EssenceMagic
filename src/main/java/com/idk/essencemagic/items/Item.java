@@ -2,13 +2,13 @@ package com.idk.essencemagic.items;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.elements.Element;
+import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
@@ -49,6 +49,8 @@ public class Item {
 
     @Getter private final List<String> attributeList = new ArrayList<>();
 
+    @Getter private final List<Skill> skillList = new ArrayList<>();
+
     {
         String[] options =
             {"hide_enchants", "hide_attributes", "hide_armor_trim", "hide_destroys",
@@ -68,11 +70,11 @@ public class Item {
         name = itemName;
         displayName = ci.outString(itemName+".display_name");
         type = Material.valueOf(ci.getString(itemName+".type").toUpperCase());
-        if(ci.getStringList(itemName+".lore") != null)
+        if(ci.isList(itemName+".lore"))
             lore = ci.outStringList(itemName+".lore");
         id = getClass().getSimpleName();
         //element setting, if not provided, use none instead
-        if(ci.getString(itemName+".element") != null)
+        if(ci.isString(itemName+".element"))
             element = Element.elements.get(ci.getString(itemName+".element"));
         else
             element = Element.elements.get("none");
@@ -86,19 +88,20 @@ public class Item {
             itemMeta.setLore(lore);
 
         //enchant setting
-        ConfigurationSection enchantmentSection = ci.getConfig().getConfigurationSection(itemName+".enchantments");
-        if(enchantmentSection != null)
-            setItemEnchantments(enchantmentSection.getKeys(false), ci);
+        if(ci.isConfigurationSection(itemName+".enchantments"))
+            setItemEnchantments(ci.getConfigurationSection(itemName+".enchantments").getKeys(false), ci);
 
         //options setting
-        ConfigurationSection optionSection = ci.getConfig().getConfigurationSection(itemName+".options");
-        if(optionSection != null)
-            setItemOptions(optionSection.getKeys(false), ci);
+        if(ci.isConfigurationSection(itemName+".options"))
+            setItemOptions(ci.getConfigurationSection(itemName+".options").getKeys(false), ci);
 
         //attributes setting
-        ConfigurationSection attributeSection = ci.getConfig().getConfigurationSection(itemName+".attributes");
-        if(attributeSection != null)
-            setItemAttributes(attributeSection.getKeys(false), ci);
+        if(ci.isConfigurationSection(itemName+".attributes"))
+            setItemAttributes(ci.getConfigurationSection(itemName+".attributes").getKeys(false), ci);
+
+        //skills setting
+        if(ci.isList(itemName+".skills"))
+            setItemSkills(ci.getStringList(itemName+".skills"));
 
         //key setting
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
@@ -149,6 +152,13 @@ public class Item {
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
             }
+        }
+    }
+
+    private void setItemSkills(List<String> skillNameList) {
+        for(String s : skillNameList) {
+            if(Skill.skills.containsKey(s))
+                skillList.add(Skill.skills.get(s));
         }
     }
 

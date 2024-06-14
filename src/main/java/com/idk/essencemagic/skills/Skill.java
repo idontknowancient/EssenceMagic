@@ -5,9 +5,7 @@ import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -15,13 +13,15 @@ public class Skill {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
-    public static final Map<String, Skill> skills = new HashMap<>();
-
     private final String name;
+
+    private final ClickType trigger;
+
+    public static final Map<String, Skill> skills = new HashMap<>();
 
     @Nullable private final String displayName;
 
-    private final List<SingleSkill> singleSkills = new ArrayList<>();
+    private final Map<String, SingleSkill> singleSkills = new HashMap<>();
 
     public Skill(String skillName) {
         ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS; //config skills
@@ -30,12 +30,13 @@ public class Skill {
             displayName = cs.outString(skillName + ".name");
         else
             displayName = null;
+        trigger = ClickType.valueOf(cs.getString(skillName + ".trigger").toUpperCase());
         if(cs.isConfigurationSection(skillName + ".skills")) {
-            for(String skill : cs.getConfigurationSection(skillName + ".skills").getKeys(false)) {
-                singleSkills.add(new SingleSkill(skillName, skill));
+            for(String singleSkillName : cs.getConfigurationSection(skillName + ".skills").getKeys(false)) {
+                singleSkills.put(singleSkillName,new SingleSkill(skillName, singleSkillName));
             }
         } else {
-            singleSkills.add(new SingleSkill(skillName));
+            singleSkills.put(skillName, new SingleSkill(skillName));
         }
     }
 }

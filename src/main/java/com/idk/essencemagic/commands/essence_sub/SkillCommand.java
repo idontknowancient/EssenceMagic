@@ -1,6 +1,7 @@
 package com.idk.essencemagic.commands.essence_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
+import com.idk.essencemagic.commands.essence_sub.skill_sub.CastCommand;
 import com.idk.essencemagic.commands.essence_sub.skill_sub.MenuCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
@@ -16,6 +17,7 @@ public class SkillCommand extends SubCommand {
 
     public SkillCommand() {
         subCommands.add(new MenuCommand());
+        subCommands.add(new CastCommand());
     }
 
     @Override

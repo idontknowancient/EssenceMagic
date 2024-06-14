@@ -92,24 +92,23 @@ public class Menu {
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(s.getDisplayName());
             List<String> lore = new ArrayList<>();
+            lore.add("&7Trigger: " + s.getTrigger().name);
 
             if(s.getSingleSkills().isEmpty()) {
                 lore.add(cm.outString("skill.no-skill"));
             } else if(s.getSingleSkills().size() == 1) {
-                SingleSkill ss = s.getSingleSkills().get(0);
+                SingleSkill ss = s.getSingleSkills().get(s.getName());
                 lore.add("&f" + ss.getName() + "&f:");
                 lore.add("  &7Type: " + ss.getType().name);
-                lore.add("  &7Triggers: " + ss.getTriggers());
                 lore.add("  &7Targets: " + ss.getTargets());
                 lore.add("  &7Requirements: " + ss.getRequirements());
                 lore.add("  &7Cooldown: " + ss.getCooldown());
                 lore.add("  &7Probability: " + ss.getProbability());
                 lore.add("  &7Costs: " + ss.getCosts());
             } else {
-                for(SingleSkill ss : s.getSingleSkills()) {
+                for(SingleSkill ss : s.getSingleSkills().values()) {
                     lore.add("&f" + ss.getName() + "&f:");
                     lore.add("  &7Type: " + ss.getType().name);
-                    lore.add("  &7Triggers: " + ss.getTriggers());
                     lore.add("  &7Targets: " + ss.getTargets());
                     lore.add("  &7Requirements: " + ss.getRequirements());
                     lore.add("  &7Cooldown: " + ss.getCooldown());

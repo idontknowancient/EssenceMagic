@@ -18,6 +18,7 @@ public enum Permission {
     COMMAND_RELOAD("command.reload"),
     COMMAND_SKILL("command.skill"),
     COMMAND_SKILL_MENU("command.skill.menu"),
+    COMMAND_SKILL_CAST("command.skill.cast"),
     ;
 
     public final String name;
