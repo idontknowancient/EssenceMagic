@@ -3,6 +3,7 @@ package com.idk.essencemagic.items;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.skills.Skill;
+import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -18,6 +19,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class Item {
 
@@ -138,6 +140,7 @@ public class Item {
                     itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
                             new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
+                    Util.consoleOuts("using add method");
                 }
                 //multiply A*(1+a+b+c) usually smaller, second highest
                 if(getAttributeType(s, ci) == 1) {

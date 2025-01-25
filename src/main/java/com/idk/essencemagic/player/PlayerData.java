@@ -9,18 +9,19 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class PlayerData implements ManaHandler {
 
     public static final Map<String, PlayerData> dataMap = new HashMap<>();
     public static final String[] dataName = {
             "mana-level", "mana-recovery-speed"
     };
-    @Getter private final String playerName;
-    @Getter private final String playerUUID;
-    @Setter @Getter private int manaLevel;
-    @Setter @Getter private double mana;
-    @Setter @Getter private double maxMana;
-    @Setter @Getter private double manaRecoverySpeed;
+    private final String playerName;
+    private final String playerUUID;
+    @Setter private int manaLevel;
+    @Setter private double mana;
+    @Setter private double maxMana;
+    @Setter private double manaRecoverySpeed;
 
     public PlayerData(Player player) {
         ConfigFile.ConfigName cp = ConfigFile.ConfigName.PLAYER_DATA;

@@ -96,15 +96,6 @@ public class Menu {
 
             if(s.getSingleSkills().isEmpty()) {
                 lore.add(cm.outString("skill.no-skill"));
-            } else if(s.getSingleSkills().size() == 1) {
-                SingleSkill ss = s.getSingleSkills().get(s.getName());
-                lore.add("&f" + ss.getName() + "&f:");
-                lore.add("  &7Type: " + ss.getType().name);
-                lore.add("  &7Targets: " + ss.getTargets());
-                lore.add("  &7Requirements: " + ss.getRequirements());
-                lore.add("  &7Cooldown: " + ss.getCooldown());
-                lore.add("  &7Probability: " + ss.getProbability());
-                lore.add("  &7Costs: " + ss.getCosts());
             } else {
                 for(SingleSkill ss : s.getSingleSkills().values()) {
                     lore.add("&f" + ss.getName() + "&f:");

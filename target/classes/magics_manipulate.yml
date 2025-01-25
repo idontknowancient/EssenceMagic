@@ -1,0 +1,11 @@
+Element:
+  fire:
+    fire_beam:
+      name: "&c火焰光束"
+      min_tier_level: E,0
+      damage:
+
+Reconcile:
+
+
+Manipulate:

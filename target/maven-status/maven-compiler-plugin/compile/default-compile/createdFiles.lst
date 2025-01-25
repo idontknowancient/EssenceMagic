@@ -19,6 +19,8 @@ com\idk\essencemagic\utils\permissions\SystemPermission.class
 com\idk\essencemagic\player\PlayerData.class
 com\idk\essencemagic\commands\essence_sub\GodCommand.class
 com\idk\essencemagic\commands\essence_sub\ElementCommand.class
+com\idk\essencemagic\magics\Magic$MagicType.class
+com\idk\essencemagic\magics\Magic.class
 com\idk\essencemagic\damage\DamageCalculator.class
 com\idk\essencemagic\commands\essence_sub\skill_sub\CastCommand.class
 com\idk\essencemagic\player\ManaHandler.class
@@ -42,7 +44,7 @@ com\idk\essencemagic\elements\ElementDamage.class
 com\idk\essencemagic\utils\Util.class
 com\idk\essencemagic\utils\messages\SystemMessage.class
 com\idk\essencemagic\listeners\MenuListener.class
-com\idk\essencemagic\skills\SkillHandler$1.class
+com\idk\essencemagic\magics\MagicElement.class
 com\idk\essencemagic\commands\essence_sub\ReloadCommand.class
 com\idk\essencemagic\utils\messages\Message.class
 com\idk\essencemagic\skills\SingleSkill.class
