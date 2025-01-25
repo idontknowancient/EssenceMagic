@@ -4,6 +4,7 @@ com\idk\essencemagic\items\ItemHandler.class
 com\idk\essencemagic\elements\ElementHandler.class
 com\idk\essencemagic\skills\SkillType.class
 com\idk\essencemagic\player\ManaHandler$2.class
+com\idk\essencemagic\skills\SkillHandler$Cooldown.class
 com\idk\essencemagic\commands\essence_sub\item_sub\MenuCommand.class
 com\idk\essencemagic\skills\singleSkills\Shoot.class
 com\idk\essencemagic\commands\essence_sub\MobCommand.class
@@ -30,7 +31,6 @@ com\idk\essencemagic\utils\permissions\Permission.class
 com\idk\essencemagic\utils\Register.class
 com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholder.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
-com\idk\essencemagic\skills\SingleSkillOld.class
 com\idk\essencemagic\commands\EssenceCommand.class
 com\idk\essencemagic\EssenceMagic.class
 com\idk\essencemagic\player\PlayerDataHandler.class

@@ -14,12 +14,18 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Set;
+import java.util.*;
+
 
 public class SkillHandler implements Listener {
 
+    // player singleSkill timeMillis
+    private record Cooldown(Player player, SingleSkill singleSkill) {};
+    private static final Map<Cooldown, Long> cooldownMap = new HashMap<>();
+
     public static void initialize() {
         Skill.skills.clear();
+        cooldownMap.clear();
         setSkills();
     }
 
@@ -61,14 +67,28 @@ public class SkillHandler implements Listener {
     }
 
     public static void handleSkill(LivingEntity caster, Skill skill) {
+        boolean success = true;
+
         for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
             if(!checkRequirements(caster, singleSkill)) {
                 SystemMessage.SKILL_REQUIREMENT_NOT_SATISFIED.send(caster);
                 return;
             }
 
+            if(checkInCooldown(caster, singleSkill)) {
+                SystemMessage.SKILL_IN_COOLDOWN.send(caster);
+                return;
+            }
+
+            // probability counts non-player entities
+            if(!checkProbability(singleSkill)) {
+                SystemMessage.SKILL_ACTIVATION_FAILED.send(caster);
+                success = false;
+            }
+
+            executeCosts(caster, singleSkill, success);
+            if(!success) return;
             handleSingleSkill(caster, singleSkill);
-            executeCosts(caster, singleSkill);
         }
     }
 
@@ -122,19 +142,53 @@ public class SkillHandler implements Listener {
         return true;
     }
 
-    private static void executeCosts(LivingEntity caster, SingleSkill singleSkill) {
+    private static boolean checkInCooldown(LivingEntity caster, SingleSkill singleSkill) {
+        if(singleSkill == null || singleSkill.getCooldown() == 0 || !(caster instanceof Player player))
+            return false;
+
+        Cooldown check = new Cooldown(player, singleSkill);
+        if(cooldownMap.containsKey(check)) {
+            long timeElapsed = System.currentTimeMillis() - cooldownMap.get(check);
+            // millisecond & second
+            if(timeElapsed > singleSkill.getCooldown() * 1000) {
+                cooldownMap.remove(check);
+                return false;
+            } else return true;
+        }
+
+        return false;
+    }
+
+    private static boolean checkProbability(SingleSkill singleSkill) {
+        if(singleSkill == null || singleSkill.getProbability() == 1)
+            return true;
+        Random random = new Random();
+        // between 0 and 1
+        double probability = random.nextDouble();
+
+        return probability < singleSkill.getProbability();
+    }
+
+    private static void executeCosts(LivingEntity caster, SingleSkill singleSkill, boolean success) {
         if(singleSkill.getCosts() == null ||singleSkill.getCosts().isEmpty() || !(caster instanceof Player player)) return;
 
         for(String cost : singleSkill.getCosts()) {
             String item = cost.substring(0, cost.indexOf(":")).trim();
             double amount = Double.parseDouble(cost.substring(cost.indexOf(":") + 1).trim());
             if(item.equalsIgnoreCase("mana"))
-                PlayerData.dataMap.get(player.getName()).setMana(
-                        PlayerData.dataMap.get(player.getName()).getMana() - amount);
+                // consume mana depending on the setting
+                if(success || ConfigFile.ConfigName.MANA.getBoolean("consume-while-skill-fail"))
+                    PlayerData.dataMap.get(player.getName()).setMana(
+                            PlayerData.dataMap.get(player.getName()).getMana() - amount);
         }
     }
 
     private static void handleSingleSkill(LivingEntity caster, SingleSkill singleSkill) {
         singleSkill.perform(caster);
+
+        //add to cooldown map
+        if(singleSkill.getCooldown() > 0 && caster instanceof Player player) {
+            cooldownMap.put(new Cooldown(player, singleSkill), System.currentTimeMillis());
+        }
     }
 }

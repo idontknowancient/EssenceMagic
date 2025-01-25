@@ -24,6 +24,8 @@ public enum SystemMessage implements Message {
     SKILL_CASTED("skill-casted"),
     SKILL_NOT_FOUND("skill-not-found"),
     SKILL_REQUIREMENT_NOT_SATISFIED("skill-requirement-not-satisfied"),
+    SKILL_IN_COOLDOWN("skill-in-cooldown"),
+    SKILL_ACTIVATION_FAILED("skill-activation-failed"),
     PLAYER_NOT_EXIST("player-not-exist"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),
     ;

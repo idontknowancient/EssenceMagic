@@ -4,7 +4,6 @@ import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.skills.SingleSkill;
-import com.idk.essencemagic.skills.SingleSkillOld;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
