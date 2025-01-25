@@ -113,6 +113,7 @@ public class SkillHandler implements Listener {
                         if(!argument_translated.equalsIgnoreCase(condition))
                             break;
                         else return false;
+
                 }
             }
         }
