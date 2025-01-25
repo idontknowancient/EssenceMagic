@@ -44,7 +44,7 @@ public class CastCommand extends SubCommand {
         }
         for(String s : Skill.skills.keySet()) {
             if(args[2].equalsIgnoreCase(s)) {
-                SkillHandler.handleSkill(p, s);
+                SkillHandler.handleSkill(p, Skill.skills.get(s));
                 SystemMessage.SKILL_CASTED.send(p, Skill.skills.get(s));
                 return;
             }

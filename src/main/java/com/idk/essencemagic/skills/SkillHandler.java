@@ -4,7 +4,6 @@ import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.utils.configs.ConfigFile;
-import com.idk.essencemagic.utils.messages.Message;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -14,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import java.util.Set;
 
@@ -27,8 +25,8 @@ public class SkillHandler implements Listener {
 
     private static void setSkills() {
         Set<String> skillSet = ConfigFile.ConfigName.SKILLS.getConfig().getKeys(false);
-        for(String s : skillSet) {
-            Skill.skills.put(s, new Skill(s));
+        for(String skillName : skillSet) {
+            Skill.skills.put(skillName, new Skill(skillName));
         }
     }
 
@@ -38,11 +36,12 @@ public class SkillHandler implements Listener {
         Action action = e.getAction();
         boolean left_click = action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK);
         boolean right_click = action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK);
+
         ItemStack itemStack = e.getItem();
-        if(!ItemHandler.isCustomItem(itemStack)) return;
+        if(itemStack == null || !ItemHandler.isCustomItem(itemStack)) return;
         Item item = ItemHandler.getCorrespondingItem(itemStack);
-        assert item != null;
-        if(item.getSkillList().isEmpty()) return;
+        if(item == null || item.getSkillList().isEmpty()) return;
+
         for(Skill skill : item.getSkillList()) {
             ClickType trigger = skill.getTrigger();
             if(trigger.equals(ClickType.LEFT_CLICK))
@@ -57,23 +56,26 @@ public class SkillHandler implements Listener {
             if(trigger.equals(ClickType.SHIFT_RIGHT_CLICK))
                 if(!(right_click && player.isSneaking()))
                     return;
-            handleSkill(player, skill.getName());
+            handleSkill(player, skill);
         }
     }
 
-    public static void handleSkill(LivingEntity caster, String skillName) {
-        for(SingleSkill singleSkill : Skill.skills.get(skillName).getSingleSkills().values()) {
-            if(checkRequirements(caster, singleSkill)) {
-                handleSingleSkill(caster, singleSkill);
-                executeCosts(caster, singleSkill);
-            } else SystemMessage.SKILL_REQUIREMENT_NOT_SATISFIED.send(caster);
+    public static void handleSkill(LivingEntity caster, Skill skill) {
+        for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
+            if(!checkRequirements(caster, singleSkill)) {
+                SystemMessage.SKILL_REQUIREMENT_NOT_SATISFIED.send(caster);
+                return;
+            }
+
+            handleSingleSkill(caster, singleSkill);
+            executeCosts(caster, singleSkill);
         }
     }
 
     private static boolean checkRequirements(LivingEntity caster, SingleSkill singleSkill) {
-        assert singleSkill.getRequirements() != null;
-        if(singleSkill.getRequirements().isEmpty() || !(caster instanceof Player player))
+        if(singleSkill == null || singleSkill.getRequirements().isEmpty() || !(caster instanceof Player player))
             return true;
+
         String[] operators = {">=", ">", "<=", "<", "==", "!="};
 
         /* satisfy all requirements */
@@ -121,8 +123,7 @@ public class SkillHandler implements Listener {
     }
 
     private static void executeCosts(LivingEntity caster, SingleSkill singleSkill) {
-        assert singleSkill.getCosts() != null;
-        if(singleSkill.getCosts().isEmpty() || !(caster instanceof Player player)) return;
+        if(singleSkill.getCosts() == null ||singleSkill.getCosts().isEmpty() || !(caster instanceof Player player)) return;
 
         for(String cost : singleSkill.getCosts()) {
             String item = cost.substring(0, cost.indexOf(":")).trim();
@@ -134,29 +135,6 @@ public class SkillHandler implements Listener {
     }
 
     private static void handleSingleSkill(LivingEntity caster, SingleSkill singleSkill) {
-        SkillType type = singleSkill.getType();
-        if(type.equals(SkillType.SHOOT)) {
-            shoot(caster, singleSkill);
-        } else if(type.equals(SkillType.CUSTOM)) {
-            custom(caster, singleSkill);
-        }
-    }
-
-    private static void shoot(LivingEntity caster, SingleSkill singleSkill) {
-        String projectile = singleSkill.getProjectile();
-        final Vector velocity = caster.getEyeLocation().getDirection().normalize().multiply(singleSkill.getVelocity());
-        if(projectile.equalsIgnoreCase("snowball")) {
-            Snowball spawned = caster.launchProjectile(Snowball.class);
-            spawned.setVelocity(velocity);
-        } else if(projectile.equalsIgnoreCase("fireball")) {
-            Fireball spawned = caster.getWorld().spawn(caster.getEyeLocation(), Fireball.class);
-            spawned.setVelocity(velocity);
-            spawned.setYield((float) singleSkill.getPower());
-            spawned.setIsIncendiary(singleSkill.isIncendiary());
-        }
-    }
-
-    private static void custom(LivingEntity caster, SingleSkill singleSkill) {
-
+        singleSkill.perform(caster);
     }
 }

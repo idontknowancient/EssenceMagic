@@ -4,6 +4,7 @@ import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.skills.SingleSkill;
+import com.idk.essencemagic.skills.SingleSkillOld;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
@@ -87,24 +88,24 @@ public class Menu {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
         Inventory skillMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("skill.size"), cm.outString("skill.title"));
 
-        for(Skill s : Skill.skills.values()) {
+        for(Skill skill : Skill.skills.values()) {
             ItemStack item = new ItemStack(Material.valueOf(cm.getString("skill.item").toUpperCase()));
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(s.getDisplayName());
+            meta.setDisplayName(skill.getDisplayName());
             List<String> lore = new ArrayList<>();
-            lore.add("&7Trigger: " + s.getTrigger().name);
+            lore.add("&7Trigger: " + skill.getTrigger().name);
 
-            if(s.getSingleSkills().isEmpty()) {
+            if(skill.getSingleSkills().isEmpty()) {
                 lore.add(cm.outString("skill.no-skill"));
             } else {
-                for(SingleSkill ss : s.getSingleSkills().values()) {
-                    lore.add("&f" + ss.getName() + "&f:");
-                    lore.add("  &7Type: " + ss.getType().name);
-                    lore.add("  &7Targets: " + ss.getTargets());
-                    lore.add("  &7Requirements: " + ss.getRequirements());
-                    lore.add("  &7Cooldown: " + ss.getCooldown());
-                    lore.add("  &7Probability: " + ss.getProbability());
-                    lore.add("  &7Costs: " + ss.getCosts());
+                for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
+                    lore.add("&f" + singleSkill.getName() + "&f:");
+                    lore.add("  &7Type: " + singleSkill.getSkillType().name);
+                    lore.add("  &7Targets: " + singleSkill.getTargets());
+                    lore.add("  &7Requirements: " + singleSkill.getRequirements());
+                    lore.add("  &7Cooldown: " + singleSkill.getCooldown());
+                    lore.add("  &7Probability: " + singleSkill.getProbability());
+                    lore.add("  &7Costs: " + singleSkill.getCosts());
                 }
             }
             lore.replaceAll(Util::colorize);
