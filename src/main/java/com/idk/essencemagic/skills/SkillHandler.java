@@ -51,18 +51,18 @@ public class SkillHandler implements Listener {
         if(item == null || item.getSkillList().isEmpty()) return;
 
         for(Skill skill : item.getSkillList()) {
-            Trigger trigger = skill.getTrigger();
+            List<Trigger> trigger = skill.getTriggers();
             // one entity
-            if(trigger.equals(Trigger.LEFT_CLICK))
+            if(trigger.contains(Trigger.LEFT_CLICK))
                 if(left_click && !player.isSneaking())
                     handleSkill(player, skill);
-            if(trigger.equals(Trigger.SHIFT_LEFT_CLICK))
+            if(trigger.contains(Trigger.SHIFT_LEFT_CLICK))
                 if(left_click && player.isSneaking())
                     handleSkill(player, skill);
-            if(trigger.equals(Trigger.RIGHT_CLICK))
+            if(trigger.contains(Trigger.RIGHT_CLICK))
                 if(right_click && !player.isSneaking())
                     handleSkill(player, skill);
-            if(trigger.equals(Trigger.SHIFT_RIGHT_CLICK))
+            if(trigger.contains(Trigger.SHIFT_RIGHT_CLICK))
                 if(right_click && player.isSneaking())
                     handleSkill(player, skill);
         }
@@ -81,9 +81,9 @@ public class SkillHandler implements Listener {
         if(item == null || item.getSkillList().isEmpty()) return;
 
         for(Skill skill : item.getSkillList()) {
-            Trigger trigger = skill.getTrigger();
+            List<Trigger> triggers = skill.getTriggers();
             // two entities
-            if(trigger.equals(Trigger.ATTACK))
+            if(triggers.contains(Trigger.ATTACK))
                 handleSkill(caster, object, skill);
         }
     }
@@ -91,7 +91,7 @@ public class SkillHandler implements Listener {
     // use when event involves one entity
     public static void handleSkill(LivingEntity caster, Skill skill) {
         for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
-            if(!singleSkillPreHandle(caster, singleSkill)) return;
+            if(!singleSkillPreHandle(caster, singleSkill)) continue;
 
             for(LivingEntity target : getTargets(caster, singleSkill)) {
                 handleSingleSkill(target, singleSkill);
@@ -102,7 +102,7 @@ public class SkillHandler implements Listener {
     // use when event involves two entities
     public static void handleSkill(LivingEntity caster, LivingEntity object, Skill skill) {
         for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
-            if(!singleSkillPreHandle(caster, singleSkill)) return;
+            if(!singleSkillPreHandle(caster, singleSkill)) continue;
 
             for(LivingEntity target : getTargets(caster, object, singleSkill)) {
                 handleSingleSkill(target, singleSkill);

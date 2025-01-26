@@ -30,6 +30,30 @@ flame_sword:
       slot: hand
   skills:
     - fire_ball
+floating_apple:
+  display_name: "#bfc9ca懸浮之果"
+  type: golden_apple
+  # item lore is not necessary
+  lore:
+    - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
+    - " &7沒有介紹"
+    - "&8|&m           &7<&f物品資訊&7>&8&m           &r&8|"
+    - " &d元素&7: &7無"
+    - " &b附魔&7:"
+    - "   &8- &7耐久 III"
+    - " &e技能&7:"
+    - "   #bfc9ca懸浮"
+  # if the element is not provided, the system will use 'none' instead
+  element: wood
+  # enchantments are not necessary
+  enchantments:
+    durability: 3
+  # options are not necessary
+  options:
+    hide_enchants: true
+    hide_attributes: false
+  skills:
+    - floating
 test_helmet:
   display_name: "&2測試用頭盔"
   type: iron_helmet

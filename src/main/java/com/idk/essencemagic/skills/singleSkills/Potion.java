@@ -45,24 +45,28 @@ public class Potion extends SingleSkill {
             effect = cs.getString(path + ".effect");
         else
             effect = "absorption";
+        getInfo().add("  &7Effect: " + effect);
 
         // set potion duration (default to 20 ticks)
         if(!cs.isInteger(path + ".duration") || cs.getInteger(path + ".duration") <= 0)
             duration = 20;
         else
             duration = cs.getInteger(path + ".duration");
+        getInfo().add("  &7Duration: " + duration);
 
         // set potion level (default to 0 / level 1)
         if(!cs.isInteger(path + ".level") || cs.getInteger(path + ".level") < 0)
             level = 0;
         else
             level = cs.getInteger(path + ".level");
+        getInfo().add("  &7Level: " + level);
 
         // set potion particles (default to true)
         if(cs.isBoolean(path + ".particles"))
             particles = cs.getBoolean(path + ".particles");
         else
             particles = true;
+        getInfo().add("  &7Particles: " + particles);
     }
 
     @Override

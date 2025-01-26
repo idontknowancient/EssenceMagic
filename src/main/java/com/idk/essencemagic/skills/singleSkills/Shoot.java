@@ -41,6 +41,7 @@ public class Shoot extends SingleSkill {
             projectile = cs.getString(path + ".projectile");
         else
             projectile = "snowball";
+        getInfo().add("  &7Projectile: " + projectile);
 
         // set shoot velocity (default to 1)
         if(!cs.isDouble(path + ".velocity") || cs.getDouble(path + ".velocity") < 0)
@@ -50,6 +51,7 @@ public class Shoot extends SingleSkill {
                 velocity = cs.getInteger(path + ".velocity");
         else
             velocity = cs.getDouble(path + ".velocity");
+        getInfo().add("  &7Velocity: " + velocity);
 
         // set shoot power (default to 1)
         if(!cs.isDouble(path + ".power") || cs.getDouble(path + ".power") < 0)
@@ -59,12 +61,14 @@ public class Shoot extends SingleSkill {
                 power = cs.getInteger(path + ".power");
         else
             power = cs.getDouble(path + ".power");
+        getInfo().add("  &7Power: " + power);
 
         // set shoot incendiary (default to true)
         if(cs.isBoolean(path + ".incendiary"))
             incendiary = cs.getBoolean(path + ".incendiary");
         else
             incendiary = true;
+        getInfo().add("  &7Incendiary: " + incendiary);
     }
 
     @Override

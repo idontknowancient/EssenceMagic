@@ -2,8 +2,9 @@ package com.idk.essencemagic.menus;
 
 import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.menus.holders.CancelHolder;
+import com.idk.essencemagic.menus.holders.DetailInfoHolder;
 import com.idk.essencemagic.mobs.Mob;
-import com.idk.essencemagic.skills.SingleSkill;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
@@ -20,7 +21,7 @@ public class Menu {
 
     public static Inventory getElementMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory elementMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("element.size"), cm.outString("element.title"));
+        Inventory elementMenu = Bukkit.createInventory(new CancelHolder(), cm.getInteger("element.size"), cm.outString("element.title"));
         for(Element e : Element.elements.values())
             elementMenu.setItem(e.getSlot(), e.getSymbolItem());
 
@@ -36,7 +37,7 @@ public class Menu {
 
     public static Inventory getItemMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory itemMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("item.size"), cm.outString("item.title"));
+        Inventory itemMenu = Bukkit.createInventory(new CancelHolder(), cm.getInteger("item.size"), cm.outString("item.title"));
         for(Item i : Item.items.values())
             itemMenu.addItem(i.getItem());
         if(cm.isString("item.occupation")) {
@@ -50,7 +51,7 @@ public class Menu {
 
     public static Inventory getMobMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory mobMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("mob.size"), cm.outString("mob.title"));
+        Inventory mobMenu = Bukkit.createInventory(new CancelHolder(), cm.getInteger("mob.size"), cm.outString("mob.title"));
 
         for(Mob m : Mob.mobs.values()) {
             ItemStack item = new ItemStack(
@@ -85,30 +86,14 @@ public class Menu {
 
     public static Inventory getSkillMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory skillMenu = Bukkit.createInventory(new CustomHolder(), cm.getInteger("skill.size"), cm.outString("skill.title"));
+        Inventory skillMenu = Bukkit.createInventory(new DetailInfoHolder(), cm.getInteger("skill.size"), cm.outString("skill.title"));
 
         for(Skill skill : Skill.skills.values()) {
             ItemStack item = new ItemStack(Material.valueOf(cm.getString("skill.item").toUpperCase()));
             ItemMeta meta = item.getItemMeta();
+            if(meta == null) return skillMenu;
             meta.setDisplayName(skill.getDisplayName());
-            List<String> lore = new ArrayList<>();
-            lore.add("&7Trigger: " + skill.getTrigger().name);
-
-            if(skill.getSingleSkills().isEmpty()) {
-                lore.add(cm.outString("skill.no-skill"));
-            } else {
-                for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
-                    lore.add("&f" + singleSkill.getName() + "&f:");
-                    lore.add("  &7Type: " + singleSkill.getSkillType().name);
-                    lore.add("  &7Targets: " + singleSkill.getTargets());
-                    lore.add("  &7Requirements: " + singleSkill.getRequirements());
-                    lore.add("  &7Cooldown: " + singleSkill.getCooldown());
-                    lore.add("  &7Probability: " + singleSkill.getProbability());
-                    lore.add("  &7Costs: " + singleSkill.getCosts());
-                }
-            }
-            lore.replaceAll(Util::colorize);
-            meta.setLore(lore);
+            meta.setLore(skill.getInfo());
             item.setItemMeta(meta);
             skillMenu.addItem(item);
         }
@@ -119,6 +104,7 @@ public class Menu {
                         i, new ItemStack(Material.valueOf(cm.getString("skill.occupation").toUpperCase())));
             }
         }
+
         return skillMenu;
     }
 }

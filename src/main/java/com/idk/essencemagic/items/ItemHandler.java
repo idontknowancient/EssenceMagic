@@ -3,6 +3,7 @@ package com.idk.essencemagic.items;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -32,6 +33,7 @@ public class ItemHandler {
     }
 
     //return the corresponding item
+    @Nullable
     public static Item getCorrespondingItem(ItemStack itemStack) {
         for(Item i : Item.items.values()) {
             if(i.getItem().getItemMeta().getPersistentDataContainer()
@@ -43,6 +45,7 @@ public class ItemHandler {
     }
 
     //return the corresponding item in an entity's main hand
+    @Nullable
     public static Item getCorrespondingItem(LivingEntity entity) {
         for(Item i : Item.items.values()) {
             if(i.getItem().getItemMeta().getPersistentDataContainer()

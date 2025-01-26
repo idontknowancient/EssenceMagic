@@ -7,10 +7,11 @@ com\idk\essencemagic\skills\SkillType.class
 com\idk\essencemagic\player\ManaHandler$2.class
 com\idk\essencemagic\skills\SkillHandler$Cooldown.class
 com\idk\essencemagic\commands\essence_sub\item_sub\MenuCommand.class
+com\idk\essencemagic\menus\holders\CancelHolder.class
 com\idk\essencemagic\skills\singleSkills\Shoot.class
 com\idk\essencemagic\commands\essence_sub\MobCommand.class
+com\idk\essencemagic\menus\holders\DetailInfoHolder.class
 com\idk\essencemagic\menus\Menu.class
-com\idk\essencemagic\menus\CustomHolder.class
 com\idk\essencemagic\utils\configs\EssenceConfig.class
 com\idk\essencemagic\commands\essence_sub\ItemCommand.class
 com\idk\essencemagic\commands\essence_sub\mob_sub\SpawnCommand.class

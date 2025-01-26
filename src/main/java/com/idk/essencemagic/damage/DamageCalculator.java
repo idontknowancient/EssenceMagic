@@ -21,8 +21,8 @@ public class DamageCalculator implements Listener {
 
         double magnification = 1L;
 
-        if(ItemHandler.isHoldingCustomItem(attacker)) {
-            Item itemInMainHand = ItemHandler.getCorrespondingItem(attacker);
+        Item itemInMainHand = ItemHandler.getCorrespondingItem(attacker);
+        if(itemInMainHand != null) {
             //armor - singular element damage
             magnification *= ElementDamage.getArmorElementMagnification(itemInMainHand.getElement(), entity);
             if(ConfigFile.ConfigName.CONFIG.getBoolean("extra-damage-by-mob-element") &&
