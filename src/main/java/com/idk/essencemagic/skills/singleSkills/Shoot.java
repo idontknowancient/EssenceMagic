@@ -36,13 +36,13 @@ public class Shoot extends SingleSkill {
     protected void skillDetailsSetting(String path) {
         ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS;
 
-        //set shoot projectile (default to snowball)
+        // set shoot projectile (default to snowball)
         if(cs.isString(path + ".projectile"))
             projectile = cs.getString(path + ".projectile");
         else
             projectile = "snowball";
 
-        //set shoot velocity (default to 1)
+        // set shoot velocity (default to 1)
         if(!cs.isDouble(path + ".velocity") || cs.getDouble(path + ".velocity") < 0)
             if(!cs.isInteger(path + ".velocity") || cs.getInteger(path + ".velocity") < 0)
                 velocity = 1;
@@ -51,7 +51,7 @@ public class Shoot extends SingleSkill {
         else
             velocity = cs.getDouble(path + ".velocity");
 
-        //set shoot power (default to 1)
+        // set shoot power (default to 1)
         if(!cs.isDouble(path + ".power") || cs.getDouble(path + ".power") < 0)
             if(!cs.isInteger(path + ".power") || cs.getInteger(path + ".power") < 0)
                 power = 1;
@@ -60,7 +60,7 @@ public class Shoot extends SingleSkill {
         else
             power = cs.getDouble(path + ".power");
 
-        //set shoot incendiary (default to true)
+        // set shoot incendiary (default to true)
         if(cs.isBoolean(path + ".incendiary"))
             incendiary = cs.getBoolean(path + ".incendiary");
         else
@@ -73,14 +73,14 @@ public class Shoot extends SingleSkill {
     }
 
     @Override
-    public void perform(LivingEntity caster) {
-        final Vector velocity = caster.getEyeLocation().getDirection().normalize().multiply(getVelocity());
+    public void perform(LivingEntity target) {
+        final Vector velocity = target.getEyeLocation().getDirection().normalize().multiply(getVelocity());
 
          if(getProjectile().equalsIgnoreCase("snowball")) {
-            Snowball spawned = caster.launchProjectile(Snowball.class);
+            Snowball spawned = target.launchProjectile(Snowball.class);
             spawned.setVelocity(velocity);
         } else if(getProjectile().equalsIgnoreCase("fireball")) {
-            Fireball spawned = caster.getWorld().spawn(caster.getEyeLocation(), Fireball.class);
+            Fireball spawned = target.getWorld().spawn(target.getEyeLocation(), Fireball.class);
             spawned.setVelocity(velocity);
             spawned.setYield((float) getPower());
             spawned.setIsIncendiary(isIncendiary());

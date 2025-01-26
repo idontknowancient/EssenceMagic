@@ -11,6 +11,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -36,60 +37,99 @@ public class SkillHandler implements Listener {
         }
     }
 
+    // handle if the trigger is clicking
     @EventHandler
-    public void onPlayerClick(PlayerInteractEvent e) {
-        Player player = e.getPlayer();
-        Action action = e.getAction();
+    public void onPlayerClick(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        Action action = event.getAction();
         boolean left_click = action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK);
         boolean right_click = action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK);
 
-        ItemStack itemStack = e.getItem();
+        ItemStack itemStack = event.getItem();
         if(itemStack == null || !ItemHandler.isCustomItem(itemStack)) return;
         Item item = ItemHandler.getCorrespondingItem(itemStack);
         if(item == null || item.getSkillList().isEmpty()) return;
 
         for(Skill skill : item.getSkillList()) {
-            ClickType trigger = skill.getTrigger();
-            if(trigger.equals(ClickType.LEFT_CLICK))
-                if(!(left_click && !player.isSneaking()))
-                    return;
-            if(trigger.equals(ClickType.SHIFT_LEFT_CLICK))
-                if(!(left_click && player.isSneaking()))
-                    return;
-            if(trigger.equals(ClickType.RIGHT_CLICK))
-                if(!(right_click && !player.isSneaking()))
-                    return;
-            if(trigger.equals(ClickType.SHIFT_RIGHT_CLICK))
-                if(!(right_click && player.isSneaking()))
-                    return;
-            handleSkill(player, skill);
+            Trigger trigger = skill.getTrigger();
+            // one entity
+            if(trigger.equals(Trigger.LEFT_CLICK))
+                if(left_click && !player.isSneaking())
+                    handleSkill(player, skill);
+            if(trigger.equals(Trigger.SHIFT_LEFT_CLICK))
+                if(left_click && player.isSneaking())
+                    handleSkill(player, skill);
+            if(trigger.equals(Trigger.RIGHT_CLICK))
+                if(right_click && !player.isSneaking())
+                    handleSkill(player, skill);
+            if(trigger.equals(Trigger.SHIFT_RIGHT_CLICK))
+                if(right_click && player.isSneaking())
+                    handleSkill(player, skill);
         }
     }
 
-    public static void handleSkill(LivingEntity caster, Skill skill) {
-        boolean success = true;
+    // handle if the trigger is attack
+    @EventHandler
+    public void onEntityAttack(EntityDamageByEntityEvent event) {
+        LivingEntity caster = (LivingEntity) event.getDamager();
+        LivingEntity object = (LivingEntity) event.getEntity();
 
-        for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
-            if(!checkRequirements(caster, singleSkill)) {
-                SystemMessage.SKILL_REQUIREMENT_NOT_SATISFIED.send(caster);
-                return;
-            }
+        if(caster.getEquipment() == null) return;
+        ItemStack itemStack = caster.getEquipment().getItemInMainHand();
+        if(!ItemHandler.isCustomItem(itemStack)) return;
+        Item item = ItemHandler.getCorrespondingItem(itemStack);
+        if(item == null || item.getSkillList().isEmpty()) return;
 
-            if(checkInCooldown(caster, singleSkill)) {
-                SystemMessage.SKILL_IN_COOLDOWN.send(caster);
-                return;
-            }
-
-            // probability counts non-player entities
-            if(!checkProbability(singleSkill)) {
-                SystemMessage.SKILL_ACTIVATION_FAILED.send(caster);
-                success = false;
-            }
-
-            executeCosts(caster, singleSkill, success);
-            if(!success) return;
-            handleSingleSkill(caster, singleSkill);
+        for(Skill skill : item.getSkillList()) {
+            Trigger trigger = skill.getTrigger();
+            // two entities
+            if(trigger.equals(Trigger.ATTACK))
+                handleSkill(caster, object, skill);
         }
+    }
+
+    // use when event involves one entity
+    public static void handleSkill(LivingEntity caster, Skill skill) {
+        for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
+            if(!singleSkillPreHandle(caster, singleSkill)) return;
+
+            for(LivingEntity target : getTargets(caster, singleSkill)) {
+                handleSingleSkill(target, singleSkill);
+            }
+        }
+    }
+
+    // use when event involves two entities
+    public static void handleSkill(LivingEntity caster, LivingEntity object, Skill skill) {
+        for(SingleSkill singleSkill : skill.getSingleSkills().values()) {
+            if(!singleSkillPreHandle(caster, singleSkill)) return;
+
+            for(LivingEntity target : getTargets(caster, object, singleSkill)) {
+                handleSingleSkill(target, singleSkill);
+            }
+        }
+    }
+
+    private static boolean singleSkillPreHandle(LivingEntity caster, SingleSkill singleSkill) {
+        if(!checkRequirements(caster, singleSkill)) {
+            SystemMessage.SKILL_REQUIREMENT_NOT_SATISFIED.send(caster);
+            return false;
+        }
+
+        if(checkInCooldown(caster, singleSkill)) {
+            SystemMessage.SKILL_IN_COOLDOWN.send(caster);
+            return false;
+        }
+
+        boolean success = true;
+        // probability counts non-player entities
+        if(!checkProbability(singleSkill)) {
+            SystemMessage.SKILL_ACTIVATION_FAILED.send(caster);
+            success = false;
+        }
+
+        executeCosts(caster, singleSkill, success);
+        return success;
     }
 
     private static boolean checkRequirements(LivingEntity caster, SingleSkill singleSkill) {
@@ -183,11 +223,39 @@ public class SkillHandler implements Listener {
         }
     }
 
-    private static void handleSingleSkill(LivingEntity caster, SingleSkill singleSkill) {
-        singleSkill.perform(caster);
+    // use when event involves one entity
+    private static List<LivingEntity> getTargets(LivingEntity caster, SingleSkill singleSkill) {
+        List<LivingEntity> targets = new ArrayList<>();
+
+        for(String target : singleSkill.getTargets()) {
+            if(target.equalsIgnoreCase("self"))
+                targets.add(caster);
+        }
+
+        return targets;
+    }
+
+    // use when event involves two entities
+    private static List<LivingEntity> getTargets(LivingEntity caster, LivingEntity object, SingleSkill singleSkill) {
+        List<LivingEntity> targets = new ArrayList<>();
+
+        for(String target : singleSkill.getTargets()) {
+            if(target.equalsIgnoreCase("self"))
+                targets.add(caster);
+            if(target.equalsIgnoreCase("player") && object instanceof Player)
+                targets.add(object);
+            if(target.equalsIgnoreCase("mob") && !(object instanceof Player))
+                targets.add(object);
+        }
+
+        return targets;
+    }
+
+    private static void handleSingleSkill(LivingEntity target, SingleSkill singleSkill) {
+        singleSkill.perform(target);
 
         //add to cooldown map
-        if(singleSkill.getCooldown() > 0 && caster instanceof Player player) {
+        if(singleSkill.getCooldown() > 0 && target instanceof Player player) {
             cooldownMap.put(new Cooldown(player, singleSkill), System.currentTimeMillis());
         }
     }

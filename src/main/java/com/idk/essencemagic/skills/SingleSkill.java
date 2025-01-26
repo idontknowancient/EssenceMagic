@@ -63,9 +63,11 @@ public abstract class SingleSkill {
         else
             probability = cs.getDouble(path + ".probability");
 
-        //set skill targets (default to empty)
+        //set skill targets (default to self)
         if(cs.isList(path + ".targets"))
             targets.addAll(cs.getStringList(path + ".targets"));
+        if(targets.isEmpty())
+            targets.add("self");
 
         //set skill requirements (default to empty)
         if(cs.isList(path + ".requirements"))
@@ -76,9 +78,9 @@ public abstract class SingleSkill {
             costs.addAll(cs.getStringList(path + ".costs"));
     }
 
-    protected abstract void setSkillType();
-
     protected abstract void skillDetailsSetting(String path);
 
-    protected abstract void perform(LivingEntity caster);
+    protected abstract void setSkillType();
+
+    protected abstract void perform(LivingEntity target);
 }

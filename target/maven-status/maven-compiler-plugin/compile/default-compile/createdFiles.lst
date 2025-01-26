@@ -1,5 +1,6 @@
 com\idk\essencemagic\commands\essence_sub\ManaCommand.class
 com\idk\essencemagic\commands\essence_sub\SkillCommand.class
+com\idk\essencemagic\skills\Trigger.class
 com\idk\essencemagic\items\ItemHandler.class
 com\idk\essencemagic\elements\ElementHandler.class
 com\idk\essencemagic\skills\SkillType.class
@@ -9,11 +10,11 @@ com\idk\essencemagic\commands\essence_sub\item_sub\MenuCommand.class
 com\idk\essencemagic\skills\singleSkills\Shoot.class
 com\idk\essencemagic\commands\essence_sub\MobCommand.class
 com\idk\essencemagic\menus\Menu.class
-com\idk\essencemagic\skills\ClickType.class
 com\idk\essencemagic\menus\CustomHolder.class
 com\idk\essencemagic\utils\configs\EssenceConfig.class
 com\idk\essencemagic\commands\essence_sub\ItemCommand.class
 com\idk\essencemagic\commands\essence_sub\mob_sub\SpawnCommand.class
+com\idk\essencemagic\skills\singleSkills\Potion.class
 com\idk\essencemagic\skills\Skill.class
 com\idk\essencemagic\commands\essence_sub\mana_sub\SetCommand.class
 com\idk\essencemagic\elements\Element.class

@@ -1,6 +1,7 @@
 package com.idk.essencemagic.skills;
 
 import com.idk.essencemagic.EssenceMagic;
+import com.idk.essencemagic.skills.singleSkills.Potion;
 import com.idk.essencemagic.skills.singleSkills.Shoot;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class Skill {
 
     private final String name;
 
-    private final ClickType trigger;
+    private final Trigger trigger;
 
     @Nullable private final String displayName;
 
@@ -36,13 +37,13 @@ public class Skill {
         else
             displayName = null;
 
-        trigger = ClickType.valueOf(cs.getString(skillName + ".trigger").toUpperCase());
+        trigger = Trigger.valueOf(cs.getString(skillName + ".trigger").toUpperCase());
 
         if(cs.isConfigurationSection(skillName + ".skills")) {
             // multiple single skills
             for(String singleSkillName : cs.getConfigurationSection(skillName + ".skills").getKeys(false)) {
-                if(cs.isString(skillName + ".skills." + singleSkillName + "type"))
-                    singleSkillType = cs.getString(skillName + ".skills." + singleSkillName + "type");
+                if(cs.isString(skillName + ".skills." + singleSkillName + ".type"))
+                    singleSkillType = cs.getString(skillName + ".skills." + singleSkillName + ".type");
                 else
                     // default skill to shoot
                     singleSkillType = "shoot";
@@ -50,6 +51,8 @@ public class Skill {
                 SkillType skillType = SkillType.valueOf(singleSkillType.toUpperCase());
                 if(skillType.equals(SkillType.SHOOT))
                     singleSkills.put(singleSkillName, new Shoot(skillName, singleSkillName));
+                else if(skillType.equals(SkillType.POTION))
+                    singleSkills.put(singleSkillName, new Potion(skillName, singleSkillName));
             }
         } else {
             // one single skill
@@ -61,6 +64,8 @@ public class Skill {
             SkillType skillType = SkillType.valueOf(singleSkillType.toUpperCase());
             if(skillType.equals(SkillType.SHOOT))
                 singleSkills.put(skillName, new Shoot(skillName));
+            else if(skillType.equals(SkillType.POTION))
+                singleSkills.put(skillName, new Potion(skillName));
         }
     }
 }
