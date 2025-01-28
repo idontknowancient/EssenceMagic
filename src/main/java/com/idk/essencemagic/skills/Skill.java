@@ -3,15 +3,13 @@ package com.idk.essencemagic.skills;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.skills.singleSkills.Potion;
 import com.idk.essencemagic.skills.singleSkills.Shoot;
+import com.idk.essencemagic.skills.singleSkills.Wait;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class Skill {
@@ -27,6 +25,8 @@ public class Skill {
     private final List<Trigger> triggers = new ArrayList<>();
 
     private final Map<String, SingleSkill> singleSkills = new HashMap<>();
+
+    private final List<String> orders = new ArrayList<>();
 
     private final List<String> info = new ArrayList<>();
 
@@ -45,12 +45,12 @@ public class Skill {
             displayName = null;
 
         // set skill triggers (default to right_click)
-        if(cs.isList(skillName + ".trigger")) {
-            for(String trigger : cs.getStringList(skillName + ".trigger")) {
+        if(cs.isList(skillName + ".triggers")) {
+            for(String trigger : cs.getStringList(skillName + ".triggers")) {
                 triggers.add(Trigger.valueOf(trigger.toUpperCase()));
             }
-        } else if(cs.isString(skillName + ".trigger"))
-            triggers.add(Trigger.valueOf(cs.getString(skillName + ".trigger").toUpperCase()));
+        } else if(cs.isString(skillName + ".triggers"))
+            triggers.add(Trigger.valueOf(cs.getString(skillName + ".triggers").toUpperCase()));
         if(triggers.isEmpty())
             triggers.add(Trigger.RIGHT_CLICK);
 
@@ -84,13 +84,36 @@ public class Skill {
                 singleSkills.put(skillName, new Potion(skillName));
         }
 
+        // set activation orders (default to original orders)
+        if(cs.isList(skillName + ".orders")) {
+            int waitCount = 0;
+            for(String order : cs.getStringList(skillName + ".orders")) {
+                if(singleSkills.containsKey(order))
+                    orders.add(order);
+                else if(order.startsWith("wait")) {
+                    ++waitCount;
+                    orders.add(order);
+                    // e.g. - wait 100 (5s)
+                    singleSkills.put("wait" + waitCount,
+                            // e.g. new Wait("wait", "100")
+                            new Wait("wait" + waitCount, order.split(" ")[1]));
+                }
+            }
+        } else if(cs.isString(skillName + ".orders"))
+            if(singleSkills.containsKey(cs.getString(skillName + ".orders")))
+                orders.add(cs.getString(skillName + ".orders"));
+        if(orders.isEmpty())
+            orders.addAll(singleSkills.keySet());
+        info.add("&7Orders: " + orders);
+
         // set info list
-        getInfo().add("&7Trigger: " + getTriggers());
+        getInfo().add("&7Triggers: " + getTriggers());
 
         if(getSingleSkills().isEmpty()) {
             getInfo().add(cm.outString("skill.no-skill"));
         } else {
             for(SingleSkill singleSkill : getSingleSkills().values()) {
+                if(singleSkill.getSkillType().equals(SkillType.WAIT)) continue;
                 getInfo().add("&f" + singleSkill.getName() + ":");
                 getInfo().addAll(singleSkill.getInfo());
             }

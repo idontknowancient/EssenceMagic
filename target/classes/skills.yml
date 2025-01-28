@@ -1,26 +1,57 @@
 fire_ball:
   name: "&c大火球"
-  # necessary
+  trigger:
+    - right_click
+  skills:
+    # single skill
+    fireball:
+      # skill type
+      type: shoot
+      # adjusable attributes are varied by skill type
+      projectile: fireball
+      glowing: false
+      velocity: 1
+      incendiary: false
+      power: 1
+      targets: self
+      requirements:
+        - "%mana% >= 5"
+        - "%player_level% >= 10"
+      # in seconds
+      cooldown: 1
+      probability: 1
+      costs:
+        - "mana:5"
+snow_ball:
+  name: "&f大雪球"
   trigger: right_click
   skills:
     # single skill
-    fire_ball:
+    snowball:
       # skill type
       type: shoot
-      # adjustable attributes are varied by skill type
-      projectile: fireball
-      power: 3
-      duration: 5
+      # adjusable attributes are varied by skill type
+      projectile: snowball
+      name: "&f代替月亮"
+      name-visible: true
+      glowing: true
+      gravity: true
+      velocity: 1
+      item: diamond_block
       targets:
+        - self
       requirements:
-        - "mana >= 5"
-      cooldown: 10
+        - "%mana% >= 5"
+      # in seconds
+      cooldown: 0
       probability: 1
       costs:
-        mana: 5
+        - "mana:5"
 floating:
   name: "#bfc9ca懸浮"
-  trigger: attack # should also can function if array is used
+  trigger:
+    - attack
+    - right_click
   skills:
     # single skill
     levitation:
@@ -33,34 +64,10 @@ floating:
       level: 3
       particles: false
       targets:
-        - self
+        - player
         - mob
-      requirements:
-        - "%mana% >= 10"
+      requirements: "%mana% >= 10"
       # in seconds
       cooldown: 3
       probability: 1
-      costs:
-        - "mana:10"
-snow_ball:
-  name: "&f大雪球"
-  trigger: right_click #should also can function if array is used
-  skills:
-    #single skill
-    snowball:
-      #skill type
-      type: shoot
-      #adjusable attributes are varied by skill type
-      projectile: snowball
-      velocity: 3
-      power: 3
-      duration: 5
-      targets:
-        - none
-      requirements:
-        - "%mana% >= 5"
-        - "%player_level% >= 10"
-      cooldown: 10
-      probability: 1
-      costs:
-        - "mana:5"
+      costs: "mana:10"

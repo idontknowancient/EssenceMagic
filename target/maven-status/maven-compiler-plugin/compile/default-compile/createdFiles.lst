@@ -28,6 +28,7 @@ com\idk\essencemagic\magics\Magic.class
 com\idk\essencemagic\damage\DamageCalculator.class
 com\idk\essencemagic\commands\essence_sub\skill_sub\CastCommand.class
 com\idk\essencemagic\player\ManaHandler.class
+com\idk\essencemagic\skills\singleSkills\Wait.class
 com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholderHandler.class
 com\idk\essencemagic\utils\permissions\Permission.class
 com\idk\essencemagic\utils\Register.class

@@ -1,6 +1,6 @@
 flame_sword:
   display_name: "&c烈焰之劍"
-  type: iron_sword
+  type: wooden_sword
   # item lore is not necessary
   lore:
     - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
@@ -21,15 +21,44 @@ flame_sword:
   options:
     hide_enchants: true
     hide_attributes: false
-  # attributes are not necessary
-  attributes:
-    attack_damage:
-      # add / multiply_continuous / multiply_separate
-      type: add
-      value: 4
-      slot: hand
+      # attributes are not necessary
+      # attributes:
+      # attack_damage:
+      # # add / multiply_continuous / multiply_separate
+      # type: add
+      # value: 7
+      # slot: hand
+      # attack_knockback:
+      # # add / multiply_continuous / multiply_separate
+      # type: add
+      # value: 3
+    # slot: hand
   skills:
     - fire_ball
+snow_sword:
+  display_name: "&f白雪細劍"
+  type: iron_sword
+  # item lore is not necessary
+  lore:
+    - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
+    - " &7No"
+    - "&8|&m           &7<&f物品資訊&7>&8&m           &r&8|"
+    - " &d元素&7: &9水"
+    - " &b附魔&7:"
+    - "   &8- &7耐久 III"
+    - " &e技能&7:"
+    - "   &f大雪球"
+  # if the element is not provided, the system will use 'none' instead
+  element: water
+  # enchantments are not necessary
+  enchantments:
+    durability: 3
+  # options are not necessary
+  options:
+    hide_enchants: true
+    hide_attributes: false
+  skills:
+    - snow_ball
 floating_apple:
   display_name: "#bfc9ca懸浮之果"
   type: golden_apple
@@ -38,7 +67,7 @@ floating_apple:
     - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
     - " &7沒有介紹"
     - "&8|&m           &7<&f物品資訊&7>&8&m           &r&8|"
-    - " &d元素&7: &7無"
+    - " &d元素&7: &2木"
     - " &b附魔&7:"
     - "   &8- &7耐久 III"
     - " &e技能&7:"
@@ -59,7 +88,7 @@ test_helmet:
   type: iron_helmet
   lore:
     - "&fAll for test."
-  element: wood
+  element: water
   enchantments:
     durability: 3
   options:
@@ -79,7 +108,7 @@ test_leggings:
   type: iron_leggings
   lore:
     - "&fAll for test."
-  element: wood
+  element: water
   enchantments:
     durability: 3
   options:
@@ -89,7 +118,7 @@ test_boots:
   type: iron_boots
   lore:
     - "&fAll for test."
-  element: wood
+  element: water
   enchantments:
     durability: 3
   options:

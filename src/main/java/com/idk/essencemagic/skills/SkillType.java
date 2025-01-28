@@ -2,9 +2,10 @@ package com.idk.essencemagic.skills;
 
 public enum SkillType {
 
+    CUSTOM("custom"),
     POTION("potion"),
     SHOOT("shoot"),
-    CUSTOM("custom"),
+    WAIT("wait"),
     ;
 
     public final String name;
