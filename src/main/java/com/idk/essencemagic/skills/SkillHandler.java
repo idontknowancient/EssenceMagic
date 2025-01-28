@@ -55,29 +55,29 @@ public class SkillHandler implements Listener {
         for(Skill skill : item.getSkillList()) {
             List<Trigger> trigger = skill.getTriggers();
             // use array so that we can adjust variable in runnable
-            int[] count = {0}; int[] waitCount = {0};
+            int[] count = {0};
 
             // one entity
             if(trigger.contains(Trigger.LEFT_CLICK))
                 if(left_click && !player.isSneaking())
-                    handleSkill(player, skill, count, waitCount);
+                    handleSkill(player, skill, count);
             if(trigger.contains(Trigger.SHIFT_LEFT_CLICK))
                 if(left_click && player.isSneaking())
-                    handleSkill(player, skill, count, waitCount);
+                    handleSkill(player, skill, count);
             if(trigger.contains(Trigger.RIGHT_CLICK))
                 if(right_click && !player.isSneaking())
-                    handleSkill(player, skill, count, waitCount);
+                    handleSkill(player, skill, count);
             if(trigger.contains(Trigger.SHIFT_RIGHT_CLICK))
                 if(right_click && player.isSneaking())
-                    handleSkill(player, skill, count, waitCount);
+                    handleSkill(player, skill, count);
         }
     }
 
     // handle if the trigger is attack
     @EventHandler
     public void onEntityAttack(EntityDamageByEntityEvent event) {
-        LivingEntity caster = (LivingEntity) event.getDamager();
-        LivingEntity object = (LivingEntity) event.getEntity();
+        if(!(event.getDamager() instanceof LivingEntity caster)) return;
+        if(!(event.getEntity() instanceof LivingEntity object)) return;
 
         if(caster.getEquipment() == null) return;
         ItemStack itemStack = caster.getEquipment().getItemInMainHand();
@@ -89,13 +89,13 @@ public class SkillHandler implements Listener {
             List<Trigger> triggers = skill.getTriggers();
             // two entities
             if(triggers.contains(Trigger.ATTACK))
-                handleSkill(caster, object, skill);
+                handleSkill(caster, object, skill, new int[]{0});
         }
     }
 
     // use when event involves one entity
-    // use array so that we can adjust variable in runnable
-    public static void handleSkill(LivingEntity caster, Skill skill, int[] count, int[] waitCount) {
+    // use int[] so that we can adjust variable in runnable
+    public static void handleSkill(LivingEntity caster, Skill skill, int[] count) {
         // check if the recursion times surpass designated orders
         if(count[0] >= skill.getOrders().size()) return;
 
@@ -103,79 +103,94 @@ public class SkillHandler implements Listener {
         String order = skill.getOrders().get(count[0]);
         SingleSkill singleSkill;
 
-        // handle wait e.g. - wait 20
-        if(order.startsWith("wait")) {
-            // extract the tick
+        // get the single skill in orders
+        if(order.startsWith("wait ")) {
+            // extract the tick e.g. - wait 20
             waitTick = Integer.parseInt(order.split(" ")[1]);
-            ++waitCount[0];
-            // get the existed wait
-            singleSkill = skill.getSingleSkills().get("wait" + waitCount[0]);
+            // get the only existed wait
+            singleSkill = skill.getSingleSkills().get("wait");
         } else {
             waitTick = 0;
             singleSkill = skill.getSingleSkills().get(order);
         }
 
-        if(!singleSkill.getSkillType().equals(SkillType.WAIT) &&
-                !singleSkillPreHandle(caster, singleSkill)) {
+        // move to the next single skill if the current one is not a wait and doesn't satisfy all conditions
+        if(!(singleSkill.getSkillType().equals(SkillType.WAIT) ||
+                singleSkillPreHandle(caster, singleSkill))) {
             ++count[0];
-            handleSkill(caster, skill, count, waitCount);
+            handleSkill(caster, skill, count);
+            return;
         }
 
         // add to cooldown map
-        if(singleSkill.getCooldown() > 0 && caster instanceof Player player) {
+        if(singleSkill.getCooldown() > 0 && caster instanceof Player player)
             cooldownMap.put(new Cooldown(player, singleSkill), System.currentTimeMillis());
-        }
 
+        // handle the single skill
         ++count[0];
         Bukkit.getScheduler().runTaskLater(EssenceMagic.getPlugin(), ()->{
-            if(singleSkill.getSkillType().equals(SkillType.WAIT)) {
-                caster.sendMessage("further(wait)");
-                handleSkill(caster, skill, count, waitCount);
-            } else {
-                caster.sendMessage("test");
+            // if is wait, wait for specific ticks and go to the next single skill
+            if(singleSkill.getSkillType().equals(SkillType.WAIT))
+                handleSkill(caster, skill, count);
+            // if is not wait, directly go to the next single skill (waitTick = 0)
+            else {
+                // with all targets performing a single skill
                 for (LivingEntity target : getTargets(caster, singleSkill)) {
-                    caster.sendMessage("perform: " + singleSkill.getName());
                     singleSkill.perform(target);
                 }
-                handleSkill(caster, skill, count, waitCount);
+                handleSkill(caster, skill, count);
             }
         }, waitTick);
     }
 
     // use when event involves two entities
-    public static void handleSkill(LivingEntity caster, LivingEntity object, Skill skill) {
-        int waitCount = 0;
-        // activate by order
-        for(String order : skill.getOrders()) {
-            SingleSkill singleSkill;
-            // handle wait
-            if(order.startsWith("wait"))
-                singleSkill = skill.getSingleSkills().get("wait" + ++waitCount);
-            else
-                singleSkill = skill.getSingleSkills().get(order);
+    // use int[] so that we can adjust variable in runnable
+    public static void handleSkill(LivingEntity caster, LivingEntity object, Skill skill, int[] count) {
+        // check if the recursion times surpass designated orders
+        if(count[0] >= skill.getOrders().size()) return;
 
-            if(!singleSkill.getSkillType().equals(SkillType.WAIT) &&
-                    !singleSkillPreHandle(caster, singleSkill)) continue;
+        int waitTick;
+        String order = skill.getOrders().get(count[0]);
+        SingleSkill singleSkill;
 
-            for(LivingEntity target : getTargets(caster, object, singleSkill)) {
-                handleSingleSkill(target, singleSkill);
+        // get the single skill in orders
+        if(order.startsWith("wait ")) {
+            // extract the tick e.g. - wait 20
+            waitTick = Integer.parseInt(order.split(" ")[1]);
+            // get the only existed wait
+            singleSkill = skill.getSingleSkills().get("wait");
+        } else {
+            waitTick = 0;
+            singleSkill = skill.getSingleSkills().get(order);
+        }
+
+        // move to the next single skill if the current one is not a wait and doesn't satisfy all conditions
+        if(!(singleSkill.getSkillType().equals(SkillType.WAIT) ||
+                singleSkillPreHandle(caster, singleSkill))) {
+            ++count[0];
+            handleSkill(caster, skill, count);
+            return;
+        }
+
+        // add to cooldown map
+        if(singleSkill.getCooldown() > 0 && caster instanceof Player player)
+            cooldownMap.put(new Cooldown(player, singleSkill), System.currentTimeMillis());
+
+        // handle the single skill
+        ++count[0];
+        Bukkit.getScheduler().runTaskLater(EssenceMagic.getPlugin(), ()->{
+            // if is wait, wait for specific ticks and go to the next single skill
+            if(singleSkill.getSkillType().equals(SkillType.WAIT))
+                handleSkill(caster, skill, count);
+            // if is not wait, directly go to the next single skill (waitTick = 0)
+            else {
+                // with all targets performing a single skill
+                for (LivingEntity target : getTargets(caster, object, singleSkill)) {
+                    singleSkill.perform(target);
+                }
+                handleSkill(caster, skill, count);
             }
-        }
-    }
-
-    private static void handleSingleSkill(LivingEntity target, SingleSkill singleSkill) {
-        singleSkill.perform(target);
-
-        //add to cooldown map
-        if(singleSkill.getCooldown() > 0 && target instanceof Player player) {
-            cooldownMap.put(new Cooldown(player, singleSkill), System.currentTimeMillis());
-        }
-        singleSkill.perform(target);
-
-        //add to cooldown map
-        if(singleSkill.getCooldown() > 0 && target instanceof Player player) {
-            cooldownMap.put(new Cooldown(player, singleSkill), System.currentTimeMillis());
-        }
+        }, waitTick);
     }
 
     private static boolean singleSkillPreHandle(LivingEntity caster, SingleSkill singleSkill) {
@@ -257,8 +272,8 @@ public class SkillHandler implements Listener {
         Cooldown check = new Cooldown(player, singleSkill);
         if(cooldownMap.containsKey(check)) {
             long timeElapsed = System.currentTimeMillis() - cooldownMap.get(check);
-            // millisecond & second
-            if(timeElapsed > singleSkill.getCooldown() * 1000) {
+            // millisecond & tick
+            if(timeElapsed > singleSkill.getCooldown() * 50) {
                 cooldownMap.remove(check);
                 return false;
             } else return true;

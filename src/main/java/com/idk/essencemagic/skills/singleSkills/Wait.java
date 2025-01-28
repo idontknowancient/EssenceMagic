@@ -20,9 +20,9 @@ public class Wait extends SingleSkill {
         setSkillType();
     }
 
-    public Wait(String skillName, @NotNull String tick) {
-        super(skillName, tick);
-        skillDetailsSetting(tick);
+    private Wait(String skillName, @NotNull String singleSkillName) {
+        super(skillName, singleSkillName);
+        skillDetailsSetting(skillName + ".skills." + singleSkillName);
         setSkillType();
     }
 

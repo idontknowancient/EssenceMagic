@@ -22,20 +22,23 @@ public class ItemHandler {
     }
 
     public static boolean isCustomItem(ItemStack i) {
-        return i.hasItemMeta() &&
+        return i.getItemMeta() != null &&
                 i.getItemMeta().getPersistentDataContainer().has(Item.getItemKey());
     }
 
     public static boolean isHoldingCustomItem(LivingEntity entity) {
+        if(entity.getEquipment() == null) return false;
         ItemStack itemInMainHand = entity.getEquipment().getItemInMainHand();
-        return itemInMainHand.hasItemMeta() &&
+        return itemInMainHand.getItemMeta() != null &&
                 itemInMainHand.getItemMeta().getPersistentDataContainer().has(Item.getItemKey());
     }
 
     //return the corresponding item
     @Nullable
     public static Item getCorrespondingItem(ItemStack itemStack) {
+        if(itemStack.getItemMeta() == null) return null;
         for(Item i : Item.items.values()) {
+            if(i.getItem().getItemMeta() == null) continue;
             if(i.getItem().getItemMeta().getPersistentDataContainer()
                     .equals(itemStack.getItemMeta().getPersistentDataContainer())) {
                 return i;
@@ -47,7 +50,10 @@ public class ItemHandler {
     //return the corresponding item in an entity's main hand
     @Nullable
     public static Item getCorrespondingItem(LivingEntity entity) {
+        if(entity.getEquipment() == null ||
+                entity.getEquipment().getItemInMainHand().getItemMeta() == null) return null;
         for(Item i : Item.items.values()) {
+            if(i.getItem().getItemMeta() == null) continue;
             if(i.getItem().getItemMeta().getPersistentDataContainer()
                     .equals(entity.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer())) {
                 return i;

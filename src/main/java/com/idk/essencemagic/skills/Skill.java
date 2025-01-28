@@ -84,19 +84,15 @@ public class Skill {
                 singleSkills.put(skillName, new Potion(skillName));
         }
 
-        // set activation orders (default to original orders)
+        // set activation orders and wait (default to original orders)
         if(cs.isList(skillName + ".orders")) {
-            int waitCount = 0;
             for(String order : cs.getStringList(skillName + ".orders")) {
                 if(singleSkills.containsKey(order))
                     orders.add(order);
                 else if(order.startsWith("wait")) {
-                    ++waitCount;
                     orders.add(order);
-                    // e.g. - wait 100 (5s)
-                    singleSkills.put("wait" + waitCount,
-                            // e.g. new Wait("wait", "100")
-                            new Wait("wait" + waitCount, order.split(" ")[1]));
+                    // e.g. - wait 100 (5s) -> put only one wait to notify there is wait in orders
+                    singleSkills.putIfAbsent("wait", new Wait("wait"));
                 }
             }
         } else if(cs.isString(skillName + ".orders"))
@@ -113,6 +109,7 @@ public class Skill {
             getInfo().add(cm.outString("skill.no-skill"));
         } else {
             for(SingleSkill singleSkill : getSingleSkills().values()) {
+                // ignore wait info
                 if(singleSkill.getSkillType().equals(SkillType.WAIT)) continue;
                 getInfo().add("&f" + singleSkill.getName() + ":");
                 getInfo().addAll(singleSkill.getInfo());
