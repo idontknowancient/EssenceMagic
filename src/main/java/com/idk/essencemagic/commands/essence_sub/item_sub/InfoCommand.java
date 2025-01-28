@@ -24,17 +24,12 @@ public class InfoCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show the custom item info in main hand.";
+        return "Show the custom item info in main hand";
     }
 
     @Override
     public String getSyntax() {
         return "/essence item info";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override

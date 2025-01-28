@@ -60,16 +60,16 @@ public class SkillHandler implements Listener {
             // one entity
             if(trigger.contains(Trigger.LEFT_CLICK))
                 if(left_click && !player.isSneaking())
-                    handleSkill(player, skill, count);
+                    handleSkill(player, skill, count, false);
             if(trigger.contains(Trigger.SHIFT_LEFT_CLICK))
                 if(left_click && player.isSneaking())
-                    handleSkill(player, skill, count);
+                    handleSkill(player, skill, count, false);
             if(trigger.contains(Trigger.RIGHT_CLICK))
                 if(right_click && !player.isSneaking())
-                    handleSkill(player, skill, count);
+                    handleSkill(player, skill, count, false);
             if(trigger.contains(Trigger.SHIFT_RIGHT_CLICK))
                 if(right_click && player.isSneaking())
-                    handleSkill(player, skill, count);
+                    handleSkill(player, skill, count, false);
         }
     }
 
@@ -89,13 +89,13 @@ public class SkillHandler implements Listener {
             List<Trigger> triggers = skill.getTriggers();
             // two entities
             if(triggers.contains(Trigger.ATTACK))
-                handleSkill(caster, object, skill, new int[]{0});
+                handleSkill(caster, object, skill, new int[]{0}, false);
         }
     }
 
     // use when event involves one entity
-    // use int[] so that we can adjust variable in runnable
-    public static void handleSkill(LivingEntity caster, Skill skill, int[] count) {
+    // use int[] so that we can adjust variable in runnable, forced means casting a skill forcibly
+    public static void handleSkill(LivingEntity caster, Skill skill, int[] count, boolean forced) {
         // check if the recursion times surpass designated orders
         if(count[0] >= skill.getOrders().size()) return;
 
@@ -114,11 +114,12 @@ public class SkillHandler implements Listener {
             singleSkill = skill.getSingleSkills().get(order);
         }
 
+        // if forced, skipped the pre handle
         // move to the next single skill if the current one is not a wait and doesn't satisfy all conditions
-        if(!(singleSkill.getSkillType().equals(SkillType.WAIT) ||
-                singleSkillPreHandle(caster, singleSkill))) {
+        if(!forced && !(singleSkill.getSkillType().equals(SkillType.WAIT) ||
+                        singleSkillPreHandle(caster, singleSkill))) {
             ++count[0];
-            handleSkill(caster, skill, count);
+            handleSkill(caster, skill, count, forced);
             return;
         }
 
@@ -131,21 +132,21 @@ public class SkillHandler implements Listener {
         Bukkit.getScheduler().runTaskLater(EssenceMagic.getPlugin(), ()->{
             // if is wait, wait for specific ticks and go to the next single skill
             if(singleSkill.getSkillType().equals(SkillType.WAIT))
-                handleSkill(caster, skill, count);
+                handleSkill(caster, skill, count, forced);
             // if is not wait, directly go to the next single skill (waitTick = 0)
             else {
                 // with all targets performing a single skill
                 for (LivingEntity target : getTargets(caster, singleSkill)) {
                     singleSkill.perform(target);
                 }
-                handleSkill(caster, skill, count);
+                handleSkill(caster, skill, count, forced);
             }
         }, waitTick);
     }
 
     // use when event involves two entities
-    // use int[] so that we can adjust variable in runnable
-    public static void handleSkill(LivingEntity caster, LivingEntity object, Skill skill, int[] count) {
+    // use int[] so that we can adjust variable in runnable, forced means casting a skill forcibly
+    public static void handleSkill(LivingEntity caster, LivingEntity object, Skill skill, int[] count, boolean forced) {
         // check if the recursion times surpass designated orders
         if(count[0] >= skill.getOrders().size()) return;
 
@@ -164,11 +165,12 @@ public class SkillHandler implements Listener {
             singleSkill = skill.getSingleSkills().get(order);
         }
 
+        // if forced, skipped the pre handle
         // move to the next single skill if the current one is not a wait and doesn't satisfy all conditions
-        if(!(singleSkill.getSkillType().equals(SkillType.WAIT) ||
+        if(!forced && !(singleSkill.getSkillType().equals(SkillType.WAIT) ||
                 singleSkillPreHandle(caster, singleSkill))) {
             ++count[0];
-            handleSkill(caster, skill, count);
+            handleSkill(caster, skill, count, forced);
             return;
         }
 
@@ -181,14 +183,14 @@ public class SkillHandler implements Listener {
         Bukkit.getScheduler().runTaskLater(EssenceMagic.getPlugin(), ()->{
             // if is wait, wait for specific ticks and go to the next single skill
             if(singleSkill.getSkillType().equals(SkillType.WAIT))
-                handleSkill(caster, skill, count);
+                handleSkill(caster, skill, count, forced);
             // if is not wait, directly go to the next single skill (waitTick = 0)
             else {
                 // with all targets performing a single skill
                 for (LivingEntity target : getTargets(caster, object, singleSkill)) {
                     singleSkill.perform(target);
                 }
-                handleSkill(caster, skill, count);
+                handleSkill(caster, skill, count, forced);
             }
         }, waitTick);
     }

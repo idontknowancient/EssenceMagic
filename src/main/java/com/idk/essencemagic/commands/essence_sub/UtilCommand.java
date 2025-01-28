@@ -1,21 +1,16 @@
 package com.idk.essencemagic.commands.essence_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
-import com.idk.essencemagic.commands.essence_sub.mob_sub.MenuCommand;
-import com.idk.essencemagic.commands.essence_sub.mob_sub.SpawnCommand;
+import com.idk.essencemagic.commands.essence_sub.util_sub.GodCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+public class UtilCommand extends SubCommand {
 
-public class MobCommand extends SubCommand {
-
-    public MobCommand() {
-        getSubCommands().add(new MenuCommand());
-        getSubCommands().add(new SpawnCommand());
+    public UtilCommand() {
+        getSubCommands().add(new GodCommand());
 
         for(SubCommand subCommand : getSubCommands()) {
             getSubCommandsString().add(subCommand.getName());
@@ -24,12 +19,12 @@ public class MobCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return "mob";
+        return "util";
     }
 
     @Override
     public String getDescription() {
-        return "Check and modify all mobs";
+        return "A lot of practical features";
     }
 
     @Override
@@ -45,7 +40,7 @@ public class MobCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB.name)) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_UTIL.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
@@ -53,8 +48,8 @@ public class MobCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
-        for (SubCommand subCommand : getSubCommands()) {
-            if (args[1].equalsIgnoreCase(subCommand.getName())) {
+        for(SubCommand subCommand : getSubCommands()) {
+            if(args[1].equalsIgnoreCase(subCommand.getName())) {
                 subCommand.perform(p, args);
             }
         }

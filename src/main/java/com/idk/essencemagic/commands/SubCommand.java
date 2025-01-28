@@ -2,9 +2,14 @@ package com.idk.essencemagic.commands;
 
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SubCommand {
+
+    private final List<SubCommand> subCommands = new ArrayList<>();
+
+    private final List<String> subCommandsString = new ArrayList<>();
 
     public abstract String getName();
 
@@ -12,7 +17,13 @@ public abstract class SubCommand {
 
     public abstract String getSyntax();
 
-    public abstract List<String> getSubCommands();
+    public List<SubCommand> getSubCommands() {
+        return subCommands;
+    }
+
+    public List<String> getSubCommandsString() {
+        return subCommandsString;
+    }
 
     public abstract void perform(Player p, String[] args);
 }

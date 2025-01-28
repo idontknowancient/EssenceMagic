@@ -4,6 +4,8 @@ import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.menus.holders.CancelHolder;
 import com.idk.essencemagic.menus.holders.DetailInfoHolder;
+import com.idk.essencemagic.menus.holders.GetItemHolder;
+import com.idk.essencemagic.menus.holders.ShiftSpawnHolder;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.Util;
@@ -37,7 +39,7 @@ public class Menu {
 
     public static Inventory getItemMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory itemMenu = Bukkit.createInventory(new CancelHolder(), cm.getInteger("item.size"), cm.outString("item.title"));
+        Inventory itemMenu = Bukkit.createInventory(new GetItemHolder(), cm.getInteger("item.size"), cm.outString("item.title"));
         for(Item i : Item.items.values())
             itemMenu.addItem(i.getItem());
         if(cm.isString("item.occupation")) {
@@ -51,7 +53,7 @@ public class Menu {
 
     public static Inventory getMobMenu() {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory mobMenu = Bukkit.createInventory(new CancelHolder(), cm.getInteger("mob.size"), cm.outString("mob.title"));
+        Inventory mobMenu = Bukkit.createInventory(new ShiftSpawnHolder(), cm.getInteger("mob.size"), cm.outString("mob.title"));
 
         for(Mob m : Mob.mobs.values()) {
             ItemStack item = new ItemStack(

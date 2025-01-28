@@ -2,6 +2,7 @@ package com.idk.essencemagic.commands.essence_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.commands.essence_sub.skill_sub.CastCommand;
+import com.idk.essencemagic.commands.essence_sub.skill_sub.ForceCommand;
 import com.idk.essencemagic.commands.essence_sub.skill_sub.MenuCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
@@ -13,11 +14,14 @@ import java.util.List;
 
 public class SkillCommand extends SubCommand {
 
-    private static final List<SubCommand> subCommands = new ArrayList<>();
-
     public SkillCommand() {
-        subCommands.add(new MenuCommand());
-        subCommands.add(new CastCommand());
+        getSubCommands().add(new CastCommand());
+        getSubCommands().add(new ForceCommand());
+        getSubCommands().add(new MenuCommand());
+
+        for(SubCommand subCommand : getSubCommands()) {
+            getSubCommandsString().add(subCommand.getName());
+        }
     }
 
     @Override
@@ -34,20 +38,11 @@ public class SkillCommand extends SubCommand {
     public String getSyntax() {
         StringBuilder subs = new StringBuilder();
         subs.append("/essence ").append(getName()).append(" [");
-        for(SubCommand s : subCommands)
-            subs.append(s.getName()).append(" | ");
+        for(String s : getSubCommandsString())
+            subs.append(s).append(" | ");
         subs.delete(subs.length() - 3, subs.length());
         subs.append("]");
         return subs + "";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        List<String> subCommandsNames = new ArrayList<>();
-        for(SubCommand sub : subCommands)
-            subCommandsNames.add(sub.getName());
-
-        return subCommandsNames;
     }
 
     @Override
@@ -60,8 +55,8 @@ public class SkillCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
-        for (SubCommand subCommand : subCommands) {
-            if (args[1].equalsIgnoreCase(subCommand.getName())) {
+        for(SubCommand subCommand : getSubCommands()) {
+            if(args[1].equalsIgnoreCase(subCommand.getName())) {
                 subCommand.perform(p, args);
             }
         }

@@ -1,73 +1,101 @@
 fire_ball:
   name: "&c大火球"
-  trigger:
+  triggers:
     - right_click
   skills:
     # single skill
     fireball:
       # skill type
       type: shoot
-      # adjusable attributes are varied by skill type
+      # in ticks
+      cooldown: 20
+      probability: 1
+      targets: self
+      requirements:
+        - "%mana% >= 5"
+        - "%player_level% >= 10"
+      costs:
+        - "mana:5"
+      # adjustable attributes are varied by skill type
       projectile: fireball
       glowing: false
       velocity: 1
       incendiary: false
       power: 1
-      targets: self
-      requirements:
-        - "%mana% >= 5"
-        - "%player_level% >= 10"
-      # in seconds
-      cooldown: 1
-      probability: 1
-      costs:
-        - "mana:5"
+
 snow_ball:
   name: "&f大雪球"
-  trigger: right_click
+  triggers: right_click
+  orders:
+    - snowball
+    - wait 5 # in ticks
+    - snowball
+    - wait 5 # in ticks
+    - snowball
+    - wait 5 # in ticks
+    - fireball
+  # overall settings
+  # in ticks
+  cooldown: 10
+  probability: 1
+  targets:
+    - self
+  requirements:
+    - "%mana% >= 10"
+  costs:
+    - "mana:10"
   skills:
     # single skill
     snowball:
       # skill type
       type: shoot
-      # adjusable attributes are varied by skill type
+      # adjustable attributes are varied by skill type
       projectile: snowball
       name: "&f代替月亮"
-      name-visible: true
-      glowing: true
+      name-visible: false
+      glowing: false
       gravity: true
       velocity: 1
       item: diamond_block
-      targets:
-        - self
-      requirements:
-        - "%mana% >= 5"
-      # in seconds
+    # single skill
+    fireball:
+      # skill type
+      type: shoot
+      # specific settings
+      # in ticks
       cooldown: 0
       probability: 1
-      costs:
-        - "mana:5"
+      targets: self
+      requirements: "%mana% >= 5"
+      costs: "mana:5"
+      # adjustable attributes are varied by skill type
+      projectile: fireball
+      glowing: false
+      velocity: 1
+      incendiary: false
+      power: 1
+
 floating:
   name: "#bfc9ca懸浮"
-  trigger:
+  triggers:
     - attack
-    - right_click
   skills:
     # single skill
     levitation:
       # skill type
       type: potion
+      # in ticks
+      cooldown: 60
+      probability: 1
+      targets:
+        - player
+        - mob
+        - self
+      requirements: "%mana% >= 10"
+      costs: "mana:10"
       # adjustable attributes are varied by skill type
       effect: levitation
       # in ticks
       duration: 60
       level: 3
       particles: false
-      targets:
-        - player
-        - mob
-      requirements: "%mana% >= 10"
-      # in seconds
-      cooldown: 3
-      probability: 1
-      costs: "mana:10"

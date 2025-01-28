@@ -28,18 +28,13 @@ public class SpawnCommand extends SubCommand {
     }
 
     @Override
-    public List<String> getSubCommands() {
-        return null;
-    }
-
-    @Override
     public void perform(Player p, String[] args) {
         if(!SystemPermission.checkPerm(p, Permission.COMMAND_MOB_SPAWN.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
         if(args.length <= 2) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p);
+            SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
         Mob mob = Mob.mobs.get(args[2]);

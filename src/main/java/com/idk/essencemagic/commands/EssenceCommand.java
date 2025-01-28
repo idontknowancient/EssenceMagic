@@ -1,11 +1,13 @@
 package com.idk.essencemagic.commands;
 
 import com.idk.essencemagic.commands.essence_sub.*;
+import com.idk.essencemagic.commands.essence_sub.util_sub.GodCommand;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,16 +21,17 @@ import java.util.List;
 
 public class EssenceCommand implements CommandExecutor, TabCompleter {
 
-    private final List<SubCommand> subCommands = new ArrayList<>();
+    @Getter private static final List<SubCommand> subCommands = new ArrayList<>();
 
     public EssenceCommand() {
         subCommands.add(new ElementCommand());
+        subCommands.add(new HelpCommand());
         subCommands.add(new ItemCommand());
-        subCommands.add(new ReloadCommand());
-        subCommands.add(new GodCommand());
-        subCommands.add(new MobCommand());
         subCommands.add(new ManaCommand());
+        subCommands.add(new MobCommand());
+        subCommands.add(new ReloadCommand());
         subCommands.add(new SkillCommand());
+        subCommands.add(new UtilCommand());
     }
 
     private String getSyntax() {
@@ -72,7 +75,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         if(args.length == 2) { //when complete typing /essence <subcommand, such as element> <- a blank is here
             for(SubCommand subCommand : subCommands) {
                 if(subCommand.getName().equalsIgnoreCase(args[0])) {
-                    return subCommand.getSubCommands();
+                    return subCommand.getSubCommandsString();
                 }
             }
         }
@@ -84,6 +87,9 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
                 return new ArrayList<>(Mob.mobs.keySet());
             }
             if(args[0].equalsIgnoreCase("skill") && args[1].equalsIgnoreCase("cast")) {
+                return new ArrayList<>(Skill.skills.keySet());
+            }
+            if(args[0].equalsIgnoreCase("skill") && args[1].equalsIgnoreCase("force")) {
                 return new ArrayList<>(Skill.skills.keySet());
             }
             if(args[0].equalsIgnoreCase("mana") &&

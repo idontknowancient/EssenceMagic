@@ -19,17 +19,12 @@ public class ReloadCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Reload the plugin config.";
+        return "Reload the plugin config";
     }
 
     @Override
     public String getSyntax() {
         return "/essence reload";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override

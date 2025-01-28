@@ -18,17 +18,12 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show all custom mobs.";
+        return "Show all custom mobs";
     }
 
     @Override
     public String getSyntax() {
         return "/essence mob menu";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override

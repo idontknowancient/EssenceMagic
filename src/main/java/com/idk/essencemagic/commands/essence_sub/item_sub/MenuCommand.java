@@ -17,17 +17,12 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show all available custom items.";
+        return "Show all available custom items";
     }
 
     @Override
     public String getSyntax() {
         return "/essence item menu";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override

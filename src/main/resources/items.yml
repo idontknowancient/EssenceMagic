@@ -35,6 +35,7 @@ flame_sword:
     # slot: hand
   skills:
     - fire_ball
+
 snow_sword:
   display_name: "&f白雪細劍"
   type: iron_sword
@@ -59,6 +60,8 @@ snow_sword:
     hide_attributes: false
   skills:
     - snow_ball
+    - floating
+
 floating_apple:
   display_name: "#bfc9ca懸浮之果"
   type: golden_apple
@@ -83,6 +86,7 @@ floating_apple:
     hide_attributes: false
   skills:
     - floating
+
 test_helmet:
   display_name: "&2測試用頭盔"
   type: iron_helmet
@@ -93,6 +97,7 @@ test_helmet:
     durability: 3
   options:
     hide_enchants: true
+
 test_chestplate:
   display_name: "&2測試用胸甲"
   type: iron_chestplate
@@ -103,6 +108,7 @@ test_chestplate:
     durability: 3
   options:
     hide_enchants: true
+
 test_leggings:
   display_name: "&2測試用護腿"
   type: iron_leggings
@@ -113,6 +119,7 @@ test_leggings:
     durability: 3
   options:
     hide_enchants: true
+
 test_boots:
   display_name: "&2測試用靴子"
   type: iron_boots

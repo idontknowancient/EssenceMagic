@@ -18,17 +18,12 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show all elements.";
+        return "Show all elements";
     }
 
     @Override
     public String getSyntax() {
         return "/essence element menu";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override

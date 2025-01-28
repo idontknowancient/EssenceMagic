@@ -18,17 +18,12 @@ public class SetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Set a specific player's mana.";
+        return "Set a specific player's mana";
     }
 
     @Override
     public String getSyntax() {
         return "/essence mana set <player> <<amount>/max>";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override
@@ -39,6 +34,12 @@ public class SetCommand extends SubCommand {
         }
         if(args.length <= 3) {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
+            return;
+        }
+
+        // check if the player has the permission to set others' mana
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_SET_OTHERS.name)) {
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
         String playerName = args[2];

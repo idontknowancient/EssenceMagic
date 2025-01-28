@@ -22,6 +22,7 @@ public enum SystemMessage implements Message {
     GET_MANA("get-mana"),
     SET_MANA("set-mana"),
     SKILL_CASTED("skill-casted"),
+    SKILL_FORCED("skill-forced"),
     SKILL_NOT_FOUND("skill-not-found"),
     SKILL_REQUIREMENT_NOT_SATISFIED("skill-requirement-not-satisfied"),
     SKILL_IN_COOLDOWN("skill-in-cooldown"),

@@ -12,10 +12,12 @@ import java.util.List;
 
 public class ElementCommand extends SubCommand {
 
-    private static final List<SubCommand> subCommands = new ArrayList<>();
-
     public ElementCommand() {
-        subCommands.add(new MenuCommand());
+        getSubCommands().add(new MenuCommand());
+
+        for(SubCommand subCommand : getSubCommands()) {
+            getSubCommandsString().add(subCommand.getName());
+        }
     }
 
     @Override
@@ -25,27 +27,18 @@ public class ElementCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Check and modify all elements.";
+        return "Check and modify all elements";
     }
 
     @Override
     public String getSyntax() {
         StringBuilder subs = new StringBuilder();
         subs.append("/essence ").append(getName()).append(" [");
-        for(SubCommand s : subCommands)
-            subs.append(s.getName()).append(" | ");
+        for(String s : getSubCommandsString())
+            subs.append(s).append(" | ");
         subs.delete(subs.length() - 3, subs.length());
         subs.append("]");
         return subs + "";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        List<String> subCommandsNames = new ArrayList<>();
-        for(SubCommand sub : subCommands)
-            subCommandsNames.add(sub.getName());
-
-        return subCommandsNames;
     }
 
     @Override
@@ -58,7 +51,7 @@ public class ElementCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
-        for (SubCommand subCommand : subCommands) {
+        for (SubCommand subCommand : getSubCommands()) {
             if (args[1].equalsIgnoreCase(subCommand.getName())) {
                 subCommand.perform(p, args);
             }

@@ -1,12 +1,21 @@
 package com.idk.essencemagic.listeners;
 
+import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.menus.holders.CancelHolder;
 import com.idk.essencemagic.menus.holders.DetailInfoHolder;
+import com.idk.essencemagic.menus.holders.GetItemHolder;
+import com.idk.essencemagic.menus.holders.ShiftSpawnHolder;
+import com.idk.essencemagic.mobs.Mob;
+import com.idk.essencemagic.mobs.MobHandler;
+import com.idk.essencemagic.utils.permissions.Permission;
+import com.idk.essencemagic.utils.permissions.SystemPermission;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class MenuListener implements Listener {
@@ -17,7 +26,8 @@ public class MenuListener implements Listener {
             return;
 
         Inventory inventory = e.getInventory();
-        ItemMeta itemMeta = e.getCurrentItem().getItemMeta();
+        ItemStack item = e.getCurrentItem();
+        ItemMeta itemMeta = item.getItemMeta();
 
         // cancel a click
         if(inventory.getHolder() instanceof CancelHolder)
@@ -30,6 +40,26 @@ public class MenuListener implements Listener {
             for(String string : itemMeta.getLore()) {
                 player.sendMessage(string);
             }
+        }
+
+        // get custom items by click
+        if(inventory.getHolder() instanceof GetItemHolder) {
+            if(!SystemPermission.checkPerm(player, Permission.COMMAND_ITEM_MENU_GET.name) ||
+                    !ItemHandler.isCustomItem(item)) return;
+            player.getInventory().addItem(item);
+        }
+
+        // spawn custom mobs by shift-click
+        if(inventory.getHolder() instanceof ShiftSpawnHolder) {
+            if(!SystemPermission.checkPerm(player, Permission.COMMAND_MOB_MENU_SPAWN.name) ||
+                    !(e.getClick().equals(ClickType.SHIFT_LEFT) ||
+                            e.getClick().equals(ClickType.SHIFT_RIGHT))) return;
+            if(itemMeta == null || itemMeta.getLore() == null) return;
+
+            // e.g. Interior name: test_zombie
+            String mobName = itemMeta.getLore().get(0).split(" ")[2];
+            if(Mob.mobs.containsKey(mobName))
+                MobHandler.spawnMob(player.getLocation(), Mob.mobs.get(mobName));
         }
     }
 }

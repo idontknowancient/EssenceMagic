@@ -18,17 +18,12 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show all available skills.";
+        return "Show all available skills";
     }
 
     @Override
     public String getSyntax() {
         return "/essence skill menu";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override

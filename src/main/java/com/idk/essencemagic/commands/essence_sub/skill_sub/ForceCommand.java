@@ -1,7 +1,8 @@
-package com.idk.essencemagic.commands.essence_sub.item_sub;
+package com.idk.essencemagic.commands.essence_sub.skill_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
-import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.skills.Skill;
+import com.idk.essencemagic.skills.SkillHandler;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
@@ -9,26 +10,26 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class GetCommand extends SubCommand {
+public class ForceCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return "get";
+        return "force";
     }
 
     @Override
     public String getDescription() {
-        return "Get a custom item";
+        return "Cast a specific skill forcibly";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence item get <item>";
+        return "/essence skill force <skill>";
     }
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_GET.name)){
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_SKILL_FORCE.name)){
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
@@ -36,13 +37,13 @@ public class GetCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
-        for(String s : Item.items.keySet()) {
+        for(String s : Skill.skills.keySet()) {
             if(args[2].equalsIgnoreCase(s)) {
-                p.getInventory().addItem(Item.items.get(s).getItem());
-                SystemMessage.ITEM_GOT.send(p, Item.items.get(s));
+                SkillHandler.handleSkill(p, Skill.skills.get(s), new int[]{0}, true);
+                SystemMessage.SKILL_FORCED.send(p, Skill.skills.get(s));
                 return;
             }
         }
-        SystemMessage.ITEM_NOT_FOUND.send(p);
+        SystemMessage.SKILL_NOT_FOUND.send(p);
     }
 }

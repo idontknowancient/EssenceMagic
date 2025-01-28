@@ -19,17 +19,12 @@ public class GetCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Get specific or all players' mana.";
+        return "Get specific or all players' mana";
     }
 
     @Override
     public String getSyntax() {
         return "/essence mana get [player]";
-    }
-
-    @Override
-    public List<String> getSubCommands() {
-        return null;
     }
 
     @Override
@@ -42,6 +37,12 @@ public class GetCommand extends SubCommand {
             for(String playerName : PlayerData.dataMap.keySet()) {
                 SystemMessage.GET_MANA.send(p, PlayerData.dataMap.get(playerName));
             }
+            return;
+        }
+
+        // check if the player has the permission to get others' mana
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_MANA_GET_OTHERS.name)) {
+            SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
         String playerName = args[2];
