@@ -1,30 +1,106 @@
 package com.idk.essencemagic.magics;
 
 import com.idk.essencemagic.EssenceMagic;
+import com.idk.essencemagic.elements.Element;
+import com.idk.essencemagic.magics.modifiers.Damage;
+import com.idk.essencemagic.magics.particles.Spiral;
+import com.idk.essencemagic.utils.configs.ConfigFile;
+import lombok.Getter;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+@Getter
 public abstract class Magic {
 
-    static final EssenceMagic plugin = EssenceMagic.getPlugin();
+    private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
+    // record all child types
     public static final Map<String, Magic> magics = new HashMap<>();
 
-    abstract String getId();
+    private final String name;
 
-    public enum MagicType {
+    private final String displayName;
 
-        ELEMENT("element"),
-        RECONCILE("reconcile"),
-        MANIPULATE("manipulate"),
-        MIXED("mixed"),
-        ;
+    private final MagicType.Feature featureType;
 
-        private final String id;
+    private final MagicType.Attribute attributeType;
 
-        MagicType(String id) {
-            this.id = id;
+    private final String lowerLimit;
+
+    private final String upperLimit;
+
+    private final List<Element> applyingElements = new ArrayList<>();
+
+    @Nullable private final CustomParticle particle;
+
+    private final List<Modifier> modifiers = new ArrayList<>();
+
+    public Magic(String magicName) {
+        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MAGICS;
+        name = magicName;
+
+        // set magic name (default to "")
+        if(cm.isString(magicName + ".name"))
+            displayName = cm.outString(magicName+ ".name");
+        else
+            displayName = "";
+
+        // set magic types (default to attack & element)
+        if(cm.isString(magicName + ".type.feature"))
+            featureType = MagicType.Feature.valueOf(cm.getString(magicName + ".type.feature").toUpperCase());
+        else
+            featureType = MagicType.Feature.ATTACK;
+        if(cm.isString(magicName + ".type.attribute"))
+            // e.g. attribute: element;flame
+            attributeType = MagicType.Attribute.valueOf(cm.getString(magicName + ".type.attribute").split(";")[0].toUpperCase());
+        else
+            attributeType = MagicType.Attribute.ELEMENT;
+
+        // set magic available range (lower limit & upper limit)(default to F;0)
+        String prefix = magicName + ".available_range";
+        if(cm.isString(prefix + ".lower_limit"))
+            lowerLimit = cm.getString(prefix + ".lower_limit");
+        else
+            lowerLimit = "F;0";
+        if(cm.isString(prefix + ".upper_limit"))
+            upperLimit = cm.getString(prefix + ".upper_limit");
+        else
+            upperLimit = "F;0";
+
+        // set magic applying elements (default to none)
+        if(cm.isList(magicName + ".applying_elements")) {
+            for(String element : cm.getStringList(magicName + ".applying_elements")) {
+                if(Element.elements.containsKey(element))
+                    applyingElements.add(Element.elements.get(element));
+            }
+        } else if(cm.isString(magicName + ".applying_elements")) {
+            String element = cm.getString(magicName + ".applying_elements");
+            if(Element.elements.containsKey(element))
+                applyingElements.add(Element.elements.get(element));
+        }
+        if(applyingElements.isEmpty())
+            applyingElements.add(Element.elements.get("none"));
+
+        // set magic particles (default to null)
+        if(cm.isString(magicName + ".particles")) {
+            String path = magicName + ".particles";
+            if(cm.getString(path).equalsIgnoreCase("spiral"))
+                particle = new Spiral();
+            else
+                particle = null;
+        } else
+            particle = null;
+
+        // set magic modifiers (default to empty)
+        if(cm.isConfigurationSection(magicName + ".modifiers")){
+            for(String modifier : cm.getConfigurationSection(magicName + ".modifiers").getKeys(false)) {
+                if(modifier.equalsIgnoreCase("damage"))
+                    modifiers.add(new Damage(magicName));
+            }
         }
     }
 }

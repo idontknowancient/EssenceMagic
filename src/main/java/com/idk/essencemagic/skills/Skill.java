@@ -20,7 +20,7 @@ public class Skill {
 
     private final String name;
 
-    @Nullable private final String displayName;
+    private final String displayName;
 
     private final List<Trigger> triggers = new ArrayList<>();
 
@@ -38,11 +38,11 @@ public class Skill {
 
         name = skillName;
 
-        // set skill name (default to null)
+        // set skill name (default to "")
         if(cs.isString(skillName + ".name"))
             displayName = cs.outString(skillName + ".name");
         else
-            displayName = null;
+            displayName = "";
 
         // set skill triggers (default to right_click)
         if(cs.isList(skillName + ".triggers")) {
