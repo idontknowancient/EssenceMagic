@@ -3,6 +3,7 @@ package com.idk.essencemagic.commands;
 import com.idk.essencemagic.commands.essence_sub.*;
 import com.idk.essencemagic.commands.essence_sub.util_sub.GodCommand;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
@@ -27,6 +28,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         subCommands.add(new ElementCommand());
         subCommands.add(new HelpCommand());
         subCommands.add(new ItemCommand());
+        subCommands.add(new MagicCommand());
         subCommands.add(new ManaCommand());
         subCommands.add(new MobCommand());
         subCommands.add(new ReloadCommand());
@@ -83,6 +85,16 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             if(args[0].equalsIgnoreCase("item") && args[1].equalsIgnoreCase("get")) {
                 return new ArrayList<>(Item.items.keySet());
             }
+            if(args[0].equalsIgnoreCase("magic") && args[1].equalsIgnoreCase("cast")) {
+                return new ArrayList<>(Magic.magics.keySet());
+            }
+            if(args[0].equalsIgnoreCase("magic") && args[1].equalsIgnoreCase("force")) {
+                return new ArrayList<>(Magic.magics.keySet());
+            }
+            if(args[0].equalsIgnoreCase("mana") &&
+                    (args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set"))) {
+                return new ArrayList<>(PlayerData.dataMap.keySet());
+            }
             if(args[0].equalsIgnoreCase("mob") && args[1].equalsIgnoreCase("spawn")) {
                 return new ArrayList<>(Mob.mobs.keySet());
             }
@@ -91,10 +103,6 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             }
             if(args[0].equalsIgnoreCase("skill") && args[1].equalsIgnoreCase("force")) {
                 return new ArrayList<>(Skill.skills.keySet());
-            }
-            if(args[0].equalsIgnoreCase("mana") &&
-                    (args[1].equalsIgnoreCase("get") || args[1].equalsIgnoreCase("set"))) {
-                return new ArrayList<>(PlayerData.dataMap.keySet());
             }
         }
         if(args.length == 4) {

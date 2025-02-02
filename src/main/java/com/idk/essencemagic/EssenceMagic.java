@@ -1,5 +1,6 @@
 package com.idk.essencemagic;
 
+import com.idk.essencemagic.magics.MagicHandler;
 import com.idk.essencemagic.mobs.MobHandler;
 import com.idk.essencemagic.player.ManaHandler;
 import com.idk.essencemagic.player.PlayerDataHandler;
@@ -21,6 +22,7 @@ public final class EssenceMagic extends JavaPlugin {
         ConfigFile.initialize();
         ElementHandler.initialize();
         SkillHandler.initialize();
+        MagicHandler.initialize();
         ItemHandler.initialize();
         MobHandler.initialize();
         PlayerDataHandler.initialize();

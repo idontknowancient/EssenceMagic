@@ -103,18 +103,18 @@ public class Skill {
         info.add("&7Orders: " + orders);
 
         // set info list
-        getInfo().add("&7Triggers: " + getTriggers());
+        info.add("&7Triggers: " + getTriggers());
 
         if(getSingleSkills().isEmpty()) {
-            getInfo().add(cm.outString("skill.no-skill"));
+            info.add(cm.outString("skill.no-skill"));
         } else {
             for(SingleSkill singleSkill : getSingleSkills().values()) {
                 // ignore wait info
                 if(singleSkill.getSkillType().equals(SkillType.WAIT)) continue;
-                getInfo().add("&f" + singleSkill.getName() + ":");
-                getInfo().addAll(singleSkill.getInfo());
+                info.add("&f" + singleSkill.getName() + ":");
+                info.addAll(singleSkill.getInfo());
             }
         }
-        getInfo().replaceAll(Util::colorize);
+        info.replaceAll(Util::colorize);
     }
 }

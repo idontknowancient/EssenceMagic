@@ -4,6 +4,9 @@ import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.magics.modifiers.Damage;
 import com.idk.essencemagic.magics.particles.Spiral;
+import com.idk.essencemagic.skills.SingleSkill;
+import com.idk.essencemagic.skills.SkillType;
+import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 
@@ -39,6 +42,8 @@ public abstract class Magic {
 
     private final List<Modifier> modifiers = new ArrayList<>();
 
+    private final List<String> info = new ArrayList<>();
+
     public Magic(String magicName) {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MAGICS;
         name = magicName;
@@ -59,6 +64,7 @@ public abstract class Magic {
             attributeType = MagicType.Attribute.valueOf(cm.getString(magicName + ".type.attribute").split(";")[0].toUpperCase());
         else
             attributeType = MagicType.Attribute.ELEMENT;
+        info.add("&7Type: " + featureType.name + " / " + attributeType.name);
 
         // set magic available range (lower limit & upper limit)(default to F;0)
         String prefix = magicName + ".available_range";
@@ -66,10 +72,12 @@ public abstract class Magic {
             lowerLimit = cm.getString(prefix + ".lower_limit");
         else
             lowerLimit = "F;0";
+        info.add("&7Lower Limit: " + lowerLimit);
         if(cm.isString(prefix + ".upper_limit"))
             upperLimit = cm.getString(prefix + ".upper_limit");
         else
             upperLimit = "F;0";
+        info.add("&7Upper Limit: " + upperLimit);
 
         // set magic applying elements (default to none)
         if(cm.isList(magicName + ".applying_elements")) {
@@ -84,12 +92,19 @@ public abstract class Magic {
         }
         if(applyingElements.isEmpty())
             applyingElements.add(Element.elements.get("none"));
+        List<String> elementNames = new ArrayList<>();
+        for(Element element : applyingElements) {
+            elementNames.add(element.getName());
+        }
+        info.add("&7Applying Elements: " + elementNames);
 
         // set magic particles (default to null)
         if(cm.isString(magicName + ".particles")) {
             String path = magicName + ".particles";
-            if(cm.getString(path).equalsIgnoreCase("spiral"))
+            if(cm.getString(path).equalsIgnoreCase("spiral")) {
                 particle = new Spiral();
+                info.add("&7Particles: Spiral");
+            }
             else
                 particle = null;
         } else
@@ -97,10 +112,18 @@ public abstract class Magic {
 
         // set magic modifiers (default to empty)
         if(cm.isConfigurationSection(magicName + ".modifiers")){
+            info.add("&7Modifiers:");
             for(String modifier : cm.getConfigurationSection(magicName + ".modifiers").getKeys(false)) {
                 if(modifier.equalsIgnoreCase("damage"))
                     modifiers.add(new Damage(magicName));
             }
         }
+        for(Modifier modifier : getModifiers()) {
+            info.add("&f  " + modifier.getName() + ":");
+            info.addAll(modifier.getInfo());
+        }
+        info.replaceAll(Util::colorize);
     }
+
+    public abstract void perform();
 }

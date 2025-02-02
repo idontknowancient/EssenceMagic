@@ -33,7 +33,7 @@ public class MenuListener implements Listener {
         if(inventory.getHolder() instanceof CancelHolder)
             e.setCancelled(true);
 
-        // provide name and lore by click
+        // provide name and lore by click (skills & magic)
         if(inventory.getHolder() instanceof DetailInfoHolder) {
             if(itemMeta == null || itemMeta.getLore() == null) return;
             player.sendMessage(itemMeta.getDisplayName());

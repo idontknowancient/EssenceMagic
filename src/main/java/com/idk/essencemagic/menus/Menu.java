@@ -2,6 +2,7 @@ package com.idk.essencemagic.menus;
 
 import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.menus.holders.CancelHolder;
 import com.idk.essencemagic.menus.holders.DetailInfoHolder;
 import com.idk.essencemagic.menus.holders.GetItemHolder;
@@ -101,12 +102,36 @@ public class Menu {
         }
 
         if(cm.isString("skill.occupation")) {
-            for(int i = 0; i < cm.getInteger("mob.size"); i++) {
+            for(int i = 0; i < cm.getInteger("skill.size"); i++) {
                 if(skillMenu.getItem(i) == null) skillMenu.setItem(
                         i, new ItemStack(Material.valueOf(cm.getString("skill.occupation").toUpperCase())));
             }
         }
 
         return skillMenu;
+    }
+
+    public static Inventory getMagicMenu() {
+        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
+        Inventory magicMenu = Bukkit.createInventory(new DetailInfoHolder(), cm.getInteger("magic.size"), cm.outString("magic.title"));
+
+        for(Magic magic : Magic.magics.values()) {
+            ItemStack item = new ItemStack(Material.valueOf(cm.getString("magic.item").toUpperCase()));
+            ItemMeta meta = item.getItemMeta();
+            if(meta == null) return magicMenu;
+            meta.setDisplayName(magic.getDisplayName());
+            meta.setLore(magic.getInfo());
+            item.setItemMeta(meta);
+            magicMenu.addItem(item);
+        }
+
+        if(cm.isString("magic.occupation")) {
+            for(int i = 0; i < cm.getInteger("magic.size"); i++) {
+                if(magicMenu.getItem(i) == null) magicMenu.setItem(
+                        i, new ItemStack(Material.valueOf(cm.getString("skill.occupation").toUpperCase())));
+            }
+        }
+
+        return magicMenu;
     }
 }

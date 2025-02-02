@@ -27,3 +27,11 @@ skill:
   no-skill: "&7目前沒有技能..."
   # not necessary
   occupation: gray_stained_glass_pane
+
+magic:
+  title: "&8魔法一覽"
+  size: 45
+  item: dragon_breath
+  no-magic: "&7目前沒有魔法..."
+  # not necessary
+  occupation: gray_stained_glass_pane

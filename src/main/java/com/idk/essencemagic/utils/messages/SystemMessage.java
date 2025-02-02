@@ -27,6 +27,9 @@ public enum SystemMessage implements Message {
     SKILL_REQUIREMENT_NOT_SATISFIED("skill-requirement-not-satisfied"),
     SKILL_IN_COOLDOWN("skill-in-cooldown"),
     SKILL_ACTIVATION_FAILED("skill-activation-failed"),
+    MAGIC_CASTED("magic-casted"),
+    MAGIC_FORCED("magic-forced"),
+    MAGIC_NOT_FOUND("magic-not-found"),
     PLAYER_NOT_EXIST("player-not-exist"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),
     ;
@@ -49,7 +52,7 @@ public enum SystemMessage implements Message {
         Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path));
     }
 
-    //use for placeholders
+    // use for placeholders
     public void send(CommandSender sender, Object info) {
         Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path), info);
     }
