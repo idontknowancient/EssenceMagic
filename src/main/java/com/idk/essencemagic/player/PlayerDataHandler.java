@@ -20,7 +20,7 @@ public class PlayerDataHandler implements Listener {
         setPlayerData();
     }
 
-    public static void setPlayerData() {
+    private static void setPlayerData() {
         for(Player p : Bukkit.getOnlinePlayers()) {
             setSinglePlayerData(p);
         }

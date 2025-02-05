@@ -14,7 +14,7 @@ public class ElementHandler {
         setElements();
     }
 
-    public static void setElements() {
+    private static void setElements() {
         //config instance
         ConfigFile.ConfigName ce = ConfigFile.ConfigName.ELEMENTS; //config elements
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS; //config menus

@@ -11,6 +11,7 @@ import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
+import com.idk.essencemagic.wands.Wand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -128,10 +129,28 @@ public class Menu {
         if(cm.isString("magic.occupation")) {
             for(int i = 0; i < cm.getInteger("magic.size"); i++) {
                 if(magicMenu.getItem(i) == null) magicMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cm.getString("skill.occupation").toUpperCase())));
+                        i, new ItemStack(Material.valueOf(cm.getString("magic.occupation").toUpperCase())));
             }
         }
 
         return magicMenu;
+    }
+
+    public static Inventory getWandMenu() {
+        ConfigFile.ConfigName cw = ConfigFile.ConfigName.MENUS;
+        Inventory wandMenu = Bukkit.createInventory(new GetItemHolder(), cw.getInteger("wand.size"), cw.outString("wand.title"));
+
+        for(Wand wand : Wand.wands.values()) {
+            wandMenu.addItem(wand.getItemStack());
+        }
+
+        if(cw.isString("wand.occupation")) {
+            for(int i = 0; i < cw.getInteger("wand.size"); i++) {
+                if(wandMenu.getItem(i) == null) wandMenu.setItem(
+                        i, new ItemStack(Material.valueOf(cw.getString("wand.occupation").toUpperCase())));
+            }
+        }
+
+        return wandMenu;
     }
 }

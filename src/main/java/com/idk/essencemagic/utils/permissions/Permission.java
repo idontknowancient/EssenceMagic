@@ -30,6 +30,11 @@ public enum Permission {
     COMMAND_UTIL("command.util"),
     COMMAND_UTIL_GOD("command.util.god"),
     COMMAND_UTIL_GOD_OTHERS("command.util.god.others"),
+    COMMAND_WAND("command.wand"),
+    COMMAND_WAND_GET("command.wand.get"),
+    COMMAND_WAND_INFO("command.wand.info"),
+    COMMAND_WAND_MENU("command.wand.menu"),
+    COMMAND_WAND_MENU_GET("command.wand.menu.get"),
     ;
 
     public final String name;

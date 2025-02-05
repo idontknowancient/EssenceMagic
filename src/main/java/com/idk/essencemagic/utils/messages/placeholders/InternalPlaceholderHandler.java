@@ -4,6 +4,7 @@ import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.player.ManaHandler;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
+import com.idk.essencemagic.wands.Wand;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -12,15 +13,17 @@ public class InternalPlaceholderHandler {
     public static String translatePlaceholders(String string, Object info) {
         if(info instanceof String s)
             string = handleString(string, s);
-        if(info instanceof Item i)
+        else if(info instanceof Item i)
             string = handleItem(string, i);
-        if(info instanceof Skill s)
+        else if(info instanceof Skill s)
             string = handleSkill(string ,s);
-        if(info instanceof PlayerData d)
+        else if(info instanceof Wand w)
+            string = handleWand(string, w);
+        else if(info instanceof PlayerData d)
             string = handlePlayerData(string, d);
-        if(info instanceof Double d)
+        else if(info instanceof Double d)
             string = handleDouble(string, d);
-        if(info instanceof Player p)
+        else if(info instanceof Player p)
             string = handlePlaceholderAPI(string, p);
         return string;
     }
@@ -50,6 +53,14 @@ public class InternalPlaceholderHandler {
     private static String handleSkill(String string, Skill info) {
         if(string.contains(InternalPlaceholder.SKILL_DISPLAY_NAME.name))
             string = string.replaceAll(InternalPlaceholder.SKILL_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
+        return string;
+    }
+
+    private static String handleWand(String string, Wand info) {
+        if(string.contains(InternalPlaceholder.WAND_NAME.name))
+            string = string.replaceAll(InternalPlaceholder.WAND_NAME.name, info.getName());
+        if(string.contains(InternalPlaceholder.WAND_DISPLAY_NAME.name))
+            string = string.replaceAll(InternalPlaceholder.WAND_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
         return string;
     }
 

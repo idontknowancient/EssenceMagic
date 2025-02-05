@@ -16,7 +16,7 @@ public class MobHandler {
         setMobs();
     }
 
-    public static void setMobs() {
+    private static void setMobs() {
         Set<String> mobSet = ConfigFile.ConfigName.MOBS.getConfig().getKeys(false);
         for(String s : mobSet) {
             Mob.mobs.put(s, new Mob(s));

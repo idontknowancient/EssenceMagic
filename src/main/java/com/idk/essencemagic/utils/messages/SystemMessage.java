@@ -30,6 +30,10 @@ public enum SystemMessage implements Message {
     MAGIC_CASTED("magic-casted"),
     MAGIC_FORCED("magic-forced"),
     MAGIC_NOT_FOUND("magic-not-found"),
+    WAND_GOT("wand-got"),
+    WAND_NOT_FOUND("wand-not-found"),
+    NO_WAND_IN_HAND("no-wand-in-hand"),
+    NOT_WAND("not-wand"),
     PLAYER_NOT_EXIST("player-not-exist"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),
     ;

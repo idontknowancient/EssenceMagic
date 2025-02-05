@@ -32,6 +32,11 @@ magic:
   title: "&8魔法一覽"
   size: 45
   item: dragon_breath
-  no-magic: "&7目前沒有魔法..."
+  # not necessary
+  occupation: gray_stained_glass_pane
+
+wand:
+  title: "&8魔杖一覽"
+  size: 45
   # not necessary
   occupation: gray_stained_glass_pane

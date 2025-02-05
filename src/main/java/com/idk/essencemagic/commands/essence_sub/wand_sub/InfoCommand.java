@@ -1,9 +1,8 @@
-package com.idk.essencemagic.commands.essence_sub.item_sub;
+package com.idk.essencemagic.commands.essence_sub.wand_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.items.ItemHandler;
-import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
@@ -14,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InfoCommand extends SubCommand {
@@ -26,45 +24,37 @@ public class InfoCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Show the custom item info in main hand";
+        return "Show the wand info in main hand";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence item info";
+        return "/essence wand info";
     }
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_INFO.name)) {
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_INFO.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
         ItemStack itemInMainHand = p.getInventory().getItemInMainHand();
         if(itemInMainHand.getType().equals(Material.AIR)) {
-            SystemMessage.NO_ITEM_IN_HAND.send(p);
+            SystemMessage.NO_WAND_IN_HAND.send(p);
             return;
         }
-        if(!ItemHandler.isHoldingCustomItem(p) && !WandHandler.isHoldingWand(p)) {
-            SystemMessage.NOT_CUSTOM_ITEM.send(p);
+        if(!WandHandler.isHoldingWand(p)) {
+            SystemMessage.NOT_WAND.send(p);
             return;
         }
-        Item item = ItemHandler.getCorrespondingItem(p);
         Wand wand = WandHandler.getCorrespondingWand(p);
-        if(item != null) {
-            List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", item);
-            for(String string : info) {
-                p.sendMessage(string);
-            }
+        if(wand == null) {
+            SystemMessage.NOT_WAND.send(p);
             return;
         }
-        if(wand != null) {
-            List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", wand);
-            for (String string : info) {
-                p.sendMessage(string);
-            }
-            return;
+        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", wand);
+        for(String string : info) {
+            p.sendMessage(string);
         }
-        SystemMessage.NOT_CUSTOM_ITEM.send(p);
     }
 }

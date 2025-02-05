@@ -1,13 +1,13 @@
 package com.idk.essencemagic.commands;
 
 import com.idk.essencemagic.commands.essence_sub.*;
-import com.idk.essencemagic.commands.essence_sub.util_sub.GodCommand;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.messages.SystemMessage;
+import com.idk.essencemagic.wands.Wand;
 import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,6 +34,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         subCommands.add(new ReloadCommand());
         subCommands.add(new SkillCommand());
         subCommands.add(new UtilCommand());
+        subCommands.add(new WandCommand());
     }
 
     private String getSyntax() {
@@ -103,6 +104,9 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             }
             if(args[0].equalsIgnoreCase("skill") && args[1].equalsIgnoreCase("force")) {
                 return new ArrayList<>(Skill.skills.keySet());
+            }
+            if(args[0].equalsIgnoreCase("wand") && args[1].equalsIgnoreCase("get")) {
+                return new ArrayList<>(Wand.wands.keySet());
             }
         }
         if(args.length == 4) {

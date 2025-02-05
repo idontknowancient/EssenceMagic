@@ -14,7 +14,7 @@ public class ItemHandler {
         setItems();
     }
 
-    public static void setItems() {
+    private static void setItems() {
         Set<String> itemSet = ConfigFile.ConfigName.ITEMS.getConfig().getKeys(false); //directly use getKeys, not getDefaultSection
         for(String s : itemSet) { //register items
             Item.items.put(s, new Item(s));
@@ -29,8 +29,7 @@ public class ItemHandler {
     public static boolean isHoldingCustomItem(LivingEntity entity) {
         if(entity.getEquipment() == null) return false;
         ItemStack itemInMainHand = entity.getEquipment().getItemInMainHand();
-        return itemInMainHand.getItemMeta() != null &&
-                itemInMainHand.getItemMeta().getPersistentDataContainer().has(Item.getItemKey());
+        return isCustomItem(itemInMainHand);
     }
 
     //return the corresponding item

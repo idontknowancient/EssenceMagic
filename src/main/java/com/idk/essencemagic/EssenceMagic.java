@@ -10,6 +10,7 @@ import com.idk.essencemagic.elements.ElementHandler;
 import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.utils.Register;
 import com.idk.essencemagic.utils.placeholders.CustomPlaceholder;
+import com.idk.essencemagic.wands.WandHandler;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,6 +25,7 @@ public final class EssenceMagic extends JavaPlugin {
         SkillHandler.initialize();
         MagicHandler.initialize();
         ItemHandler.initialize();
+        WandHandler.initialize();
         MobHandler.initialize();
         PlayerDataHandler.initialize();
     }
