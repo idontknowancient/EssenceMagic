@@ -12,16 +12,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Mob {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
-    public static final HashMap<String, Mob> mobs = new HashMap<>();
+    public static final Map<String, Mob> mobs = new LinkedHashMap<>();
 
     @Getter private static final NamespacedKey mobKey = new NamespacedKey(plugin, "mob-key");
 
@@ -47,7 +44,7 @@ public class Mob {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MOBS;
         String pre = mobName + ".";
         name = mobName;
-        displayName = cm.isString(pre + "display_name") ? cm.outString(pre + "display_name") : "";
+        displayName = cm.isString(pre + "display-name") ? cm.outString(pre + "display-name") : "";
         type = EntityType.valueOf(cm.getString(pre + "type").toUpperCase());
         if(cm.isDouble(pre + "health"))
             health = cm.getDouble(pre + "health");
@@ -68,8 +65,12 @@ public class Mob {
                 String itemName = equipmentSection.getString(s);
                 if(Item.items.containsKey(itemName))
                     item = Item.items.get(itemName).getItem();
-                else
+                else if(itemName != null)
                     item = new ItemStack(Material.valueOf(itemName.toUpperCase()));
+                else
+                    item = new ItemStack(Material.IRON_SWORD);
+                // turn off-hand to off_hand
+                s = s.replaceAll("-", "_");
                 equipmentMap.put(EquipmentSlot.valueOf(s.toUpperCase()), item);
             }
         }

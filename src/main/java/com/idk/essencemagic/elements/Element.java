@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class Element {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
-    public static final Map<String, Element> elements = new HashMap<>();
+    public static final Map<String, Element> elements = new LinkedHashMap<>();
 
     @Getter private static final NamespacedKey elementKey = new NamespacedKey(plugin, "element-key");
 
@@ -54,8 +55,8 @@ public class Element {
         //config elements
         ConfigFile.ConfigName ce = ConfigFile.ConfigName.ELEMENTS; //config elements
         name = elementName;
-        displayName = ce.outString(elementName+".display_name");
-        symbolItem = new ItemStack(Material.valueOf(ce.getString(elementName+".symbol_item").toUpperCase()));
+        displayName = ce.outString(elementName+".display-name");
+        symbolItem = new ItemStack(Material.valueOf(ce.getString(elementName+".symbol-item").toUpperCase()));
         slot = ce.getInteger(elementName+".slot");
         if(ce.getStringList(elementName+".description") != null)
             description = ce.outStringList(elementName+".description");

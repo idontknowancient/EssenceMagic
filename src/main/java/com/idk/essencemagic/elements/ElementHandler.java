@@ -39,12 +39,12 @@ public class ElementHandler {
                 for(String s2 : suppressElement) {
                     //suppress
                     Element.elements.get(s).getSuppressMap().put(
-                            Element.elements.get(s2), ce.getDouble(s+".suppress."+s2+".damage_modifier"));
+                            Element.elements.get(s2), ce.getDouble(s+".suppress."+s2+".damage-modifier"));
                     //suppressed
                     Element.elements.get(s2).getSuppressedMap().put(
                             Element.elements.get(s),
                             //*10000d / 10000d means rounding, decimal 4
-                            (double) Math.round(1 / ce.getDouble(s+".suppress."+s2+".damage_modifier")*10000d)/10000d);
+                            (double) Math.round(1 / ce.getDouble(s+".suppress."+s2+".damage-modifier")*10000d)/10000d);
                 }
             }
         }
@@ -53,15 +53,15 @@ public class ElementHandler {
         for(Element e : Element.elements.values()) {
             List<String> newLore = e.getDescription();
 
-            if(cm.getBoolean("element.show_suppress_elements")) {
+            if(cm.getBoolean("element.show-suppress-elements")) {
                 newLore.add("");
-                newLore.add(cm.outString("element.suppress_elements_opening"));
+                newLore.add(cm.outString("element.suppress-elements-opening"));
                 for(Element se : e.getSuppressMap().keySet())
                     newLore.add(se.getDisplayName() + Util.colorize(" &7x" + e.getSuppressMap().get(se)));
             }
-            if(cm.getBoolean("element.show_suppressed_elements")) {
+            if(cm.getBoolean("element.show-suppressed-elements")) {
                 newLore.add("");
-                newLore.add(cm.outString("element.suppressed_elements_opening"));
+                newLore.add(cm.outString("element.suppressed-elements-opening"));
                 for(Element se : e.getSuppressedMap().keySet())
                     newLore.add(se.getDisplayName() + Util.colorize(" &7x" + e.getSuppressedMap().get(se)));
             }

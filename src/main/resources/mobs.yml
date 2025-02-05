@@ -1,5 +1,5 @@
 test_zombie:
-  display_name: "&2測試殭屍"
+  display-name: "&2測試殭屍"
   type: zombie
   health: 100
   element: wood
@@ -11,4 +11,4 @@ test_zombie:
     legs: test_leggings
     feet: test_boots
     hand: flame_sword
-    off_hand: iron_sword
+    off-hand: iron_sword

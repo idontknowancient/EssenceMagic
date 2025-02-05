@@ -72,7 +72,7 @@ public class Shoot extends SingleSkill {
             customNameVisible = cs.getBoolean(path + ".name-visible");
         else
             customNameVisible = false;
-        getInfo().add("  &7Name-Visible: " + customNameVisible);
+        getInfo().add("  &7Name Visible: " + customNameVisible);
 
         // set glowing (default to false)
         if(cs.isBoolean(path + ".glowing"))

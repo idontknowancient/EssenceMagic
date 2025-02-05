@@ -16,7 +16,7 @@ public class Skill {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
-    public static final Map<String, Skill> skills = new HashMap<>();
+    public static final Map<String, Skill> skills = new LinkedHashMap<>();
 
     private final String name;
 

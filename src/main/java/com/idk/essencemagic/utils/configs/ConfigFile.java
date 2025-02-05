@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ConfigFile {
 
-    private static List<ConfigName> configList = new ArrayList<>();
+    private static final List<ConfigName> configList = new ArrayList<>();
 
     public static void initialize() {
         configList.clear();
@@ -30,13 +30,15 @@ public class ConfigFile {
         MANA("mana"),
         PLAYER_DATA("player_data"),
         SKILLS("skills"),
+        WANDS("wands"),
         ;
 
         private final String configName;
         private final File file;
         private final YamlConfiguration config = new YamlConfiguration();
+
         ConfigName(String configName) {
-            this.configName = configName+".yml";
+            this.configName = configName + ".yml";
             this.file = new File(EssenceMagic.getPlugin().getDataFolder(), this.configName);
         }
 

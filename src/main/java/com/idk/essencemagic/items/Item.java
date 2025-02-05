@@ -8,6 +8,7 @@ import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -24,8 +25,10 @@ public class Item {
 
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
-    public static final Map<String, Item> items = new HashMap<>();
+    // contain the order
+    public static final Map<String, Item> items = new LinkedHashMap<>();
 
+    // signify custom items
     @Getter private static final NamespacedKey itemKey = new NamespacedKey(plugin, "item-key");
 
     @Getter private final ItemStack item;
@@ -54,13 +57,13 @@ public class Item {
 
     {
         String[] options =
-            {"hide_enchants", "hide_attributes", "hide_armor_trim", "hide_destroys",
-                    "hide_dye", "hide_placed_on", "hide_potion_effects", "hide_unbreakable"};
+            {"hide-enchants", "hide-attributes", "hide-armor-trim", "hide-destroys",
+                    "hide-dye", "hide-placed-on", "hide-potion-effects", "hide-unbreakable"};
         optionList.addAll(Arrays.asList(options));
 
         String[] attributes =
-                {"armor", "armor_toughness", "attack_damage", "attack_knockback", "attack_speed", "flying_speed", "follow_range",
-                        "knockback_resistance", "luck", "max_absorption", "max_health", "movement_speed"};
+                {"armor", "armor-toughness", "attack-damage", "attack-knockback", "attack-speed", "flying-speed", "follow-range",
+                        "knockback-resistance", "luck", "max-absorption", "max-health", "movement-speed"};
         attributeList.addAll(Arrays.asList(attributes));
     }
 
@@ -69,7 +72,7 @@ public class Item {
 
         //variable setting
         name = itemName;
-        displayName = ci.outString(itemName+".display_name");
+        displayName = ci.outString(itemName+".display-name");
         type = Material.valueOf(ci.getString(itemName+".type").toUpperCase());
         if(ci.isList(itemName+".lore"))
             lore = ci.outStringList(itemName+".lore");
@@ -114,10 +117,10 @@ public class Item {
 
     private void setItemEnchantments(Set<String> enchantmentSet, ConfigFile.ConfigName ci) {
         for(String s : enchantmentSet) {
-            //can use Registry to modify lots of things, but i'm not able to
-//            itemMeta.addEnchant(Registry.ENCHANTMENT.get(NamespacedKey.minecraft(s)),
-//                    ci.geti(itemName+".enchantments."+s), true);
-            itemMeta.addEnchant(Enchantment.getByName(s), ci.getInteger(name+".enchantments."+s), true);
+            // notice some enchantments have different names from we are used to using
+            Enchantment enchantment = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(s));
+            if(enchantment == null) continue;
+            itemMeta.addEnchant(enchantment, ci.getInteger(name+".enchantments."+s), true);
         }
     }
 
@@ -125,6 +128,8 @@ public class Item {
         for(String s : optionSet) {
             String prefix = name+".options.";
             if(optionList.contains(s) && ci.getBoolean(prefix+s)) {
+                // turn hide- to hide_
+                s = s.replaceAll("-", "_");
                 itemMeta.addItemFlags(ItemFlag.valueOf(s.toUpperCase()));
             }
         }
@@ -132,24 +137,25 @@ public class Item {
 
     private void setItemAttributes(Set<String> attributeSet, ConfigFile.ConfigName ci) {
         for(String s : attributeSet) {
-            String prefix = name+".attributes.";
+            String prefix = name + ".attributes.";
             if(attributeList.contains(s)) {
+                String s_ = s.replaceAll("-", "_");
                 //add, highest priority
                 if(getAttributeType(s, ci) == 0) {
-                    itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
-                            new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
+                    itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s_.toUpperCase()),
+                            new AttributeModifier(UUID.randomUUID(), s_, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_NUMBER,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                     Util.consoleOuts("using add method");
                 }
                 //multiply A*(1+a+b+c) usually smaller, second highest
                 if(getAttributeType(s, ci) == 1) {
-                    itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
+                    itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s_.toUpperCase()),
                             new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.ADD_SCALAR,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
                 //multiply A*(1+a)(1+b)(1+c) usually larger, lowest
                 if(getAttributeType(s, ci) == 2) {
-                    itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s.toUpperCase()),
+                    itemMeta.addAttributeModifier(Attribute.valueOf("GENERIC_"+s_.toUpperCase()),
                             new AttributeModifier(UUID.randomUUID(), s, ci.getDouble(prefix+s+".value"), AttributeModifier.Operation.MULTIPLY_SCALAR_1,
                                     EquipmentSlot.valueOf(ci.getString(prefix+s+".slot").toUpperCase())));
                 }
@@ -168,8 +174,8 @@ public class Item {
     //add - 0 / multiply - 1 /
     private int getAttributeType(String attributeName, ConfigFile.ConfigName ci) {
         if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("add")) return 0;
-        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply_continuous")) return 1;
-        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply_separate")) return 2;
+        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply-continuous")) return 1;
+        if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply-separate")) return 2;
 
         //-1 represents error
         return -1;

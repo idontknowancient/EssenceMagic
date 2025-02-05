@@ -36,6 +36,7 @@ public class MobHandler {
     }
 
     public static void spawnMob(Location location, Mob mob) {
+        if(location.getWorld() == null) return;
         LivingEntity entity = (LivingEntity) location.getWorld().spawnEntity(location, mob.getType());
         entity.setCustomName(mob.getDisplayName());
         if(mob.getHealth() != -1) {
@@ -44,6 +45,7 @@ public class MobHandler {
         }
         if(!mob.getEquipmentMap().isEmpty()) {
             for(EquipmentSlot slot : mob.getEquipmentMap().keySet()) {
+                if(entity.getEquipment() == null) continue;
                 entity.getEquipment().setItem(slot, mob.getEquipmentMap().get(slot));
             }
         }

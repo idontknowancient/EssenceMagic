@@ -22,7 +22,7 @@ public enum MagicType {
 
         ELEMENT("element"),
         RECONCILE("reconcile"),
-        CREATION("CREATION"),
+        CREATION("creation"),
         ;
 
         public final String name;

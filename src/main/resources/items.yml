@@ -1,5 +1,5 @@
 flame_sword:
-  display_name: "&c烈焰之劍"
+  display-name: "&c烈焰之劍"
   type: wooden_sword
   # item lore is not necessary
   lore:
@@ -16,20 +16,20 @@ flame_sword:
   element: flame
   # enchantments are not necessary
   enchantments:
-    durability: 3
+    unbreaking: 3
   # options are not necessary
   options:
-    hide_enchants: true
-    hide_attributes: false
+    hide-enchants: true
+    hide-attributes: false
       # attributes are not necessary
       # attributes:
-      # attack_damage:
-      # # add / multiply_continuous / multiply_separate
+      # attack-damage:
+      # # add / multiply-continuous / multiply-separate
       # type: add
       # value: 7
       # slot: hand
-      # attack_knockback:
-      # # add / multiply_continuous / multiply_separate
+      # attack-knockback:
+      # # add / multiply-continuous / multiply-separate
       # type: add
       # value: 3
     # slot: hand
@@ -37,7 +37,7 @@ flame_sword:
     - fire_ball
 
 snow_sword:
-  display_name: "&f白雪細劍"
+  display-name: "&f白雪細劍"
   type: iron_sword
   # item lore is not necessary
   lore:
@@ -53,17 +53,17 @@ snow_sword:
   element: water
   # enchantments are not necessary
   enchantments:
-    durability: 3
+    unbreaking: 3
   # options are not necessary
   options:
-    hide_enchants: true
-    hide_attributes: false
+    hide-enchants: true
+    hide-attributes: false
   skills:
     - snow_ball
     - floating
 
 floating_apple:
-  display_name: "#bfc9ca懸浮之果"
+  display-name: "#bfc9ca懸浮之果"
   type: golden_apple
   # item lore is not necessary
   lore:
@@ -79,54 +79,54 @@ floating_apple:
   element: wood
   # enchantments are not necessary
   enchantments:
-    durability: 3
+    unbreaking: 3
   # options are not necessary
   options:
-    hide_enchants: true
-    hide_attributes: false
+    hide-enchants: true
+    hide-attributes: false
   skills:
     - floating
 
 test_helmet:
-  display_name: "&2測試用頭盔"
+  display-name: "&2測試用頭盔"
   type: iron_helmet
   lore:
     - "&fAll for test."
   element: water
   enchantments:
-    durability: 3
+    unbreaking: 3
   options:
-    hide_enchants: true
+    hide-enchants: true
 
 test_chestplate:
-  display_name: "&2測試用胸甲"
+  display-name: "&2測試用胸甲"
   type: iron_chestplate
   lore:
     - "&fAll for test."
   element: water
   enchantments:
-    durability: 3
+    unbreaking: 3
   options:
-    hide_enchants: true
+    hide-enchants: true
 
 test_leggings:
-  display_name: "&2測試用護腿"
+  display-name: "&2測試用護腿"
   type: iron_leggings
   lore:
     - "&fAll for test."
   element: water
   enchantments:
-    durability: 3
+    unbreaking: 3
   options:
-    hide_enchants: true
+    hide-enchants: true
 
 test_boots:
-  display_name: "&2測試用靴子"
+  display-name: "&2測試用靴子"
   type: iron_boots
   lore:
     - "&fAll for test."
   element: water
   enchantments:
-    durability: 3
+    unbreaking: 3
   options:
-    hide_enchants: true
+    hide-enchants: true
