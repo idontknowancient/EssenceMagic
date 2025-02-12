@@ -43,6 +43,8 @@ public class Item {
 
     @Getter private List<String> lore = null;
 
+    @Getter private final int customModelData;
+
     @Getter private final String id;
 
     @Getter private final Element element;
@@ -70,44 +72,53 @@ public class Item {
     public Item(String itemName) {
         ConfigFile.ConfigName ci = ConfigFile.ConfigName.ITEMS;
 
-        //variable setting
+        // variable setting
         name = itemName;
         displayName = ci.outString(itemName+".display-name");
         type = Material.valueOf(ci.getString(itemName+".type").toUpperCase());
         if(ci.isList(itemName+".lore"))
             lore = ci.outStringList(itemName+".lore");
         id = getClass().getSimpleName();
-        //element setting, if not provided, use none instead
+
+        // set item model (default to none)
+        if(ci.isInteger(name + ".custom-model-data"))
+            customModelData = ci.getInteger(name + ".custom-model-data");
+        else
+            customModelData = -1;
+
+        // element setting, if not provided, use none instead
         if(ci.isString(itemName+".element"))
             element = Element.elements.get(ci.getString(itemName+".element"));
         else
             element = Element.elements.get("none");
 
 
-        //basic setting
+        // basic setting
         item = new ItemStack(type);
         itemMeta = item.getItemMeta();
         itemMeta.setDisplayName(displayName);
         if(lore != null)
             itemMeta.setLore(lore);
+        if(customModelData != -1)
+            itemMeta.setCustomModelData(customModelData);
 
-        //enchant setting
+        // enchant setting
         if(ci.isConfigurationSection(itemName+".enchantments"))
             setItemEnchantments(ci.getConfigurationSection(itemName+".enchantments").getKeys(false), ci);
 
-        //options setting
+        // options setting
         if(ci.isConfigurationSection(itemName+".options"))
             setItemOptions(ci.getConfigurationSection(itemName+".options").getKeys(false), ci);
 
-        //attributes setting
+        // attributes setting
         if(ci.isConfigurationSection(itemName+".attributes"))
             setItemAttributes(ci.getConfigurationSection(itemName+".attributes").getKeys(false), ci);
 
-        //skills setting
+        // skills setting
         if(ci.isList(itemName+".skills"))
             setItemSkills(ci.getStringList(itemName+".skills"));
 
-        //key setting
+        // key setting
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
         container.set(itemKey, PersistentDataType.STRING, getId());
         container.set(new NamespacedKey(plugin, name), PersistentDataType.STRING, getId());

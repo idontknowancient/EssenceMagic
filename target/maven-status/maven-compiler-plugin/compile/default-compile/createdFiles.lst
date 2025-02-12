@@ -45,6 +45,7 @@ com\idk\essencemagic\commands\SubCommand.class
 com\idk\essencemagic\listeners\PlayerJoinQuitListener.class
 com\idk\essencemagic\commands\essence_sub\SkillCommand.class
 com\idk\essencemagic\skills\Trigger.class
+com\idk\essencemagic\utils\ResourcePackManager.class
 com\idk\essencemagic\elements\ElementHandler.class
 com\idk\essencemagic\player\ManaHandler$2.class
 com\idk\essencemagic\skills\SkillHandler$Cooldown.class

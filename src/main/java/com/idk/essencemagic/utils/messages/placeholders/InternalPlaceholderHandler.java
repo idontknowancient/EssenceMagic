@@ -61,6 +61,9 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.WAND_NAME.name, info.getName());
         if(string.contains(InternalPlaceholder.WAND_DISPLAY_NAME.name))
             string = string.replaceAll(InternalPlaceholder.WAND_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
+        if(string.contains(InternalPlaceholder.WAND_MANA.name))
+            // rounding two digits
+            string = string.replaceAll(InternalPlaceholder.WAND_MANA.name, String.valueOf(Math.round(info.getStorageMana() * 100.00) / 100.00));
         return string;
     }
 
@@ -70,11 +73,13 @@ public class InternalPlaceholderHandler {
         if(string.contains(InternalPlaceholder.MANA_LEVEL.name))
             string = string.replaceAll(InternalPlaceholder.MANA_LEVEL.name, String.valueOf(info.getManaLevel()));
         if(string.contains(InternalPlaceholder.MANA.name))
-            string = string.replaceAll(InternalPlaceholder.MANA.name, String.valueOf(info.getMana()));
+            // rounding two digits
+            string = string.replaceAll(InternalPlaceholder.MANA.name, String.valueOf(Math.round(info.getMana() * 100.00) / 100.00));
         if(string.contains(InternalPlaceholder.DEFAULT_MANA.name))
             string = string.replaceAll(InternalPlaceholder.DEFAULT_MANA.name, String.valueOf(ManaHandler.getDefaultMana()));
         if(string.contains(InternalPlaceholder.MAX_MANA.name))
-            string = string.replaceAll(InternalPlaceholder.MAX_MANA.name, String.valueOf(info.getMaxMana()));
+            // rounding two digits
+            string = string.replaceAll(InternalPlaceholder.MAX_MANA.name, String.valueOf(Math.round(info.getMaxMana() * 100.00) / 100.00));
         if(string.contains(InternalPlaceholder.MANA_RECOVERY_SPEED.name))
             string = string.replaceAll(InternalPlaceholder.MANA_RECOVERY_SPEED.name, String.valueOf(info.getManaRecoverySpeed()));
         return string;

@@ -16,6 +16,7 @@ public interface ManaHandler {
     EssenceMagic plugin = EssenceMagic.getPlugin();
     ConfigFile.ConfigName cm = ConfigFile.ConfigName.MANA;
     List<Integer> taskIds = new ArrayList<>();
+    int interval = cm.getInteger("update-interval");
 
     int getManaLevel();
 
@@ -61,7 +62,7 @@ public interface ManaHandler {
                            cm.outString("show-message", PlayerData.dataMap.get(getPlayer().getName()))));
                 }
             }
-        }.runTaskTimer(plugin, 0L, cm.getInteger("update-interval")).getTaskId());
+        }.runTaskTimer(plugin, 0L, interval).getTaskId());
     }
 
     default void recover() {
@@ -72,11 +73,10 @@ public interface ManaHandler {
                     this.cancel();
                 if(getPlayer() != null) {
                     if(getMana() <= getMaxMana()) {
-                        setMana(Math.min(getMana() + 1, getMaxMana()));
+                        setMana(Math.min(getMana() + getManaRecoverySpeed()*interval/20.00d, getMaxMana()));
                     }
                 }
             }
-        }.runTaskTimer(plugin, 0L,
-                (long) getManaRecoverySpeed() * 20).getTaskId());
+        }.runTaskTimer(plugin, 0L, interval).getTaskId());
     }
 }

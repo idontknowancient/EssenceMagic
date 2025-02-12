@@ -1,14 +1,19 @@
 package com.idk.essencemagic.wands;
 
-import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public class WandHandler {
+public class WandHandler implements Listener {
 
     public static void initialize() {
         Wand.wands.clear();
@@ -60,5 +65,25 @@ public class WandHandler {
             }
         }
         return null;
+    }
+
+    // handle mana injection
+    @EventHandler
+    public void onPlayerRightClick(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        Action action = e.getAction();
+        boolean right_click = action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK);
+
+        if(!WandHandler.isHoldingWand(player)) return;
+        Wand wand = WandHandler.getCorrespondingWand(player);
+        if(wand == null) return;
+
+        double playerMana = PlayerData.dataMap.get(player.getName()).getMana();
+        double manaInjection = wand.getManaInjection();
+        // player's mana is less than the amount that will be consumed per right click
+        if(playerMana < manaInjection) return;
+        wand.setStorageMana(wand.getStorageMana() + manaInjection);
+        PlayerData.dataMap.get(player.getName()).setMana(playerMana - manaInjection);
+        player.sendMessage("injecting to wand: " + manaInjection + ", now: " + wand.getStorageMana());
     }
 }

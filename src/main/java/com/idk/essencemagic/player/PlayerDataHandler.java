@@ -32,14 +32,19 @@ public class PlayerDataHandler implements Listener {
         if(!cp.isInteger(playerName + "." + PlayerData.dataName[0]))
             cp.set(playerName + "." + PlayerData.dataName[0], cm.getInteger("default-level"));
         //mana-recovery-speed
-        if(!cp.isDouble(playerName + "." + PlayerData.dataName[1]))
+        if(!cp.isDouble(playerName + "." + PlayerData.dataName[1]) &&
+                !cp.isInteger(playerName + "." + PlayerData.dataName[1]))
             cp.set(playerName + "." + PlayerData.dataName[1], cm.getDouble("recovery-speed"));
         cp.save();
     }
 
     public static void updatePlayerData(String playerName) {
         PlayerData.dataMap.get(playerName).setManaLevel(cp.getInteger(playerName + ".mana-level"));
-        PlayerData.dataMap.get(playerName).setManaRecoverySpeed(cp.getDouble(playerName + ".mana-recovery-speed"));
+        String recoveryPath = playerName + ".mana-recovery-speed";
+        if(cp.isDouble(recoveryPath))
+            PlayerData.dataMap.get(playerName).setManaRecoverySpeed(cp.getDouble(recoveryPath));
+        else if(cp.isInteger(recoveryPath))
+            PlayerData.dataMap.get(playerName).setManaRecoverySpeed(cp.getInteger(recoveryPath));
     }
 
     public static void setSinglePlayerData(Player player) {

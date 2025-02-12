@@ -1,7 +1,15 @@
 basic:
-  name: "&b初級魔杖"
   material: stick
+  name: "&b初級魔杖"
+  lore:
+    - "&7新手魔法師的魔杖"
+    - "&7承受不了太大的魔力"
+    - "&7儲存的魔力: &b%wand_mana%"
   available-range:
     lower-limit: F;0
     upper-limit: C;9
+  default-mana: 0
+  # amount/ticks
+  mana-velocity: 3/10
   glowing: true
+  custom-model-data: 1001
