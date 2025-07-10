@@ -12,5 +12,3 @@ send-custom-message-when-join: true
 send-message-when-quit: true
 send-custom-message-when-quit: true
 extra-damage-by-mob-element: true
-use-resource-pack: false
-resource-pack-url: "URL here"

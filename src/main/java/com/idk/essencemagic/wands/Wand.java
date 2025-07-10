@@ -13,6 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
@@ -27,8 +28,14 @@ public class Wand {
 
     public static final Map<String, Wand> wands = new LinkedHashMap<>();
 
-    // signify wands
+    // storage wands with specific info like mana
+    public static final Map<PersistentDataContainer, Wand> specificWands = new LinkedHashMap<>();
+
+    // signify overall wands
      @Getter private static final NamespacedKey wandKey = new NamespacedKey(plugin, "wand-key");
+
+     // signify specific wands
+     @Setter private NamespacedKey specificWandKey;
 
      private final String name;
 
@@ -129,8 +136,11 @@ public class Wand {
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         if(customModelData != -1) itemMeta.setCustomModelData(customModelData);
+        // custom item
         itemMeta.getPersistentDataContainer().set(Item.getItemKey(), PersistentDataType.STRING, name);
+        // wand
         itemMeta.getPersistentDataContainer().set(wandKey, PersistentDataType.STRING, name);
+
         itemStack.setItemMeta(itemMeta);
     }
 }

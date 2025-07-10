@@ -9,6 +9,7 @@ import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.mobs.MobHandler;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
+import com.idk.essencemagic.wands.Wand;
 import com.idk.essencemagic.wands.WandHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,11 +47,14 @@ public class MenuListener implements Listener {
         // get custom items by click (items & wands)
         if(inventory.getHolder() instanceof GetItemHolder) {
             // wands are also custom items
-            if(WandHandler.isWand(item)) {
-                if(SystemPermission.checkPerm(player, Permission.COMMAND_WAND_MENU_GET.name))
-                    player.getInventory().addItem(item);
-            } else if(ItemHandler.isCustomItem(item)) {
-                if(SystemPermission.checkPerm(player, Permission.COMMAND_ITEM_MENU_GET.name))
+            if(SystemPermission.checkPerm(player, Permission.COMMAND_WAND_MENU_GET.name)) {
+                if(WandHandler.isWand(item)) {
+                    Wand specificWand = WandHandler.getSpecificWand(player, item);
+                    if(specificWand == null) return;
+                    player.getInventory().addItem(specificWand.getItemStack());
+                }
+            } else if(SystemPermission.checkPerm(player, Permission.COMMAND_ITEM_MENU_GET.name)) {
+                if(ItemHandler.isCustomItem(item))
                     player.getInventory().addItem(item);
             }
         }

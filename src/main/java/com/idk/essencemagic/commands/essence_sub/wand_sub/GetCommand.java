@@ -5,6 +5,7 @@ import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
 import com.idk.essencemagic.wands.Wand;
+import com.idk.essencemagic.wands.WandHandler;
 import org.bukkit.entity.Player;
 
 public class GetCommand extends SubCommand {
@@ -34,13 +35,13 @@ public class GetCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
-        for(String s : Wand.wands.keySet()) {
-            if(args[2].equalsIgnoreCase(s)) {
-                p.getInventory().addItem(Wand.wands.get(s).getItemStack());
-                SystemMessage.WAND_GOT.send(p, Wand.wands.get(s));
-                return;
-            }
+        String wandName = args[2];
+        Wand wand = WandHandler.getSpecificWand(p, wandName);
+        if(wand == null)  {
+            SystemMessage.WAND_NOT_FOUND.send(p);
+            return;
         }
-        SystemMessage.WAND_NOT_FOUND.send(p);
+        p.getInventory().addItem(wand.getItemStack());
+        SystemMessage.WAND_GOT.send(p, wand);
     }
 }

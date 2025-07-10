@@ -1,7 +1,9 @@
 package com.idk.essencemagic.wands;
 
+import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.utils.configs.ConfigFile;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -17,6 +22,7 @@ public class WandHandler implements Listener {
 
     public static void initialize() {
         Wand.wands.clear();
+        Wand.specificWands.clear();
         setWands();
     }
 
@@ -25,6 +31,39 @@ public class WandHandler implements Listener {
         for(String wand : wandSet) {
             Wand.wands.put(wand, new Wand(wand));
         }
+    }
+
+    // return wand and handle the initial registration (specific wand key)
+    // use when getting from a string
+    @Nullable
+    public static Wand getSpecificWand(Player player, String wandName) {
+        Wand wand = new Wand(wandName);
+        NamespacedKey specificWandKey = new NamespacedKey(EssenceMagic.getPlugin(),
+                // specific wand key
+                player.getName() + wandName + System.currentTimeMillis());
+        ItemMeta itemMeta = wand.getItemStack().getItemMeta();
+        if(itemMeta == null) return null;
+        itemMeta.getPersistentDataContainer().set(specificWandKey, PersistentDataType.STRING, wandName);
+        wand.setSpecificWandKey(specificWandKey);
+        wand.getItemStack().setItemMeta(itemMeta);
+        Wand.specificWands.put(itemMeta.getPersistentDataContainer(), wand);
+
+        return wand;
+    }
+
+    // return wand and handle the initial registration (specific wand key)
+    // use when getting from an item stack (compare using persistent data container)
+    @Nullable
+    public static Wand getSpecificWand(Player player, ItemStack itemStack) {
+        if(itemStack.getItemMeta() == null) return null;
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        for(Wand wand : Wand.wands.values()) {
+            ItemMeta wandMeta = wand.getItemStack().getItemMeta();
+            if(wandMeta == null) return null;
+            if(itemMeta.getPersistentDataContainer().equals(wandMeta.getPersistentDataContainer()))
+                return getSpecificWand(player, wand.getName());
+        }
+        return null;
     }
 
     public static boolean isWand(ItemStack i) {
@@ -38,7 +77,7 @@ public class WandHandler implements Listener {
         return isWand(itemInMainHand);
     }
 
-    //return the corresponding wand
+    // return the corresponding wand
     @Nullable
     public static Wand getCorrespondingWand(ItemStack itemStack) {
         if(itemStack.getItemMeta() == null) return null;
@@ -52,19 +91,23 @@ public class WandHandler implements Listener {
         return null;
     }
 
-    //return the corresponding wand in an entity's main hand
+    // return the corresponding wand in an entity's main hand
     @Nullable
     public static Wand getCorrespondingWand(LivingEntity entity) {
         if(entity.getEquipment() == null ||
                 entity.getEquipment().getItemInMainHand().getItemMeta() == null) return null;
-        for(Wand w : Wand.wands.values()) {
+        PersistentDataContainer container = entity.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer();
+        if(Wand.specificWands.containsKey(container))
+            return Wand.specificWands.get(container);
+        return null;
+        /*for(Wand w : Wand.wands.values()) {
             if(w.getItemStack().getItemMeta() == null) continue;
             if(w.getItemStack().getItemMeta().getPersistentDataContainer()
                     .equals(entity.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer())) {
                 return w;
             }
         }
-        return null;
+        return null;*/
     }
 
     // handle mana injection
