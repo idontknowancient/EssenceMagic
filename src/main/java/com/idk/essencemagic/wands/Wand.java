@@ -28,38 +28,38 @@ public class Wand {
 
     public static final Map<String, Wand> wands = new LinkedHashMap<>();
 
-    // storage wands with specific info like mana
-    public static final Map<PersistentDataContainer, Wand> specificWands = new LinkedHashMap<>();
-
     // signify overall wands
-     @Getter private static final NamespacedKey wandKey = new NamespacedKey(plugin, "wand-key");
+    @Getter private static final NamespacedKey wandKey = new NamespacedKey(plugin, "wand-key");
 
-     // signify specific wands
-     @Setter private NamespacedKey specificWandKey;
+    // signify specific wand
+    private final NamespacedKey uniqueKey = new NamespacedKey(plugin, "unique-key");
 
-     private final String name;
+    private final String name;
 
-     private final Material material;
+    private final Material material;
 
-     private final String displayName;
+    private final String displayName;
 
-     @Setter private double storageMana;
+    private final List<String> lore = new ArrayList<>();
 
-     private final List<String> lore = new ArrayList<>();
+    private final boolean glowing;
 
-     private final String lowerLimit;
+    private final int customModelData;
 
-     private final String upperLimit;
+    private final ItemStack itemStack;
 
-     private final double manaInjection;
+    private final List<String> info = new ArrayList<>();
 
-     private final boolean glowing;
+    private final double defaultMana;
+    // used to storage mana
+    @Getter private static final NamespacedKey manaKey = new NamespacedKey(plugin, "mana-key");
 
-     private final int customModelData;
+    private final String lowerLimit;
+    private final String upperLimit;
+    @Getter private static final NamespacedKey limitKey = new NamespacedKey(plugin, "limit-key");
 
-     private final ItemStack itemStack;
-
-     private final List<String> info = new ArrayList<>();
+    private final double manaInjection;
+    @Getter private static final NamespacedKey injectionKey = new NamespacedKey(plugin, "injection-key");
 
     public Wand(String wandName) {
         ConfigFile.ConfigName cw = ConfigFile.ConfigName.WANDS;
@@ -79,11 +79,11 @@ public class Wand {
 
         // set storage mana (default to 0)
         if(cw.isDouble(name + ".default-mana") && cw.getDouble(name + ".default-mana") >= 0)
-            storageMana = cw.getDouble(name + ".default-mana");
+            defaultMana = cw.getDouble(name + ".default-mana");
         else if(cw.isInteger(name + ".default-mana") && cw.getInteger(name + ".default-mana") >= 0)
-            storageMana = cw.getInteger(name + ".default-mana");
+            defaultMana = cw.getInteger(name + ".default-mana");
         else
-            storageMana = 0.0;
+            defaultMana = 0.0;
 
         // set item lore (default to empty)
         if(cw.isList(name + ".lore")) {
@@ -129,6 +129,8 @@ public class Wand {
         itemStack = new ItemStack(material);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if(itemMeta == null) return;
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+
         itemMeta.setDisplayName(displayName);
         itemMeta.setLore(lore);
         if(glowing) {
@@ -136,10 +138,20 @@ public class Wand {
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         if(customModelData != -1) itemMeta.setCustomModelData(customModelData);
+
+        // unique (unstackable)
+        container.set(uniqueKey, PersistentDataType.STRING, System.currentTimeMillis()+""+Math.random());
         // custom item
-        itemMeta.getPersistentDataContainer().set(Item.getItemKey(), PersistentDataType.STRING, name);
-        // wand
-        itemMeta.getPersistentDataContainer().set(wandKey, PersistentDataType.STRING, name);
+        container.set(Item.getItemKey(), PersistentDataType.STRING, name);
+        // wand (internal name)
+        container.set(wandKey, PersistentDataType.STRING, name);
+        // mana
+        container.set(manaKey, PersistentDataType.DOUBLE, defaultMana);
+        // limit
+        container.set(limitKey, PersistentDataType.STRING, lowerLimit+upperLimit);
+        // injection
+        container.set(injectionKey, PersistentDataType.DOUBLE, manaInjection);
+
 
         itemStack.setItemMeta(itemMeta);
     }

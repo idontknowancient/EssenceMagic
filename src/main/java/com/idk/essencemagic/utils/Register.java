@@ -31,6 +31,7 @@ public class Register {
         register(new PlayerDataHandler());
         register(new SkillHandler());
         register(new WandHandler());
+
     }
 
     public static void registerCommands() {

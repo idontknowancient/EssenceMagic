@@ -7,12 +7,18 @@ import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.wands.Wand;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 public class InternalPlaceholderHandler {
 
     public static String translatePlaceholders(String string, Object info) {
         if(info instanceof String s)
             string = handleString(string, s);
+        else if(info instanceof ItemStack i)
+            string = handleItemStack(string, i);
         else if(info instanceof Item i)
             string = handleItem(string, i);
         else if(info instanceof Skill s)
@@ -33,6 +39,18 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.PLAYER.name, info);
         if(string.contains(InternalPlaceholder.USAGE.name))
             string = string.replaceAll(InternalPlaceholder.USAGE.name, info);
+        return string;
+    }
+
+    private static String handleItemStack(String string, ItemStack info) {
+        ItemMeta meta = info.getItemMeta();
+        if(meta == null) return string;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        if(container.has(Wand.getWandKey()))
+            string = handleWand(string, container);
+        if(container.has(Item.getItemKey())) {
+
+        }
         return string;
     }
 
@@ -63,7 +81,17 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.WAND_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
         if(string.contains(InternalPlaceholder.WAND_MANA.name))
             // rounding two digits
-            string = string.replaceAll(InternalPlaceholder.WAND_MANA.name, String.valueOf(Math.round(info.getStorageMana() * 100.00) / 100.00));
+            string = string.replaceAll(InternalPlaceholder.WAND_MANA.name, String.valueOf(Math.round(info.getDefaultMana() * 100.00) / 100.00));
+        return string;
+    }
+
+    private static String handleWand(String string, PersistentDataContainer container) {
+        if(string.contains(InternalPlaceholder.WAND_MANA.name)) {
+            Double Mana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
+            // assign default value if the key doesn't exist
+            double mana = Mana != null ? Mana : 0.0;
+            string = string.replaceAll(InternalPlaceholder.WAND_MANA.name, mana+"");
+        }
         return string;
     }
 

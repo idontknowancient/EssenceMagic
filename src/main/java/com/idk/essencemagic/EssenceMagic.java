@@ -28,9 +28,6 @@ public final class EssenceMagic extends JavaPlugin {
         WandHandler.initialize();
         MobHandler.initialize();
         PlayerDataHandler.initialize();
-
-        Register.registerListeners();
-        Register.registerCommands();
     }
 
     public static void registerDependencies() {
@@ -53,6 +50,9 @@ public final class EssenceMagic extends JavaPlugin {
 
         registerDependencies();
         initialize();
+
+        Register.registerListeners();
+        Register.registerCommands();
 
         try {
             new CustomPlaceholder().register();
