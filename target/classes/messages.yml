@@ -39,6 +39,7 @@ no-wand-in-hand: "&c手中沒有魔杖!"
 not-wand: "&c此物品非魔杖!"
 add-wand-mana: "&a已增加魔力為 %wand_mana%"
 set-wand-mana: "&a已設置魔力為 %wand_mana%"
+wand-magic-empty: "&7[空]"
 wand-info:
     - "&f&m                                 "
     - "&7內部名稱: &f%wand_name%"

@@ -40,7 +40,7 @@ public class Wand {
 
     private final String displayName;
 
-    private final List<String> lore = new ArrayList<>();
+    private List<String> lore = new ArrayList<>();
 
     private final boolean glowing;
 
@@ -88,14 +88,6 @@ public class Wand {
         else
             defaultMana = 0.0;
 
-        // set item lore (default to empty)
-        if(cw.isList(name + ".lore")) {
-            // set internal placeholders
-            for(String string : cw.getStringList(name + ".lore")) {
-                lore.add(InternalPlaceholderHandler.translatePlaceholders(Util.colorize(string), this));
-            }
-        }
-
         // set wand lower limit (default to F;0)
         if(cw.isString(name + ".lower-limit"))
             lowerLimit = cw.getString(name + ".lower-limit");
@@ -109,17 +101,27 @@ public class Wand {
             upperLimit = "F;0";
 
         // set wand mana injection (default to 1)(per right click)
-        if(cw.isDouble(name + ".mana-injection"))
+        if(cw.isDouble(name + ".mana-injection") && cw.getDouble(name + ".mana-injection") >= 0)
             manaInjection = cw.getDouble(name + ".mana-injection");
-        else if(cw.isInteger(name + ".mana-injection"))
+        else if(cw.isInteger(name + ".mana-injection") && cw.getInteger(name + ".mana-injection") >= 0)
             manaInjection = cw.getInteger(name + ".mana-injection");
         else
             manaInjection = 1;
 
-        if(cw.isInteger(name + ".magic-slot"))
+        // set available magic amount (default to 1)
+        if(cw.isInteger(name + ".magic-slot") && cw.getInteger(name + ".magic-slot") >= 1)
             slot = cw.getInteger(name + ".magic-slot");
         else
             slot = 1;
+
+        // set item lore (default to empty)
+        if(cw.isList(name + ".lore")) {
+            // set internal placeholders
+            for(String string : cw.getStringList(name + ".lore")) {
+                lore.add(InternalPlaceholderHandler.translatePlaceholders(Util.colorize(string), this));
+            }
+            lore = Util.splitLore(lore);
+        }
 
         // set wand glowing (default to false)
         if(cw.isBoolean(name + ".glowing"))
@@ -128,7 +130,7 @@ public class Wand {
             glowing = false;
 
         // set wand model (default to none)
-        if(cw.isInteger(name + ".custom-model-data"))
+        if(cw.isInteger(name + ".custom-model-data") && cw.getInteger(name + ".custom-model-data") >= 0)
             customModelData = cw.getInteger(name + ".custom-model-data");
         else
             customModelData = -1;

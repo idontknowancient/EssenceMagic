@@ -5,6 +5,10 @@ basic:
     - "&7新手魔法師的魔杖"
     - "&7承受不了太大的魔力"
     - "&7儲存的魔力: &b%wand_mana%"
+    - ""
+    - "&7==============="
+    - "&f%wand_magic%"
+    - "&7==============="
   available-range:
     lower-limit: F;0
     upper-limit: C;9

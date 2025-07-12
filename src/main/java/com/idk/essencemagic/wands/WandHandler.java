@@ -1,6 +1,7 @@
 package com.idk.essencemagic.wands;
 
 import com.idk.essencemagic.player.PlayerData;
+import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.LivingEntity;
@@ -76,8 +77,8 @@ public class WandHandler implements Listener {
 
         String name = container.get(Wand.getWandKey(), PersistentDataType.STRING);
         // create new wand (internal name can't be change)
-        Wand newWand = new Wand(name);
-        ItemMeta newMeta = newWand.getItemStack().getItemMeta();
+        ItemStack newWand = new Wand(name).getItemStack();
+        ItemMeta newMeta = newWand.getItemMeta();
         if(newMeta == null) return;
         PersistentDataContainer newContainer = newMeta.getPersistentDataContainer();
 
@@ -87,7 +88,10 @@ public class WandHandler implements Listener {
         newContainer.set(Wand.getManaKey(), PersistentDataType.DOUBLE, mana);
 
         // update lore (based on old mana)
-        List<String> lore = ConfigFile.ConfigName.WANDS.outStringList(name + ".lore", wand);
+        newWand.setItemMeta(newMeta);
+        List<String> lore = ConfigFile.ConfigName.WANDS.outStringList(name + ".lore", newWand);
+        // handle "\n" in lore
+        lore = Util.splitLore(lore);
         newMeta.setLore(lore);
 
         wand.setItemMeta(newMeta);

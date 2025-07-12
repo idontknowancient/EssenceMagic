@@ -38,6 +38,7 @@ public enum SystemMessage implements Message {
     NOT_WAND("not-wand"),
     ADD_WAND_MANA("add-wand-mana"),
     SET_WAND_MANA("set-wand-mana"),
+    WAND_MAGIC_EMPTY("wand-magic-empty"),
     WAND_UPDATED("wand-updated"),
     PLAYER_NOT_EXIST("player-not-exist"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),

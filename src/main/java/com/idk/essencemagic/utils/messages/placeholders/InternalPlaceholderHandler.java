@@ -4,6 +4,7 @@ import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.player.ManaHandler;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
+import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.wands.Wand;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
@@ -74,6 +75,7 @@ public class InternalPlaceholderHandler {
         return string;
     }
 
+    // use when initializing
     private static String handleWand(String string, Wand info) {
         if(string.contains(InternalPlaceholder.WAND_NAME.name))
             string = string.replaceAll(InternalPlaceholder.WAND_NAME.name, info.getName());
@@ -82,9 +84,25 @@ public class InternalPlaceholderHandler {
         if(string.contains(InternalPlaceholder.WAND_MANA.name))
             // rounding two digits
             string = string.replaceAll(InternalPlaceholder.WAND_MANA.name, String.valueOf(Math.round(info.getDefaultMana() * 100.00) / 100.00));
+        if(string.contains(InternalPlaceholder.WAND_SLOT.name))
+            string = string.replaceAll(InternalPlaceholder.WAND_SLOT.name, info.getSlot()+"");
+        if(string.contains(InternalPlaceholder.WAND_MAGIC.name)) {
+            StringBuilder magic = new StringBuilder();
+            String empty = "";
+            ConfigFile.ConfigName cm = ConfigFile.ConfigName.MESSAGES;
+            if(cm.isString("wand-magic-empty"))
+                empty = cm.outString("wand-magic-empty");
+            else
+                empty = "&7[empty]";
+            for(int i = 0; i < info.getSlot(); i++) {
+                magic.append(empty).append("\n");
+            }
+            string = string.replaceAll(InternalPlaceholder.WAND_MAGIC.name, magic.substring(0, magic.length()));
+        }
         return string;
     }
 
+    // use when updating
     private static String handleWand(String string, ItemStack info) {
         // checked before
         assert info.getItemMeta() != null;
@@ -108,6 +126,21 @@ public class InternalPlaceholderHandler {
             Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
             double slot = Slot != null ? Slot : 1;
             string = string.replaceAll(InternalPlaceholder.WAND_SLOT.name, slot+"");
+        }
+        if(string.contains(InternalPlaceholder.WAND_MAGIC.name)) {
+            Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
+            double slot = Slot != null ? Slot : 1;
+            StringBuilder magic = new StringBuilder();
+            String empty = "";
+            ConfigFile.ConfigName cm = ConfigFile.ConfigName.MESSAGES;
+            if(cm.isString("wand-magic-empty"))
+                empty = cm.outString("wand-magic-empty");
+            else
+                empty = "&7[empty]";
+            for(int i = 0; i < slot; i++) {
+                magic.append(empty).append("\n");
+            }
+            string = string.replaceAll(InternalPlaceholder.WAND_MAGIC.name, magic.substring(0, magic.length()));
         }
         return string;
     }

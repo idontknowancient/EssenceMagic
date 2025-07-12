@@ -5,6 +5,8 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +24,21 @@ public class Util {
             match = hexCode.matcher(string);
         }
         return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    // used to handle "\n" in a line
+    // e.g. "[a]\n[b]\n[c]\n[d]" should be split into four parts
+    public static List<String> splitLore(List<String> old) {
+        List<String> new_ = new ArrayList<>();
+        for(String string : old) {
+            if(string.contains("\n")) {
+                String[] multiple = string.split("\n");
+                new_.addAll(List.of(multiple));
+            } else
+                new_.add(string);
+        }
+
+        return new_;
     }
 
     public static void consoleOuts(String s) {
