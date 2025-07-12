@@ -61,6 +61,9 @@ public class Wand {
     private final double manaInjection;
     @Getter private static final NamespacedKey injectionKey = new NamespacedKey(plugin, "injection-key");
 
+    private final int slot;
+    @Getter private static final NamespacedKey slotKey = new NamespacedKey(plugin, "slot-key");
+
     public Wand(String wandName) {
         ConfigFile.ConfigName cw = ConfigFile.ConfigName.WANDS;
         name = wandName;
@@ -113,6 +116,11 @@ public class Wand {
         else
             manaInjection = 1;
 
+        if(cw.isInteger(name + ".magic-slot"))
+            slot = cw.getInteger(name + ".magic-slot");
+        else
+            slot = 1;
+
         // set wand glowing (default to false)
         if(cw.isBoolean(name + ".glowing"))
             glowing = cw.getBoolean(name + ".glowing");
@@ -151,7 +159,8 @@ public class Wand {
         container.set(limitKey, PersistentDataType.STRING, lowerLimit+upperLimit);
         // injection
         container.set(injectionKey, PersistentDataType.DOUBLE, manaInjection);
-
+        // slot
+        container.set(slotKey, PersistentDataType.INTEGER, slot);
 
         itemStack.setItemMeta(itemMeta);
     }

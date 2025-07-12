@@ -4,44 +4,44 @@ import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
-import com.idk.essencemagic.wands.Wand;
 import com.idk.essencemagic.wands.WandHandler;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public class GetCommand extends SubCommand {
+public class UpdateCommand extends SubCommand {
 
     @Override
     public String getName() {
-        return "get";
+        return "update";
     }
 
     @Override
     public String getDescription() {
-        return "Get a wand";
+        return "Update the wand player holding";
     }
 
     @Override
     public String getSyntax() {
-        return "/essence wand get <wand>";
+        return "/es wand update";
     }
 
     @Override
     public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_GET.name)){
+        if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_UPDATE.name)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
-        if(args.length <= 2) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
+        ItemStack itemInMainHand = p.getInventory().getItemInMainHand();
+        if(itemInMainHand.getType().equals(Material.AIR)) {
+            SystemMessage.NO_WAND_IN_HAND.send(p);
             return;
         }
-        String wandName = args[2];
-        Wand wand = WandHandler.getWand(wandName);
-        if(wand == null)  {
-            SystemMessage.WAND_NOT_FOUND.send(p);
+        if(!WandHandler.isHoldingWand(p)) {
+            SystemMessage.NOT_WAND.send(p);
             return;
         }
-        p.getInventory().addItem(wand.getItemStack());
-        SystemMessage.WAND_GOT.send(p, wand);
+        WandHandler.updateWand(itemInMainHand);
+        SystemMessage.WAND_UPDATED.send(p);
     }
 }

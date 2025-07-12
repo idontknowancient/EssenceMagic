@@ -50,7 +50,6 @@ public class InfoCommand extends SubCommand {
             return;
         }
         Item item = ItemHandler.getCorrespondingItem(p);
-        Wand wand = WandHandler.getCorrespondingWand(p);
         if(item != null) {
             List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", item);
             for(String string : info) {
@@ -58,13 +57,9 @@ public class InfoCommand extends SubCommand {
             }
             return;
         }
-        if(wand != null) {
-            List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", wand);
-            for (String string : info) {
-                p.sendMessage(string);
-            }
-            return;
+        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", itemInMainHand);
+        for (String string : info) {
+            p.sendMessage(string);
         }
-        SystemMessage.NOT_CUSTOM_ITEM.send(p);
     }
 }

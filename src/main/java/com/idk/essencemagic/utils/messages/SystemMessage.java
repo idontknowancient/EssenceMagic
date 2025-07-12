@@ -12,6 +12,8 @@ public enum SystemMessage implements Message {
     UNKNOWN_COMMAND("unknown-command"),
     TOO_LITTLE_ARGUMENT("too-little-argument"),
     INADEQUATE_PERMISSION("inadequate-permission"),
+    INADEQUATE_MANA("inadequate-mana"),
+    NOT_NUMBER("not-number"),
     GOD_MODE_ENABLED("god-mode-enabled"),
     GOD_MODE_DISABLED("god-mode-disabled"),
     ITEM_GOT("item-got"),
@@ -34,6 +36,9 @@ public enum SystemMessage implements Message {
     WAND_NOT_FOUND("wand-not-found"),
     NO_WAND_IN_HAND("no-wand-in-hand"),
     NOT_WAND("not-wand"),
+    ADD_WAND_MANA("add-wand-mana"),
+    SET_WAND_MANA("set-wand-mana"),
+    WAND_UPDATED("wand-updated"),
     PLAYER_NOT_EXIST("player-not-exist"),
     SUCCESSFULLY_RELOADED("successfully-reloaded"),
     ;

@@ -47,12 +47,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_WAND.send(p);
             return;
         }
-        Wand wand = WandHandler.getCorrespondingWand(p);
-        if(wand == null) {
-            SystemMessage.NOT_WAND.send(p);
-            return;
-        }
-        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", wand);
+        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", itemInMainHand);
         for(String string : info) {
             p.sendMessage(string);
         }

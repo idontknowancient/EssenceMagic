@@ -108,6 +108,9 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             if(args[0].equalsIgnoreCase("wand") && args[1].equalsIgnoreCase("get")) {
                 return new ArrayList<>(Wand.wands.keySet());
             }
+            if(args[0].equalsIgnoreCase("wand") && args[1].equalsIgnoreCase("mana")) {
+                return List.of("set", "add");
+            }
         }
         if(args.length == 4) {
             if(args[0].equalsIgnoreCase("mana") && args[1].equalsIgnoreCase("set")) {

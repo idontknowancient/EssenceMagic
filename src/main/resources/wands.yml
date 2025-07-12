@@ -9,7 +9,9 @@ basic:
     lower-limit: F;0
     upper-limit: C;9
   default-mana: 0
-  # amount/ticks
-  mana-velocity: 3/10
+  # injection amount per right click
+  mana-injection: 2
+  # available amount of magic
+  magic-slot: 2
   glowing: true
   custom-model-data: 1001

@@ -47,7 +47,7 @@ public class InternalPlaceholderHandler {
         if(meta == null) return string;
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if(container.has(Wand.getWandKey()))
-            string = handleWand(string, container);
+            string = handleWand(string, info);
         if(container.has(Item.getItemKey())) {
 
         }
@@ -85,12 +85,29 @@ public class InternalPlaceholderHandler {
         return string;
     }
 
-    private static String handleWand(String string, PersistentDataContainer container) {
+    private static String handleWand(String string, ItemStack info) {
+        // checked before
+        assert info.getItemMeta() != null;
+        PersistentDataContainer container = info.getItemMeta().getPersistentDataContainer();
+
+        if(string.contains(InternalPlaceholder.WAND_NAME.name)) {
+            String Name = container.get(Wand.getWandKey(), PersistentDataType.STRING);
+            String name = Name != null ? Name : "";
+            string = string.replaceAll(InternalPlaceholder.WAND_NAME.name, name);
+        }
+        if(string.contains(InternalPlaceholder.WAND_DISPLAY_NAME.name)) {
+            string = string.replaceAll(InternalPlaceholder.WAND_DISPLAY_NAME.name, info.getItemMeta().getDisplayName());
+        }
         if(string.contains(InternalPlaceholder.WAND_MANA.name)) {
             Double Mana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
             // assign default value if the key doesn't exist
             double mana = Mana != null ? Mana : 0.0;
             string = string.replaceAll(InternalPlaceholder.WAND_MANA.name, mana+"");
+        }
+        if(string.contains(InternalPlaceholder.WAND_SLOT.name)) {
+            Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
+            double slot = Slot != null ? Slot : 1;
+            string = string.replaceAll(InternalPlaceholder.WAND_SLOT.name, slot+"");
         }
         return string;
     }

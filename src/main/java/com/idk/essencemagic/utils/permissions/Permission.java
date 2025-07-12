@@ -33,8 +33,12 @@ public enum Permission {
     COMMAND_WAND("command.wand"),
     COMMAND_WAND_GET("command.wand.get"),
     COMMAND_WAND_INFO("command.wand.info"),
+    COMMAND_WAND_MANA("command.wand.mana"),
+    COMMAND_WAND_MANA_ADD("command.wand.mana.add"),
+    COMMAND_WAND_MANA_SET("command.wand.mana.set"),
     COMMAND_WAND_MENU("command.wand.menu"),
     COMMAND_WAND_MENU_GET("command.wand.menu.get"),
+    COMMAND_WAND_UPDATE("command.wand.update"),
     ;
 
     public final String name;

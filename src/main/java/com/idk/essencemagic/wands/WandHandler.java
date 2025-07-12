@@ -2,7 +2,7 @@ package com.idk.essencemagic.wands;
 
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.utils.configs.ConfigFile;
-import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
+import com.idk.essencemagic.utils.messages.SystemMessage;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,37 +34,28 @@ public class WandHandler implements Listener {
         }
     }
 
-    // return wand and handle the initial registration (specific wand key)
+    // return specified wand
     // use when getting from a string
     @Nullable
-    public static Wand getSpecificWand(Player player, String wandName) {
-        Wand wand = new Wand(wandName);
-//        NamespacedKey specificWandKey = new NamespacedKey(EssenceMagic.getPlugin(),
-//                // specific wand key
-//                player.getName() + wandName + System.currentTimeMillis());
-        ItemMeta itemMeta = wand.getItemStack().getItemMeta();
-        if(itemMeta == null) return null;
-//        itemMeta.getPersistentDataContainer().set(specificWandKey, PersistentDataType.STRING, wandName);
-//        wand.setSpecificWandKey(specificWandKey);
-//        wand.getItemStack().setItemMeta(itemMeta);
-        //Wand.specificWands.put(itemMeta.getPersistentDataContainer(), wand);
-
-        return wand;
+    public static Wand getWand(String wandName) {
+        if(Wand.wands.containsKey(wandName)) return new Wand(wandName);
+        else return null;
     }
 
-    // return wand and handle the initial registration (specific wand key)
-    // use when getting from an item stack (compare using persistent data container)
+    // return specified wand
+    // use when getting from an item
     @Nullable
-    public static Wand getSpecificWand(Player player, ItemStack itemStack) {
-        if(itemStack.getItemMeta() == null) return null;
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        for(Wand wand : Wand.wands.values()) {
-            ItemMeta wandMeta = wand.getItemStack().getItemMeta();
-            if(wandMeta == null) return null;
-            if(itemMeta.getPersistentDataContainer().equals(wandMeta.getPersistentDataContainer()))
-                return getSpecificWand(player, wand.getName());
-        }
-        return null;
+    public static Wand getWand(ItemStack wand) {
+        String name = getWandName(wand);
+        if(name == null) return null;
+        return getWand(name);
+    }
+
+    @Nullable
+    public static String getWandName(ItemStack wand) {
+        if(!isWand(wand)) return null;
+        assert wand.getItemMeta() != null;
+        return wand.getItemMeta().getPersistentDataContainer().get(Wand.getWandKey(), PersistentDataType.STRING);
     }
 
     public static boolean isWand(ItemStack i) {
@@ -78,47 +69,28 @@ public class WandHandler implements Listener {
         return isWand(itemInMainHand);
     }
 
-    // return the corresponding wand
-    @Nullable
-    public static Wand getCorrespondingWand(ItemStack itemStack) {
-        if(itemStack.getItemMeta() == null) return null;
-        for(Wand w : Wand.wands.values()) {
-            if(w.getItemStack().getItemMeta() == null) continue;
-            if(w.getItemStack().getItemMeta().getPersistentDataContainer()
-                    .equals(itemStack.getItemMeta().getPersistentDataContainer())) {
-                return w;
-            }
-        }
-        return null;
-    }
-
-    // return the corresponding wand in an entity's main hand
-    @Nullable
-    public static Wand getCorrespondingWand(LivingEntity entity) {
-        if(entity.getEquipment() == null ||
-                entity.getEquipment().getItemInMainHand().getItemMeta() == null) return null;
-        PersistentDataContainer container = entity.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer();
-//        if(Wand.specificWands.containsKey(container))
-//            return Wand.specificWands.get(container);
-        return null;
-        /*for(Wand w : Wand.wands.values()) {
-            if(w.getItemStack().getItemMeta() == null) continue;
-            if(w.getItemStack().getItemMeta().getPersistentDataContainer()
-                    .equals(entity.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer())) {
-                return w;
-            }
-        }
-        return null;*/
-    }
-
     public static void updateWand(ItemStack wand) {
         ItemMeta meta = wand.getItemMeta();
         if(meta == null) return;
         PersistentDataContainer container = meta.getPersistentDataContainer();
+
         String name = container.get(Wand.getWandKey(), PersistentDataType.STRING);
+        // create new wand (internal name can't be change)
+        Wand newWand = new Wand(name);
+        ItemMeta newMeta = newWand.getItemStack().getItemMeta();
+        if(newMeta == null) return;
+        PersistentDataContainer newContainer = newMeta.getPersistentDataContainer();
+
+        // copy the old one's mana and magic to the new one
+        Double Mana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
+        double mana = Mana != null ? Mana : 0;
+        newContainer.set(Wand.getManaKey(), PersistentDataType.DOUBLE, mana);
+
+        // update lore (based on old mana)
         List<String> lore = ConfigFile.ConfigName.WANDS.outStringList(name + ".lore", wand);
-        meta.setLore(lore);
-        wand.setItemMeta(meta);
+        newMeta.setLore(lore);
+
+        wand.setItemMeta(newMeta);
     }
 
     // handle mana injection
@@ -129,22 +101,30 @@ public class WandHandler implements Listener {
         Player player = e.getPlayer();
         Action action = e.getAction();
         boolean right = action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK);
-        if(!right) return;
+        if(!right || !player.isSneaking()) return;
 
         if(!WandHandler.isHoldingWand(player)) return;
-//        Wand wand = WandHandler.getCorrespondingWand(player);
         ItemStack wand = player.getInventory().getItemInMainHand();
         ItemMeta wandMeta = wand.getItemMeta();
         if(wandMeta == null) return;
         PersistentDataContainer container = wandMeta.getPersistentDataContainer();
 
         double playerMana = PlayerData.dataMap.get(player.getName()).getMana();
-        double manaInjection = container.get(Wand.getInjectionKey(), PersistentDataType.DOUBLE);
+        // prevent null pointer exception
+        Double ManaInjection = container.get(Wand.getInjectionKey(), PersistentDataType.DOUBLE);
+        double manaInjection = ManaInjection != null ? ManaInjection : 0;
+
         // player's mana is less than the amount that will be consumed per right click
-        if(playerMana < manaInjection) return;
-        double storageMana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE) + manaInjection;
+        if(playerMana < manaInjection) {
+            SystemMessage.INADEQUATE_MANA.send(player);
+            return;
+        }
+        Double StorageMana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
+        double storageMana = StorageMana != null ? StorageMana + manaInjection : 0;
         container.set(Wand.getManaKey(), PersistentDataType.DOUBLE, storageMana);
         wand.setItemMeta(wandMeta);
+
+        // update player's mana
         PlayerData.dataMap.get(player.getName()).setMana(playerMana - manaInjection);
         player.sendMessage("injecting to wand: " + manaInjection + ", now: " + storageMana);
         updateWand(wand);

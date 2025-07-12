@@ -49,7 +49,8 @@ public class MenuListener implements Listener {
             // wands are also custom items
             if(SystemPermission.checkPerm(player, Permission.COMMAND_WAND_MENU_GET.name)) {
                 if(WandHandler.isWand(item)) {
-                    Wand specificWand = WandHandler.getSpecificWand(player, item);
+
+                    Wand specificWand = WandHandler.getWand(item);
                     if(specificWand == null) return;
                     player.getInventory().addItem(specificWand.getItemStack());
                 }

@@ -29,6 +29,7 @@ com\idk\essencemagic\commands\essence_sub\MagicCommand.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
 com\idk\essencemagic\EssenceMagic.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\InfoCommand.class
+com\idk\essencemagic\commands\essence_sub\wand_sub\ManaCommand.class
 com\idk\essencemagic\mobs\MobHandler.class
 com\idk\essencemagic\commands\essence_sub\skill_sub\MenuCommand.class
 com\idk\essencemagic\magics\ChildType.class
@@ -45,6 +46,7 @@ com\idk\essencemagic\commands\SubCommand.class
 com\idk\essencemagic\listeners\PlayerJoinQuitListener.class
 com\idk\essencemagic\commands\essence_sub\SkillCommand.class
 com\idk\essencemagic\skills\Trigger.class
+com\idk\essencemagic\commands\essence_sub\wand_sub\UpdateCommand.class
 com\idk\essencemagic\elements\ElementHandler.class
 com\idk\essencemagic\player\ManaHandler$2.class
 com\idk\essencemagic\skills\SkillHandler$Cooldown.class

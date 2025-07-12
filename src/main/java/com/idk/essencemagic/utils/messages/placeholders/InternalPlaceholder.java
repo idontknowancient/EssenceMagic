@@ -18,6 +18,7 @@ public enum InternalPlaceholder {
     WAND_NAME("wand_name"),
     WAND_DISPLAY_NAME("wand_display_name"),
     WAND_MANA("wand_mana"),
+    WAND_SLOT("wand_slot"),
     ;
 
     public final String name;
