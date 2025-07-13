@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -82,10 +83,40 @@ public class WandHandler implements Listener {
         if(newMeta == null) return;
         PersistentDataContainer newContainer = newMeta.getPersistentDataContainer();
 
-        // copy the old one's mana and magic to the new one
+        // copy the old one's mana to the new one
         Double Mana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
         double mana = Mana != null ? Mana : 0;
         newContainer.set(Wand.getManaKey(), PersistentDataType.DOUBLE, mana);
+
+        // copy the old one's magic to the new one (adapting to new slot)
+        Integer OldSlot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
+        int oldSlot = OldSlot != null ? OldSlot : 1;
+        Integer NewSlot = newContainer.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
+        int newSlot = NewSlot != null ? NewSlot : 1;
+        String WandMagic = container.get(Wand.getWandMagicKey(), PersistentDataType.STRING);
+        if(WandMagic == null) return;
+        String[] wandMagic = WandMagic.split(";");
+        StringBuilder newMagic;
+        int index = 0;
+        try {
+            index = Integer.parseInt(wandMagic[wandMagic.length - 1]);
+        } catch (NumberFormatException ignored) {
+        }
+        if(oldSlot > newSlot) { // e.g. "a;b;c;d;3" -> "a;b;c;0"
+            newMagic = new StringBuilder();
+            for(int i = 0; i < newSlot; i++) {
+                newMagic.append(wandMagic[i]).append(";");
+            }
+            // avoid overflow
+            if(index >= newSlot) index = 0;
+            newMagic.append(index);
+        } else if(oldSlot < newSlot) { // e.g. "a;b;c;d;3" -> "a;b;c;d;;3"
+            newMagic = new StringBuilder(WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1));
+            newMagic.append(";".repeat(Math.max(0, newSlot - oldSlot)));
+            newMagic.append(index);
+        } else
+            newMagic = new StringBuilder(WandMagic);
+        newContainer.set(Wand.getWandMagicKey(), PersistentDataType.STRING, newMagic.toString());
 
         // update lore (based on old mana)
         newWand.setItemMeta(newMeta);
@@ -97,7 +128,7 @@ public class WandHandler implements Listener {
         wand.setItemMeta(newMeta);
     }
 
-    // handle mana injection
+    // handle mana injection (shift right)
     @EventHandler
     public void onPlayerRightClick(PlayerInteractEvent e) {
         // prevent the event being called twice
@@ -132,5 +163,61 @@ public class WandHandler implements Listener {
         PlayerData.dataMap.get(player.getName()).setMana(playerMana - manaInjection);
         player.sendMessage("injecting to wand: " + manaInjection + ", now: " + storageMana);
         updateWand(wand);
+    }
+
+    // handle magic switch (shift left)
+    @EventHandler
+    public void onPlayerLeftClick(PlayerInteractEvent e) {
+        // prevent the event being called twice
+        if(e.getHand() != EquipmentSlot.HAND) return;
+        Player player = e.getPlayer();
+        Action action = e.getAction();
+        boolean left = action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK);
+        if(!left || !player.isSneaking()) return;
+
+        if(!WandHandler.isHoldingWand(player)) return;
+        ItemStack wand = player.getInventory().getItemInMainHand();
+        ItemMeta wandMeta = wand.getItemMeta();
+        if(wandMeta == null) return;
+        PersistentDataContainer container = wandMeta.getPersistentDataContainer();
+
+        String WandMagic = container.get(Wand.getWandMagicKey(), PersistentDataType.STRING);
+        if(WandMagic == null) return;
+        // get the magic from "1;2;3;index"
+        String[] wandMagic = WandMagic.split(";");
+//        String wandMagic = WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1);
+        int index = 0;
+        try {
+            // get the index from "1;2;3;index"
+            index = Integer.parseInt(wandMagic[wandMagic.length - 1]);
+        } catch (NumberFormatException ignored) {
+        }
+        Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
+        int slot = Slot != null ? Slot : 1;
+
+        // skip empty slot
+        for(int i = 0; i < slot; i++) {
+            if(++index < slot && !wandMagic[index].isEmpty()) {
+                WandMagic = WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1) + index;
+                break;
+            } else if(!wandMagic[0].isEmpty()) {
+                WandMagic = WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1) + 0;
+                break;
+            }
+        }
+        container.set(Wand.getWandMagicKey(), PersistentDataType.STRING, WandMagic);
+        wand.setItemMeta(wandMeta);
+        updateWand(wand);
+        SystemMessage.WAND_MAGIC_SWITCH.send(player, wand);
+    }
+
+    // prevent block being broken while using wands
+    @EventHandler
+    public void onPlayerBreak(BlockBreakEvent e) {
+        Player player = e.getPlayer();
+        ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
+        if(meta == null) return;
+        if(meta.getPersistentDataContainer().has(Wand.getWandKey()))
+            e.setCancelled(true);
     }
 }

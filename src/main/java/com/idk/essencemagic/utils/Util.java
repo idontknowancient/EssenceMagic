@@ -27,7 +27,7 @@ public class Util {
     }
 
     // used to handle "\n" in a line
-    // e.g. "[a]\n[b]\n[c]\n[d]" should be split into four parts
+    // e.g. "[a]\n[b]\n[c]\n[d]\n" should be split into four parts
     public static List<String> splitLore(List<String> old) {
         List<String> new_ = new ArrayList<>();
         for(String string : old) {

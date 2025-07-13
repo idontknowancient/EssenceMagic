@@ -2,11 +2,11 @@ package com.idk.essencemagic.wands;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -64,6 +64,13 @@ public class Wand {
     private final int slot;
     @Getter private static final NamespacedKey slotKey = new NamespacedKey(plugin, "slot-key");
 
+    // show when there is an empty slot in a wand
+    @Getter private static String emptyString = "&7[empty]";
+
+    // magicKey will be used in Magic.java
+    private final StringBuilder defaultMagic = new StringBuilder();
+    @Getter private static final NamespacedKey wandMagicKey = new NamespacedKey(plugin, "wand-magic-key");
+
     public Wand(String wandName) {
         ConfigFile.ConfigName cw = ConfigFile.ConfigName.WANDS;
         name = wandName;
@@ -108,11 +115,47 @@ public class Wand {
         else
             manaInjection = 1;
 
-        // set available magic amount (default to 1)
-        if(cw.isInteger(name + ".magic-slot") && cw.getInteger(name + ".magic-slot") >= 1)
+        // set slot (available magic amount) (default to 1)
+        if(cw.isInteger(name + ".magic-slot") && cw.getInteger(name + ".magic-slot") >= 0)
             slot = cw.getInteger(name + ".magic-slot");
         else
             slot = 1;
+
+        // set empty string (default to "&7[empty]")
+        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MESSAGES;
+        if(cm.isString("wand-magic-empty"))
+            emptyString = cm.outString("wand-magic-empty");
+
+        // set wand magic ([magic];[magic];...;<main>)
+        // e.g. fire_beam;0
+        int magicAmount = 0;
+        int index = 0;
+        boolean isList = cw.isList(name + ".default-magic");
+        List<String> defaultMagics = isList ? cw.getStringList(name + ".default-magic") : new ArrayList<>();
+        // default
+        while(magicAmount < slot) {
+            // only one magic in a string
+            if(magicAmount < 1 && cw.isString(name + ".default-magic")) {
+                if(Magic.magics.containsKey(cw.getString(name + ".default-magic"))) {
+                    defaultMagic.append(cw.getString(name + ".default-magic")).append(";");
+                    magicAmount++;
+                }
+            } else if(isList && defaultMagics.size() > index) {
+                if(Magic.magics.containsKey(defaultMagics.get(index))){
+                    defaultMagic.append(defaultMagics.get(index)).append(";");
+                    magicAmount++;
+                }
+                index++;
+            } else
+                break;
+        }
+        // empty
+        while(magicAmount < slot) {
+            defaultMagic.append(";");
+            magicAmount++;
+        }
+        // main magic default to 0 (the first)
+        defaultMagic.append("0");
 
         // set item lore (default to empty)
         if(cw.isList(name + ".lore")) {
@@ -163,6 +206,8 @@ public class Wand {
         container.set(injectionKey, PersistentDataType.DOUBLE, manaInjection);
         // slot
         container.set(slotKey, PersistentDataType.INTEGER, slot);
+        // magic
+        container.set(wandMagicKey, PersistentDataType.STRING, defaultMagic.toString());
 
         itemStack.setItemMeta(itemMeta);
     }

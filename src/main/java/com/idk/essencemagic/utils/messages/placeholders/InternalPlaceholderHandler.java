@@ -1,10 +1,10 @@
 package com.idk.essencemagic.utils.messages.placeholders;
 
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.player.ManaHandler;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
-import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.wands.Wand;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
@@ -77,6 +77,8 @@ public class InternalPlaceholderHandler {
 
     // use when initializing
     private static String handleWand(String string, Wand info) {
+        String[] containerMagic = info.getDefaultMagic().toString().split(";");
+
         if(string.contains(InternalPlaceholder.WAND_NAME.name))
             string = string.replaceAll(InternalPlaceholder.WAND_NAME.name, info.getName());
         if(string.contains(InternalPlaceholder.WAND_DISPLAY_NAME.name))
@@ -87,17 +89,30 @@ public class InternalPlaceholderHandler {
         if(string.contains(InternalPlaceholder.WAND_SLOT.name))
             string = string.replaceAll(InternalPlaceholder.WAND_SLOT.name, info.getSlot()+"");
         if(string.contains(InternalPlaceholder.WAND_MAGIC.name)) {
-            StringBuilder magic = new StringBuilder();
-            String empty = "";
-            ConfigFile.ConfigName cm = ConfigFile.ConfigName.MESSAGES;
-            if(cm.isString("wand-magic-empty"))
-                empty = cm.outString("wand-magic-empty");
-            else
-                empty = "&7[empty]";
+            StringBuilder loreMagic = new StringBuilder();
             for(int i = 0; i < info.getSlot(); i++) {
-                magic.append(empty).append("\n");
+                // using "\n" in lore, and ";" in container
+                if(Magic.magics.containsKey(containerMagic[i]))
+                    loreMagic.append(Magic.magics.get(containerMagic[i]).getDisplayName()).append("\n");
+                else
+                    loreMagic.append(Wand.getEmptyString()).append("\n");
             }
-            string = string.replaceAll(InternalPlaceholder.WAND_MAGIC.name, magic.substring(0, magic.length()));
+            string = string.replaceAll(InternalPlaceholder.WAND_MAGIC.name, loreMagic.toString());
+        }
+        if(string.contains(InternalPlaceholder.WAND_MAGIC_USING.name)) {
+            // include indicating number`
+            int usingNum = 0;
+            try {
+                usingNum = Integer.parseInt(containerMagic[containerMagic.length - 1]);
+            } catch (NumberFormatException ignored) {
+
+            }
+            String using = containerMagic[usingNum];
+            if(Magic.magics.containsKey(using))
+                string = string.replaceAll(InternalPlaceholder.WAND_MAGIC_USING.name,
+                        Magic.magics.get(using).getDisplayName());
+            else
+                string = string.replaceAll(InternalPlaceholder.WAND_MAGIC_USING.name, "");
         }
         return string;
     }
@@ -107,6 +122,10 @@ public class InternalPlaceholderHandler {
         // checked before
         assert info.getItemMeta() != null;
         PersistentDataContainer container = info.getItemMeta().getPersistentDataContainer();
+        Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
+        int slot = Slot != null ? Slot : 1;
+        String ContainerMagic = container.get(Wand.getWandMagicKey(), PersistentDataType.STRING);
+        String[] containerMagic = ContainerMagic != null ? ContainerMagic.split(";") : new String[0];
 
         if(string.contains(InternalPlaceholder.WAND_NAME.name)) {
             String Name = container.get(Wand.getWandKey(), PersistentDataType.STRING);
@@ -123,24 +142,32 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.WAND_MANA.name, mana+"");
         }
         if(string.contains(InternalPlaceholder.WAND_SLOT.name)) {
-            Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
-            double slot = Slot != null ? Slot : 1;
             string = string.replaceAll(InternalPlaceholder.WAND_SLOT.name, slot+"");
         }
         if(string.contains(InternalPlaceholder.WAND_MAGIC.name)) {
-            Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
-            double slot = Slot != null ? Slot : 1;
-            StringBuilder magic = new StringBuilder();
-            String empty = "";
-            ConfigFile.ConfigName cm = ConfigFile.ConfigName.MESSAGES;
-            if(cm.isString("wand-magic-empty"))
-                empty = cm.outString("wand-magic-empty");
-            else
-                empty = "&7[empty]";
+            StringBuilder loreMagic = new StringBuilder();
             for(int i = 0; i < slot; i++) {
-                magic.append(empty).append("\n");
+                // using "\n" in lore, and ";" in container
+                if(Magic.magics.containsKey(containerMagic[i]))
+                    loreMagic.append(Magic.magics.get(containerMagic[i]).getDisplayName()).append("\n");
+                else
+                    loreMagic.append(Wand.getEmptyString()).append("\n");
             }
-            string = string.replaceAll(InternalPlaceholder.WAND_MAGIC.name, magic.substring(0, magic.length()));
+            string = string.replaceAll(InternalPlaceholder.WAND_MAGIC.name, loreMagic.toString());
+        }
+        if(string.contains(InternalPlaceholder.WAND_MAGIC_USING.name)) {
+            // include indicating number`
+            int index = 0;
+            try {
+                index = Integer.parseInt(containerMagic[containerMagic.length - 1]);
+            } catch (NumberFormatException ignored) {
+            }
+            String using = containerMagic[index];
+            if(Magic.magics.containsKey(using))
+                string = string.replaceAll(InternalPlaceholder.WAND_MAGIC_USING.name,
+                        Magic.magics.get(using).getDisplayName());
+            else
+                string = string.replaceAll(InternalPlaceholder.WAND_MAGIC_USING.name, "");
         }
         return string;
     }

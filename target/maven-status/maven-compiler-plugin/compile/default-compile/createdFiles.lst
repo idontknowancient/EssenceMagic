@@ -19,6 +19,7 @@ com\idk\essencemagic\player\PlayerData.class
 com\idk\essencemagic\magics\MagicType.class
 com\idk\essencemagic\wands\Wand.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\GetCommand.class
+com\idk\essencemagic\magics\childTypes\SakuraMaite.class
 com\idk\essencemagic\commands\essence_sub\magic_sub\MenuCommand.class
 com\idk\essencemagic\damage\DamageCalculator.class
 com\idk\essencemagic\player\ManaHandler.class
