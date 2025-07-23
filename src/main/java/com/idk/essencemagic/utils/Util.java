@@ -4,6 +4,8 @@ import com.idk.essencemagic.EssenceMagic;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,13 @@ public class Util {
             match = hexCode.matcher(string);
         }
         return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    public static void setLore(ItemStack item, List<String> lore) {
+        ItemMeta meta = item.getItemMeta();
+        if(meta == null) return;
+        meta.setLore(lore);
+        item.setItemMeta(meta);
     }
 
     // used to handle "\n" in a line

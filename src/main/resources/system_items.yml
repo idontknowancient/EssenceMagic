@@ -1,0 +1,8 @@
+wand_processing_table:
+  usable: true
+  name: "&9魔杖加工台"
+  type: enchanting_table
+  lore:
+    - "&7加工魔杖啊，不然呢"
+  glowing: true
+  placeable: true

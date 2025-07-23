@@ -2,6 +2,7 @@ package com.idk.essencemagic.commands.essence_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.commands.essence_sub.wand_sub.*;
+import com.idk.essencemagic.commands.essence_sub.wand_sub.MagicCommand;
 import com.idk.essencemagic.commands.essence_sub.wand_sub.ManaCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
@@ -13,6 +14,7 @@ public class WandCommand extends SubCommand {
     public WandCommand() {
         getSubCommands().add(new GetCommand());
         getSubCommands().add(new InfoCommand());
+        getSubCommands().add(new MagicCommand());
         getSubCommands().add(new MenuCommand());
         getSubCommands().add(new ManaCommand());
         getSubCommands().add(new UpdateCommand());

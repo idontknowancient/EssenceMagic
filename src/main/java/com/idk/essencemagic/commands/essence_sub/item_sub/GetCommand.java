@@ -2,6 +2,7 @@ package com.idk.essencemagic.commands.essence_sub.item_sub;
 
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.items.SystemItem;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
@@ -40,6 +41,13 @@ public class GetCommand extends SubCommand {
             if(args[2].equalsIgnoreCase(s)) {
                 p.getInventory().addItem(Item.items.get(s).getItem());
                 SystemMessage.ITEM_GOT.send(p, Item.items.get(s));
+                return;
+            }
+        }
+        for(String s : SystemItem.systemItems.keySet()) {
+            if(args[2].equalsIgnoreCase(s)) {
+                p.getInventory().addItem(SystemItem.systemItems.get(s).getItemStack());
+                SystemMessage.ITEM_GOT.send(p, SystemItem.systemItems.get(s));
                 return;
             }
         }

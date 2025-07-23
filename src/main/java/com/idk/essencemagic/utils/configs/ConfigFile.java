@@ -30,6 +30,7 @@ public class ConfigFile {
         MANA("mana"),
         PLAYER_DATA("player_data"),
         SKILLS("skills"),
+        SYSTEM_ITEMS("system_items"),
         WANDS("wands"),
         ;
 

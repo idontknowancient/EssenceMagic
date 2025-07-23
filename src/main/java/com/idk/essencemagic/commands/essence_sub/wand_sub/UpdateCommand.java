@@ -41,7 +41,7 @@ public class UpdateCommand extends SubCommand {
             SystemMessage.NOT_WAND.send(p);
             return;
         }
-        WandHandler.updateWand(itemInMainHand);
         SystemMessage.WAND_UPDATED.send(p);
+        WandHandler.updateWand(itemInMainHand);
     }
 }

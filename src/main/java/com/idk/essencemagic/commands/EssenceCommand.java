@@ -2,18 +2,22 @@ package com.idk.essencemagic.commands;
 
 import com.idk.essencemagic.commands.essence_sub.*;
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.items.systemItems.Registry;
 import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.wands.Wand;
+import com.idk.essencemagic.wands.WandHandler;
 import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -84,7 +88,11 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         }
         if(args.length == 3) {
             if(args[0].equalsIgnoreCase("item") && args[1].equalsIgnoreCase("get")) {
-                return new ArrayList<>(Item.items.keySet());
+                List<String> index = new ArrayList<>(Item.items.keySet());
+                for(Registry registry : Registry.values()) {
+                    index.add(registry.name().toLowerCase());
+                }
+                return index;
             }
             if(args[0].equalsIgnoreCase("magic") && args[1].equalsIgnoreCase("cast")) {
                 return new ArrayList<>(Magic.magics.keySet());
@@ -111,10 +119,24 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             if(args[0].equalsIgnoreCase("wand") && args[1].equalsIgnoreCase("mana")) {
                 return List.of("set", "add");
             }
+            if(args[0].equalsIgnoreCase("wand") && args[1].equalsIgnoreCase("magic")) {
+                return List.of("set", "remove");
+            }
         }
         if(args.length == 4) {
-            if(args[0].equalsIgnoreCase("mana") && args[1].equalsIgnoreCase("set")) {
-                return List.of("max");
+            if(args[1].equalsIgnoreCase("magic") &&
+                    (args[2].equalsIgnoreCase("set") || args[2].equalsIgnoreCase("remove"))) {
+                if(!(sender instanceof Player player) ||
+                    player.getInventory().getItemInMainHand().getItemMeta() == null) return null;
+                List<String> slotList = new ArrayList<>();
+                for(int i = 0; i < WandHandler.getSlot(player.getInventory().getItemInMainHand()); i++)
+                    slotList.add(i+"");
+                return slotList;
+            }
+        }
+        if(args.length == 5) {
+            if(args[1].equalsIgnoreCase("magic") && args[2].equalsIgnoreCase("set")) {
+                return new ArrayList<>(Magic.magics.keySet());
             }
         }
 

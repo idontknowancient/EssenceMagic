@@ -1,11 +1,13 @@
 package com.idk.essencemagic.utils.messages.placeholders;
 
 import com.idk.essencemagic.items.Item;
+import com.idk.essencemagic.items.SystemItem;
 import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.player.ManaHandler;
 import com.idk.essencemagic.player.PlayerData;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.wands.Wand;
+import com.idk.essencemagic.wands.WandHandler;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +24,8 @@ public class InternalPlaceholderHandler {
             string = handleItemStack(string, i);
         else if(info instanceof Item i)
             string = handleItem(string, i);
+        else if(info instanceof SystemItem s)
+            string = handleSystemItem(string, s);
         else if(info instanceof Skill s)
             string = handleSkill(string ,s);
         else if(info instanceof Wand w)
@@ -66,6 +70,16 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.ITEM_ID.name, info.getId());
         if(string.contains(InternalPlaceholder.ITEM_ELEMENT.name))
             string = string.replaceAll(InternalPlaceholder.ITEM_ELEMENT.name, info.getElement().getDisplayName());
+        return string;
+    }
+
+    private static String handleSystemItem(String string, SystemItem info) {
+        if(string.contains(InternalPlaceholder.ITEM_NAME.name))
+            string = string.replaceAll(InternalPlaceholder.ITEM_NAME.name, info.getName());
+        if(string.contains(InternalPlaceholder.ITEM_DISPLAY_NAME.name))
+            string = string.replaceAll(InternalPlaceholder.ITEM_DISPLAY_NAME.name, info.getDisplayName());
+        if(string.contains(InternalPlaceholder.ITEM_TYPE.name))
+            string = string.replaceAll(InternalPlaceholder.ITEM_TYPE.name, info.getMaterial().name());
         return string;
     }
 
@@ -169,6 +183,8 @@ public class InternalPlaceholderHandler {
             else
                 string = string.replaceAll(InternalPlaceholder.WAND_MAGIC_USING.name, "");
         }
+        if(string.contains(InternalPlaceholder.WAND_MANA_INJECTION.name))
+            string = string.replaceAll(InternalPlaceholder.WAND_MANA_INJECTION.name, WandHandler.getInjection(info)+"");
         return string;
     }
 

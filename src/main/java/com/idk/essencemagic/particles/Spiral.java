@@ -1,4 +1,4 @@
-package com.idk.essencemagic.magics.particles;
+package com.idk.essencemagic.particles;
 
 import com.idk.essencemagic.magics.CustomParticle;
 

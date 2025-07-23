@@ -3,12 +3,14 @@ package com.idk.essencemagic.utils;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.commands.EssenceCommand;
 import com.idk.essencemagic.damage.DamageCalculator;
+import com.idk.essencemagic.items.SystemItemHandler;
 import com.idk.essencemagic.listeners.MenuListener;
 import com.idk.essencemagic.listeners.PlayerJoinQuitListener;
 import com.idk.essencemagic.player.PlayerDataHandler;
 import com.idk.essencemagic.skills.SkillHandler;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.wands.WandHandler;
+import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 
@@ -31,7 +33,10 @@ public class Register {
         register(new PlayerDataHandler());
         register(new SkillHandler());
         register(new WandHandler());
+        register(new SystemItemHandler());
 
+        // CustomBlockData will automatically handle moving/removing block data for changed blocks
+        CustomBlockData.registerListener(plugin);
     }
 
     public static void registerCommands() {

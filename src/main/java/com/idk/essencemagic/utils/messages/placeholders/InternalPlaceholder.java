@@ -20,6 +20,7 @@ public enum InternalPlaceholder {
     WAND_MAGIC("wand_magic"),
     WAND_MAGIC_USING("wand_magic_using"),
     WAND_MANA("wand_mana"),
+    WAND_MANA_INJECTION("wand_mana_injection"),
     WAND_SLOT("wand_slot"),
     ;
 

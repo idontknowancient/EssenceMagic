@@ -3,7 +3,7 @@ package com.idk.essencemagic.magics;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.magics.modifiers.Damage;
-import com.idk.essencemagic.magics.particles.Spiral;
+import com.idk.essencemagic.particles.Spiral;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import lombok.Getter;

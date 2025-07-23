@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,6 +59,66 @@ public class WandHandler implements Listener {
         return wand.getItemMeta().getPersistentDataContainer().get(Wand.getWandKey(), PersistentDataType.STRING);
     }
 
+    public static double getMana(ItemStack wand) {
+        if(!isWand(wand)) return -1;
+        assert wand.getItemMeta() != null;
+        Double Mana = wand.getItemMeta().getPersistentDataContainer().get(Wand.getManaKey(), PersistentDataType.DOUBLE);
+        return Mana != null ? Mana : 0;
+    }
+
+    public static void setMana(ItemStack wand, double mana) {
+        if(!isWand(wand)) return;
+        assert wand.getItemMeta() != null;
+        ItemMeta meta = wand.getItemMeta();
+        meta.getPersistentDataContainer().set(Wand.getManaKey(), PersistentDataType.DOUBLE, mana);
+        wand.setItemMeta(meta);
+    }
+
+    public static double getInjection(ItemStack wand) {
+        if(!isWand(wand)) return -1;
+        assert wand.getItemMeta() != null;
+        Double Injection = wand.getItemMeta().getPersistentDataContainer().get(Wand.getInjectionKey(), PersistentDataType.DOUBLE);
+        return Injection != null ? Injection : 0;
+    }
+
+    public static void setInjection(ItemStack wand, double injection) {
+        if(!isWand(wand)) return;
+        assert wand.getItemMeta() != null;
+        ItemMeta meta = wand.getItemMeta();
+        meta.getPersistentDataContainer().set(Wand.getInjectionKey(), PersistentDataType.DOUBLE, injection);
+        wand.setItemMeta(meta);
+    }
+
+    public static int getSlot(ItemStack wand) {
+        if(!isWand(wand)) return -1;
+        assert wand.getItemMeta() != null;
+        Integer Slot = wand.getItemMeta().getPersistentDataContainer().get(Wand.getSlotKey(), PersistentDataType.INTEGER);
+        return Slot != null ? Slot : 1;
+    }
+
+    public static void setSlot(ItemStack wand, int slot) {
+        if(!isWand(wand)) return;
+        assert wand.getItemMeta() != null;
+        ItemMeta meta = wand.getItemMeta();
+        meta.getPersistentDataContainer().set(Wand.getSlotKey(), PersistentDataType.INTEGER, slot);
+        wand.setItemMeta(meta);
+    }
+
+    public static String getWandMagic(ItemStack wand) {
+        if(!isWand(wand)) return "";
+        assert wand.getItemMeta() != null;
+        String WandMagic = wand.getItemMeta().getPersistentDataContainer().get(Wand.getWandMagicKey(), PersistentDataType.STRING);
+        return WandMagic != null ? WandMagic : "";
+    }
+
+    public static void setWandMagic(ItemStack wand, String wandMagic) {
+        if(!isWand(wand)) return;
+        assert wand.getItemMeta() != null;
+        ItemMeta meta = wand.getItemMeta();
+        meta.getPersistentDataContainer().set(Wand.getWandMagicKey(), PersistentDataType.STRING, wandMagic);
+        wand.setItemMeta(meta);
+    }
+
     public static boolean isWand(ItemStack i) {
         return i.getItemMeta() != null &&
                 i.getItemMeta().getPersistentDataContainer().has(Wand.getWandKey());
@@ -72,29 +131,22 @@ public class WandHandler implements Listener {
     }
 
     public static void updateWand(ItemStack wand) {
+        if(!isWand(wand)) return;
         ItemMeta meta = wand.getItemMeta();
-        if(meta == null) return;
-        PersistentDataContainer container = meta.getPersistentDataContainer();
+        assert meta != null;
 
-        String name = container.get(Wand.getWandKey(), PersistentDataType.STRING);
+        String name = getWandName(wand);
         // create new wand (internal name can't be change)
         ItemStack newWand = new Wand(name).getItemStack();
-        ItemMeta newMeta = newWand.getItemMeta();
-        if(newMeta == null) return;
-        PersistentDataContainer newContainer = newMeta.getPersistentDataContainer();
+        if(newWand.getItemMeta() == null) return;
 
         // copy the old one's mana to the new one
-        Double Mana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
-        double mana = Mana != null ? Mana : 0;
-        newContainer.set(Wand.getManaKey(), PersistentDataType.DOUBLE, mana);
+        setMana(newWand, getMana(wand));
 
         // copy the old one's magic to the new one (adapting to new slot)
-        Integer OldSlot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
-        int oldSlot = OldSlot != null ? OldSlot : 1;
-        Integer NewSlot = newContainer.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
-        int newSlot = NewSlot != null ? NewSlot : 1;
-        String WandMagic = container.get(Wand.getWandMagicKey(), PersistentDataType.STRING);
-        if(WandMagic == null) return;
+        int oldSlot = getSlot(wand);
+        int newSlot = getSlot(newWand);
+        String WandMagic = getWandMagic(wand);
         String[] wandMagic = WandMagic.split(";");
         StringBuilder newMagic;
         int index = 0;
@@ -116,16 +168,14 @@ public class WandHandler implements Listener {
             newMagic.append(index);
         } else
             newMagic = new StringBuilder(WandMagic);
-        newContainer.set(Wand.getWandMagicKey(), PersistentDataType.STRING, newMagic.toString());
+        setWandMagic(newWand, newMagic.toString());
 
         // update lore (based on old mana)
-        newWand.setItemMeta(newMeta);
         List<String> lore = ConfigFile.ConfigName.WANDS.outStringList(name + ".lore", newWand);
         // handle "\n" in lore
-        lore = Util.splitLore(lore);
-        newMeta.setLore(lore);
+        Util.setLore(newWand, Util.splitLore(lore));
 
-        wand.setItemMeta(newMeta);
+        wand.setItemMeta(newWand.getItemMeta());
     }
 
     // handle mana injection (shift right)
@@ -140,28 +190,22 @@ public class WandHandler implements Listener {
 
         if(!WandHandler.isHoldingWand(player)) return;
         ItemStack wand = player.getInventory().getItemInMainHand();
-        ItemMeta wandMeta = wand.getItemMeta();
-        if(wandMeta == null) return;
-        PersistentDataContainer container = wandMeta.getPersistentDataContainer();
+        if(wand.getItemMeta() == null) return;
 
         double playerMana = PlayerData.dataMap.get(player.getName()).getMana();
-        // prevent null pointer exception
-        Double ManaInjection = container.get(Wand.getInjectionKey(), PersistentDataType.DOUBLE);
-        double manaInjection = ManaInjection != null ? ManaInjection : 0;
+        double manaInjection = getInjection(wand);
 
         // player's mana is less than the amount that will be consumed per right click
         if(playerMana < manaInjection) {
             SystemMessage.INADEQUATE_MANA.send(player);
             return;
         }
-        Double StorageMana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
-        double storageMana = StorageMana != null ? StorageMana + manaInjection : 0;
-        container.set(Wand.getManaKey(), PersistentDataType.DOUBLE, storageMana);
-        wand.setItemMeta(wandMeta);
+        setMana(wand, getMana(wand) + manaInjection);
 
         // update player's mana
         PlayerData.dataMap.get(player.getName()).setMana(playerMana - manaInjection);
-        player.sendMessage("injecting to wand: " + manaInjection + ", now: " + storageMana);
+        SystemMessage.WAND_MANA_INJECTED.send(player, wand);
+
         updateWand(wand);
     }
 
@@ -177,38 +221,31 @@ public class WandHandler implements Listener {
 
         if(!WandHandler.isHoldingWand(player)) return;
         ItemStack wand = player.getInventory().getItemInMainHand();
-        ItemMeta wandMeta = wand.getItemMeta();
-        if(wandMeta == null) return;
-        PersistentDataContainer container = wandMeta.getPersistentDataContainer();
 
-        String WandMagic = container.get(Wand.getWandMagicKey(), PersistentDataType.STRING);
-        if(WandMagic == null) return;
+        String WandMagic = getWandMagic(wand);
         // get the magic from "1;2;3;index"
         String[] wandMagic = WandMagic.split(";");
-//        String wandMagic = WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1);
         int index = 0;
         try {
             // get the index from "1;2;3;index"
             index = Integer.parseInt(wandMagic[wandMagic.length - 1]);
         } catch (NumberFormatException ignored) {
         }
-        Integer Slot = container.get(Wand.getSlotKey(), PersistentDataType.INTEGER);
-        int slot = Slot != null ? Slot : 1;
+        int slot = getSlot(wand);
 
-        // skip empty slot
-        for(int i = 0; i < slot; i++) {
-            if(++index < slot && !wandMagic[index].isEmpty()) {
-                WandMagic = WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1) + index;
-                break;
-            } else if(!wandMagic[0].isEmpty()) {
-                WandMagic = WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1) + 0;
+        // get array like [0, 1, 2, 3, 0, 1, 2, 3] to process repetition
+        int[] order = generateRepeatedArray(slot);
+        for(int i = index; i < index + slot - 1;) {
+            if(!wandMagic[order[++i]].isEmpty()) {
+                WandMagic = WandMagic.substring(0, WandMagic.lastIndexOf(";") + 1) + order[i];
                 break;
             }
         }
-        container.set(Wand.getWandMagicKey(), PersistentDataType.STRING, WandMagic);
-        wand.setItemMeta(wandMeta);
-        updateWand(wand);
+
+        setWandMagic(wand, WandMagic);
         SystemMessage.WAND_MAGIC_SWITCH.send(player, wand);
+
+        updateWand(wand);
     }
 
     // prevent block being broken while using wands
@@ -220,4 +257,14 @@ public class WandHandler implements Listener {
         if(meta.getPersistentDataContainer().has(Wand.getWandKey()))
             e.setCancelled(true);
     }
+
+    private static int[] generateRepeatedArray(int x) {
+        int[] arr = new int[2 * x];
+        for(int i = 0; i < x; i++) {
+            arr[i] = i;
+            arr[i + x] = i;
+        }
+        return arr;
+    }
+
 }

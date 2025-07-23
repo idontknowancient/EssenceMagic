@@ -4,14 +4,10 @@ import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
-import com.idk.essencemagic.wands.Wand;
 import com.idk.essencemagic.wands.WandHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 public class ManaCommand extends SubCommand {
 
@@ -52,44 +48,37 @@ public class ManaCommand extends SubCommand {
             SystemMessage.NOT_WAND.send(p);
             return;
         }
-        ItemMeta meta = itemInMainHand.getItemMeta();
-        assert meta != null;
-        PersistentDataContainer container = meta.getPersistentDataContainer();
 
         if(operation.equalsIgnoreCase("set")) {
             if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_MANA_SET.name)){
                 SystemMessage.INADEQUATE_PERMISSION.send(p);
                 return;
             }
-            double amount = 0;
+            double amount;
             try {
                 amount = Double.parseDouble(args[3]);
             } catch (NumberFormatException e) {
                 SystemMessage.NOT_NUMBER.send(p);
                 return;
             }
-            container.set(Wand.getManaKey(), PersistentDataType.DOUBLE, amount);
-            itemInMainHand.setItemMeta(meta);
-            WandHandler.updateWand(itemInMainHand);
+            WandHandler.setMana(itemInMainHand, amount);
             SystemMessage.SET_WAND_MANA.send(p, itemInMainHand);
+            WandHandler.updateWand(itemInMainHand);
         } else if(operation.equalsIgnoreCase("add")) {
             if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_MANA_ADD.name)){
                 SystemMessage.INADEQUATE_PERMISSION.send(p);
                 return;
             }
-            double amount = 0;
+            double amount;
             try {
                 amount = Double.parseDouble(args[3]);
             } catch (NumberFormatException e) {
                 SystemMessage.NOT_NUMBER.send(p);
                 return;
             }
-            Double Mana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
-            double mana = Mana != null ? Mana : 0;
-            container.set(Wand.getManaKey(), PersistentDataType.DOUBLE, amount+mana);
-            itemInMainHand.setItemMeta(meta);
-            WandHandler.updateWand(itemInMainHand);
+            WandHandler.setMana(itemInMainHand, WandHandler.getMana(itemInMainHand) + amount);
             SystemMessage.ADD_WAND_MANA.send(p, itemInMainHand);
+            WandHandler.updateWand(itemInMainHand);
         }
     }
 }

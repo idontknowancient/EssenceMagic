@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Level;
 
 public interface EssenceConfig {
 
@@ -33,13 +34,13 @@ public interface EssenceConfig {
                     config.load(file);
                 }
             } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
+                getPlugin().getLogger().log(Level.SEVERE, "", e);
             }
         } else {
             try {
                 config.load(file);
             } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
+                getPlugin().getLogger().log(Level.SEVERE, "", e);
             }
         }
     }
@@ -52,12 +53,20 @@ public interface EssenceConfig {
         return getConfig().getString(path);
     }
 
+    default String getString(String path, String default_) {
+        return getConfig().getString(path, default_);
+    }
+
     default boolean isInteger(String path) {
         return getConfig().isInt(path);
     }
 
     default int getInteger(String path) {
         return getConfig().getInt(path);
+    }
+
+    default int getInteger(String path, int default_) {
+        return getConfig().getInt(path, default_);
     }
 
     default boolean isDouble(String path) {
@@ -68,12 +77,20 @@ public interface EssenceConfig {
         return getConfig().getDouble(path);
     }
 
+    default double getDouble(String path, double default_) {
+        return getConfig().getDouble(path, default_);
+    }
+
     default boolean isBoolean(String path) {
         return getConfig().isBoolean(path);
     }
 
     default boolean getBoolean(String path) {
         return getConfig().getBoolean(path);
+    }
+
+    default boolean getBoolean(String path, boolean default_) {
+        return getConfig().getBoolean(path, default_);
     }
 
     default boolean isList(String path) {
@@ -100,9 +117,18 @@ public interface EssenceConfig {
         return Util.colorize(getString(path));
     }
 
+    default String outString(String path, String default_) { //with no placeholders
+        return Util.colorize(getString(path, default_));
+    }
+
     default String outString(String path, Object info) { //with placeholders
         return Util.colorize(
                 InternalPlaceholderHandler.translatePlaceholders(getString(path), info));
+    }
+
+    default String outString(String path, String default_, Object info) { //with placeholders
+        return Util.colorize(
+                InternalPlaceholderHandler.translatePlaceholders(getString(path, default_), info));
     }
 
     default List<String> outStringList(String path) {

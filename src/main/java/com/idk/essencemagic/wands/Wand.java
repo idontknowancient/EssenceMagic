@@ -32,7 +32,7 @@ public class Wand {
     @Getter private static final NamespacedKey wandKey = new NamespacedKey(plugin, "wand-key");
 
     // signify specific wand
-    private final NamespacedKey uniqueKey = new NamespacedKey(plugin, "unique-key");
+    private final NamespacedKey uniqueWandKey = new NamespacedKey(plugin, "unique-wand-key");
 
     private final String name;
 
@@ -193,7 +193,7 @@ public class Wand {
         if(customModelData != -1) itemMeta.setCustomModelData(customModelData);
 
         // unique (unstackable)
-        container.set(uniqueKey, PersistentDataType.STRING, System.currentTimeMillis()+""+Math.random());
+        container.set(uniqueWandKey, PersistentDataType.STRING, System.currentTimeMillis()+""+Math.random());
         // custom item
         container.set(Item.getItemKey(), PersistentDataType.STRING, name);
         // wand (internal name)

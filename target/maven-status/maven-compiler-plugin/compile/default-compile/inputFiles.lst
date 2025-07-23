@@ -19,8 +19,10 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\list
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\wands\Wand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\utils\configs\ConfigFile.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\essence_sub\UtilCommand.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\magics\childTypes\SakuraMaite.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\menus\holders\ShiftSpawnHolder.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\essence_sub\SkillCommand.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\essence_sub\wand_sub\MagicCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholder.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\magics\ChildType.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\magics\modifiers\Damage.java
@@ -62,6 +64,7 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\comm
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\essence_sub\mob_sub\SpawnCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\wands\WandHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\elements\ElementDamage.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\essence_sub\wand_sub\UpdateCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\EssenceCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\essence_sub\MagicCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essencemagic\commands\essence_sub\skill_sub\MenuCommand.java
