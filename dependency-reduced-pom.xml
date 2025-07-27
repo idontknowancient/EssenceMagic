@@ -46,6 +46,10 @@
               <pattern>com.jeff_media.customblockdata</pattern>
               <shadedPattern>com.idk.essencemagic.customblockdata</shadedPattern>
             </relocation>
+            <relocation>
+              <pattern>com.jeff_media.morepersistentdatatypes</pattern>
+              <shadedPattern>com.idk.essencemagic.morepersistentdatatypes</shadedPattern>
+            </relocation>
           </relocations>
         </configuration>
       </plugin>

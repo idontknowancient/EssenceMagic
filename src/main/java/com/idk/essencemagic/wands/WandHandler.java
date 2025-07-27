@@ -120,7 +120,7 @@ public class WandHandler implements Listener {
     }
 
     public static boolean isWand(ItemStack i) {
-        return i.getItemMeta() != null &&
+        return i != null && i.getItemMeta() != null &&
                 i.getItemMeta().getPersistentDataContainer().has(Wand.getWandKey());
     }
 

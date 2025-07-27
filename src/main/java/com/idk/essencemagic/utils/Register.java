@@ -6,6 +6,7 @@ import com.idk.essencemagic.damage.DamageCalculator;
 import com.idk.essencemagic.items.SystemItemHandler;
 import com.idk.essencemagic.listeners.MenuListener;
 import com.idk.essencemagic.listeners.PlayerJoinQuitListener;
+import com.idk.essencemagic.particles.ParticleHandler;
 import com.idk.essencemagic.player.PlayerDataHandler;
 import com.idk.essencemagic.skills.SkillHandler;
 import com.idk.essencemagic.utils.configs.ConfigFile;
@@ -34,6 +35,7 @@ public class Register {
         register(new SkillHandler());
         register(new WandHandler());
         register(new SystemItemHandler());
+        register(new ParticleHandler());
 
         // CustomBlockData will automatically handle moving/removing block data for changed blocks
         CustomBlockData.registerListener(plugin);

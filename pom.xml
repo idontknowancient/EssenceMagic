@@ -46,6 +46,10 @@
                             <pattern>com.jeff_media.customblockdata</pattern>
                             <shadedPattern>com.idk.essencemagic.customblockdata</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.jeff_media.morepersistentdatatypes</pattern>
+                            <shadedPattern>com.idk.essencemagic.morepersistentdatatypes</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>
@@ -105,6 +109,12 @@
             <groupId>com.jeff-media</groupId>
             <artifactId>custom-block-data</artifactId>
             <version>2.2.4</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jeff-media</groupId>
+            <artifactId>MorePersistentDataTypes</artifactId>
+            <version>2.4.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -9,16 +9,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 @Getter
 public class Circle extends CustomParticle {
 
-    private final Location center;
-    private final Particle particle;
-    private final double radius;
-
     private double baseAngle = 0;
 
-    public Circle(Location center, Particle particle, double radius, int pointCount, double bounceAmplitude, double rotationSpeedDeg, long tickInterval) {
-        this.center = center.add(0.5, 0.5, 0.5); // move above based on the block
+    public Circle(Location center, Location offset, Particle particle, double radius, int pointCount, double bounceAmplitude, double rotationSpeedDeg, long tickInterval) {
+        this.center = center.clone().add(offset); // move above based on the block
+        this.offset = offset;
         this.particle = particle;
-        this.radius = radius;
 
         this.task = new BukkitRunnable() {
             private int tick = 0;
@@ -34,9 +30,9 @@ public class Circle extends CustomParticle {
                     // 閃爍跳動 Y 軸（類似 bounce 效果）
                     double y = bounceAmplitude * Math.sin(Math.toRadians(tick * 10 + i * 20));
 
-                    Location loc = center.clone().add(x, y, z);
-                    assert center.getWorld() != null;
-                    center.getWorld().spawnParticle(particle, loc, 1, 0, 0, 0, 0);
+                    Location loc = getCenter().clone().add(x, y, z);
+                    assert getCenter().getWorld() != null;
+                    getCenter().getWorld().spawnParticle(getParticle(), loc, 1, 0, 0, 0, 0);
                 }
 
                 baseAngle += rotationSpeedDeg;

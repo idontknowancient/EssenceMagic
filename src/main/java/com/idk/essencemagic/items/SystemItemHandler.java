@@ -17,7 +17,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.Set;
 
 public class SystemItemHandler implements Listener {

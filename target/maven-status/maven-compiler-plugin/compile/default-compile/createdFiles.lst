@@ -31,7 +31,9 @@ com\idk\essencemagic\particles\Circle$1.class
 com\idk\essencemagic\utils\Register.class
 com\idk\essencemagic\utils\messages\placeholders\InternalPlaceholder.class
 com\idk\essencemagic\commands\essence_sub\MagicCommand.class
+com\idk\essencemagic\items\systemItems\WithParticle.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
+com\idk\essencemagic\particles\ParticleHandler.class
 com\idk\essencemagic\EssenceMagic.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\InfoCommand.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\ManaCommand.class

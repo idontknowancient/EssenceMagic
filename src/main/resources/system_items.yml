@@ -6,3 +6,4 @@ wand_processing_table:
     - "&7加工魔杖啊，不然呢"
   glowing: true
   placeable: true
+  display_particle: true
