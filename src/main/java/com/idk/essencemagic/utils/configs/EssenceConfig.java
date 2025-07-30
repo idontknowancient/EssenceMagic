@@ -2,11 +2,10 @@ package com.idk.essencemagic.utils.configs;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.utils.Util;
-import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
+import com.idk.essencemagic.utils.placeholders.InternalPlaceholderHandler;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;

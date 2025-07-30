@@ -2,15 +2,15 @@ package com.idk.essencemagic.items.systemItems;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.items.SystemItem;
-import com.idk.essencemagic.particles.Circle;
-import com.idk.essencemagic.particles.CustomParticle;
-import com.idk.essencemagic.particles.ParticleHandler;
+import com.idk.essencemagic.utils.particles.Circle;
+import com.idk.essencemagic.utils.particles.CustomParticle;
+import com.idk.essencemagic.utils.particles.ParticleHandler;
+import com.idk.essencemagic.utils.DisplayHandler;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.wands.WandHandler;
 import com.jeff_media.customblockdata.CustomBlockData;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -22,9 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.util.Transformation;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class WandProcessingTable extends SystemItem implements Placeable, WithParticle {
@@ -57,7 +55,16 @@ public class WandProcessingTable extends SystemItem implements Placeable, WithPa
 
     @Override
     public void onBlockBreak(BlockBreakEvent event) {
-        ParticleHandler.stopParticle(event.getBlock().getLocation());
+        Block block = event.getBlock();
+        ParticleHandler.stopParticle(block.getLocation());
+        PersistentDataContainer container = new CustomBlockData(event.getBlock(), plugin);
+
+        ItemStack getBack = DisplayHandler.removeItemDisplayFromContainer(container);
+        DisplayHandler.removeTextDisplayFromContainer(container);
+        if(getBack != null) {
+            block.getWorld().dropItemNaturally(block.getLocation(), getBack);
+            container.remove(wandProcessingTableKey);
+        }
     }
 
     @Override
@@ -73,35 +80,22 @@ public class WandProcessingTable extends SystemItem implements Placeable, WithPa
 
         // show item display
         if(!container.has(wandProcessingTableKey) && WandHandler.getWand(item) != null) {
-            ItemDisplay display = (ItemDisplay) location.getWorld().spawnEntity(location, EntityType.ITEM_DISPLAY);
-            display.setItemStack(item);
-            player.getInventory().setItemInMainHand(null);
-            display.setRotation(0, 0);
-
-            Transformation transformation = display.getTransformation();
-            transformation.getTranslation().set(0.5, 1.7, 0.5);
-            transformation.getScale().set(0.5, 0.5, 0.5);
-            display.setTransformation(transformation);
-            display.setBillboard(Display.Billboard.FIXED);
+            UUID itemUUID = DisplayHandler.createItemDisplayFromHand(item, location, player, 1.7);
+            UUID textUUID = DisplayHandler.createTextDisplayFromItem(item, location, 2.2);
+            if(itemUUID == null || textUUID == null) return;
 
             // set corresponding item and display uuid
-            assert item != null;
-            container.set(wandProcessingTableKey, DataType.ITEM_STACK, item);
-            container.set(wandProcessingTableKey, DataType.UUID, display.getUniqueId());
+            container.set(DisplayHandler.getItemDisplayKey(), DataType.UUID, itemUUID);
+            container.set(DisplayHandler.getTextDisplayKey(), DataType.UUID, textUUID);
+            container.set(wandProcessingTableKey, PersistentDataType.STRING, getName());
         } else if(container.has(wandProcessingTableKey) && item == null) {
-//            player.getInventory().setItemInMainHand(container.get(wandProcessingTableKey, DataType.ITEM_STACK));
-            UUID displayID = container.get(wandProcessingTableKey, DataType.UUID);
-            if(displayID == null) return;
+            ItemStack getBack = DisplayHandler.removeItemDisplayFromContainer(container);
+            DisplayHandler.removeTextDisplayFromContainer(container);
 
-//            Optional.ofNullable(Bukkit.getEntity(displayID)).ifPresent(Entity::remove);
-            Entity entity = Bukkit.getEntity(displayID);
-            if(!(entity instanceof ItemDisplay display)) return;
-            entity.remove();
-            player.getInventory().setItemInMainHand(display.getItemStack());
+            player.getInventory().setItemInMainHand(getBack);
             container.remove(wandProcessingTableKey);
         }
     }
-
     @Override
     public boolean isDisplayParticle() {
         return displayParticle;

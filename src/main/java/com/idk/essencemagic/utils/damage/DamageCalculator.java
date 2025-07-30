@@ -1,4 +1,4 @@
-package com.idk.essencemagic.damage;
+package com.idk.essencemagic.utils.damage;
 
 import com.idk.essencemagic.elements.Element;
 import com.idk.essencemagic.elements.ElementDamage;

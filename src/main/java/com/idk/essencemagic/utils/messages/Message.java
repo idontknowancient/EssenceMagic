@@ -1,7 +1,7 @@
 package com.idk.essencemagic.utils.messages;
 
 import com.idk.essencemagic.utils.configs.ConfigFile;
-import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
+import com.idk.essencemagic.utils.placeholders.InternalPlaceholderHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 

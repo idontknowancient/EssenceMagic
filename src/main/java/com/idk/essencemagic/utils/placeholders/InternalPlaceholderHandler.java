@@ -1,10 +1,10 @@
-package com.idk.essencemagic.utils.messages.placeholders;
+package com.idk.essencemagic.utils.placeholders;
 
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.items.SystemItem;
 import com.idk.essencemagic.magics.Magic;
-import com.idk.essencemagic.player.ManaHandler;
-import com.idk.essencemagic.player.PlayerData;
+import com.idk.essencemagic.players.ManaHandler;
+import com.idk.essencemagic.players.PlayerData;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.wands.Wand;
 import com.idk.essencemagic.wands.WandHandler;

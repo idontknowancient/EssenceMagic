@@ -32,13 +32,6 @@ public class CustomPlaceholder extends PlaceholderExpansion {
 
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String params) {
-        if(params.startsWith("element_")) {
-            String input = params.substring(8);
-            if(input.equals("name")) {
-                //testing
-            }
-        }
-
         return super.onRequest(player, params);
     }
 }

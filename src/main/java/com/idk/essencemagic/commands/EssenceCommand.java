@@ -5,7 +5,7 @@ import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.items.systemItems.Registry;
 import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.mobs.Mob;
-import com.idk.essencemagic.player.PlayerData;
+import com.idk.essencemagic.players.PlayerData;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.wands.Wand;
@@ -16,8 +16,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

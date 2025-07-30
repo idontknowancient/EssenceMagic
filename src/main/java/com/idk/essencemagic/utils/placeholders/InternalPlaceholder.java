@@ -1,4 +1,4 @@
-package com.idk.essencemagic.utils.messages.placeholders;
+package com.idk.essencemagic.utils.placeholders;
 
 public enum InternalPlaceholder {
 

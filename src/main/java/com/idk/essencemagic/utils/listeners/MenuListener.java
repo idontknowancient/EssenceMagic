@@ -1,4 +1,4 @@
-package com.idk.essencemagic.listeners;
+package com.idk.essencemagic.utils.listeners;
 
 import com.idk.essencemagic.items.ItemHandler;
 import com.idk.essencemagic.menus.holders.CancelHolder;

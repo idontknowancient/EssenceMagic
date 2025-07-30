@@ -1,4 +1,4 @@
-package com.idk.essencemagic.player;
+package com.idk.essencemagic.players;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.utils.configs.ConfigFile;

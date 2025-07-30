@@ -3,9 +3,8 @@ package com.idk.essencemagic;
 import com.idk.essencemagic.items.SystemItemHandler;
 import com.idk.essencemagic.magics.MagicHandler;
 import com.idk.essencemagic.mobs.MobHandler;
-import com.idk.essencemagic.particles.ParticleHandler;
-import com.idk.essencemagic.player.ManaHandler;
-import com.idk.essencemagic.player.PlayerDataHandler;
+import com.idk.essencemagic.utils.particles.ParticleHandler;
+import com.idk.essencemagic.players.PlayerDataHandler;
 import com.idk.essencemagic.skills.SkillHandler;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.elements.ElementHandler;
@@ -14,8 +13,11 @@ import com.idk.essencemagic.utils.Register;
 import com.idk.essencemagic.utils.placeholders.CustomPlaceholder;
 import com.idk.essencemagic.wands.WandHandler;
 import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Level;
 
 public final class EssenceMagic extends JavaPlugin {
 
@@ -58,10 +60,12 @@ public final class EssenceMagic extends JavaPlugin {
         Register.registerListeners();
         Register.registerCommands();
 
-        try {
-            new CustomPlaceholder().register();
-        } catch(NoClassDefFoundError e) {
-            e.printStackTrace();
+        if(!PlaceholderAPI.isRegistered(plugin.getDescription().getName().toLowerCase())) {
+            try {
+                new CustomPlaceholder().register();
+            } catch(NoClassDefFoundError e) {
+               getLogger().log(Level.SEVERE, "", e);
+            }
         }
     }
 

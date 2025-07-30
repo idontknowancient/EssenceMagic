@@ -3,7 +3,7 @@ package com.idk.essencemagic.items;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
-import com.idk.essencemagic.utils.messages.placeholders.InternalPlaceholderHandler;
+import com.idk.essencemagic.utils.placeholders.InternalPlaceholderHandler;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

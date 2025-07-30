@@ -1,6 +1,6 @@
 package com.idk.essencemagic.wands;
 
-import com.idk.essencemagic.player.PlayerData;
+import com.idk.essencemagic.players.PlayerData;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
