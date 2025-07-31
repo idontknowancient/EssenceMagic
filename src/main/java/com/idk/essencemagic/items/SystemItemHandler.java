@@ -1,7 +1,7 @@
 package com.idk.essencemagic.items;
 
 import com.idk.essencemagic.EssenceMagic;
-import com.idk.essencemagic.items.systemItems.Placeable;
+import com.idk.essencemagic.items.systemItems.features.Placeable;
 import com.idk.essencemagic.items.systemItems.Registry;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.jeff_media.customblockdata.CustomBlockData;

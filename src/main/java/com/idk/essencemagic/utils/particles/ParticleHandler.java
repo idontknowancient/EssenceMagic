@@ -3,7 +3,7 @@ package com.idk.essencemagic.utils.particles;
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.items.SystemItem;
 import com.idk.essencemagic.items.SystemItemHandler;
-import com.idk.essencemagic.items.systemItems.WithParticle;
+import com.idk.essencemagic.items.systemItems.features.WithParticle;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;

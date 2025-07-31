@@ -1,4 +1,4 @@
-package com.idk.essencemagic.items.systemItems;
+package com.idk.essencemagic.items.systemItems.features;
 
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;

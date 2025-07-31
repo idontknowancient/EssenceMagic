@@ -1,44 +1,44 @@
 package com.idk.essencemagic.utils.particles;
 
-import com.idk.essencemagic.EssenceMagic;
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.configuration.ConfigurationSection;
 
 @Getter
 public class Circle extends CustomParticle {
 
     private double baseAngle = 0;
+    private final double radius;
+    private final int pointCount;
+    private final double bounceAmplitude;
+    private final double rotationSpeed;
+    private int tick = 0;
 
-    public Circle(Location center, Location offset, Particle particle, double radius, int pointCount, double bounceAmplitude, double rotationSpeedDeg, long tickInterval) {
-        this.center = center.clone().add(offset); // move above based on the block
-        this.offset = offset;
-        this.particle = particle;
+    public Circle(ConfigurationSection section) {
+        super(section);
+        radius = getSection().getDouble("radius", 3);
+        pointCount = getSection().getInt("point-count", 8);
+        bounceAmplitude = getSection().getDouble("bounce-amplitude", 0.2);
+        rotationSpeed = getSection().getDouble("rotation-speed", 20);
+    }
 
-        this.task = new BukkitRunnable() {
-            private int tick = 0;
+    @Override
+    public void repeat() {
+        for (int i = 0; i < pointCount; i++) {
+            double angleDeg = baseAngle + ((double)i / pointCount) * 360.0;
+            double rad = Math.toRadians(angleDeg);
+            double x = radius * Math.cos(rad);
+            double z = radius * Math.sin(rad);
 
-            @Override
-            public void run() {
-                for (int i = 0; i < pointCount; i++) {
-                    double angleDeg = baseAngle + ((double)i / pointCount) * 360.0;
-                    double rad = Math.toRadians(angleDeg);
-                    double x = radius * Math.cos(rad);
-                    double z = radius * Math.sin(rad);
+            // flittering y-axis (similar to bounce)
+            double y = bounceAmplitude * Math.sin(Math.toRadians(tick * 10 + i * 20));
 
-                    // 閃爍跳動 Y 軸（類似 bounce 效果）
-                    double y = bounceAmplitude * Math.sin(Math.toRadians(tick * 10 + i * 20));
+            Location location = getCenter().clone().add(x, y, z);
+            assert getCenter().getWorld() != null;
+            getCenter().getWorld().spawnParticle(getParticle(), location, 1, 0, 0, 0, 0);
+        }
 
-                    Location loc = getCenter().clone().add(x, y, z);
-                    assert getCenter().getWorld() != null;
-                    getCenter().getWorld().spawnParticle(getParticle(), loc, 1, 0, 0, 0, 0);
-                }
-
-                baseAngle += rotationSpeedDeg;
-                if (baseAngle >= 360) baseAngle -= 360;
-                tick++;
-            }
-        }.runTaskTimer(EssenceMagic.getPlugin(), 0L, tickInterval);
+        baseAngle = (baseAngle + rotationSpeed) % 360;
+        tick++;
     }
 }
