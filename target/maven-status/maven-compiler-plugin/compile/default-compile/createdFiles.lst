@@ -91,7 +91,6 @@ com\idk\essencemagic\commands\essence_sub\magic_sub\CastCommand.class
 com\idk\essencemagic\commands\essence_sub\mob_sub\MenuCommand.class
 com\idk\essencemagic\commands\essence_sub\skill_sub\ForceCommand.class
 com\idk\essencemagic\utils\particles\RotatingSquare.class
-com\idk\essencemagic\items\systemItems\Registry.class
 com\idk\essencemagic\skills\SkillHandler.class
 com\idk\essencemagic\items\SystemItemHandler.class
 com\idk\essencemagic\utils\Util.class

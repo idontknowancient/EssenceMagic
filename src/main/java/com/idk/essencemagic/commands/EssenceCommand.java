@@ -2,11 +2,11 @@ package com.idk.essencemagic.commands;
 
 import com.idk.essencemagic.commands.essence_sub.*;
 import com.idk.essencemagic.items.Item;
-import com.idk.essencemagic.items.systemItems.Registry;
 import com.idk.essencemagic.magics.Magic;
 import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.players.PlayerData;
 import com.idk.essencemagic.skills.Skill;
+import com.idk.essencemagic.utils.Registry;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.wands.Wand;
 import com.idk.essencemagic.wands.WandHandler;
@@ -87,7 +87,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         if(args.length == 3) {
             if(args[0].equalsIgnoreCase("item") && args[1].equalsIgnoreCase("get")) {
                 List<String> index = new ArrayList<>(Item.items.keySet());
-                for(Registry registry : Registry.values()) {
+                for(Registry.SystemItem registry : Registry.SystemItem.values()) {
                     index.add(registry.name().toLowerCase());
                 }
                 return index;

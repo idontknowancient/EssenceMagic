@@ -2,7 +2,7 @@ package com.idk.essencemagic.items;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.items.systemItems.features.Placeable;
-import com.idk.essencemagic.items.systemItems.Registry;
+import com.idk.essencemagic.utils.Registry;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.block.Block;
@@ -28,7 +28,7 @@ public class SystemItemHandler implements Listener {
 
     private static void setSystemItems() {
         Set<String> systemItemSet = ConfigFile.ConfigName.SYSTEM_ITEMS.getConfig().getKeys(false);
-        for(Registry registry : Registry.values()) {
+        for(Registry.SystemItem registry : Registry.SystemItem.values()) {
             String name = registry.name().toLowerCase();
             if(systemItemSet.contains(name)) {
                 // use Function to automatically generate SystemItem from a string
