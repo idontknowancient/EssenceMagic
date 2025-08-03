@@ -87,6 +87,5 @@ public abstract class SIParticleBlock extends SystemItem implements Placeable, W
         // create custom particle
         CustomParticle activating = particle.constructor.apply(section);
         activating.generate(location);
-        CustomParticle.activatingParticles.put(location, activating);
     }
 }

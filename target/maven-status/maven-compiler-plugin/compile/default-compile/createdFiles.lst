@@ -37,6 +37,7 @@ com\idk\essencemagic\commands\essence_sub\MagicCommand.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
 com\idk\essencemagic\players\PlayerDataHandler.class
 com\idk\essencemagic\EssenceMagic.class
+com\idk\essencemagic\utils\interactiveSlots\InteractiveSlotHandler.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\InfoCommand.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\ManaCommand.class
 com\idk\essencemagic\mobs\MobHandler.class
@@ -52,6 +53,7 @@ com\idk\essencemagic\commands\essence_sub\WandCommand.class
 com\idk\essencemagic\items\systemItems\features\WithParticle.class
 com\idk\essencemagic\utils\Registry.class
 com\idk\essencemagic\utils\messages\Message.class
+com\idk\essencemagic\utils\interactiveSlots\InteractiveSlot$1.class
 com\idk\essencemagic\commands\essence_sub\item_sub\GetCommand.class
 com\idk\essencemagic\utils\configs\ConfigFile$ConfigName.class
 com\idk\essencemagic\commands\essence_sub\element_sub\MenuCommand.class
@@ -59,6 +61,7 @@ com\idk\essencemagic\commands\SubCommand.class
 com\idk\essencemagic\utils\listeners\PlayerJoinQuitListener.class
 com\idk\essencemagic\commands\essence_sub\SkillCommand.class
 com\idk\essencemagic\skills\Trigger.class
+com\idk\essencemagic\utils\interactiveSlots\InteractiveSlot.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\UpdateCommand.class
 com\idk\essencemagic\elements\ElementHandler.class
 com\idk\essencemagic\skills\SkillHandler$Cooldown.class

@@ -3,6 +3,7 @@ package com.idk.essencemagic.utils;
 import com.idk.essencemagic.EssenceMagic;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -48,6 +49,38 @@ public class Util {
         }
 
         return new_;
+    }
+
+    public static Color stringToColor(String string) {
+        return switch (string.toUpperCase()) {
+            case "AQUA" -> Color.AQUA;
+            case "BLACK" -> Color.BLACK;
+            case "BLUE" -> Color.BLUE;
+            case "FUCHSIA" -> Color.FUCHSIA;
+            case "GRAY" -> Color.GRAY;
+            case "GREEN" -> Color.GREEN;
+            case "LIME" -> Color.LIME;
+            case "MAROON" -> Color.MAROON;
+            case "NAVY" -> Color.NAVY;
+            case "OLIVE" -> Color.OLIVE;
+            case "ORANGE" -> Color.ORANGE;
+            case "PURPLE" -> Color.PURPLE;
+            case "RED" -> Color.RED;
+            case "SILVER" -> Color.SILVER;
+            case "TEAL" -> Color.TEAL;
+            case "WHITE" -> Color.WHITE;
+            case "YELLOW" -> Color.YELLOW;
+            default -> Color.WHITE; // fallback
+        };
+    }
+
+    /*
+     if looking downward, z-x plane is "x-y" plane we used to (z is "x" and x is "y")
+     start from south (+z, yaw = 0), and keep rotating counterclockwise (yaw keeps declining), so we add "-"
+     after north (-z, yaw = -180), yaw drops from 180 to 0, so we use 360 - yaw to get the accurate math angle
+     */
+    public static double yawToMathDegree(double yaw) {
+        return 0 < yaw && yaw <= 180 ? 360 - yaw : -yaw;
     }
 
     public static void consoleOuts(String s) {

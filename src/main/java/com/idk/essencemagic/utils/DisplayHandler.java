@@ -23,7 +23,7 @@ public class DisplayHandler {
     @Getter private static final NamespacedKey itemDisplayKey = new NamespacedKey(EssenceMagic.getPlugin(), "item-display-key");
     @Getter private static final NamespacedKey textDisplayKey = new NamespacedKey(EssenceMagic.getPlugin(), "text-display-key");
 
-    public static void createItemDisplayFromHand(ItemStack item, Block block, Player player, double yOffset, double scale) {
+    public static void createItemDisplayFromHand(ItemStack item, Block block, PersistentDataContainer container, Player player, double yOffset, double scale) {
         Location location = block.getLocation();
         if(location.getWorld() == null) return;
 
@@ -37,15 +37,14 @@ public class DisplayHandler {
         display.setTransformation(transformation);
         display.setBillboard(Display.Billboard.CENTER);
 
-        PersistentDataContainer container = new CustomBlockData(block, plugin);
         container.set(itemDisplayKey, DataType.UUID, display.getUniqueId());
     }
 
-    public static void createItemDisplayFromHand(ItemStack item, Block block, Player player, double yOffset) {
-        createItemDisplayFromHand(item, block, player, yOffset, 0.5);
+    public static void createItemDisplayFromHand(ItemStack item, Block block, PersistentDataContainer container, Player player, double yOffset) {
+        createItemDisplayFromHand(item, block, container, player, yOffset, 0.5);
     }
 
-    public static void createTextDisplayFromItem(ItemStack item, Block block, double yOffset, double scale) {
+    public static void createTextDisplayFromItem(ItemStack item, Block block, PersistentDataContainer container, double yOffset, double scale) {
         Location location = block.getLocation();
         if(location.getWorld() == null || item.getItemMeta() == null) return;
 
@@ -57,12 +56,11 @@ public class DisplayHandler {
         display.setTransformation(transformation);
         display.setBillboard(Display.Billboard.CENTER);
 
-        PersistentDataContainer container = new CustomBlockData(block, plugin);
         container.set(textDisplayKey, DataType.UUID, display.getUniqueId());
     }
 
-    public static void createTextDisplayFromItem(ItemStack item, Block block, double yOffset) {
-        createTextDisplayFromItem(item, block, yOffset, 1);
+    public static void createTextDisplayFromItem(ItemStack item, Block block, PersistentDataContainer container, double yOffset) {
+        createTextDisplayFromItem(item, block, container, yOffset, 1);
     }
 
     @Nullable

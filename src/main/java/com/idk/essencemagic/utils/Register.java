@@ -4,6 +4,8 @@ import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.commands.EssenceCommand;
 import com.idk.essencemagic.utils.damage.DamageCalculator;
 import com.idk.essencemagic.items.SystemItemHandler;
+import com.idk.essencemagic.utils.interactiveSlots.InteractiveSlot;
+import com.idk.essencemagic.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essencemagic.utils.listeners.MenuListener;
 import com.idk.essencemagic.utils.listeners.PlayerJoinQuitListener;
 import com.idk.essencemagic.utils.particles.ParticleHandler;
@@ -12,6 +14,7 @@ import com.idk.essencemagic.skills.SkillHandler;
 import com.idk.essencemagic.wands.WandHandler;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 
 public class Register {
@@ -35,6 +38,10 @@ public class Register {
         register(new WandHandler());
         register(new SystemItemHandler());
         register(new ParticleHandler());
+        register(new InteractiveSlotHandler());
+
+        // needed when using ConfigurationSerializable
+        ConfigurationSerialization.registerClass(InteractiveSlot.class);
 
         // CustomBlockData will automatically handle moving/removing block data for changed blocks
         CustomBlockData.registerListener(plugin);

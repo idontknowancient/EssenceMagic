@@ -26,7 +26,7 @@ public class ParticleHandler implements Listener {
         setParticles();
     }
 
-    // find all custom block data and activate particles
+    // find all custom block data and generate particles
     private static void setParticles() {
         for(World world : Bukkit.getWorlds()) {
             for(Chunk chunk : world.getLoadedChunks()) {

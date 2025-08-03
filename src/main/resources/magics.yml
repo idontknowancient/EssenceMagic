@@ -5,7 +5,7 @@ fire_beam:
   expression: none
   # convey "wishes"
   chant: none
-  # magic type (should learn all listed types to activate a child type)
+  # magic type (should learn all listed types to generate a child type)
   type:
     # attack/defense/support/control/feature
     feature: attack

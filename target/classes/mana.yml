@@ -7,7 +7,7 @@ max-mana-modifier: 5
 recovery-speed: 10
 # Whether to show current mana in the action bar
 show-in-action-bar: true
-# Whether to consume mana while skills fail to activate
+# Whether to consume mana while skills fail to generate
 consume-while-skill-fail: false
 show-message: "&7                        Lv.&b%mana_level% &7魔力: &b%mana%&7/&b%max_mana%"
 update-interval: 5 # In ticks

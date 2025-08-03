@@ -44,6 +44,7 @@ public abstract class CustomParticle {
                 repeat();
             }
         }.runTaskTimer(EssenceMagic.getPlugin(), 0L, tickInterval);
+        CustomParticle.activatingParticles.put(location, this);
     }
 
     public abstract void repeat();

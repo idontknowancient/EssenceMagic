@@ -3,6 +3,7 @@ package com.idk.essencemagic;
 import com.idk.essencemagic.items.SystemItemHandler;
 import com.idk.essencemagic.magics.MagicHandler;
 import com.idk.essencemagic.mobs.MobHandler;
+import com.idk.essencemagic.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essencemagic.utils.particles.ParticleHandler;
 import com.idk.essencemagic.players.PlayerDataHandler;
 import com.idk.essencemagic.skills.SkillHandler;
@@ -34,6 +35,7 @@ public final class EssenceMagic extends JavaPlugin {
         MobHandler.initialize();
         PlayerDataHandler.initialize();
         ParticleHandler.initialize();
+        InteractiveSlotHandler.initialize();
     }
 
     public static void registerDependencies() {
