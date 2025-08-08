@@ -1,6 +1,7 @@
-package com.idk.essencemagic.wands;
+package com.idk.essencemagic.items.wands;
 
 import com.idk.essencemagic.players.PlayerData;
+import com.idk.essencemagic.utils.ClickHandler;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
@@ -136,14 +137,14 @@ public class WandHandler implements Listener {
         assert meta != null;
 
         String name = getWandName(wand);
-        // create new wand (internal name can't be change)
+        // create a new wand (internal name can't be change)
         ItemStack newWand = new Wand(name).getItemStack();
         if(newWand.getItemMeta() == null) return;
 
         // copy the old one's mana to the new one
         setMana(newWand, getMana(wand));
 
-        // copy the old one's magic to the new one (adapting to new slot)
+        // copy the old one's magic to the new one (adapting to the new slot)
         int oldSlot = getSlot(wand);
         int newSlot = getSlot(newWand);
         String WandMagic = getWandMagic(wand);
@@ -195,7 +196,7 @@ public class WandHandler implements Listener {
         double playerMana = PlayerData.dataMap.get(player.getName()).getMana();
         double manaInjection = getInjection(wand);
 
-        // player's mana is less than the amount that will be consumed per right click
+        // the player's mana is less than the amount that will be consumed per right click
         if(playerMana < manaInjection) {
             SystemMessage.INADEQUATE_MANA.send(player);
             return;
@@ -251,10 +252,7 @@ public class WandHandler implements Listener {
     // prevent block being broken while using wands
     @EventHandler
     public void onPlayerBreak(BlockBreakEvent e) {
-        Player player = e.getPlayer();
-        ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
-        if(meta == null) return;
-        if(meta.getPersistentDataContainer().has(Wand.getWandKey()))
+        if(ClickHandler.shouldCancelLeft(e.getPlayer()))
             e.setCancelled(true);
     }
 

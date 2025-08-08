@@ -2,6 +2,7 @@ package com.idk.essencemagic.items;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.items.systemItems.features.Placeable;
+import com.idk.essencemagic.utils.ClickHandler;
 import com.idk.essencemagic.utils.Registry;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.jeff_media.customblockdata.CustomBlockData;
@@ -83,12 +84,17 @@ public class SystemItemHandler implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
 
+        // cancel multiple conditions like holding a wand
+        if(ClickHandler.shouldCancelLeft(event.getPlayer())) {
+            event.setCancelled(true);
+            return;
+        }
+
         PersistentDataContainer container = new CustomBlockData(block, EssenceMagic.getPlugin());
         String name = container.get(SystemItem.getSystemItemKey(), PersistentDataType.STRING);
         if(name == null) return;
 
         SystemItem systemItem = getSystemItem(name);
-        if(systemItem == null) return;
         if(!(systemItem instanceof Placeable block_)) return;
 
         event.setDropItems(false);

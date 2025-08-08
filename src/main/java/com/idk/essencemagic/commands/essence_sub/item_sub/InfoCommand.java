@@ -3,18 +3,15 @@ package com.idk.essencemagic.commands.essence_sub.item_sub;
 import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.items.Item;
 import com.idk.essencemagic.items.ItemHandler;
-import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
-import com.idk.essencemagic.wands.Wand;
-import com.idk.essencemagic.wands.WandHandler;
+import com.idk.essencemagic.items.wands.WandHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InfoCommand extends SubCommand {

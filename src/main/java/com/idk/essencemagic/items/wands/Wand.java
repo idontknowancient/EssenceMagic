@@ -1,4 +1,4 @@
-package com.idk.essencemagic.wands;
+package com.idk.essencemagic.items.wands;
 
 import com.idk.essencemagic.EssenceMagic;
 import com.idk.essencemagic.items.Item;

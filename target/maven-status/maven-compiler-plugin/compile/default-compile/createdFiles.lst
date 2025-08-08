@@ -1,4 +1,5 @@
 com\idk\essencemagic\commands\essence_sub\ManaCommand.class
+com\idk\essencemagic\items\wands\WandHandler.class
 com\idk\essencemagic\magics\modifiers\Damage.class
 com\idk\essencemagic\items\ItemHandler.class
 com\idk\essencemagic\magics\Modifier.class
@@ -25,13 +26,13 @@ com\idk\essencemagic\items\SystemItem.class
 com\idk\essencemagic\items\systemItems\features\SIParticleBlock.class
 com\idk\essencemagic\magics\MagicType.class
 com\idk\essencemagic\utils\damage\DamageCalculator.class
-com\idk\essencemagic\wands\Wand.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\GetCommand.class
 com\idk\essencemagic\items\systemItems\WandProcessingTable.class
 com\idk\essencemagic\magics\childTypes\SakuraMaite.class
 com\idk\essencemagic\commands\essence_sub\magic_sub\MenuCommand.class
 com\idk\essencemagic\players\PlayerData.class
 com\idk\essencemagic\players\ManaHandler$2.class
+com\idk\essencemagic\items\wands\Wand.class
 com\idk\essencemagic\utils\Register.class
 com\idk\essencemagic\commands\essence_sub\MagicCommand.class
 com\idk\essencemagic\utils\placeholders\CustomPlaceholder.class
@@ -51,6 +52,7 @@ com\idk\essencemagic\players\ManaHandler$1.class
 com\idk\essencemagic\utils\messages\SystemMessage.class
 com\idk\essencemagic\commands\essence_sub\WandCommand.class
 com\idk\essencemagic\items\systemItems\features\WithParticle.class
+com\idk\essencemagic\utils\ClickHandler.class
 com\idk\essencemagic\utils\Registry.class
 com\idk\essencemagic\utils\messages\Message.class
 com\idk\essencemagic\utils\interactiveSlots\InteractiveSlot$1.class
@@ -86,7 +88,6 @@ com\idk\essencemagic\commands\essence_sub\UtilCommand.class
 com\idk\essencemagic\utils\permissions\Permission.class
 com\idk\essencemagic\utils\particles\CustomParticle.class
 com\idk\essencemagic\commands\EssenceCommand.class
-com\idk\essencemagic\wands\WandHandler.class
 com\idk\essencemagic\commands\essence_sub\wand_sub\MagicCommand.class
 com\idk\essencemagic\commands\essence_sub\item_sub\InfoCommand.class
 com\idk\essencemagic\commands\essence_sub\mana_sub\GetCommand.class

@@ -11,7 +11,7 @@ import com.idk.essencemagic.utils.listeners.PlayerJoinQuitListener;
 import com.idk.essencemagic.utils.particles.ParticleHandler;
 import com.idk.essencemagic.players.PlayerDataHandler;
 import com.idk.essencemagic.skills.SkillHandler;
-import com.idk.essencemagic.wands.WandHandler;
+import com.idk.essencemagic.items.wands.WandHandler;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;

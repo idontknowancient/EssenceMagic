@@ -4,8 +4,8 @@ import com.idk.essencemagic.commands.SubCommand;
 import com.idk.essencemagic.utils.messages.SystemMessage;
 import com.idk.essencemagic.utils.permissions.Permission;
 import com.idk.essencemagic.utils.permissions.SystemPermission;
-import com.idk.essencemagic.wands.Wand;
-import com.idk.essencemagic.wands.WandHandler;
+import com.idk.essencemagic.items.wands.Wand;
+import com.idk.essencemagic.items.wands.WandHandler;
 import org.bukkit.entity.Player;
 
 public class GetCommand extends SubCommand {

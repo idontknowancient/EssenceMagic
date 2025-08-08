@@ -11,7 +11,7 @@ import com.idk.essencemagic.mobs.Mob;
 import com.idk.essencemagic.skills.Skill;
 import com.idk.essencemagic.utils.Util;
 import com.idk.essencemagic.utils.configs.ConfigFile;
-import com.idk.essencemagic.wands.Wand;
+import com.idk.essencemagic.items.wands.Wand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
