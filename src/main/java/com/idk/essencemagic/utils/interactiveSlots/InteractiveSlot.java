@@ -1,6 +1,7 @@
 package com.idk.essencemagic.utils.interactiveSlots;
 
 import com.idk.essencemagic.EssenceMagic;
+import com.idk.essencemagic.utils.Util;
 import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableArrayDataType;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -28,35 +30,45 @@ public class InteractiveSlot implements ConfigurationSerializable {
     @Getter private static final PersistentDataType<byte[],InteractiveSlot[]> dataType = new ConfigurationSerializableArrayDataType<>(InteractiveSlot[].class);
 
     private BukkitTask task = null;
-
-    private final Location location;
-
-    private final Particle particle;
-
+    // do we really need to serialize the class?
+    private final ConfigurationSection section;
+    private Location location;
+    private double radian = 0;
     @Setter private boolean displayParticle;
-
-    @Setter private Color color;
-
+    private final double radius;
+    private final double yOffset;
+    private final Color color;
     @Setter private ItemStack storedItem;
 
-    public InteractiveSlot(Location location, boolean displayParticle, Color color) {
-        this.location = location;
-        this.particle = Particle.REDSTONE;
-        this.color = color;
-        this.displayParticle = displayParticle;
+    public InteractiveSlot(ConfigurationSection section) {
+        this.section = section;
+        displayParticle = section.getBoolean("display", true);
+        radius = section.getDouble("radius", 3);
+        yOffset = section.getDouble("y-offset", 1.2);
+        color = Util.stringToColor(section.getString("color", "WHITE"));
+        storedItem = null;
     }
 
-    public void generate() {
+    public void generate(Location location) {
+        this.location = location;
         if(location.getWorld() == null) return;
+
         Particle.DustOptions options = new Particle.DustOptions(color, 1);
         if(displayParticle)
             task = new BukkitRunnable() {
                 @Override
                 public void run() {
-                    location.getWorld().spawnParticle(particle, location, 1, 0, 0, 0, 0, options);
+                    location.getWorld().spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 0, options);
                 }
             }.runTaskTimer(EssenceMagic.getPlugin(), 0, 1);
+
         activatingSlots.put(location, this);
+    }
+
+    public void generate(Location center, double radian) {
+        location = center.clone().add(radius * Math.sin(radian) + 0.5, yOffset, radius * Math.cos(radian) + 0.5);
+        this.radian = radian;
+        generate(location);
     }
 
     public void remove() {
@@ -67,19 +79,17 @@ public class InteractiveSlot implements ConfigurationSerializable {
     @Override
     public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new LinkedHashMap<>();
+        map.put("section", section);
         map.put("location", location);
-        map.put("displayParticle", displayParticle);
-        map.put("color", color);
 
         return map;
     }
 
     public static InteractiveSlot deserialize(Map<String, Object> map) {
+        ConfigurationSection section = (ConfigurationSection) map.get("section");
         Location location = (Location) map.get("location");
-        boolean displayParticle = (boolean) map.get("displayParticle");
-        Color color = (Color) map.get("color");
 
         return activatingSlots.containsKey(location) ? activatingSlots.get(location) :
-                new InteractiveSlot(location, displayParticle, color);
+                new InteractiveSlot(section);
     }
 }

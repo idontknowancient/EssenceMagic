@@ -17,7 +17,7 @@ public class InteractiveSlotHandler implements Listener {
     private static final EssenceMagic plugin = EssenceMagic.getPlugin();
 
     public static void initialize() {
-        // can not use stopInteractiveSlot (Concurrent??Exception)
+        // cannot use stopInteractiveSlot (Concurrent??Exception)
         for(InteractiveSlot slot : InteractiveSlot.activatingSlots.values())
             slot.remove();
         InteractiveSlot.activatingSlots.clear();
@@ -39,7 +39,7 @@ public class InteractiveSlotHandler implements Listener {
             if(slots == null) return;
             for(InteractiveSlot slot : slots) {
                 if(!InteractiveSlot.activatingSlots.containsValue(slot))
-                    slot.generate();
+                    slot.generate(slot.getLocation());
             }
         }
     }
@@ -60,31 +60,18 @@ public class InteractiveSlotHandler implements Listener {
                 null;
     }
 
-    public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, double yOffset, int count, boolean display, double radius, Color color) {
+    public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, int count, ConfigurationSection section) {
         InteractiveSlot[] slots = new InteractiveSlot[count];
-        // turns Minecraft yaw to regular math angle
+        // turns Minecraft yaw to a regular math angle
         double startYawRadian = Math.toRadians(Util.yawToMathDegree(startYaw));
         for(int i = 0; i < count; i++) {
             double radian = 2 * Math.PI * i / count + startYawRadian;
-            Location location = center.clone().add(radius * Math.sin(radian) + 0.5, yOffset, radius * Math.cos(radian) + 0.5);
-            InteractiveSlot slot = new InteractiveSlot(location, display, color);
-            slot.generate();
-            InteractiveSlot.activatingSlots.put(location, slot);
+            InteractiveSlot slot = new InteractiveSlot(section);
+            slot.generate(center, radian);
+            InteractiveSlot.activatingSlots.put(slot.getLocation(), slot);
             slots[i] = slot;
         }
         return slots;
-    }
-
-    public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, double yOffset, int count, boolean display, double radius) {
-        return setSlotsAround(center, startYaw, yOffset, count, display, radius, Color.WHITE);
-    }
-
-    public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, int count, ConfigurationSection section) {
-        Color color = Util.stringToColor(section.getString("color", "WHITE"));
-        return setSlotsAround(
-                center, startYaw, section.getDouble("y-offset", 1), count,
-                section.getBoolean("display", true), section.getDouble("radius", 3), color
-        );
     }
 
     public static void setContainer(PersistentDataContainer container, InteractiveSlot[] slots) {
