@@ -1,12 +1,8 @@
 package com.idk.essence.utils.interactiveSlots;
 
 import com.idk.essence.Essence;
-import com.idk.essence.items.SystemItem;
-import com.idk.essence.items.SystemItemHandler;
-import com.idk.essence.items.systemItems.features.WithInteractiveSlot;
 import com.idk.essence.utils.Util;
 import com.jeff_media.customblockdata.CustomBlockData;
-import com.jeff_media.morepersistentdatatypes.DataType;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,14 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 public class InteractiveSlotHandler implements Listener {
 
     private static final Essence plugin = Essence.getPlugin();
 
     public static void initialize() {
-        // cannot use stopInteractiveSlot (Concurrent??Exception)
+        // can not use stopInteractiveSlot (Concurrent??Exception)
         for(InteractiveSlot slot : InteractiveSlot.activatingSlots.values())
             slot.remove();
         InteractiveSlot.activatingSlots.clear();
@@ -39,25 +35,12 @@ public class InteractiveSlotHandler implements Listener {
 
     private static void setChunkInteractiveSlot(Chunk chunk) {
         for(Block block : CustomBlockData.getBlocksWithCustomData(plugin, chunk)) {
-            CustomBlockData data = new CustomBlockData(block, plugin);
-
-            // handle slots by SystemItem
-            String name = data.get(SystemItem.getSystemItemKey(), PersistentDataType.STRING);
-            SystemItem systemItem = SystemItemHandler.getSystemItem(name);
-            if(!(systemItem instanceof WithInteractiveSlot slot_)) return;
-
-            Location location = block.getLocation();
-            if(data.has(InteractiveSlot.getInteractiveSlotKey()))
-                slot_.rebuildSlotsAround(location);
-        }
-    }
-
-    public static void stopSlotsAround(Block block) {
-        CustomBlockData data = new CustomBlockData(block, plugin);
-        Location[] locations = data.get(InteractiveSlot.getInteractiveSlotKey(), DataType.LOCATION_ARRAY);
-        if(locations == null) return;
-        for(Location location : locations) {
-            stopInteractiveSlot(location);
+            InteractiveSlot[] slots = getStoredSlots(block);
+            if(slots == null) return;
+            for(InteractiveSlot slot : slots) {
+                if(!InteractiveSlot.activatingSlots.containsValue(slot))
+                    slot.generate();
+            }
         }
     }
 
@@ -69,28 +52,43 @@ public class InteractiveSlotHandler implements Listener {
         }
     }
 
-    // also set container
-    public static void setSlotsAround(Location center, double startYaw, int count, ConfigurationSection section, PersistentDataContainer container) {
-        Location[] locations = new Location[count];
-        // turns Minecraft yaw to a regular math angle
+    @Nullable
+    public static InteractiveSlot[] getStoredSlots(Block block) {
+        CustomBlockData data = new CustomBlockData(block, plugin);
+        return data.has(InteractiveSlot.getInteractiveSlotKey()) ?
+                data.get(InteractiveSlot.getInteractiveSlotKey(), InteractiveSlot.getDataType()) :
+                null;
+    }
+
+    public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, double yOffset, int count, boolean display, double radius, Color color) {
+        InteractiveSlot[] slots = new InteractiveSlot[count];
+        // turns Minecraft yaw to regular math angle
         double startYawRadian = Math.toRadians(Util.yawToMathDegree(startYaw));
         for(int i = 0; i < count; i++) {
             double radian = 2 * Math.PI * i / count + startYawRadian;
-            InteractiveSlot slot = new InteractiveSlot(section);
-            slot.generate(center, radian);
-            locations[i] = slot.getLocation();
+            Location location = center.clone().add(radius * Math.sin(radian) + 0.5, yOffset, radius * Math.cos(radian) + 0.5);
+            InteractiveSlot slot = new InteractiveSlot(location, display, color);
+            slot.generate();
+            InteractiveSlot.activatingSlots.put(location, slot);
+            slots[i] = slot;
         }
-        container.set(InteractiveSlot.getInteractiveSlotKey(), DataType.LOCATION_ARRAY, locations);
-        container.set(InteractiveSlot.getInteractiveSlotKey(), PersistentDataType.DOUBLE, startYaw);
-        container.set(InteractiveSlot.getInteractiveSlotKey(), PersistentDataType.INTEGER, count);
+        return slots;
     }
 
-    public static void rebuildSlotsAround(Location center, ConfigurationSection section, PersistentDataContainer container) {
-        Location[] locations = container.get(InteractiveSlot.getInteractiveSlotKey(), DataType.LOCATION_ARRAY);
-        Double startYaw = container.get(InteractiveSlot.getInteractiveSlotKey(), PersistentDataType.DOUBLE);
-        Integer count = container.get(InteractiveSlot.getInteractiveSlotKey(), PersistentDataType.INTEGER);
-        if(locations == null || startYaw == null || count == null) return;
-        setSlotsAround(center, startYaw, count, section, container);
+    public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, double yOffset, int count, boolean display, double radius) {
+        return setSlotsAround(center, startYaw, yOffset, count, display, radius, Color.WHITE);
+    }
+
+    public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, int count, ConfigurationSection section) {
+        Color color = Util.stringToColor(section.getString("color", "WHITE"));
+        return setSlotsAround(
+                center, startYaw, section.getDouble("y-offset", 1), count,
+                section.getBoolean("display", true), section.getDouble("radius", 3), color
+        );
+    }
+
+    public static void setContainer(PersistentDataContainer container, InteractiveSlot[] slots) {
+        container.set(InteractiveSlot.getInteractiveSlotKey(), InteractiveSlot.getDataType(), slots);
     }
 
     @EventHandler
