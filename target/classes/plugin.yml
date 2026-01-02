@@ -1,10 +1,10 @@
-name: EssenceMagic
+name: Essence
 version: '1.0.0'
-main: com.idk.essencemagic.EssenceMagic
-api-version: 1.20
+main: com.idk.essence.Essence
+api-version: 1.21
 softdepend: [ PlaceholderAPI ]
 authors: [ IDontKnow ]
-description: A plugin with elemental magic, which players can enjoy this system a lot.
+description: The purest power of essence.
 commands:
   essence:
     usage: /<command>

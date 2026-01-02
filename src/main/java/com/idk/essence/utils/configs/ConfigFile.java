@@ -1,0 +1,66 @@
+package com.idk.essence.utils.configs;
+
+import com.idk.essence.Essence;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ConfigFile {
+
+    private static final List<ConfigName> configList = new ArrayList<>();
+
+    public static void initialize() {
+        configList.clear();
+        for(ConfigName name : ConfigName.values()) {
+            name.copyConfigFromResources();
+            configList.add(name);
+        }
+    }
+
+    public enum ConfigName implements EssenceConfig {
+        CONFIG("config"),
+        ELEMENTS("elements"),
+        ITEMS("items"),
+        MAGICS("magics"),
+        MENUS("menus"),
+        MESSAGES("messages"),
+        MOBS("mobs"),
+        MANA("mana"),
+        PLAYER_DATA("player_data"),
+        SKILLS("skills"),
+        SYSTEM_ITEMS("system_items"),
+        WANDS("wands"),
+        ;
+
+        private final String configName;
+        private final File file;
+        private final YamlConfiguration config = new YamlConfiguration();
+
+        ConfigName(String configName) {
+            this.configName = configName + ".yml";
+            this.file = new File(Essence.getPlugin().getDataFolder(), this.configName);
+        }
+
+        @Override
+        public Essence getPlugin() {
+            return Essence.getPlugin();
+        }
+
+        @Override
+        public String getConfigName() {
+            return configName;
+        }
+
+        @Override
+        public File getFile() {
+            return file;
+        }
+
+        @Override
+        public YamlConfiguration getConfig() {
+            return config;
+        }
+    }
+}

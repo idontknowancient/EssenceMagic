@@ -35,7 +35,7 @@ sakura_maite:
   chant: none
   type:
     feature: attack
-    attribute: element,flame
+    attribute: element;flame
   available-range:
     lower-limit: E,0
     upper-limit: S,9

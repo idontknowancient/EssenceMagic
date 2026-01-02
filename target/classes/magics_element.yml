@@ -1,7 +1,0 @@
-fire_beam:
-    name: "&c火焰光束"
-    element: flame
-    min_tier_level: E,0
-    max_tier_level: S,9
-    damage:
-      base: 3
