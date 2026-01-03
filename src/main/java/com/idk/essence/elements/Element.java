@@ -19,8 +19,6 @@ import java.util.Map;
 
 public class Element {
 
-    private static final Essence plugin = Essence.getPlugin();
-
     public static final Map<String, Element> elements = new LinkedHashMap<>();
 
     @Getter private static final NamespacedKey elementKey = new NamespacedKey(plugin, "element-key");

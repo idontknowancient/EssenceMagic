@@ -2,6 +2,7 @@ package com.idk.essence.items;
 
 import com.idk.essence.utils.configs.ConfigFile;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,12 +17,6 @@ public class ItemFactory {
 
     private ItemFactory() {}
 
-    @Nullable
-    public static ItemStack get(String internalName) {
-        ItemBuilder builder = items.get(internalName);
-        return builder != null ? builder.build() : null;
-    }
-
     public static void initialize() {
         items.clear();
         ci = ConfigFile.ConfigName.ITEMS;
@@ -30,6 +25,30 @@ public class ItemFactory {
         }
     }
 
+    /**
+     * Get a custom item from a string.
+     * @param internalName the internal name of the item
+     * @return the corresponding item stack
+     */
+    @Nullable
+    public static ItemStack get(String internalName) {
+        ItemBuilder builder = items.get(internalName);
+        return builder != null ? builder.build() : null;
+    }
+
+    /**
+     * Check if an item stack is a custom item.
+     */
+    public static boolean isCustom(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        if(meta == null) return false;
+        return meta.getPersistentDataContainer().has(ItemBuilder.getItemKey());
+    }
+
+    /**
+     * Register a custom item.
+     * @param internalName the internal name of the item
+     */
     private static void register(String internalName) {
         if(!ci.has(internalName) || items.containsKey(internalName)) return;
 

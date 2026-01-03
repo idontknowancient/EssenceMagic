@@ -145,8 +145,13 @@ public class ItemBuilder {
         return this;
     }
 
+    /**
+     * Build an item stack from the builder.
+     * Complete with deep copy.
+     * @return the brand new item stack
+     */
     public ItemStack build() {
         item.setItemMeta(meta);
-        return item;
+        return item.clone();
     }
 }
