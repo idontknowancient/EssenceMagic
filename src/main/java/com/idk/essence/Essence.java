@@ -1,5 +1,6 @@
 package com.idk.essence;
 
+import com.idk.essence.items.ItemFactory;
 import com.idk.essence.items.SystemItemHandler;
 import com.idk.essence.magics.MagicHandler;
 import com.idk.essence.mobs.MobHandler;
@@ -30,6 +31,7 @@ public final class Essence extends JavaPlugin {
         SkillHandler.initialize();
         MagicHandler.initialize();
         ItemHandler.initialize();
+        ItemFactory.initialize();
         SystemItemHandler.initialize();
         WandHandler.initialize();
         MobHandler.initialize();

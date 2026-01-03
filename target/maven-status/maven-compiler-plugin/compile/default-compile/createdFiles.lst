@@ -17,6 +17,7 @@ com\idk\essence\players\ManaHandler.class
 com\idk\essence\utils\configs\EssenceConfig.class
 com\idk\essence\items\SystemItemHandler.class
 com\idk\essence\commands\essence_sub\skill_sub\MenuCommand.class
+com\idk\essence\items\ItemFactory.class
 com\idk\essence\utils\ClickHandler.class
 com\idk\essence\utils\Registry$SystemItem.class
 com\idk\essence\utils\particles\RotatingSquare.class
@@ -92,6 +93,7 @@ com\idk\essence\menus\holders\GetItemHolder.class
 com\idk\essence\commands\EssenceCommand.class
 com\idk\essence\items\systemItems\features\Placeable.class
 com\idk\essence\commands\SubCommand.class
+com\idk\essence\items\ItemBuilder.class
 com\idk\essence\players\PlayerDataHandler.class
 com\idk\essence\utils\Registry.class
 com\idk\essence\utils\placeholders\InternalPlaceholderHandler.class

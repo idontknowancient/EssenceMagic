@@ -36,6 +36,8 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\Essence.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\Item.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemBuilder.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemFactory.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\SystemItem.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\SystemItemHandler.java

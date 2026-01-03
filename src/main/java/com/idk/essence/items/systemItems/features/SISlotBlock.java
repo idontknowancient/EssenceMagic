@@ -29,7 +29,7 @@ public abstract class SISlotBlock extends SIParticleBlock implements WithInterac
         super.onBlockBreak(event);
 
         // stop all interactive slots
-        InteractiveSlotHandler.stopSlotsAround(event.getBlock());
+        InteractiveSlotHandler.stopInteractiveSlot(event.getBlock().getLocation());
     }
 
     @Override
@@ -62,7 +62,7 @@ public abstract class SISlotBlock extends SIParticleBlock implements WithInterac
 
             player.getInventory().setItemInMainHand(getBack);
 
-            InteractiveSlotHandler.stopSlotsAround(block);
+            InteractiveSlotHandler.stopInteractiveSlot(block.getLocation());
 
             container.remove(getCustomKey());
             container.remove(InteractiveSlot.getInteractiveSlotKey());
@@ -76,13 +76,13 @@ public abstract class SISlotBlock extends SIParticleBlock implements WithInterac
     public void generateSlotsAround(Location center, float startYaw, int count) {
         ConfigurationSection section = ConfigFile.ConfigName.SYSTEM_ITEMS.getConfigurationSection(getName() + ".slot");
         PersistentDataContainer container = new CustomBlockData(center.getBlock(), getPlugin());
-        InteractiveSlotHandler.setSlotsAround(center, startYaw, count, section, container);
+//        InteractiveSlotHandler.setSlotsAround(center, startYaw, count, section, container);
     }
 
     @Override
     public void rebuildSlotsAround(Location center) {
         ConfigurationSection section = ConfigFile.ConfigName.SYSTEM_ITEMS.getConfigurationSection(getName() + ".slot");
         PersistentDataContainer container = new CustomBlockData(center.getBlock(), getPlugin());
-        InteractiveSlotHandler.rebuildSlotsAround(center, section, container);
+//        InteractiveSlotHandler.rebuildSlotsAround(center, section, container);
     }
 }

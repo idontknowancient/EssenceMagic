@@ -44,6 +44,10 @@ public interface EssenceConfig {
         }
     }
 
+    default boolean has(String path) {
+        return getConfig().contains(path);
+    }
+
     default boolean isString(String path) {
         return getConfig().isString(path);
     }
