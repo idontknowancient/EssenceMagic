@@ -1,10 +1,8 @@
 element:
   title: "&8元素一覽"
   size: 45
-  show-suppress-elements: true
-  suppress-elements-opening: "&b克制:"
-  show-suppressed-elements: true
-  suppressed-elements-opening: "&d被克制:"
+  show-damage-multiplier: true
+  damage-multiplier-text: "&b傷害倍率:"
   # not necessary
   occupation: gray_stained_glass_pane
 

@@ -47,7 +47,7 @@ public class Item {
 
     @Getter private final String id;
 
-    @Getter private final Element element;
+//    @Getter private final Element element;
 
     @Getter  private final Map<String, Integer> enchantments = new HashMap<>(); //temporarily useless
 
@@ -87,10 +87,10 @@ public class Item {
             customModelData = -1;
 
         // element setting, if not provided, use none instead
-        if(ci.isString(itemName+".element"))
-            element = Element.elements.get(ci.getString(itemName+".element"));
-        else
-            element = Element.elements.get("none");
+//        if(ci.isString(itemName+".element"))
+//            element = Element.elements.get(ci.getString(itemName+".element"));
+//        else
+//            element = Element.elements.get("none");
 
 
         // basic setting

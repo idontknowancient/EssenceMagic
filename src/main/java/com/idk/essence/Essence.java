@@ -1,5 +1,6 @@
 package com.idk.essence;
 
+import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.ItemFactory;
 import com.idk.essence.items.SystemItemHandler;
 import com.idk.essence.magics.MagicHandler;
@@ -27,10 +28,9 @@ public final class Essence extends JavaPlugin {
 
     public static void initialize() {
         ConfigFile.initialize();
-        ElementHandler.initialize();
+        ElementFactory.initialize();
         SkillHandler.initialize();
         MagicHandler.initialize();
-        ItemHandler.initialize();
         ItemFactory.initialize();
         SystemItemHandler.initialize();
         WandHandler.initialize();

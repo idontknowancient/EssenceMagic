@@ -1,7 +1,9 @@
 package com.idk.essence.items;
 
-import com.idk.essence.Essence;
-import lombok.Getter;
+import com.idk.essence.elements.Element;
+import com.idk.essence.elements.ElementFactory;
+import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Util;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,8 +21,6 @@ import java.util.List;
 
 public class ItemBuilder {
 
-    @Getter private static final NamespacedKey itemKey = new NamespacedKey(Essence.getPlugin(), "item-key");
-
     private final ItemStack item;
 
     private final ItemMeta meta;
@@ -33,24 +33,27 @@ public class ItemBuilder {
     }
 
     public ItemBuilder(String materialString) {
-        materialString = materialString.toUpperCase();
-        Material material;
-        try {
-            material = Material.valueOf(materialString.toUpperCase());
-        } catch(IllegalArgumentException e) {
-            material = Material.STONE;
-        }
-        item = new ItemStack(material);
+        item = new ItemStack(getMaterial(materialString));
         meta = item.getItemMeta();
     }
 
     public ItemBuilder displayName(String name) {
-        meta.setDisplayName(name);
+        meta.setDisplayName(Util.colorize(name));
         return this;
     }
 
     public ItemBuilder displayName(TextComponent name) {
-        meta.setDisplayName(name.content());
+        meta.setDisplayName(Util.colorize(name.content()));
+        return this;
+    }
+
+    public ItemBuilder material(String materialString) {
+        item.setType(getMaterial(materialString));
+        return this;
+    }
+
+    public ItemBuilder material(Material material) {
+        item.setType(material);
         return this;
     }
 
@@ -66,7 +69,7 @@ public class ItemBuilder {
 
     public ItemBuilder lore(List<String> lore) {
         this.lore.clear();
-        this.lore.addAll(lore);
+        this.lore.addAll(lore.stream().map(Util::colorize).toList());
         meta.setLore(this.lore);
         return this;
     }
@@ -82,8 +85,20 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(List<String> lore) {
-        this.lore.addAll(lore);
+        this.lore.addAll(lore.stream().map(Util::colorize).toList());
         meta.setLore(this.lore);
+        return this;
+    }
+
+    public ItemBuilder element(String elementString) {
+        if(ElementFactory.get(elementString) == null) return this;
+        persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, elementString);
+        return this;
+    }
+
+    public ItemBuilder element(Element element) {
+        if(element == null) return this;
+        persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, element.getInternalName());
         return this;
     }
 
@@ -140,18 +155,47 @@ public class ItemBuilder {
         return this;
     }
 
-    public <P, C>ItemBuilder persistentDataContainer(PersistentDataType<P, C> type, C value) {
-        meta.getPersistentDataContainer().set(itemKey, type, value);
+    public ItemBuilder glow(boolean glow) {
+        if(glow)
+            meta.setEnchantmentGlintOverride(glow);
         return this;
+    }
+
+    public <P, C>ItemBuilder persistentDataContainer(NamespacedKey key, PersistentDataType<P, C> type, C value) {
+        meta.getPersistentDataContainer().set(key, type, value);
+        return this;
+    }
+
+    /**
+     * Set persistent data container with default key "item-key".
+     */
+    public <P, C>ItemBuilder persistentDataContainer(PersistentDataType<P, C> type, C value) {
+        return persistentDataContainer(CustomKey.getItemKey(), type, value);
     }
 
     /**
      * Build an item stack from the builder.
      * Complete with deep copy.
+     * Automatically handle default element.
      * @return the brand new item stack
      */
     public ItemStack build() {
+        if(!meta.getPersistentDataContainer().has(CustomKey.getElementKey()))
+            persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, Element.defaultInternalName);
         item.setItemMeta(meta);
         return item.clone();
+    }
+
+    /**
+     * Get a material from a string. Automatically handle uppercase and exception.
+     * @param materialString the string to convert
+     */
+    public static Material getMaterial(String materialString) {
+        materialString = materialString.toUpperCase();
+        try {
+            return Material.valueOf(materialString.toUpperCase());
+        } catch(IllegalArgumentException e) {
+            return Material.STONE;
+        }
     }
 }

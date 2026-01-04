@@ -1,82 +1,88 @@
 package com.idk.essence.elements;
 
-import com.idk.essence.Essence;
+import com.idk.essence.items.ItemBuilder;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Element {
 
-    public static final Map<String, Element> elements = new LinkedHashMap<>();
+    /**
+     * For example, if A makes 2x damage to B, B makes 0.5x damage to A
+     */
+    @Getter @Setter private static boolean counterEffect;
 
-    @Getter private static final NamespacedKey elementKey = new NamespacedKey(plugin, "element-key");
+    /**
+     * Whether to show damage multiplier in the element menu
+     */
+    @Getter @Setter private static boolean showDamageMultiplier;
 
-    @Getter private final String name;
+    public static final String defaultInternalName = "none";
 
-    @Getter private final String displayName;
+    @Getter private final String internalName;
 
-    @Getter private final ItemStack symbolItem;
+    @Getter @Setter private String displayName;
 
-    @Getter private final ItemMeta itemMeta;
+    @Getter private final ItemBuilder builder;
 
-    @Getter private final int slot;
-
-    @Getter private List<String> description;
-
-    public void setDescription(List<String> description) {
-        this.description = description;
-        itemMeta.setLore(this.description);
-        symbolItem.setItemMeta(itemMeta);
-    }
-
-    @Getter private boolean glowing = false;
-
-    @Getter private final String id;
+    @Getter @Setter private int slot;
 
     @Getter private final Map<Element, Double> suppressMap;
 
     @Getter private final Map<Element, Double> suppressedMap;
 
-    public Element(String elementName) {
-        //config elements
-        ConfigFile.ConfigName ce = ConfigFile.ConfigName.ELEMENTS; //config elements
-        name = elementName;
-        displayName = ce.outString(elementName+".display-name");
-        symbolItem = new ItemStack(Material.valueOf(ce.getString(elementName+".symbol-item").toUpperCase()));
-        slot = ce.getInteger(elementName+".slot");
-        if(ce.getStringList(elementName+".description") != null)
-            description = ce.outStringList(elementName+".description");
-        id = getClass().getSimpleName();
+    private final Map<String, Double> primitiveDamageMultiplier = new HashMap<>();
 
+    private final Map<Element, Double> damageMultiplier = new HashMap<>();
 
-        itemMeta = symbolItem.getItemMeta();
-        itemMeta.setDisplayName(displayName);
-        if(description != null)
-            itemMeta.setLore(description);
-        if(ce.getBoolean(elementName+".glowing")) { //if not exist?
-            glowing = true;
-            itemMeta.addEnchant(Enchantment.UNBREAKING, 1, true);
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
-
-        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
-        container.set(elementKey, PersistentDataType.STRING, getId());
-
-        symbolItem.setItemMeta(itemMeta);
+    public Element(String internalName) {
+        builder = new ItemBuilder(Material.STONE);
+        this.internalName = internalName;
 
         suppressMap = new HashMap<>();
         suppressedMap = new HashMap<>();
+    }
+
+    public ItemStack getSymbolItem() {
+        return builder.build();
+    }
+
+    public void addDamageMultiplier(String elementString, double damageMultiplier) {
+        this.primitiveDamageMultiplier.put(elementString, damageMultiplier);
+    }
+
+    private void addDamageMultiplier(Element element, double damageMultiplier) {
+        this.damageMultiplier.put(element, damageMultiplier);
+    }
+
+    public double getDamageMultiplier(Element element) {
+        return this.damageMultiplier.getOrDefault(element, 1d);
+    }
+
+    /**
+     * Convert from primitive damage multiplier to damage multiplier after all elements are registered.
+     */
+    public void convert() {
+        for(String s : primitiveDamageMultiplier.keySet()) {
+            Element element = ElementFactory.get(s);
+            if(element == null) continue;
+            this.addDamageMultiplier(element, primitiveDamageMultiplier.get(s));
+            if(counterEffect)
+                element.addDamageMultiplier(this, 1d / primitiveDamageMultiplier.get(s));
+            if(showDamageMultiplier) {
+                builder.addLore("", ConfigFile.ConfigName.MENUS.outString(
+                        "element.damage-multiplier-text", "&bDamage Multiplier:"));
+                builder.addLore(damageMultiplier.entrySet().stream().map(
+                        entry->entry.getKey().getDisplayName() + " &7x" +
+                        entry.getValue()).toList());
+            }
+        }
+        primitiveDamageMultiplier.clear();
     }
 }

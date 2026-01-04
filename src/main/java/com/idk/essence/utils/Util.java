@@ -3,6 +3,7 @@ package com.idk.essence.utils;
 import com.idk.essence.Essence;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 

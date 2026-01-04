@@ -1,6 +1,9 @@
 package com.idk.essence.items;
 
+import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.configs.ConfigFile;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -36,13 +39,29 @@ public class ItemFactory {
         return builder != null ? builder.build() : null;
     }
 
+
+    /**
+     * Get a custom item from an entity's main hand.
+     * @param entity the entity to be checked
+     * @return the corresponding item stack
+     */
+    @Nullable
+    public static ItemStack get(LivingEntity entity) {
+        EntityEquipment equipment = entity.getEquipment();
+        if(equipment == null || !isCustom(equipment.getItemInMainHand())) return null;
+        ItemMeta meta = equipment.getItemInMainHand().getItemMeta();
+        if(meta == null) return null;
+        String internalName = meta.getPersistentDataContainer().get(CustomKey.getItemKey(), PersistentDataType.STRING);
+        return get(internalName);
+    }
+
     /**
      * Check if an item stack is a custom item.
      */
     public static boolean isCustom(ItemStack itemStack) {
         ItemMeta meta = itemStack.getItemMeta();
         if(meta == null) return false;
-        return meta.getPersistentDataContainer().has(ItemBuilder.getItemKey());
+        return meta.getPersistentDataContainer().has(CustomKey.getItemKey());
     }
 
     /**
