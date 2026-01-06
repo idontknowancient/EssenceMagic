@@ -44,12 +44,12 @@ public class MobHandler {
             entity.getAttribute(Attribute.MAX_HEALTH).setBaseValue(mob.getHealth());
             entity.setHealth(mob.getHealth());
         }
-        if(!mob.getEquipment().isEmpty()) {
-            for(EquipmentSlot slot : mob.getEquipment().keySet()) {
-                if(entity.getEquipment() == null) continue;
-                entity.getEquipment().setItem(slot, mob.getEquipment().get(slot));
-            }
-        }
+//        if(!mob.getEquipment().isEmpty()) {
+//            for(EquipmentSlot slot : mob.getEquipment().keySet()) {
+//                if(entity.getEquipment() == null) continue;
+//                entity.getEquipment().setItem(slot, mob.getEquipment().get(slot));
+//            }
+//        }
         //uniform container for all custom mobs
 //        entity.getPersistentDataContainer().set(Mob.getMobKey(), PersistentDataType.STRING, mob.getId());
         //unique container for one custom mob

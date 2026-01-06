@@ -64,6 +64,16 @@ public class ElementFactory {
     }
 
     /**
+     * Get an element from a string.
+     * @param internalName the internal name of the element
+     * @return the corresponding element or the default element "none" if not found
+     */
+    public static Element getOrDefault(String internalName) {
+        Element element = get(internalName);
+        return element != null ? element : getDefault();
+    }
+
+    /**
      * Get an element from an item stack.
      * @param item the item stack to be checked
      * @return the corresponding element or the default element "none" if not found
@@ -92,7 +102,7 @@ public class ElementFactory {
     private static void register(String internalName) {
         if(!ce.has(internalName) || elements.containsKey(internalName)) return;
         ElementBuilder builder = new ElementBuilder(internalName)
-                .displayName(ce.getString(internalName + ".display-name", ""))
+                .displayName(ce.outString(internalName + ".display-name", ""))
                 .symbolItem(ce.getConfigurationSection(internalName + ".symbol-item"))
                 .slot(ce.getInteger(internalName + ".slot", -1))
                 .multiplier(ce.getConfigurationSection(internalName + ".damage-multiplier"));

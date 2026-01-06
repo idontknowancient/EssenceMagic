@@ -2,8 +2,10 @@ package com.idk.essence.commands;
 
 import com.idk.essence.commands.essence_sub.*;
 import com.idk.essence.items.Item;
+import com.idk.essence.items.ItemFactory;
 import com.idk.essence.magics.Magic;
 import com.idk.essence.mobs.Mob;
+import com.idk.essence.mobs.MobFactory;
 import com.idk.essence.players.PlayerData;
 import com.idk.essence.skills.Skill;
 import com.idk.essence.utils.Registry;
@@ -20,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EssenceCommand implements CommandExecutor, TabCompleter {
@@ -86,7 +89,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         }
         if(args.length == 3) {
             if(args[0].equalsIgnoreCase("item") && args[1].equalsIgnoreCase("get")) {
-                List<String> index = new ArrayList<>(Item.items.keySet());
+                List<String> index = new ArrayList<>(ItemFactory.getAllKeys());
                 for(Registry.SystemItem registry : Registry.SystemItem.values()) {
                     index.add(registry.name().toLowerCase());
                 }
@@ -103,7 +106,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
                 return new ArrayList<>(PlayerData.dataMap.keySet());
             }
             if(args[0].equalsIgnoreCase("mob") && args[1].equalsIgnoreCase("spawn")) {
-//                return new ArrayList<>(Mob.mobs.keySet());
+                return new ArrayList<>(MobFactory.getAllKeys());
             }
             if(args[0].equalsIgnoreCase("skill") && args[1].equalsIgnoreCase("cast")) {
                 return new ArrayList<>(Skill.skills.keySet());

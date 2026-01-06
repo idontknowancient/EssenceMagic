@@ -2,6 +2,7 @@ package com.idk.essence.commands.essence_sub.mob_sub;
 
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.mobs.Mob;
+import com.idk.essence.mobs.MobFactory;
 import com.idk.essence.mobs.MobHandler;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
@@ -35,11 +36,9 @@ public class SpawnCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
-//        Mob mob = Mob.mobs.get(args[2]);
-//        if(mob == null) {
-//            SystemMessage.MOB_NOT_FOUND.send(p);
-//            return;
-//        }
-//        MobHandler.spawnMob(p.getLocation(), mob);
+        String internalName = args[2];
+        if(!MobFactory.spawn(internalName, p.getLocation())) {
+            SystemMessage.MOB_NOT_FOUND.send(p);
+        }
     }
 }

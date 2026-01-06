@@ -3,6 +3,7 @@ package com.idk.essence.items;
 import com.idk.essence.elements.Element;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.configs.ConfigFile;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -31,14 +32,17 @@ public class ItemFactory {
     }
 
     /**
-     * Get a custom item from a string.
+     * Get a custom item from a string. If no custom item found, try to get a normal item.
      * @param internalName the internal name of the item
      * @return the corresponding item stack
      */
     @Nullable
     public static ItemStack get(String internalName) {
         ItemBuilder builder = items.get(internalName);
-        return builder != null ? builder.build() : null;
+        if(builder != null)
+            return builder.build();
+        Material material = Material.getMaterial(internalName);
+        return material != null ? new ItemStack(material) : null;
     }
 
 
@@ -55,6 +59,10 @@ public class ItemFactory {
         if(meta == null) return null;
         String internalName = meta.getPersistentDataContainer().get(CustomKey.getItemKey(), PersistentDataType.STRING);
         return get(internalName);
+    }
+
+    public static Collection<String> getAllKeys() {
+        return items.keySet();
     }
 
     public static Collection<ItemStack> getAll() {

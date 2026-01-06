@@ -22,50 +22,46 @@ public class Mob {
 
     @Getter @Setter private String displayName;
 
-    @Getter private final EntityType type;
+    @Getter @Setter private EntityType type;
 
     @Getter private final ItemBuilder builder;
 
-    @Getter private final double health;
+    @Getter @Setter private double health;
 
-    @Getter private final Element element;
+    @Getter @Setter private Element element;
 
-    @Getter private final Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
+    private final Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
+
+    public void addEquipment(EquipmentSlot slot, ItemStack item) {
+        equipment.put(slot, item);
+    }
+
+    public ItemStack getHelmet() {
+        return equipment.get(EquipmentSlot.HEAD);
+    }
+
+    public ItemStack getChestplate() {
+        return equipment.get(EquipmentSlot.BODY);
+    }
+
+    public ItemStack getLeggings() {
+        return equipment.get(EquipmentSlot.LEGS);
+    }
+
+    public ItemStack getBoots() {
+        return equipment.get(EquipmentSlot.FEET);
+    }
+
+    public ItemStack getMainHand() {
+        return equipment.get(EquipmentSlot.HAND);
+    }
+
+    public ItemStack getOffHand() {
+        return equipment.get(EquipmentSlot.OFF_HAND);
+    }
 
     public Mob(String internalName) {
         builder = new ItemBuilder(Material.STONE);
         this.internalName = internalName;
-
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MOBS;
-        String pre = internalName + ".";
-        displayName = cm.isString(pre + "display-name") ? cm.outString(pre + "display-name") : "";
-        type = EntityType.valueOf(cm.getString(pre + "type").toUpperCase());
-        if(cm.isDouble(pre + "health"))
-            health = cm.getDouble(pre + "health");
-        else if(cm.isInteger(pre + "health"))
-            health = cm.getInteger(pre + "health");
-        else
-            health = -1; //-1 means default value
-        element = cm.isString(pre + "element") ? ElementFactory.get(cm.getString(pre + "element"))
-                : ElementFactory.getDefault();
-//        description = cm.isList(pre + "description") ? cm.outStringList(pre + "description") :
-//                new ArrayList<>();
-
-        if(cm.isConfigurationSection(pre + "equipment")) {
-            ConfigurationSection equipmentSection = cm.getConfigurationSection(pre + "equipment");
-            for(String s : equipmentSection.getKeys(false)) {
-                ItemStack item;
-                String itemName = equipmentSection.getString(s);
-                if(Item.items.containsKey(itemName))
-                    item = Item.items.get(itemName).getItem();
-//                else if(itemName != null)
-//                    item = new ItemStack(Material.valueOf(itemName.toUpperCase()));
-                else
-                    item = new ItemStack(Material.IRON_SWORD);
-                // turn off-hand to off_hand
-                s = s.replaceAll("-", "_");
-                equipment.put(EquipmentSlot.valueOf(s.toUpperCase()), item);
-            }
-        }
     }
 }

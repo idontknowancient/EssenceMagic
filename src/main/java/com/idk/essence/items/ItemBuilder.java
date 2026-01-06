@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class ItemBuilder {
 
@@ -191,11 +192,6 @@ public class ItemBuilder {
      * @param materialString the string to convert
      */
     public static Material getMaterial(String materialString) {
-        materialString = materialString.toUpperCase();
-        try {
-            return Material.valueOf(materialString.toUpperCase());
-        } catch(IllegalArgumentException e) {
-            return Material.STONE;
-        }
+        return Optional.ofNullable(Material.getMaterial(materialString.toUpperCase())).orElse(Material.STONE);
     }
 }

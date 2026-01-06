@@ -5,7 +5,6 @@ com\idk\essence\utils\particles\CustomParticle$1.class
 com\idk\essence\items\systemItems\WandProcessingTable.class
 com\idk\essence\skills\SkillHandler$Cooldown.class
 com\idk\essence\menus\holders\ShiftSpawnHolder.class
-com\idk\essence\elements\ElementDamage.class
 com\idk\essence\items\wands\WandHandler.class
 com\idk\essence\magics\modifiers\Damage.class
 com\idk\essence\commands\essence_sub\mana_sub\GetCommand.class
@@ -85,6 +84,7 @@ com\idk\essence\elements\Element.class
 com\idk\essence\commands\essence_sub\util_sub\GodCommand.class
 com\idk\essence\commands\essence_sub\wand_sub\GetCommand.class
 com\idk\essence\magics\MagicHandler.class
+com\idk\essence\utils\damage\DamageManager.class
 com\idk\essence\commands\essence_sub\magic_sub\CastCommand.class
 com\idk\essence\commands\essence_sub\ReloadCommand.class
 com\idk\essence\skills\singleSkills\Shoot.class
@@ -96,7 +96,6 @@ com\idk\essence\utils\Registry$CustomParticle.class
 com\idk\essence\commands\essence_sub\magic_sub\MenuCommand.class
 com\idk\essence\menus\holders\GetItemHolder.class
 com\idk\essence\commands\EssenceCommand.class
-com\idk\essence\utils\DamageManager.class
 com\idk\essence\items\systemItems\features\Placeable.class
 com\idk\essence\commands\SubCommand.class
 com\idk\essence\items\ItemBuilder.class
@@ -108,7 +107,6 @@ com\idk\essence\utils\messages\Message.class
 com\idk\essence\commands\essence_sub\wand_sub\MagicCommand.class
 com\idk\essence\magics\childTypes\SakuraMaite.class
 com\idk\essence\mobs\MobTemplate.class
-com\idk\essence\utils\damage\DamageCalculator.class
 com\idk\essence\utils\permissions\Permission.class
 com\idk\essence\commands\essence_sub\MobCommand.class
 com\idk\essence\commands\essence_sub\UtilCommand.class

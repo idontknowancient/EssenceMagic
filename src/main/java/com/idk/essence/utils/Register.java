@@ -2,8 +2,8 @@ package com.idk.essence.utils;
 
 import com.idk.essence.Essence;
 import com.idk.essence.commands.EssenceCommand;
-import com.idk.essence.utils.damage.DamageCalculator;
 import com.idk.essence.items.SystemItemHandler;
+import com.idk.essence.utils.damage.DamageManager;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlot;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essence.utils.listeners.MenuListener;

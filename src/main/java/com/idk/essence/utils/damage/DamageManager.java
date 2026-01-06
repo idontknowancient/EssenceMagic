@@ -1,7 +1,8 @@
-package com.idk.essence.utils;
+package com.idk.essence.utils.damage;
 
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
+import com.idk.essence.utils.Util;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
@@ -26,15 +27,17 @@ public class DamageManager implements Listener {
 
     public static double finalDamage(EntityDamageByEntityEvent event) {
         double original = event.getDamage();
+        double final_ = original;
         double multiplier = 1;
         LivingEntity attacker = getAttacker(event);
         LivingEntity target = getTarget(event);
 
         if(attacker == null || target == null) return original;
-        multiplier *= elementMultiplier(attacker, target);
-        attacker.sendMessage(Util.colorize("&7attack damage &bx" + multiplier + "&7, " + original * multiplier));
+        multiplier = Util.round(multiplier * elementMultiplier(attacker, target), 4);
+        final_ = Util.round(original * multiplier, 4);
+        attacker.sendMessage(Util.colorize("&7attack damage &bx" + multiplier + "&7, " + final_));
 
-        return original * multiplier;
+        return final_;
     }
 
     private static double elementMultiplier(LivingEntity attacker, LivingEntity target) {

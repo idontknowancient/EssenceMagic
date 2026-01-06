@@ -33,7 +33,6 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\commands\
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\commands\SubCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\Element.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementBuilder.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementDamage.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementFactory.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\Essence.java
@@ -85,8 +84,7 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\Cli
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\ConfigFile.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\EssenceConfig.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\CustomKey.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\damage\DamageCalculator.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\DamageManager.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\damage\DamageManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\DisplayHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\interactiveSlots\InteractiveSlot.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\interactiveSlots\InteractiveSlotHandler.java
