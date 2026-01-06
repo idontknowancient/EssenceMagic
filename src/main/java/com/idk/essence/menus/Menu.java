@@ -1,7 +1,9 @@
 package com.idk.essence.menus;
 
 import com.idk.essence.elements.Element;
-import com.idk.essence.items.Item;
+import com.idk.essence.elements.ElementFactory;
+import com.idk.essence.items.ItemBuilder;
+import com.idk.essence.items.ItemFactory;
 import com.idk.essence.magics.Magic;
 import com.idk.essence.menus.holders.CancelHolder;
 import com.idk.essence.menus.holders.DetailInfoHolder;
@@ -15,6 +17,7 @@ import com.idk.essence.items.wands.Wand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,74 +26,55 @@ import java.util.List;
 
 public class Menu {
 
-    public static Inventory getElementMenu() {
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory elementMenu = Bukkit.createInventory(new CancelHolder(), cm.getInteger("element.size"), cm.outString("element.title"));
-        for(Element e : Element.elements.values())
-            elementMenu.setItem(e.getSlot(), e.getSymbolItem());
+    private static final ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
 
-        //occupation
-        if(cm.isString("element.occupation")) {
-            for(int i = 0; i < cm.getInteger("element.size"); i++) {
-                if(elementMenu.getItem(i) == null) elementMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cm.getString("element.occupation").toUpperCase())));
-            }
-        }
+    public static Inventory getElementMenu() {
+        Inventory elementMenu = createInventory(new CancelHolder(), "element");
+        for(Element e : ElementFactory.getAll())
+            elementMenu.setItem(e.getSlot(), e.getSymbolItem());
+        setOccupation(elementMenu, "element");
         return elementMenu;
     }
 
     public static Inventory getItemMenu() {
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory itemMenu = Bukkit.createInventory(new GetItemHolder(), cm.getInteger("item.size"), cm.outString("item.title"));
-        for(Item i : Item.items.values())
-            itemMenu.addItem(i.getItem());
-        if(cm.isString("item.occupation")) {
-            for(int i = 0; i < cm.getInteger("item.size"); i++) {
-                if(itemMenu.getItem(i) == null) itemMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cm.getString("item.occupation").toUpperCase())));
-            }
-        }
+        Inventory itemMenu = createInventory(new GetItemHolder(), "item");
+        for(ItemStack i : ItemFactory.getAll())
+            itemMenu.addItem(i);
+        setOccupation(itemMenu, "item");
         return itemMenu;
     }
 
     public static Inventory getMobMenu() {
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory mobMenu = Bukkit.createInventory(new ShiftSpawnHolder(), cm.getInteger("mob.size"), cm.outString("mob.title"));
+        Inventory mobMenu = createInventory(new ShiftSpawnHolder(), "mob");
 
-        for(Mob m : Mob.mobs.values()) {
-            ItemStack item = new ItemStack(
-                    Material.valueOf(m.getType().toString() + "_spawn_egg" .toUpperCase()));
-            ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(m.getDisplayName());
+//        for(Mob m : Mob.mobs.values()) {
+//            ItemStack item = new ItemStack(
+//                    Material.valueOf(m.getType().toString() + "_spawn_egg" .toUpperCase()));
+//            ItemMeta meta = item.getItemMeta();
+//            meta.setDisplayName(m.getDisplayName());
+//
+//            List<String> lore = new ArrayList<>();
+//            lore.add(Util.colorize("&fInterior name: " + m.getInternalName()));
+//            lore.add(Util.colorize("&fType: " + m.getType().toString()));
+//            if(m.getHealth() != -1)
+//                lore.add(Util.colorize("&fHealth: " + m.getHealth()));
+//            else
+//                lore.add(Util.colorize("&fHealth: default"));
+//            lore.add(Util.colorize("&fElement: " + m.getElement().getDisplayName()));
+//            lore.add("");
+//            lore.addAll(m.getDescription());
+//            meta.setLore(lore);
+//
+//            item.setItemMeta(meta);
+//            mobMenu.addItem(item);
+//        }
 
-            List<String> lore = new ArrayList<>();
-            lore.add(Util.colorize("&fInterior name: " + m.getName()));
-            lore.add(Util.colorize("&fType: " + m.getType().toString()));
-            if(m.getHealth() != -1)
-                lore.add(Util.colorize("&fHealth: " + m.getHealth()));
-            else
-                lore.add(Util.colorize("&fHealth: default"));
-            lore.add(Util.colorize("&fElement: " + m.getElement().getDisplayName()));
-            lore.add("");
-            lore.addAll(m.getDescription());
-            meta.setLore(lore);
-
-            item.setItemMeta(meta);
-            mobMenu.addItem(item);
-        }
-
-        if(cm.isString("mob.occupation")) {
-            for(int i = 0; i < cm.getInteger("mob.size"); i++) {
-                if(mobMenu.getItem(i) == null) mobMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cm.getString("mob.occupation").toUpperCase())));
-            }
-        }
+        setOccupation(mobMenu, "mob");
         return mobMenu;
     }
 
     public static Inventory getSkillMenu() {
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory skillMenu = Bukkit.createInventory(new DetailInfoHolder(), cm.getInteger("skill.size"), cm.outString("skill.title"));
+        Inventory skillMenu = createInventory(new DetailInfoHolder(), "skill");
 
         for(Skill skill : Skill.skills.values()) {
             ItemStack item = new ItemStack(Material.valueOf(cm.getString("skill.item").toUpperCase()));
@@ -102,19 +86,12 @@ public class Menu {
             skillMenu.addItem(item);
         }
 
-        if(cm.isString("skill.occupation")) {
-            for(int i = 0; i < cm.getInteger("skill.size"); i++) {
-                if(skillMenu.getItem(i) == null) skillMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cm.getString("skill.occupation").toUpperCase())));
-            }
-        }
-
+        setOccupation(skillMenu, "skill");
         return skillMenu;
     }
 
     public static Inventory getMagicMenu() {
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
-        Inventory magicMenu = Bukkit.createInventory(new DetailInfoHolder(), cm.getInteger("magic.size"), cm.outString("magic.title"));
+        Inventory magicMenu = createInventory(new DetailInfoHolder(), "magic");
 
         for(Magic magic : Magic.magics.values()) {
             ItemStack item = new ItemStack(Material.valueOf(cm.getString("magic.item").toUpperCase()));
@@ -126,31 +103,32 @@ public class Menu {
             magicMenu.addItem(item);
         }
 
-        if(cm.isString("magic.occupation")) {
-            for(int i = 0; i < cm.getInteger("magic.size"); i++) {
-                if(magicMenu.getItem(i) == null) magicMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cm.getString("magic.occupation").toUpperCase())));
-            }
-        }
-
+        setOccupation(magicMenu, "magic");
         return magicMenu;
     }
 
     public static Inventory getWandMenu() {
-        ConfigFile.ConfigName cw = ConfigFile.ConfigName.MENUS;
-        Inventory wandMenu = Bukkit.createInventory(new GetItemHolder(), cw.getInteger("wand.size"), cw.outString("wand.title"));
+        Inventory wandMenu = createInventory(new GetItemHolder(), "wand");
 
         for(Wand wand : Wand.wands.values()) {
             wandMenu.addItem(wand.getItemStack());
         }
 
-        if(cw.isString("wand.occupation")) {
-            for(int i = 0; i < cw.getInteger("wand.size"); i++) {
-                if(wandMenu.getItem(i) == null) wandMenu.setItem(
-                        i, new ItemStack(Material.valueOf(cw.getString("wand.occupation").toUpperCase())));
+        setOccupation(wandMenu, "wand");
+        return wandMenu;
+    }
+
+    private static Inventory createInventory(InventoryHolder holder, String sectionName) {
+        return Bukkit.createInventory(holder, cm.getInteger(sectionName + ".size"),
+                cm.outString(sectionName + ".title"));
+    }
+
+    private static void setOccupation(Inventory inventory, String sectionName) {
+        if(cm.isString(sectionName + ".occupation")) {
+            for(int i = 0; i < cm.getInteger(sectionName + ".size"); i++) {
+                if(inventory.getItem(i) == null)
+                    inventory.setItem(i, new ItemBuilder(cm.getString(sectionName + ".occupation")).build());
             }
         }
-
-        return wandMenu;
     }
 }

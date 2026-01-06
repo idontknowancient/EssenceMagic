@@ -1,5 +1,6 @@
 package com.idk.essence.mobs;
 
+import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.configs.ConfigFile;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -12,26 +13,26 @@ import java.util.Set;
 public class MobHandler {
 
     public static void initialize() {
-        Mob.mobs.clear();
+//        Mob.mobs.clear();
         setMobs();
     }
 
     private static void setMobs() {
         Set<String> mobSet = ConfigFile.ConfigName.MOBS.getConfig().getKeys(false);
         for(String s : mobSet) {
-            Mob.mobs.put(s, new Mob(s));
+//            Mob.mobs.put(s, new Mob(s));
         }
     }
 
     public static boolean isCustomMob(LivingEntity entity) {
-        return entity.getPersistentDataContainer().has(Mob.getMobKey());
+        return entity.getPersistentDataContainer().has(CustomKey.getMobKey());
     }
 
     public static Mob getCorrespondingMob(LivingEntity entity) {
-        for(Mob mob : Mob.mobs.values()) {
-            if(entity.getPersistentDataContainer().has(mob.getUniqueKey()))
-                return mob;
-        }
+//        for(Mob mob : Mob.mobs.values()) {
+//            if(entity.getPersistentDataContainer().has(mob.getUniqueKey()))
+//                return mob;
+//        }
         return null;
     }
 
@@ -43,15 +44,15 @@ public class MobHandler {
             entity.getAttribute(Attribute.MAX_HEALTH).setBaseValue(mob.getHealth());
             entity.setHealth(mob.getHealth());
         }
-        if(!mob.getEquipmentMap().isEmpty()) {
-            for(EquipmentSlot slot : mob.getEquipmentMap().keySet()) {
+        if(!mob.getEquipment().isEmpty()) {
+            for(EquipmentSlot slot : mob.getEquipment().keySet()) {
                 if(entity.getEquipment() == null) continue;
-                entity.getEquipment().setItem(slot, mob.getEquipmentMap().get(slot));
+                entity.getEquipment().setItem(slot, mob.getEquipment().get(slot));
             }
         }
         //uniform container for all custom mobs
-        entity.getPersistentDataContainer().set(Mob.getMobKey(), PersistentDataType.STRING, mob.getId());
+//        entity.getPersistentDataContainer().set(Mob.getMobKey(), PersistentDataType.STRING, mob.getId());
         //unique container for one custom mob
-        entity.getPersistentDataContainer().set(mob.getUniqueKey(), PersistentDataType.STRING, mob.getId());
+//        entity.getPersistentDataContainer().set(mob.getUniqueKey(), PersistentDataType.STRING, mob.getId());
     }
 }

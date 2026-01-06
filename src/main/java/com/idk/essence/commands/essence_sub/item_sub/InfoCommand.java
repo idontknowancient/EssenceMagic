@@ -46,15 +46,15 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
-        Item item = ItemHandler.getCorrespondingItem(p);
-        if(item != null) {
-            List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", item);
-            for(String string : info) {
-                p.sendMessage(string);
-            }
-            return;
-        }
-        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", itemInMainHand);
+//        Item item = ItemHandler.getCorrespondingItem(p);
+//        if(item != null) {
+//            List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", item);
+//            for(String string : info) {
+//                p.sendMessage(string);
+//            }
+//            return;
+//        }
+        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", itemInMainHand);
         for (String string : info) {
             p.sendMessage(string);
         }

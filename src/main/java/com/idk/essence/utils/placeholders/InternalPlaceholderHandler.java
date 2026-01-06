@@ -1,5 +1,7 @@
 package com.idk.essence.utils.placeholders;
 
+import com.idk.essence.elements.Element;
+import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.Item;
 import com.idk.essence.items.SystemItem;
 import com.idk.essence.magics.Magic;
@@ -14,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Optional;
 
 public class InternalPlaceholderHandler {
 
@@ -56,6 +60,9 @@ public class InternalPlaceholderHandler {
         if(container.has(Item.getItemKey())) {
 
         }
+        if(string.contains(InternalPlaceholder.ITEM_ELEMENT.name))
+            string = string.replaceAll(InternalPlaceholder.ITEM_ELEMENT.name,
+                    Optional.ofNullable(ElementFactory.get(info)).map(Element::getDisplayName).orElse(""));
         return string;
     }
 
@@ -68,8 +75,8 @@ public class InternalPlaceholderHandler {
             string = string.replaceAll(InternalPlaceholder.ITEM_TYPE.name, info.getType().name());
         if(string.contains(InternalPlaceholder.ITEM_ID.name))
             string = string.replaceAll(InternalPlaceholder.ITEM_ID.name, info.getId());
-        if(string.contains(InternalPlaceholder.ITEM_ELEMENT.name))
-            string = string.replaceAll(InternalPlaceholder.ITEM_ELEMENT.name, info.getElement().getDisplayName());
+//        if(string.contains(InternalPlaceholder.ITEM_ELEMENT.name))
+//            string = string.replaceAll(InternalPlaceholder.ITEM_ELEMENT.name, info.getElement().getDisplayName());
         return string;
     }
 

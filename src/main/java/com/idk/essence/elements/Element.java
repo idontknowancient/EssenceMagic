@@ -1,6 +1,7 @@
 package com.idk.essence.elements;
 
 import com.idk.essence.items.ItemBuilder;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Element {
 
@@ -33,10 +35,6 @@ public class Element {
 
     @Getter @Setter private int slot;
 
-    @Getter private final Map<Element, Double> suppressMap;
-
-    @Getter private final Map<Element, Double> suppressedMap;
-
     private final Map<String, Double> primitiveDamageMultiplier = new HashMap<>();
 
     private final Map<Element, Double> damageMultiplier = new HashMap<>();
@@ -44,9 +42,6 @@ public class Element {
     public Element(String internalName) {
         builder = new ItemBuilder(Material.STONE);
         this.internalName = internalName;
-
-        suppressMap = new HashMap<>();
-        suppressedMap = new HashMap<>();
     }
 
     public ItemStack getSymbolItem() {
@@ -66,22 +61,30 @@ public class Element {
     }
 
     /**
+     * For example, if A makes 2x damage to B, B makes 0.5x damage to A
+     */
+    public void setCounter() {
+        if(!counterEffect) return;
+        primitiveDamageMultiplier.forEach((id, multiplier) ->
+                Optional.ofNullable(ElementFactory.get(id)).ifPresent(
+                        e -> e.addDamageMultiplier(internalName, Util.round(1.0 / multiplier, 4)))
+        );
+    }
+
+    /**
      * Convert from primitive damage multiplier to damage multiplier after all elements are registered.
      */
     public void convert() {
-        for(String s : primitiveDamageMultiplier.keySet()) {
-            Element element = ElementFactory.get(s);
-            if(element == null) continue;
-            this.addDamageMultiplier(element, primitiveDamageMultiplier.get(s));
-            if(counterEffect)
-                element.addDamageMultiplier(this, 1d / primitiveDamageMultiplier.get(s));
-            if(showDamageMultiplier) {
-                builder.addLore("", ConfigFile.ConfigName.MENUS.outString(
-                        "element.damage-multiplier-text", "&bDamage Multiplier:"));
-                builder.addLore(damageMultiplier.entrySet().stream().map(
-                        entry->entry.getKey().getDisplayName() + " &7x" +
-                        entry.getValue()).toList());
-            }
+        primitiveDamageMultiplier.forEach((id, multiplier) ->
+                Optional.ofNullable(ElementFactory.get(id)).ifPresent(
+                        e -> this.addDamageMultiplier(e, multiplier))
+        );
+        if(showDamageMultiplier) {
+            builder.addLore("", ConfigFile.ConfigName.MENUS.outString(
+                    "element.damage-multiplier-text", "&bDamage Multiplier:"));
+            builder.addLore(damageMultiplier.entrySet().stream().map(
+                    entry -> entry.getKey().getDisplayName() + " &7x" +
+                            entry.getValue()).toList());
         }
         primitiveDamageMultiplier.clear();
     }

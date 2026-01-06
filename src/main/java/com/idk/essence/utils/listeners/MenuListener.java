@@ -69,8 +69,8 @@ public class MenuListener implements Listener {
 
             // e.g. Interior name: test_zombie
             String mobName = itemMeta.getLore().get(0).split(" ")[2];
-            if(Mob.mobs.containsKey(mobName))
-                MobHandler.spawnMob(player.getLocation(), Mob.mobs.get(mobName));
+//            if(Mob.mobs.containsKey(mobName))
+//                MobHandler.spawnMob(player.getLocation(), Mob.mobs.get(mobName));
         }
     }
 }

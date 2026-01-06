@@ -35,11 +35,11 @@ public class SpawnCommand extends SubCommand {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
             return;
         }
-        Mob mob = Mob.mobs.get(args[2]);
-        if(mob == null) {
-            SystemMessage.MOB_NOT_FOUND.send(p);
-            return;
-        }
-        MobHandler.spawnMob(p.getLocation(), mob);
+//        Mob mob = Mob.mobs.get(args[2]);
+//        if(mob == null) {
+//            SystemMessage.MOB_NOT_FOUND.send(p);
+//            return;
+//        }
+//        MobHandler.spawnMob(p.getLocation(), mob);
     }
 }

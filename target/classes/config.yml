@@ -12,3 +12,5 @@ send-custom-message-when-join: true
 send-message-when-quit: true
 send-custom-message-when-quit: true
 extra-damage-by-mob-element: true
+# For example, if A makes 2x damage to B, B makes 0.5x damage to A
+element-counter-effect: true

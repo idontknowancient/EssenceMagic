@@ -32,7 +32,7 @@ public class Register {
     public static void registerListeners() {
         register(new PlayerJoinQuitListener());
         register(new MenuListener());
-        register(new DamageCalculator());
+        register(new DamageManager());
         register(new PlayerDataHandler());
         register(new SkillHandler());
         register(new WandHandler());

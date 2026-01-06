@@ -2,53 +2,47 @@
 # if the element of an item is not set, the system will use none instead
 none:
   display-name: "&7無"
-  symbol-item: stone
+  # not necessary
+  symbol-item:
+    type: stone
+    description:
+      - "&7屬性與我無緣"
+      - "&7被欺負的可憐"
+    glowing: false
   slot: 10
-  # not necessary
-  description:
-    - "&7屬性與我無緣"
-  # not necessary
-  glowing: false
-  # not necessary
-  # suppress:
-  # not necessary
-  # suppressed:
 
 flame:
   display-name: "&c火"
-  symbol-item: red_dye
+  symbol-item:
+    type: red_dye
+    description:
+      - "&4操縱火焰 燒毀一切"
+    glowing: true
   slot: 11
-  description:
-    - "&4操縱火焰 燒毀一切"
-  glowing: true
-  suppress:
-    wood:
-      damage-modifier: 2
-    none:
-      damage-modifier: 1.5
+  damage-multiplier:
+    wood: 2
+    none: 1.5
 
 water:
   display-name: "&9水"
-  symbol-item: blue_dye
+  symbol-item:
+    type: blue_dye
+    description:
+      - "&3萬物皆水 生命之源"
+    glowing: true
   slot: 12
-  description:
-    - "&3萬物皆水 生命之源"
-  glowing: true
-  suppress:
-    flame:
-      damage-modifier: 2
-    none:
-      damage-modifier: 1.5
+  damage-multiplier:
+    flame: 2
+    none: 1.5
 
 wood:
   display-name: "&2木"
-  symbol-item: green_dye
+  symbol-item:
+    type: green_dye
+    description:
+      - "&a森林庇蔭 文明基底"
+    glowing: true
   slot: 13
-  description:
-    - "&a森林庇蔭 文明基底"
-  glowing: true
-  suppress:
-    water:
-      damage-modifier: 2
-    none:
-      damage-modifier: 1.5
+  damage-multiplier:
+    water: 2
+    none: 1.5

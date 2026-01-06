@@ -77,19 +77,19 @@ public abstract class Magic {
         // set magic applying elements (default to none)
         if(cm.isList(magicName + ".applying-elements")) {
             for(String element : cm.getStringList(magicName + ".applying-elements")) {
-                if(Element.elements.containsKey(element))
-                    applyingElements.add(Element.elements.get(element));
+//                if(Element.elements.containsKey(element))
+//                    applyingElements.add(Element.elements.get(element));
             }
         } else if(cm.isString(magicName + ".applying-elements")) {
             String element = cm.getString(magicName + ".applying-elements");
-            if(Element.elements.containsKey(element))
-                applyingElements.add(Element.elements.get(element));
+//            if(Element.elements.containsKey(element))
+//                applyingElements.add(Element.elements.get(element));
         }
-        if(applyingElements.isEmpty())
-            applyingElements.add(Element.elements.get("none"));
+//        if(applyingElements.isEmpty())
+//            applyingElements.add(Element.elements.get("none"));
         List<String> elementNames = new ArrayList<>();
         for(Element element : applyingElements) {
-            elementNames.add(element.getName());
+//            elementNames.add(element.getName());
         }
         info.add("&7Applying Elements: " + elementNames);
 

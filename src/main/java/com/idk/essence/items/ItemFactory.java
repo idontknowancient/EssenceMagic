@@ -1,5 +1,6 @@
 package com.idk.essence.items;
 
+import com.idk.essence.elements.Element;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.configs.ConfigFile;
 import org.bukkit.entity.LivingEntity;
@@ -9,6 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +57,10 @@ public class ItemFactory {
         return get(internalName);
     }
 
+    public static Collection<ItemStack> getAll() {
+        return items.values().stream().map(ItemBuilder::build).toList();
+    }
+
     /**
      * Check if an item stack is a custom item.
      */
@@ -76,6 +82,7 @@ public class ItemFactory {
                 .lore(ci.outStringList(internalName + ".lore"))
                 .enchant(ci.getConfigurationSection(internalName + ".enchantments"))
                 .flag(ci.getConfigurationSection(internalName + ".options"))
+                .element(ci.getString(internalName + ".element", Element.defaultInternalName))
                 .persistentDataContainer(PersistentDataType.STRING, internalName);
         items.put(internalName, builder);
     }

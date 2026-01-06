@@ -26,7 +26,7 @@ public class ElementBuilder {
         if(symbolSection == null) return this;
         element.getBuilder().material(symbolSection.getString("type", "stone"))
                 .displayName(element.getDisplayName())
-                .lore(symbolSection.getStringList("lore"))
+                .lore(symbolSection.getStringList("description"))
                 .glow(symbolSection.getBoolean("glowing", false))
                 .persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, element.getInternalName());
         return this;
@@ -52,11 +52,24 @@ public class ElementBuilder {
     }
 
     /**
+     * For example, if A makes 2x damage to B, B makes 0.5x damage to A
+     */
+    public void setCounter() {
+        element.setCounter();
+    }
+
+    /**
+     * Convert from primitive damage multiplier to damage multiplier after all elements are registered.
+     */
+    public void convert() {
+        element.convert();
+    }
+
+    /**
      * Build an element from the builder.
      * @return the element object
      */
     public Element build() {
-        element.convert();
         return element;
     }
 }

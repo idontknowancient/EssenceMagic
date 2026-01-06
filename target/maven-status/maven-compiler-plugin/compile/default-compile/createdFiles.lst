@@ -1,5 +1,6 @@
 com\idk\essence\items\SystemItem.class
 com\idk\essence\magics\childTypes\FireBeam.class
+com\idk\essence\mobs\MobFactory.class
 com\idk\essence\utils\particles\CustomParticle$1.class
 com\idk\essence\items\systemItems\WandProcessingTable.class
 com\idk\essence\skills\SkillHandler$Cooldown.class
@@ -20,6 +21,7 @@ com\idk\essence\commands\essence_sub\skill_sub\MenuCommand.class
 com\idk\essence\items\ItemFactory.class
 com\idk\essence\utils\ClickHandler.class
 com\idk\essence\utils\Registry$SystemItem.class
+com\idk\essence\elements\ElementFactory.class
 com\idk\essence\utils\particles\RotatingSquare.class
 com\idk\essence\commands\essence_sub\SkillCommand.class
 com\idk\essence\commands\essence_sub\skill_sub\ForceCommand.class
@@ -62,12 +64,15 @@ com\idk\essence\menus\holders\DetailInfoHolder.class
 com\idk\essence\utils\interactiveSlots\InteractiveSlotHandler.class
 com\idk\essence\utils\Register.class
 com\idk\essence\utils\particles\Circle.class
+com\idk\essence\elements\ElementBuilder.class
 com\idk\essence\commands\essence_sub\item_sub\MenuCommand.class
 com\idk\essence\mobs\MobHandler.class
+com\idk\essence\utils\CustomKey.class
 com\idk\essence\items\ItemHandler.class
 com\idk\essence\Essence.class
 com\idk\essence\magics\Modifier.class
 com\idk\essence\commands\essence_sub\MagicCommand.class
+com\idk\essence\items\ItemData.class
 com\idk\essence\utils\messages\SystemMessage.class
 com\idk\essence\elements\ElementHandler.class
 com\idk\essence\utils\particles\Spiral.class
@@ -91,6 +96,7 @@ com\idk\essence\utils\Registry$CustomParticle.class
 com\idk\essence\commands\essence_sub\magic_sub\MenuCommand.class
 com\idk\essence\menus\holders\GetItemHolder.class
 com\idk\essence\commands\EssenceCommand.class
+com\idk\essence\utils\DamageManager.class
 com\idk\essence\items\systemItems\features\Placeable.class
 com\idk\essence\commands\SubCommand.class
 com\idk\essence\items\ItemBuilder.class
@@ -101,6 +107,7 @@ com\idk\essence\commands\essence_sub\magic_sub\ForceCommand.class
 com\idk\essence\utils\messages\Message.class
 com\idk\essence\commands\essence_sub\wand_sub\MagicCommand.class
 com\idk\essence\magics\childTypes\SakuraMaite.class
+com\idk\essence\mobs\MobTemplate.class
 com\idk\essence\utils\damage\DamageCalculator.class
 com\idk\essence\utils\permissions\Permission.class
 com\idk\essence\commands\essence_sub\MobCommand.class

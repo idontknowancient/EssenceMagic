@@ -6,7 +6,12 @@ import org.bukkit.NamespacedKey;
 
 public class CustomKey {
 
-    @Getter private static final NamespacedKey itemKey = new NamespacedKey(Essence.getPlugin(), "item-key");
+    private static final Essence plugin = Essence.getPlugin();
 
-    @Getter private static final NamespacedKey elementKey = new NamespacedKey(Essence.getPlugin(), "element-key");
+    @Getter private static final NamespacedKey itemKey = new NamespacedKey(plugin, "item-key");
+
+    @Getter private static final NamespacedKey elementKey = new NamespacedKey(plugin, "element-key");
+
+    @Getter private static final NamespacedKey mobKey = new NamespacedKey(plugin, "mob-key");
+
 }

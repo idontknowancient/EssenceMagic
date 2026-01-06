@@ -32,11 +32,14 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\commands\
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\commands\EssenceCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\commands\SubCommand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\Element.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementBuilder.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementDamage.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementFactory.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\elements\ElementHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\Essence.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\Item.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemBuilder.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemData.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemFactory.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\SystemItem.java
@@ -64,7 +67,9 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\menus\hol
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\menus\holders\ShiftSpawnHolder.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\menus\Menu.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\Mob.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\MobFactory.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\MobHandler.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\MobTemplate.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\ManaHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerData.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerDataHandler.java
@@ -79,7 +84,9 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\skills\Tr
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\ClickHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\ConfigFile.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\EssenceConfig.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\CustomKey.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\damage\DamageCalculator.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\DamageManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\DisplayHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\interactiveSlots\InteractiveSlot.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\interactiveSlots\InteractiveSlotHandler.java

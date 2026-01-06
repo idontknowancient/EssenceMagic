@@ -24,18 +24,18 @@ public class DamageCalculator implements Listener {
         Item itemInMainHand = ItemHandler.getCorrespondingItem(attacker);
         if(itemInMainHand != null) {
             //armor - singular element damage
-            magnification *= ElementDamage.getArmorElementMagnification(itemInMainHand.getElement(), entity);
-            if(ConfigFile.ConfigName.CONFIG.getBoolean("extra-damage-by-mob-element") &&
-                    !(entity instanceof Player))
-                //mob - singular element damage
-                magnification *= ElementDamage.getMobElementMagnification(itemInMainHand.getElement(), entity);
+//            magnification *= ElementDamage.getArmorElementMagnification(itemInMainHand.getElement(), entity);
+//            if(ConfigFile.ConfigName.CONFIG.getBoolean("extra-damage-by-mob-element") &&
+//                    !(entity instanceof Player))
+//                //mob - singular element damage
+//                magnification *= ElementDamage.getMobElementMagnification(itemInMainHand.getElement(), entity);
         } else {
             //armor - singular element damage
-            magnification *= ElementDamage.getArmorElementMagnification(Element.elements.get("none"), entity);
-            if(ConfigFile.ConfigName.CONFIG.getBoolean("extra-damage-by-mob-element") &&
-                    !(entity instanceof Player))
-                //mob - singular element damage
-                magnification *= ElementDamage.getMobElementMagnification(Element.elements.get("none"), entity);
+//            magnification *= ElementDamage.getArmorElementMagnification(Element.elements.get("none"), entity);
+//            if(ConfigFile.ConfigName.CONFIG.getBoolean("extra-damage-by-mob-element") &&
+//                    !(entity instanceof Player))
+//                //mob - singular element damage
+//                magnification *= ElementDamage.getMobElementMagnification(Element.elements.get("none"), entity);
         }
 
         magnification = Math.round(magnification*10000d)/10000d;

@@ -1,10 +1,12 @@
 package com.idk.essence.mobs;
 
-import com.idk.essence.Essence;
 import com.idk.essence.elements.Element;
+import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.Item;
+import com.idk.essence.items.ItemBuilder;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,34 +18,26 @@ import java.util.*;
 
 public class Mob {
 
-    private static final Essence plugin = Essence.getPlugin();
+    @Getter private final String internalName;
 
-    public static final Map<String, Mob> mobs = new LinkedHashMap<>();
-
-    @Getter private static final NamespacedKey mobKey = new NamespacedKey(plugin, "mob-key");
-
-    @Getter private final String name;
-
-    @Getter private final String displayName;
+    @Getter @Setter private String displayName;
 
     @Getter private final EntityType type;
+
+    @Getter private final ItemBuilder builder;
 
     @Getter private final double health;
 
     @Getter private final Element element;
 
-    @Getter private final List<String> description;
+    @Getter private final Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
 
-    @Getter private final Map<EquipmentSlot, ItemStack> equipmentMap;
+    public Mob(String internalName) {
+        builder = new ItemBuilder(Material.STONE);
+        this.internalName = internalName;
 
-    @Getter private final NamespacedKey uniqueKey;
-
-    @Getter private final String id;
-
-    public Mob(String mobName) {
         ConfigFile.ConfigName cm = ConfigFile.ConfigName.MOBS;
-        String pre = mobName + ".";
-        name = mobName;
+        String pre = internalName + ".";
         displayName = cm.isString(pre + "display-name") ? cm.outString(pre + "display-name") : "";
         type = EntityType.valueOf(cm.getString(pre + "type").toUpperCase());
         if(cm.isDouble(pre + "health"))
@@ -52,12 +46,11 @@ public class Mob {
             health = cm.getInteger(pre + "health");
         else
             health = -1; //-1 means default value
-        element = cm.isString(pre + "element") ? Element.elements.get(cm.getString(pre + "element"))
-                : Element.elements.get("none");
-        description = cm.isList(pre + "description") ? cm.outStringList(pre + "description") :
-                new ArrayList<>();
+        element = cm.isString(pre + "element") ? ElementFactory.get(cm.getString(pre + "element"))
+                : ElementFactory.getDefault();
+//        description = cm.isList(pre + "description") ? cm.outStringList(pre + "description") :
+//                new ArrayList<>();
 
-        equipmentMap = new HashMap<>();
         if(cm.isConfigurationSection(pre + "equipment")) {
             ConfigurationSection equipmentSection = cm.getConfigurationSection(pre + "equipment");
             for(String s : equipmentSection.getKeys(false)) {
@@ -65,17 +58,14 @@ public class Mob {
                 String itemName = equipmentSection.getString(s);
                 if(Item.items.containsKey(itemName))
                     item = Item.items.get(itemName).getItem();
-                else if(itemName != null)
-                    item = new ItemStack(Material.valueOf(itemName.toUpperCase()));
+//                else if(itemName != null)
+//                    item = new ItemStack(Material.valueOf(itemName.toUpperCase()));
                 else
                     item = new ItemStack(Material.IRON_SWORD);
                 // turn off-hand to off_hand
                 s = s.replaceAll("-", "_");
-                equipmentMap.put(EquipmentSlot.valueOf(s.toUpperCase()), item);
+                equipment.put(EquipmentSlot.valueOf(s.toUpperCase()), item);
             }
         }
-
-        uniqueKey = new NamespacedKey(plugin, name);
-        id = name.getClass().getSimpleName();
     }
 }
