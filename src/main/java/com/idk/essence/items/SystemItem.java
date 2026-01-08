@@ -3,8 +3,9 @@ package com.idk.essence.items;
 import com.idk.essence.Essence;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigFile;
-import com.idk.essence.utils.placeholders.InternalPlaceholderHandler;
+import com.idk.essence.utils.placeholders.PlaceholderManager;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -30,7 +31,7 @@ public abstract class SystemItem {
 
     private final boolean usable;
 
-    private final String displayName;
+    private final Component displayName;
 
     private final Material material;
 
@@ -60,7 +61,7 @@ public abstract class SystemItem {
         // set item lore (default to empty)
         // set internal placeholders & cs.getStringList is safe(will not return null)
         for(String string : cs.getStringList(name + ".lore")) {
-            lore.add(InternalPlaceholderHandler.translatePlaceholders(Util.colorize(string), this));
+            lore.add(PlaceholderManager.translate(string, this));
         }
         lore = Util.splitLore(lore);
 
@@ -75,7 +76,7 @@ public abstract class SystemItem {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
         meta.getPersistentDataContainer().set(systemItemKey, PersistentDataType.STRING, name);
-        meta.setDisplayName(displayName);
+        meta.displayName(displayName);
         meta.setLore(lore);
         if(glowing) {
             meta.addEnchant(Enchantment.UNBREAKING, 0, true);

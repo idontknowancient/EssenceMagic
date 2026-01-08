@@ -28,6 +28,7 @@ com\idk\essence\mobs\Mob.class
 com\idk\essence\skills\SkillType.class
 com\idk\essence\utils\particles\CustomParticle.class
 com\idk\essence\players\PlayerData.class
+com\idk\essence\utils\placeholders\Placeholder.class
 com\idk\essence\utils\DisplayHandler.class
 com\idk\essence\items\systemItems\features\SIParticleBlock.class
 com\idk\essence\menus\Menu.class
@@ -44,6 +45,7 @@ com\idk\essence\utils\configs\ConfigFile.class
 com\idk\essence\commands\essence_sub\item_sub\GetCommand.class
 com\idk\essence\magics\MagicType$Attribute.class
 com\idk\essence\utils\particles\ParticleHandler.class
+com\idk\essence\utils\placeholders\PlaceholderManager.class
 com\idk\essence\magics\ChildType.class
 com\idk\essence\commands\essence_sub\ElementCommand.class
 com\idk\essence\utils\interactiveSlots\InteractiveSlot.class
@@ -51,7 +53,6 @@ com\idk\essence\commands\essence_sub\mob_sub\SpawnCommand.class
 com\idk\essence\commands\essence_sub\item_sub\InfoCommand.class
 com\idk\essence\utils\interactiveSlots\InteractiveSlot$1.class
 com\idk\essence\skills\SingleSkill.class
-com\idk\essence\utils\placeholders\InternalPlaceholder.class
 com\idk\essence\commands\essence_sub\ManaCommand.class
 com\idk\essence\skills\singleSkills\Potion.class
 com\idk\essence\utils\Util.class
@@ -67,7 +68,6 @@ com\idk\essence\elements\ElementBuilder.class
 com\idk\essence\commands\essence_sub\item_sub\MenuCommand.class
 com\idk\essence\mobs\MobHandler.class
 com\idk\essence\utils\CustomKey.class
-com\idk\essence\items\ItemHandler.class
 com\idk\essence\Essence.class
 com\idk\essence\magics\Modifier.class
 com\idk\essence\commands\essence_sub\MagicCommand.class
@@ -89,6 +89,7 @@ com\idk\essence\commands\essence_sub\magic_sub\CastCommand.class
 com\idk\essence\commands\essence_sub\ReloadCommand.class
 com\idk\essence\skills\singleSkills\Shoot.class
 com\idk\essence\commands\essence_sub\wand_sub\InfoCommand.class
+com\idk\essence\utils\placeholders\EssencePlaceholder.class
 com\idk\essence\commands\essence_sub\wand_sub\ManaCommand.class
 com\idk\essence\players\ManaHandler$2.class
 com\idk\essence\utils\permissions\SystemPermission.class
@@ -101,7 +102,6 @@ com\idk\essence\commands\SubCommand.class
 com\idk\essence\items\ItemBuilder.class
 com\idk\essence\players\PlayerDataHandler.class
 com\idk\essence\utils\Registry.class
-com\idk\essence\utils\placeholders\InternalPlaceholderHandler.class
 com\idk\essence\commands\essence_sub\magic_sub\ForceCommand.class
 com\idk\essence\utils\messages\Message.class
 com\idk\essence\commands\essence_sub\wand_sub\MagicCommand.class
@@ -111,7 +111,6 @@ com\idk\essence\utils\permissions\Permission.class
 com\idk\essence\commands\essence_sub\MobCommand.class
 com\idk\essence\commands\essence_sub\UtilCommand.class
 com\idk\essence\players\ManaHandler$1.class
-com\idk\essence\utils\placeholders\CustomPlaceholder.class
 com\idk\essence\commands\essence_sub\ItemCommand.class
 com\idk\essence\commands\essence_sub\HelpCommand.class
 com\idk\essence\commands\essence_sub\skill_sub\CastCommand.class

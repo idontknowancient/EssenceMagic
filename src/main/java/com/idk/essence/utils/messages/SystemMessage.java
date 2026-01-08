@@ -1,6 +1,7 @@
 package com.idk.essence.utils.messages;
 
 import com.idk.essence.utils.configs.ConfigFile;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -56,11 +57,11 @@ public enum SystemMessage implements Message {
         this.path = path;
     }
 
-    public String out() {
+    public Component out() {
         return Message.out(path);
     }
 
-    public String out(Player p) {
+    public Component out(Player p) {
         return Message.out(path, p);
     }
 
@@ -68,7 +69,9 @@ public enum SystemMessage implements Message {
         Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path));
     }
 
-    // use for placeholders
+    /**
+     * With placeholders
+     */
     public void send(CommandSender sender, Object info) {
         Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path), info);
     }

@@ -39,7 +39,7 @@ public class MobHandler {
     public static void spawnMob(Location location, Mob mob) {
         if(location.getWorld() == null) return;
         LivingEntity entity = (LivingEntity) location.getWorld().spawnEntity(location, mob.getType());
-        entity.setCustomName(mob.getDisplayName());
+        entity.customName(mob.getDisplayName());
         if(mob.getHealth() != -1) {
             entity.getAttribute(Attribute.MAX_HEALTH).setBaseValue(mob.getHealth());
             entity.setHealth(mob.getHealth());

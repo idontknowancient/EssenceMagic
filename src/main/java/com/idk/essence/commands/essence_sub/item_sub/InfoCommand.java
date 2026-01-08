@@ -1,13 +1,13 @@
 package com.idk.essence.commands.essence_sub.item_sub;
 
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.items.Item;
-import com.idk.essence.items.ItemHandler;
+import com.idk.essence.items.ItemFactory;
 import com.idk.essence.utils.configs.ConfigFile;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
 import com.idk.essence.items.wands.WandHandler;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +42,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NO_ITEM_IN_HAND.send(p);
             return;
         }
-        if(!ItemHandler.isHoldingCustomItem(p) && !WandHandler.isHoldingWand(p)) {
+        if(!ItemFactory.isHoldingCustom(p) && !WandHandler.isHoldingWand(p)) {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
@@ -54,9 +54,9 @@ public class InfoCommand extends SubCommand {
 //            }
 //            return;
 //        }
-        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", itemInMainHand);
-        for (String string : info) {
-            p.sendMessage(string);
+        List<Component> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", itemInMainHand);
+        for (Component component : info) {
+            p.sendMessage(component);
         }
     }
 }

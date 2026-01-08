@@ -58,8 +58,7 @@ public interface ManaHandler {
                 if(!cm.getBoolean("show-in-action-bar"))
                     this.cancel();
                 if(getPlayer() != null) {
-                    getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(
-                           cm.outString("show-message", PlayerData.dataMap.get(getPlayer().getName()))));
+                    getPlayer().sendActionBar(cm.outString("show-message", PlayerData.dataMap.get(getPlayer().getName())));
                 }
             }
         }.runTaskTimer(plugin, 0L, interval).getTaskId());

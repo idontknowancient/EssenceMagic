@@ -1,6 +1,8 @@
 package com.idk.essence.elements;
 
 import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Util;
+import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -13,6 +15,11 @@ public class ElementBuilder {
     }
 
     public ElementBuilder displayName(String displayName) {
+        element.setDisplayName(Util.parseMessage(displayName));
+        return this;
+    }
+
+    public ElementBuilder displayName(Component displayName) {
         element.setDisplayName(displayName);
         return this;
     }
@@ -28,7 +35,7 @@ public class ElementBuilder {
                 .displayName(element.getDisplayName())
                 .lore(symbolSection.getStringList("description"))
                 .glow(symbolSection.getBoolean("glowing", false))
-                .persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, element.getInternalName());
+                .container(CustomKey.getElementKey(), element.getInternalName());
         return this;
     }
 

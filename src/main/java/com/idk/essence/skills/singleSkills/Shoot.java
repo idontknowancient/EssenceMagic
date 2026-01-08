@@ -4,6 +4,7 @@ import com.idk.essence.skills.SingleSkill;
 import com.idk.essence.skills.SkillType;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
@@ -18,7 +19,7 @@ public class Shoot extends SingleSkill {
     // universal
     private String projectile;
 
-    private String customName;
+    private Component customName;
 
     private boolean customNameVisible;
 
@@ -64,7 +65,7 @@ public class Shoot extends SingleSkill {
         if(cs.isString(path + ".name"))
             customName = cs.outString(path + ".name");
         else
-            customName = "";
+            customName = Component.text("");
         getInfo().add("  &7Name: " + customName);
 
         // set custom name visible (default to false)
@@ -151,7 +152,7 @@ public class Shoot extends SingleSkill {
     private void setProjectile(LivingEntity target, Projectile spawned) {
         final Vector velocity = target.getEyeLocation().getDirection().normalize().multiply(getVelocity());
 
-        spawned.setCustomName(getCustomName());
+        spawned.customName(getCustomName());
         spawned.setCustomNameVisible(isCustomNameVisible());
         spawned.setGlowing(isGlowing());
         spawned.setGravity(isGravity());

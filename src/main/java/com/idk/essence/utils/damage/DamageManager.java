@@ -35,7 +35,7 @@ public class DamageManager implements Listener {
         if(attacker == null || target == null) return original;
         multiplier = Util.round(multiplier * elementMultiplier(attacker, target), 4);
         final_ = Util.round(original * multiplier, 4);
-        attacker.sendMessage(Util.colorize("&7attack damage &bx" + multiplier + "&7, " + final_));
+        attacker.sendMessage(Util.parseMessage("&7attack damage &bx" + multiplier + "&7, " + final_));
 
         return final_;
     }

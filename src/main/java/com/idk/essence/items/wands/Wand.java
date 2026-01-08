@@ -1,12 +1,13 @@
 package com.idk.essence.items.wands;
 
 import com.idk.essence.Essence;
-import com.idk.essence.items.Item;
 import com.idk.essence.magics.Magic;
+import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigFile;
-import com.idk.essence.utils.placeholders.InternalPlaceholderHandler;
+import com.idk.essence.utils.placeholders.PlaceholderManager;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -38,7 +39,7 @@ public class Wand {
 
     private final Material material;
 
-    private final String displayName;
+    private final Component displayName;
 
     private List<String> lore = new ArrayList<>();
 
@@ -65,7 +66,7 @@ public class Wand {
     @Getter private static final NamespacedKey slotKey = new NamespacedKey(plugin, "slot-key");
 
     // show when there is an empty slot in a wand
-    @Getter private static String emptyString = "&7[empty]";
+    @Getter private static Component emptyString = Util.parseMessage("&7[empty]");
 
     // magicKey will be used in Magic.java
     private final StringBuilder defaultMagic = new StringBuilder();
@@ -83,9 +84,9 @@ public class Wand {
 
         // set wand display name (default to the name of stick)
         if(cw.isString(name + ".name"))
-            displayName = Util.colorize(cw.getString(name + ".name"));
+            displayName = Util.parseMessage(cw.getString(name + ".name"));
         else
-            displayName = material.name();
+            displayName = Util.parseMessage(material.name());
 
         // set storage mana (default to 0)
         if(cw.isDouble(name + ".default-mana") && cw.getDouble(name + ".default-mana") >= 0)
@@ -161,7 +162,7 @@ public class Wand {
         if(cw.isList(name + ".lore")) {
             // set internal placeholders
             for(String string : cw.getStringList(name + ".lore")) {
-                lore.add(InternalPlaceholderHandler.translatePlaceholders(Util.colorize(string), this));
+                lore.add(PlaceholderManager.translate(string, this));
             }
             lore = Util.splitLore(lore);
         }
@@ -184,7 +185,7 @@ public class Wand {
         if(itemMeta == null) return;
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
 
-        itemMeta.setDisplayName(displayName);
+        itemMeta.displayName(displayName);
         itemMeta.setLore(lore);
         if(glowing) {
             itemMeta.addEnchant(Enchantment.UNBREAKING, 1, true);
@@ -195,7 +196,7 @@ public class Wand {
         // unique (unstackable)
         container.set(uniqueWandKey, PersistentDataType.STRING, System.currentTimeMillis()+""+Math.random());
         // custom item
-        container.set(Item.getItemKey(), PersistentDataType.STRING, name);
+        container.set(CustomKey.getItemKey(), PersistentDataType.STRING, name);
         // wand (internal name)
         container.set(wandKey, PersistentDataType.STRING, name);
         // mana

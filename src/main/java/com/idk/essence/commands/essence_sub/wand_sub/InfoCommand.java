@@ -6,6 +6,7 @@ import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
 import com.idk.essence.items.wands.WandHandler;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -44,9 +45,9 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_WAND.send(p);
             return;
         }
-        List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", itemInMainHand);
-        for(String string : info) {
-            p.sendMessage(string);
+        List<Component> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", itemInMainHand);
+        for(Component component : info) {
+            p.sendMessage(component);
         }
     }
 }

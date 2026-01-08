@@ -2,10 +2,13 @@ package com.idk.essence.utils.configs;
 
 import com.idk.essence.Essence;
 import com.idk.essence.utils.Util;
-import com.idk.essence.utils.placeholders.InternalPlaceholderHandler;
+import com.idk.essence.utils.placeholders.PlaceholderManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +26,12 @@ public interface EssenceConfig {
     YamlConfiguration getConfig();
 
     default void copyConfigFromResources() {
-        if(!getPlugin().getDataFolder().exists()) getPlugin().getDataFolder().mkdirs();
+        if(!getPlugin().getDataFolder().exists())
+            if(!getPlugin().getDataFolder().mkdirs()) {
+                Essence.getPlugin().getComponentLogger().error("Cannot create data folder!");
+                return;
+            }
+
         File file = getFile();
         YamlConfiguration config = getConfig();
         if(!file.exists()) {
@@ -52,7 +60,7 @@ public interface EssenceConfig {
         return getConfig().isString(path);
     }
 
-    default String getString(String path) {
+    @Nullable default String getString(String path) {
         return getConfig().getString(path);
     }
 
@@ -100,7 +108,7 @@ public interface EssenceConfig {
         return getConfig().isList(path);
     }
 
-    default List<String> getStringList(String path) {
+    @Nullable default List<String> getStringList(String path) {
         return getConfig().getStringList(path);
     }
 
@@ -108,7 +116,7 @@ public interface EssenceConfig {
         return getConfig().isConfigurationSection(path);
     }
 
-    default ConfigurationSection getConfigurationSection(String path) {
+    @Nullable default ConfigurationSection getConfigurationSection(String path) {
         return getConfig().getConfigurationSection(path);
     }
 
@@ -116,45 +124,63 @@ public interface EssenceConfig {
         getConfig().set(path, value);
     }
 
-    default String outString(String path) { //with no placeholders
-        return Util.colorize(getString(path));
+    /**
+     * Without placeholders, without default value.
+     * @return the component
+     */
+    @NotNull default Component outString(String path) { //with no placeholders
+        return Util.parseMessage(getString(path));
     }
 
-    default String outString(String path, String default_) { //with no placeholders
-        return Util.colorize(getString(path, default_));
+    /**
+     * Without placeholders, with default value.
+     * @return the component
+     */
+    default Component outString(String path, String default_) { //with no placeholders
+        return Util.parseMessage(getString(path, default_));
     }
 
-    default String outString(String path, Object info) { //with placeholders
-        return Util.colorize(
-                InternalPlaceholderHandler.translatePlaceholders(getString(path), info));
+    /**
+     * With placeholders, without default value.
+     * @return the component
+     */
+    @NotNull default Component outString(String path, Object info) { //with placeholders
+        return Util.parseMessage(
+                PlaceholderManager.translate(getString(path), info));
     }
 
-    default String outString(String path, String default_, Object info) { //with placeholders
-        return Util.colorize(
-                InternalPlaceholderHandler.translatePlaceholders(getString(path, default_), info));
+    /**
+     * With placeholders, with default value.
+     * @return the component
+     */
+    default Component outString(String path, String default_, Object info) { //with placeholders
+        return Util.parseMessage(
+                PlaceholderManager.translate(getString(path, default_), info));
     }
 
-    default List<String> outStringList(String path) {
-        List<String> colorized = new ArrayList<>();
-        for(String s : getStringList(path))
-            colorized.add(Util.colorize(s));
-
-        return colorized;
+    /**
+     * Without placeholders
+     * @return the component list
+     */
+    @NotNull default List<Component> outStringList(String path) {
+        return Optional.ofNullable(getStringList(path)).orElse(Collections.emptyList())
+                .stream().map(Util::parseMessage).toList();
     }
 
-    default List<String> outStringList(String path, Object info) {
-        List<String> colorized = new ArrayList<>();
-        for(String s : getStringList(path))
-            colorized.add(Util.colorize(InternalPlaceholderHandler.translatePlaceholders(s, info)));
-
-        return colorized;
+    /**
+     * With placeholders
+     * @return the component list
+     */
+    @NotNull default List<Component> outStringList(String path, Object info) {
+        return Optional.ofNullable(getStringList(path)).orElse(Collections.emptyList())
+                .stream().map(string -> Util.parseMessage(string, info)).toList();
     }
 
     default void save() {
         try {
             getConfig().save(getFile());
         } catch (IOException e) {
-            e.printStackTrace();
+            Essence.getPlugin().getComponentLogger().error("Unable to save file: {}!", getFile().getName(), e);
         }
     }
 }

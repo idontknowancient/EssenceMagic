@@ -80,7 +80,7 @@ public class Menu {
             ItemStack item = new ItemStack(Material.valueOf(cm.getString("skill.item").toUpperCase()));
             ItemMeta meta = item.getItemMeta();
             if(meta == null) return skillMenu;
-            meta.setDisplayName(skill.getDisplayName());
+            meta.displayName(skill.getDisplayName());
             meta.setLore(skill.getInfo());
             item.setItemMeta(meta);
             skillMenu.addItem(item);
@@ -97,7 +97,7 @@ public class Menu {
             ItemStack item = new ItemStack(Material.valueOf(cm.getString("magic.item").toUpperCase()));
             ItemMeta meta = item.getItemMeta();
             if(meta == null) return magicMenu;
-            meta.setDisplayName(magic.getDisplayName());
+            meta.displayName(magic.getDisplayName());
             meta.setLore(magic.getInfo());
             item.setItemMeta(meta);
             magicMenu.addItem(item);

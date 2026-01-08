@@ -1,12 +1,10 @@
 package com.idk.essence.utils.listeners;
 
-import com.idk.essence.items.ItemHandler;
+import com.idk.essence.items.ItemFactory;
 import com.idk.essence.menus.holders.CancelHolder;
 import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
 import com.idk.essence.menus.holders.ShiftSpawnHolder;
-import com.idk.essence.mobs.Mob;
-import com.idk.essence.mobs.MobHandler;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
 import com.idk.essence.items.wands.Wand;
@@ -55,7 +53,7 @@ public class MenuListener implements Listener {
                     player.getInventory().addItem(specificWand.getItemStack());
                 }
             } else if(SystemPermission.checkPerm(player, Permission.COMMAND_ITEM_MENU_GET.name)) {
-                if(ItemHandler.isCustomItem(item))
+                if(ItemFactory.isCustom(item))
                     player.getInventory().addItem(item);
             }
         }

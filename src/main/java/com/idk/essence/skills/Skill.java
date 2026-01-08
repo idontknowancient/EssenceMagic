@@ -7,6 +7,7 @@ import com.idk.essence.skills.singleSkills.Wait;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class Skill {
 
     private final String name;
 
-    private final String displayName;
+    private final Component displayName;
 
     private final List<Trigger> triggers = new ArrayList<>();
 
@@ -41,7 +42,7 @@ public class Skill {
         if(cs.isString(skillName + ".name"))
             displayName = cs.outString(skillName + ".name");
         else
-            displayName = "";
+            displayName = Component.text("");
 
         // set skill triggers (default to right_click)
         if(cs.isList(skillName + ".triggers")) {
@@ -105,7 +106,7 @@ public class Skill {
         info.add("&7Triggers: " + getTriggers());
 
         if(getSingleSkills().isEmpty()) {
-            info.add(cm.outString("skill.no-skill"));
+            info.add(cm.getString("skill.no-skill"));
         } else {
             for(SingleSkill singleSkill : getSingleSkills().values()) {
                 // ignore wait info
@@ -114,6 +115,6 @@ public class Skill {
                 info.addAll(singleSkill.getInfo());
             }
         }
-        info.replaceAll(Util::colorize);
+//        info.replaceAll(Util::colorize);
     }
 }

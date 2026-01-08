@@ -14,6 +14,8 @@ public class MobFactory {
 
     private static ConfigFile.ConfigName cm;
 
+    private MobFactory() {}
+
     public static void initialize() {
         mobs.clear();
         cm = ConfigFile.ConfigName.MOBS;
@@ -38,7 +40,7 @@ public class MobFactory {
         MobTemplate template = new MobTemplate(internalName)
                 .displayName(cm.outString(internalName + ".display-name", ""))
                 .type(cm.getString(internalName + ".type"))
-                .description(cm.outStringList(internalName + ".description"))
+                .description(cm.getStringList(internalName + ".description"))
                 .health(cm.getDouble(internalName + ".health"))
                 .element(cm.getString(internalName + ".element"))
                 .equipment(cm.getConfigurationSection(internalName + ".equipment"));

@@ -4,103 +4,135 @@ import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.Util;
-import net.kyori.adventure.text.TextComponent;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+/**
+ * Guide to adding a field:
+ * 1. Add a field
+ * 2. Add setters
+ * 3. Add apply
+ * 4. Use apply
+ */
 public class ItemBuilder {
 
-    private final ItemStack item;
+    private ItemStack item = null;
 
-    private final ItemMeta meta;
+    @NotNull private Material material;
 
-    private final List<String> lore = new ArrayList<>();
+    private Component displayName;
 
-    public ItemBuilder(Material material) {
-        item = new ItemStack(material);
-        meta = item.getItemMeta();
+    private final List<Component> lore = new ArrayList<>();
+
+    private Element element;
+
+    private final Map<Enchantment, Integer> enchantments = new HashMap<>();
+
+    private final Map<ItemFlag, Boolean> flags = new HashMap<>();
+
+    private boolean forceGlow = false;
+
+    private boolean glow;
+
+    private final Map<NamespacedKey, Object> persistentData = new HashMap<>();
+
+    public ItemBuilder(@NonNull Material material) {
+        this.material = material;
     }
 
     public ItemBuilder(String materialString) {
-        item = new ItemStack(getMaterial(materialString));
-        meta = item.getItemMeta();
+        material = getMaterial(materialString);
     }
 
     public ItemBuilder displayName(String name) {
-        meta.setDisplayName(Util.colorize(name));
+        displayName = Util.parseMessage(name);
         return this;
     }
 
-    public ItemBuilder displayName(TextComponent name) {
-        meta.setDisplayName(Util.colorize(name.content()));
+    public ItemBuilder displayName(Component name) {
+        displayName = name;
         return this;
+    }
+
+    private void applyDisplayName(ItemMeta meta) {
+        if(displayName != null)
+            meta.displayName(displayName);
     }
 
     public ItemBuilder material(String materialString) {
-        item.setType(getMaterial(materialString));
+        material = getMaterial(materialString);
         return this;
     }
 
     public ItemBuilder material(Material material) {
-        item.setType(material);
+        this.material = material;
         return this;
     }
 
     public ItemBuilder lore(String ... lore) {
-        final List<String> formattedLore = Arrays.stream(lore).toList();
-        return lore(formattedLore);
+        this.lore.clear();
+        return addLore(lore);
     }
 
-    public ItemBuilder lore(TextComponent ... lore) {
-        final List<String> formattedLore = Arrays.stream(lore).map(TextComponent::content).toList();
-        return lore(formattedLore);
+    public ItemBuilder lore(Component ... lore) {
+        this.lore.clear();
+        return addLore(lore);
     }
 
     public ItemBuilder lore(List<String> lore) {
         this.lore.clear();
-        this.lore.addAll(lore.stream().map(Util::colorize).toList());
-        meta.setLore(this.lore);
-        return this;
+        return addLore(lore);
     }
 
     public ItemBuilder addLore(String ... lore) {
-        final List<String> formattedLore = Arrays.stream(lore).toList();
-        return addLore(formattedLore);
-    }
-
-    public ItemBuilder addLore(TextComponent ... lore) {
-        final List<String> formattedLore = Arrays.stream(lore).map(TextComponent::content).toList();
-        return addLore(formattedLore);
-    }
-
-    public ItemBuilder addLore(List<String> lore) {
-        this.lore.addAll(lore.stream().map(Util::colorize).toList());
-        meta.setLore(this.lore);
+        this.lore.addAll(Arrays.stream(lore).map(Util::parseMessage).toList());
         return this;
     }
 
+    public ItemBuilder addLore(Component ... lore) {
+        this.lore.addAll(Arrays.stream(lore).toList());
+        return this;
+    }
+
+    public ItemBuilder addLore(List<String> lore) {
+        this.lore.addAll(lore.stream().map(Util::parseMessage).toList());
+        return this;
+    }
+
+    private void applyLore(ItemMeta meta) {
+        meta.lore(lore);
+    }
+
     public ItemBuilder element(String elementString) {
-        if(ElementFactory.get(elementString) == null) return this;
-        persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, elementString);
+        element = ElementFactory.getOrDefault(elementString);
         return this;
     }
 
     public ItemBuilder element(Element element) {
-        if(element == null) return this;
-        persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, element.getInternalName());
+        if(element == null) element = ElementFactory.getDefault();
+        this.element = element;
         return this;
+    }
+
+    private void applyElement(PersistentDataContainer container) {
+        if(element != null)
+            container.set(CustomKey.getElementKey(), PersistentDataType.STRING, element.getInternalName());
+        else
+            container.set(CustomKey.getElementKey(), PersistentDataType.STRING, Element.defaultInternalName);
     }
 
     public ItemBuilder enchant(String enchantment) {
@@ -111,14 +143,14 @@ public class ItemBuilder {
         return enchant(enchantment, 1);
     }
 
-    public ItemBuilder enchant(String enchantment, int level) {
-        Enchantment enchant = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(enchantment));
-        if(enchant != null) enchant(enchant, level);
-        return this;
+    public ItemBuilder enchant(String enchantmentString, int level) {
+        Enchantment enchantment = RegistryAccess.registryAccess()
+                .getRegistry(RegistryKey.ENCHANTMENT).getOrThrow(NamespacedKey.minecraft(enchantmentString));
+        return enchant(enchantment, level);
     }
 
     public ItemBuilder enchant(Enchantment enchantment, int level) {
-        meta.addEnchant(enchantment, level, true);
+        enchantments.put(enchantment, level);
         return this;
     }
 
@@ -131,8 +163,17 @@ public class ItemBuilder {
         return this;
     }
 
+    private void applyEnchantments(ItemMeta meta) {
+        for(Map.Entry<Enchantment, Integer> entry : enchantments.entrySet())
+            meta.addEnchant(entry.getKey(), entry.getValue(), true);
+    }
+
     public ItemBuilder flag(ItemFlag flag) {
-        meta.addItemFlags(flag);
+        return flag(flag, true);
+    }
+
+    public ItemBuilder flag(ItemFlag flag, boolean value) {
+        flags.put(flag, value);
         return this;
     }
 
@@ -141,7 +182,18 @@ public class ItemBuilder {
         ItemFlag itemFlag;
         try {
             itemFlag = ItemFlag.valueOf(flag);
-            return flag(itemFlag);
+            return flag(itemFlag, true);
+        } catch(IllegalArgumentException e) {
+            return this;
+        }
+    }
+
+    public ItemBuilder flag(String flag, boolean value) {
+        flag = flag.toUpperCase().replaceAll("-", "_");
+        ItemFlag itemFlag;
+        try {
+            itemFlag = ItemFlag.valueOf(flag);
+            return flag(itemFlag, value);
         } catch(IllegalArgumentException e) {
             return this;
         }
@@ -150,28 +202,63 @@ public class ItemBuilder {
     public ItemBuilder flag(ConfigurationSection flagSection) {
         if(flagSection == null) return this;
         for(String flag : flagSection.getKeys(false)) {
-            if(flagSection.getBoolean(flag, false))
-                flag(flag);
+            flag(flag, flagSection.getBoolean(flag, false));
         }
         return this;
     }
 
+    private void applyFlags(ItemMeta meta) {
+        for(Map.Entry<ItemFlag, Boolean> entry : flags.entrySet())
+            meta.addItemFlags(entry.getKey());
+    }
+
     public ItemBuilder glow(boolean glow) {
-        if(glow)
-            meta.setEnchantmentGlintOverride(glow);
+        forceGlow = true;
+        this.glow = glow;
         return this;
     }
 
-    public <P, C>ItemBuilder persistentDataContainer(NamespacedKey key, PersistentDataType<P, C> type, C value) {
-        meta.getPersistentDataContainer().set(key, type, value);
+    private void applyGlow(ItemMeta meta) {
+        if(forceGlow)
+            meta.setEnchantmentGlintOverride(glow);
+    }
+
+    public ItemBuilder container(NamespacedKey key, Object value) {
+        persistentData.put(key, value);
         return this;
     }
 
     /**
      * Set persistent data container with default key "item-key".
      */
-    public <P, C>ItemBuilder persistentDataContainer(PersistentDataType<P, C> type, C value) {
-        return persistentDataContainer(CustomKey.getItemKey(), type, value);
+    public ItemBuilder container(Object value) {
+        return container(CustomKey.getItemKey(), value);
+    }
+
+    private void applyContainer(PersistentDataContainer container) {
+        for(Map.Entry<NamespacedKey, Object> entry : persistentData.entrySet())
+            Optional.ofNullable(Util.getDataTypeByObject(entry.getValue())).ifPresent(
+                    type -> container.set(entry.getKey(), type, entry.getValue())
+            );
+    }
+
+    /**
+     * Apply all fields to the item stack.
+     */
+    public void generate() {
+        item = ItemStack.of(material);
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        applyDisplayName(meta);
+        applyLore(meta);
+        applyElement(container);
+        applyEnchantments(meta);
+        applyFlags(meta);
+        applyGlow(meta);
+        applyContainer(container);
+
+        item.setItemMeta(meta);
     }
 
     /**
@@ -181,9 +268,7 @@ public class ItemBuilder {
      * @return the brand new item stack
      */
     public ItemStack build() {
-        if(!meta.getPersistentDataContainer().has(CustomKey.getElementKey()))
-            persistentDataContainer(CustomKey.getElementKey(), PersistentDataType.STRING, Element.defaultInternalName);
-        item.setItemMeta(meta);
+        if(item == null) generate();
         return item.clone();
     }
 
@@ -192,6 +277,6 @@ public class ItemBuilder {
      * @param materialString the string to convert
      */
     public static Material getMaterial(String materialString) {
-        return Optional.ofNullable(Material.getMaterial(materialString.toUpperCase())).orElse(Material.STONE);
+        return Optional.ofNullable(Material.matchMaterial(materialString)).orElse(Material.STONE);
     }
 }

@@ -5,6 +5,7 @@ import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -29,7 +30,7 @@ public class Element {
 
     @Getter private final String internalName;
 
-    @Getter @Setter private String displayName;
+    @Getter @Setter private Component displayName;
 
     @Getter private final ItemBuilder builder;
 
@@ -80,8 +81,9 @@ public class Element {
                         e -> this.addDamageMultiplier(e, multiplier))
         );
         if(showDamageMultiplier) {
-            builder.addLore("", ConfigFile.ConfigName.MENUS.outString(
+            builder.addLore("", ConfigFile.ConfigName.MENUS.getString(
                     "element.damage-multiplier-text", "&bDamage Multiplier:"));
+            // Entry<Element, Double> -> Stream<String>
             builder.addLore(damageMultiplier.entrySet().stream().map(
                     entry -> entry.getKey().getDisplayName() + " &7x" +
                             entry.getValue()).toList());

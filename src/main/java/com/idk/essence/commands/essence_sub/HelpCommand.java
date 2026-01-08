@@ -4,7 +4,11 @@ import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.messages.Message;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelpCommand extends SubCommand {
 
@@ -25,16 +29,17 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public void perform(Player p, String[] args) {
-        p.sendMessage(Message.getPrefix() + Util.colorize("&eHelp List"));
-        p.sendMessage(Util.colorize("&e----------------------------------------"));
-        for(SubCommand feature : EssenceCommand.getSubCommands()) {
-            p.sendMessage(Util.colorize("&e/essence " + feature.getName()
-                    + "&f: " + feature.getDescription()));
-            for(SubCommand detail : feature.getSubCommands()) {
-                p.sendMessage(Util.colorize("&6" + detail.getSyntax()
-                        + "&7: " + detail.getDescription()));
+        List<Component> messages = new ArrayList<>();
+        messages.add(Util.parseMessage(Message.getPrefix() + "&eHelp List"));
+        messages.add(Util.parseMessage("&e----------------------------------------"));
+        for(SubCommand sub : EssenceCommand.getSubCommands()) {
+            messages.add(Util.parseMessage("&e/essence " + sub.getName() + "&f: " + sub.getDescription()));
+            for(SubCommand detail : sub.getSubCommands()) {
+                messages.add(Util.parseMessage("&6" + detail.getSyntax() + "&7: " + detail.getDescription()));
             }
         }
-        p.sendMessage(Util.colorize("&e----------------------------------------"));
+        messages.add(Util.parseMessage("&e----------------------------------------"));
+
+        messages.forEach(p::sendMessage);
     }
 }

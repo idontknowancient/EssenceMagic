@@ -2,6 +2,7 @@ package com.idk.essence.commands.essence_sub;
 
 import com.idk.essence.Essence;
 import com.idk.essence.commands.SubCommand;
+import com.idk.essence.utils.Register;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
@@ -30,7 +31,7 @@ public class ReloadCommand extends SubCommand {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
-        Essence.initialize();
+        Register.initialize();
         SystemMessage.SUCCESSFULLY_RELOADED.send(p);
     }
 }

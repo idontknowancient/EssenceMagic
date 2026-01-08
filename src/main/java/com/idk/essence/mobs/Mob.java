@@ -1,15 +1,11 @@
 package com.idk.essence.mobs;
 
 import com.idk.essence.elements.Element;
-import com.idk.essence.elements.ElementFactory;
-import com.idk.essence.items.Item;
 import com.idk.essence.items.ItemBuilder;
-import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +16,7 @@ public class Mob {
 
     @Getter private final String internalName;
 
-    @Getter @Setter private String displayName;
+    @Getter @Setter private Component displayName;
 
     @Getter @Setter private EntityType type;
 

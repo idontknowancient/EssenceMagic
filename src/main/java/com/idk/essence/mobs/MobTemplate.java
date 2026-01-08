@@ -4,6 +4,8 @@ import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.ItemFactory;
 import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Util;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -29,6 +31,11 @@ public class MobTemplate {
     }
 
     public MobTemplate displayName(String displayName) {
+        mob.setDisplayName(Util.parseMessage(displayName));
+        return this;
+    }
+
+    public MobTemplate displayName(Component displayName) {
         mob.setDisplayName(displayName);
         return this;
     }
@@ -111,7 +118,7 @@ public class MobTemplate {
         Entity entity = world.spawnEntity(location, mob.getType());
         PersistentDataContainer container = entity.getPersistentDataContainer();
 
-        entity.setCustomName(mob.getDisplayName());
+        entity.customName(mob.getDisplayName());
         if(entity instanceof LivingEntity livingEntity) {
             Optional.ofNullable(livingEntity.getAttribute(Attribute.MAX_HEALTH))
                     .ifPresent(ins -> ins.setBaseValue(mob.getHealth()));

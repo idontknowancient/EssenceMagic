@@ -1,9 +1,7 @@
 package com.idk.essence.commands.essence_sub.item_sub;
 
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.items.Item;
 import com.idk.essence.items.ItemFactory;
-import com.idk.essence.items.SystemItem;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;

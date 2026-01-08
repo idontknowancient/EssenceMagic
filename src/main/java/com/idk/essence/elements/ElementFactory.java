@@ -114,7 +114,7 @@ public class ElementFactory {
      */
     private static void registerDefault() {
         if(elements.containsKey(Element.defaultInternalName)) return;
-        ElementBuilder builder = new ElementBuilder(Element.defaultInternalName).displayName(Util.colorize("&7None"));
+        ElementBuilder builder = new ElementBuilder(Element.defaultInternalName).displayName("&7None");
         elements.put(Element.defaultInternalName, builder);
     }
 }

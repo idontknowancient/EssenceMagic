@@ -172,9 +172,9 @@ public class WandHandler implements Listener {
         setWandMagic(newWand, newMagic.toString());
 
         // update lore (based on old mana)
-        List<String> lore = ConfigFile.ConfigName.WANDS.outStringList(name + ".lore", newWand);
-        // handle "\n" in lore
-        Util.setLore(newWand, Util.splitLore(lore));
+//        List<String> lore = ConfigFile.ConfigName.WANDS.outStringList(name + ".lore", newWand);
+//        // handle "\n" in lore
+//        Util.setLore(newWand, Util.splitLore(lore));
 
         wand.setItemMeta(newWand.getItemMeta());
     }

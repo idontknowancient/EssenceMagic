@@ -1,6 +1,6 @@
 package com.idk.essence.utils.placeholders;
 
-public enum InternalPlaceholder {
+public enum Placeholder {
 
     PLAYER("player"),
     USAGE("usage"),
@@ -26,7 +26,7 @@ public enum InternalPlaceholder {
 
     public final String name;
 
-    InternalPlaceholder(String name) {
+    Placeholder(String name) {
         this.name = "%" + name + "%";
     }
 }

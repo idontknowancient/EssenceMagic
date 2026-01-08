@@ -1,12 +1,11 @@
 package com.idk.essence.skills;
 
 import com.idk.essence.Essence;
-import com.idk.essence.items.Item;
-import com.idk.essence.items.ItemHandler;
+import com.idk.essence.items.ItemFactory;
 import com.idk.essence.players.PlayerData;
 import com.idk.essence.utils.configs.ConfigFile;
 import com.idk.essence.utils.messages.SystemMessage;
-import com.idk.essence.utils.placeholders.InternalPlaceholderHandler;
+import com.idk.essence.utils.placeholders.PlaceholderManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
@@ -48,29 +47,28 @@ public class SkillHandler implements Listener {
         boolean right_click = action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK);
 
         ItemStack itemStack = event.getItem();
-        if(itemStack == null || !ItemHandler.isCustomItem(itemStack)) return;
-        Item item = ItemHandler.getCorrespondingItem(itemStack);
-        if(item == null || item.getSkillList().isEmpty()) return;
+        if(!ItemFactory.isCustom(itemStack)) return;
+//        if(item == null || item.getSkillList().isEmpty()) return;
 
-        for(Skill skill : item.getSkillList()) {
-            List<Trigger> trigger = skill.getTriggers();
-            // use array so that we can adjust variable in runnable
-            int[] count = {0};
-
-            // one entity
-            if(trigger.contains(Trigger.LEFT_CLICK))
-                if(left_click && !player.isSneaking())
-                    handleSkill(player, skill, count, false);
-            if(trigger.contains(Trigger.SHIFT_LEFT_CLICK))
-                if(left_click && player.isSneaking())
-                    handleSkill(player, skill, count, false);
-            if(trigger.contains(Trigger.RIGHT_CLICK))
-                if(right_click && !player.isSneaking())
-                    handleSkill(player, skill, count, false);
-            if(trigger.contains(Trigger.SHIFT_RIGHT_CLICK))
-                if(right_click && player.isSneaking())
-                    handleSkill(player, skill, count, false);
-        }
+//        for(Skill skill : item.getSkillList()) {
+//            List<Trigger> trigger = skill.getTriggers();
+//            // use array so that we can adjust variable in runnable
+//            int[] count = {0};
+//
+//            // one entity
+//            if(trigger.contains(Trigger.LEFT_CLICK))
+//                if(left_click && !player.isSneaking())
+//                    handleSkill(player, skill, count, false);
+//            if(trigger.contains(Trigger.SHIFT_LEFT_CLICK))
+//                if(left_click && player.isSneaking())
+//                    handleSkill(player, skill, count, false);
+//            if(trigger.contains(Trigger.RIGHT_CLICK))
+//                if(right_click && !player.isSneaking())
+//                    handleSkill(player, skill, count, false);
+//            if(trigger.contains(Trigger.SHIFT_RIGHT_CLICK))
+//                if(right_click && player.isSneaking())
+//                    handleSkill(player, skill, count, false);
+//        }
     }
 
     // handle if the trigger is attack
@@ -81,16 +79,15 @@ public class SkillHandler implements Listener {
 
         if(caster.getEquipment() == null) return;
         ItemStack itemStack = caster.getEquipment().getItemInMainHand();
-        if(!ItemHandler.isCustomItem(itemStack)) return;
-        Item item = ItemHandler.getCorrespondingItem(itemStack);
-        if(item == null || item.getSkillList().isEmpty()) return;
-
-        for(Skill skill : item.getSkillList()) {
-            List<Trigger> triggers = skill.getTriggers();
-            // two entities
-            if(triggers.contains(Trigger.ATTACK))
-                handleSkill(caster, object, skill, new int[]{0}, false);
-        }
+        if(!ItemFactory.isHoldingCustom(caster)) return;
+//        if(item == null || item.getSkillList().isEmpty()) return;
+//
+//        for(Skill skill : item.getSkillList()) {
+//            List<Trigger> triggers = skill.getTriggers();
+//            // two entities
+//            if(triggers.contains(Trigger.ATTACK))
+//                handleSkill(caster, object, skill, new int[]{0}, false);
+//        }
     }
 
     // use when event involves one entity
@@ -230,7 +227,7 @@ public class SkillHandler implements Listener {
                     /* argument operator condition  e.g. %mana% >= 10 */
                     String argument_original = requirement.substring(0, requirement.indexOf(operators[i])).trim();
                     String condition = requirement.substring(requirement.indexOf(operators[i]) + 2).trim();
-                    String argument_translated = InternalPlaceholderHandler.translatePlaceholders(argument_original, PlayerData.dataMap.get(player.getName()));
+                    String argument_translated = PlaceholderManager.translate(argument_original, PlayerData.dataMap.get(player.getName()));
 
                     /* handle if the placeholder is not a custom one */
                     if(argument_translated.contains("%"))

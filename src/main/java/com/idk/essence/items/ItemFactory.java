@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ItemFactory {
 
@@ -73,9 +74,18 @@ public class ItemFactory {
      * Check if an item stack is a custom item.
      */
     public static boolean isCustom(ItemStack itemStack) {
+        if(itemStack == null) return false;
         ItemMeta meta = itemStack.getItemMeta();
         if(meta == null) return false;
         return meta.getPersistentDataContainer().has(CustomKey.getItemKey());
+    }
+
+    /**
+     * Check if an entity is holding a custom item.
+     */
+    public static boolean isHoldingCustom(LivingEntity entity) {
+        ItemStack item = Optional.ofNullable(entity.getEquipment()).map(EntityEquipment::getItemInMainHand).orElse(null);
+        return isCustom(item);
     }
 
     /**
@@ -87,11 +97,11 @@ public class ItemFactory {
 
         ItemBuilder builder = new ItemBuilder(ci.getString(internalName + ".type", "stone"))
                 .displayName(ci.outString(internalName + ".display-name", ""))
-                .lore(ci.outStringList(internalName + ".lore"))
+                .lore(ci.getStringList(internalName + ".lore"))
                 .enchant(ci.getConfigurationSection(internalName + ".enchantments"))
                 .flag(ci.getConfigurationSection(internalName + ".options"))
                 .element(ci.getString(internalName + ".element", Element.defaultInternalName))
-                .persistentDataContainer(PersistentDataType.STRING, internalName);
+                .container(internalName);
         items.put(internalName, builder);
     }
 }

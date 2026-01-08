@@ -1,10 +1,8 @@
 package com.idk.essence.commands;
 
 import com.idk.essence.commands.essence_sub.*;
-import com.idk.essence.items.Item;
 import com.idk.essence.items.ItemFactory;
 import com.idk.essence.magics.Magic;
-import com.idk.essence.mobs.Mob;
 import com.idk.essence.mobs.MobFactory;
 import com.idk.essence.players.PlayerData;
 import com.idk.essence.skills.Skill;
@@ -13,16 +11,20 @@ import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.items.wands.Wand;
 import com.idk.essence.items.wands.WandHandler;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class EssenceCommand implements CommandExecutor, TabCompleter {
@@ -52,12 +54,39 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
         return subs + "";
     }
 
+    private Component getSyntaxNew() {
+        // 建立一個初始的文本
+        TextComponent.Builder builder = Component.text()
+                .content("/essence [");
+
+        for(int i = 0; i < subCommands.size(); i++) {
+            SubCommand s = subCommands.get(i);
+            String name = s.getName();
+
+            // 建立可點擊的子指令部分
+            Component subComponent = Component.text(name)
+                    .decoration(TextDecoration.UNDERLINED, true) // 加底線提示可點擊
+                    .clickEvent(ClickEvent.suggestCommand("/essence " + name + " ")) // 點擊後填入對話框
+                    .hoverEvent(HoverEvent.showText(Component.text("點擊以使用 /essence " + name))); // 懸浮提示
+
+            builder.append(subComponent);
+
+            // 如果不是最後一個，加上分隔線
+            if (i < subCommands.size() - 1) {
+                builder.append(Component.text(" | ").decoration(TextDecoration.UNDERLINED, false));
+            }
+        }
+
+        builder.append(Component.text("]"));
+        return builder.build();
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(sender instanceof Player p) {
             for (SubCommand subCommand : subCommands) {
                 if(args.length == 0) {
-                    SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
+                    SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntaxNew());
                     return true;
                 }
                 if (args[0].equalsIgnoreCase(subCommand.getName())) {

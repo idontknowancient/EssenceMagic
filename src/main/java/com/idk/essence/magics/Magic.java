@@ -7,6 +7,7 @@ import com.idk.essence.utils.particles.Spiral;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -21,7 +22,7 @@ public abstract class Magic {
 
     private final String name;
 
-    private final String displayName;
+    private final Component displayName;
 
     private final MagicType.Feature featureType;
 
@@ -47,7 +48,7 @@ public abstract class Magic {
         if(cm.isString(magicName + ".name"))
             displayName = cm.outString(magicName+ ".name");
         else
-            displayName = "";
+            displayName = Component.text("");
 
         // set magic types (default to attack & element)
         if(cm.isString(magicName + ".type.feature"))
@@ -117,7 +118,7 @@ public abstract class Magic {
             info.add("&f  " + modifier.getName() + ":");
             info.addAll(modifier.getInfo());
         }
-        info.replaceAll(Util::colorize);
+//        info.replaceAll(Util::colorize);
     }
 
     public abstract void perform();

@@ -6,6 +6,7 @@ import com.idk.essence.skills.Skill;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -37,7 +38,7 @@ public class Item {
 
     @Getter private final String name;
 
-    @Getter private final String displayName;
+    @Getter private final Component displayName;
 
     @Getter private final Material type;
 
@@ -59,8 +60,8 @@ public class Item {
 
     {
         String[] options =
-            {"hide-enchants", "hide-attributes", "hide-armor-trim", "hide-destroys",
-                    "hide-dye", "hide-placed-on", "hide-potion-effects", "hide-unbreakable"};
+                {"hide-enchants", "hide-attributes", "hide-armor-trim", "hide-destroys",
+                        "hide-dye", "hide-placed-on", "hide-potion-effects", "hide-unbreakable"};
         optionList.addAll(Arrays.asList(options));
 
         String[] attributes =
@@ -77,7 +78,7 @@ public class Item {
         displayName = ci.outString(itemName+".display-name");
         type = Material.valueOf(ci.getString(itemName+".type").toUpperCase());
         if(ci.isList(itemName+".lore"))
-            lore = ci.outStringList(itemName+".lore");
+            lore = ci.getStringList(itemName+".lore");
         id = getClass().getSimpleName();
 
         // set item model (default to none)
@@ -96,7 +97,7 @@ public class Item {
         // basic setting
         item = new ItemStack(type);
         itemMeta = item.getItemMeta();
-        itemMeta.setDisplayName(displayName);
+        itemMeta.displayName(displayName);
         if(lore != null)
             itemMeta.setLore(lore);
         if(customModelData != -1)

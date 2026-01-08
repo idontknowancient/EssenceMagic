@@ -6,23 +6,23 @@ import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class CustomPlaceholder extends PlaceholderExpansion {
+public class EssencePlaceholder extends PlaceholderExpansion {
 
     private static final Essence plugin = Essence.getPlugin();
 
     @Override
     public @NotNull String getIdentifier() {
-        return plugin.getDescription().getName().toLowerCase();
+        return plugin.getPluginMeta().getName().toLowerCase();
     }
 
     @Override
     public @NotNull String getAuthor() {
-        return plugin.getDescription().getAuthors().toString();
+        return plugin.getPluginMeta().getAuthors().toString();
     }
 
     @Override
     public @NotNull String getVersion() {
-        return plugin.getDescription().getVersion();
+        return plugin.getPluginMeta().getVersion();
     }
 
     @Override

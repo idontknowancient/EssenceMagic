@@ -40,7 +40,6 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\Ite
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemBuilder.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemData.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemFactory.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\ItemHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\SystemItem.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\SystemItemHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\systemItems\features\Placeable.java
@@ -99,9 +98,9 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\par
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\particles\Spiral.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\permissions\Permission.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\permissions\SystemPermission.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\placeholders\CustomPlaceholder.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\placeholders\InternalPlaceholder.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\placeholders\InternalPlaceholderHandler.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\placeholders\EssencePlaceholder.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\placeholders\Placeholder.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\placeholders\PlaceholderManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\Register.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\Registry.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\Util.java
