@@ -1,57 +1,46 @@
 package com.idk.essence.commands.essence_sub;
 
+import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.commands.essence_sub.util_sub.GodCommand;
-import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
-import com.idk.essence.utils.permissions.SystemPermission;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 public class UtilCommand extends SubCommand {
 
-    public UtilCommand() {
-        getSubCommands().add(new GodCommand());
-
-        for(SubCommand subCommand : getSubCommands()) {
-            getSubCommandsString().add(subCommand.getName());
-        }
-    }
-
-    @Override
-    public String getName() {
-        return "util";
+    public UtilCommand(String name) {
+        super(name);
+        getSubCommands().put("god", new GodCommand("god"));
     }
 
     @Override
     public String getDescription() {
-        return "A lot of practical features";
+        return "A lot of practical features.";
     }
 
     @Override
-    public String getSyntax() {
-        StringBuilder subs = new StringBuilder();
-        subs.append("/essence ").append(getName()).append(" [");
-        for(String s : getSubCommandsString())
-            subs.append(s).append(" | ");
-        subs.delete(subs.length() - 3, subs.length());
-        subs.append("]");
-        return subs + "";
+    public String getSyntax(CommandSender sender) {
+        return EssenceCommand.getSyntaxFromSubCommands("/essence util", getSubCommands(), sender);
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_UTIL.name)) {
-            SystemMessage.INADEQUATE_PERMISSION.send(p);
-            return;
-        }
-        if(args.length <= 1) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
-            return;
-        }
-        for(SubCommand subCommand : getSubCommands()) {
-            if(args[1].equalsIgnoreCase(subCommand.getName())) {
-                subCommand.perform(p, args);
-            }
-        }
+    public Permission getPermission() {
+        return Permission.COMMAND_UTIL;
+    }
+
+    @Override
+    protected int getLeastArgs() {
+        return 2;
+    }
+
+    @Override
+    protected boolean isPlayerOnly() {
+        return false;
+    }
+
+    @Override
+    public void perform(CommandSender sender, String[] args) {
+        if(!preCheck(sender, args)) return;
+        dispatch(sender, args);
     }
 }

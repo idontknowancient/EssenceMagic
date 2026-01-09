@@ -1,5 +1,7 @@
 package com.idk.essence.utils.permissions;
 
+import lombok.Getter;
+
 public enum Permission {
 
     COMMAND_ELEMENT("command.element"),
@@ -17,7 +19,6 @@ public enum Permission {
     COMMAND_MANA_GET("command.mana.get"),
     COMMAND_MANA_GET_OTHERS("command.mana.get.others"),
     COMMAND_MANA_SET("command.mana.set"),
-    COMMAND_MANA_SET_OTHERS("command.mana.set.others"),
     COMMAND_MOB("command.mob"),
     COMMAND_MOB_MENU("command.mob.menu"),
     COMMAND_MOB_MENU_SPAWN("command.mob.menu.spawn"),
@@ -44,9 +45,9 @@ public enum Permission {
     COMMAND_WAND_UPDATE("command.wand.update"),
     ;
 
-    public final String name;
+    @Getter private final String name;
 
     Permission(String name) {
-        this.name = "essencemagic." + name;
+        this.name = "essence." + name;
     }
 }

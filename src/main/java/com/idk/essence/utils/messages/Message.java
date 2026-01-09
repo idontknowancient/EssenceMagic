@@ -8,11 +8,15 @@ import org.bukkit.command.CommandSender;
 public interface Message {
 
     static void send(CommandSender sender, String content) {
-        sender.sendMessage(getPrefix().append(Util.parseMessage(content)));
+        sender.sendMessage(Util.parseMessage(getPrefix() + content));
     }
 
-    static void send(CommandSender sender, String path, Object info) {
-        sender.sendMessage(getPrefix().append(Util.parseMessage(path, info)));
+    static void send(CommandSender sender, String content, Object info) {
+        sender.sendMessage(Util.parseMessage(getPrefix() + content, info));
+    }
+
+    static String get(String path) {
+        return ConfigFile.ConfigName.MESSAGES.getString(path);
     }
 
     static Component out(String path) {
@@ -23,7 +27,7 @@ public interface Message {
         return ConfigFile.ConfigName.MESSAGES.outString(path, info);
     }
 
-    static Component getPrefix() {
-        return SystemMessage.PREFIX.out();
+    static String getPrefix() {
+        return SystemMessage.PREFIX.get();
     }
 }

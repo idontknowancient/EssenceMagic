@@ -1,5 +1,6 @@
 package com.idk.essence.commands.essence_sub.wand_sub;
 
+import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.magics.Magic;
 import com.idk.essence.utils.messages.SystemMessage;
@@ -7,37 +8,55 @@ import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
 import com.idk.essence.items.wands.WandHandler;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class MagicCommand extends SubCommand {
 
-    @Override
-    public String getName() {
-        return "magic";
+    public MagicCommand(String name) {
+        super(name);
     }
 
     @Override
     public String getDescription() {
-        return "Set available magic of a wand";
+        return "Set available magic of a wand.";
     }
 
     @Override
-    public String getSyntax() {
-        return "/es wand magic <set/remove> <slot> [magic]";
+    public String getSyntax(CommandSender sender) {
+        return EssenceCommand.getSyntaxFromStrings("/essence wand magic", List.of("set/remove", "slot", "magic"),
+                List.of(true, true, true), List.of(true, true, false));
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_MAGIC.name)){
-            SystemMessage.INADEQUATE_PERMISSION.send(p);
-            return;
-        }
-        // e.g. /es wand magic set 1 fire_beam /es wand magic remove 0
-        if(args.length <= 3) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
-            return;
-        }
+    public Permission getPermission() {
+        return Permission.COMMAND_WAND_MAGIC;
+    }
+
+    @Override
+    protected int getLeastArgs() {
+        return 4;
+    }
+
+    @Override
+    protected boolean isPlayerOnly() {
+        return true;
+    }
+
+    @Override
+    public @Nullable List<String> getTabCompletion(Player p, String[] args) {
+        return List.of("set", "remove");
+    }
+
+    @Override
+    public void perform(CommandSender sender, String[] args) {
+        // e.g. "/es wand magic set 1 fire_beam" & "/es wand magic remove 0"
+        if(!preCheck(sender, args)) return;
+        Player p = (Player) sender;
 
         // <set/remove> <slot> [magic]
         String operation = args[2];
@@ -75,10 +94,10 @@ public class MagicCommand extends SubCommand {
 
         if(operation.equalsIgnoreCase("set")) {
             if(args.length == 4) {
-                SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
+                SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax(p));
                 return;
             }
-            if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_MAGIC_SET.name)) {
+            if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_MAGIC_SET)) {
                 SystemMessage.INADEQUATE_PERMISSION.send(p);
                 return;
             }
@@ -98,7 +117,7 @@ public class MagicCommand extends SubCommand {
             newMagic.append(wandMagic[wandMagic.length - 1]);
             SystemMessage.WAND_MAGIC_UPDATED.send(p);
         } else if(operation.equalsIgnoreCase("remove")) {
-            if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_MAGIC_REMOVE.name)) {
+            if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND_MAGIC_REMOVE)) {
                 SystemMessage.INADEQUATE_PERMISSION.send(p);
                 return;
             }

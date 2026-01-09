@@ -45,14 +45,14 @@ public class MenuListener implements Listener {
         // get custom items by click (items & wands)
         if(inventory.getHolder() instanceof GetItemHolder) {
             // wands are also custom items
-            if(SystemPermission.checkPerm(player, Permission.COMMAND_WAND_MENU_GET.name)) {
+            if(SystemPermission.checkPerm(player, Permission.COMMAND_WAND_MENU_GET)) {
                 if(WandHandler.isWand(item)) {
 
                     Wand specificWand = WandHandler.getWand(item);
                     if(specificWand == null) return;
                     player.getInventory().addItem(specificWand.getItemStack());
                 }
-            } else if(SystemPermission.checkPerm(player, Permission.COMMAND_ITEM_MENU_GET.name)) {
+            } else if(SystemPermission.checkPerm(player, Permission.COMMAND_ITEM_MENU_GET)) {
                 if(ItemFactory.isCustom(item))
                     player.getInventory().addItem(item);
             }
@@ -60,7 +60,7 @@ public class MenuListener implements Listener {
 
         // spawn custom mobs by shift-click
         if(inventory.getHolder() instanceof ShiftSpawnHolder) {
-            if(!SystemPermission.checkPerm(player, Permission.COMMAND_MOB_MENU_SPAWN.name) ||
+            if(!SystemPermission.checkPerm(player, Permission.COMMAND_MOB_MENU_SPAWN) ||
                     !(e.getClick().equals(ClickType.SHIFT_LEFT) ||
                             e.getClick().equals(ClickType.SHIFT_RIGHT))) return;
             if(itemMeta == null || itemMeta.getLore() == null) return;

@@ -1,64 +1,53 @@
 package com.idk.essence.commands.essence_sub;
 
+import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.commands.essence_sub.wand_sub.*;
 import com.idk.essence.commands.essence_sub.wand_sub.MagicCommand;
 import com.idk.essence.commands.essence_sub.wand_sub.ManaCommand;
-import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
-import com.idk.essence.utils.permissions.SystemPermission;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 public class WandCommand extends SubCommand {
 
-    public WandCommand() {
-        getSubCommands().add(new GetCommand());
-        getSubCommands().add(new InfoCommand());
-        getSubCommands().add(new MagicCommand());
-        getSubCommands().add(new MenuCommand());
-        getSubCommands().add(new ManaCommand());
-        getSubCommands().add(new UpdateCommand());
-
-        for(SubCommand subCommand : getSubCommands()) {
-            getSubCommandsString().add(subCommand.getName());
-        }
-    }
-
-    @Override
-    public String getName() {
-        return "wand";
+    public WandCommand(String name) {
+        super(name);
+        getSubCommands().put("get", new GetCommand("get"));
+        getSubCommands().put("info", new InfoCommand("info"));
+        getSubCommands().put("magic", new MagicCommand("magic"));
+        getSubCommands().put("mana", new ManaCommand("mana"));
+        getSubCommands().put("menu", new MenuCommand("menu"));
+        getSubCommands().put("update", new UpdateCommand("update"));
     }
 
     @Override
     public String getDescription() {
-        return "Check and modify all wands";
+        return "Check and modify all wands.";
     }
 
     @Override
-    public String getSyntax() {
-        StringBuilder subs = new StringBuilder();
-        subs.append("/essence ").append(getName()).append(" [");
-        for(String s : getSubCommandsString())
-            subs.append(s).append(" | ");
-        subs.delete(subs.length() - 3, subs.length());
-        subs.append("]");
-        return subs + "";
+    public String getSyntax(CommandSender sender) {
+        return EssenceCommand.getSyntaxFromSubCommands("/essence wand", getSubCommands(), sender);
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_WAND.name)) {
-            SystemMessage.INADEQUATE_PERMISSION.send(p);
-            return;
-        }
-        if(args.length <= 1) {
-            SystemMessage.TOO_LITTLE_ARGUMENT.send(p, getSyntax());
-            return;
-        }
-        for (SubCommand subCommand : getSubCommands()) {
-            if (args[1].equalsIgnoreCase(subCommand.getName())) {
-                subCommand.perform(p, args);
-            }
-        }
+    public Permission getPermission() {
+        return Permission.COMMAND_WAND;
+    }
+
+    @Override
+    protected int getLeastArgs() {
+        return 2;
+    }
+
+    @Override
+    protected boolean isPlayerOnly() {
+        return false;
+    }
+
+    @Override
+    public void perform(CommandSender sender, String[] args) {
+        if(!preCheck(sender, args)) return;
+        dispatch(sender, args);
     }
 }

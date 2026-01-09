@@ -1,35 +1,47 @@
 package com.idk.essence.commands.essence_sub.skill_sub;
 
+import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.menus.Menu;
-import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
-import com.idk.essence.utils.permissions.SystemPermission;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class MenuCommand extends SubCommand {
 
-    @Override
-    public String getName() {
-        return "menu";
+    public MenuCommand(String name) {
+        super(name);
     }
 
     @Override
     public String getDescription() {
-        return "Show all available skills";
+        return "Show all available skills.";
     }
 
     @Override
-    public String getSyntax() {
-        return "/essence skill menu";
+    public String getSyntax(CommandSender sender) {
+        return EssenceCommand.getSyntaxFromStrings("/essence skill", "menu", false);
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_SKILL_MENU.name)) {
-            SystemMessage.INADEQUATE_PERMISSION.send(p);
-            return;
-        }
+    public Permission getPermission() {
+        return Permission.COMMAND_SKILL_MENU;
+    }
+
+    @Override
+    protected int getLeastArgs() {
+        return 2;
+    }
+
+    @Override
+    protected boolean isPlayerOnly() {
+        return true;
+    }
+
+    @Override
+    public void perform(CommandSender sender, String[] args) {
+        if(preCheck(sender, args)) return;
+        Player p = (Player) sender;
         p.openInventory(Menu.getSkillMenu());
     }
 }

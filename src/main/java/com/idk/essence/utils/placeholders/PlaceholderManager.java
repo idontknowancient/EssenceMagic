@@ -38,6 +38,8 @@ public class PlaceholderManager {
 
         if(info instanceof String s)
             string = handleString(string, s);
+        else if(info instanceof Component c)
+            string = handleComponent(string, c);
         else if(info instanceof ItemStack i)
             string = handleItemStack(string, i);
         else if(info instanceof SystemItem s)
@@ -60,6 +62,10 @@ public class PlaceholderManager {
             string = string.replaceAll(Placeholder.PLAYER.name, info);
         if(string.contains(Placeholder.USAGE.name))
             string = string.replaceAll(Placeholder.USAGE.name, info);
+        return string;
+    }
+
+    private static String handleComponent(String string, Component info) {
         return string;
     }
 

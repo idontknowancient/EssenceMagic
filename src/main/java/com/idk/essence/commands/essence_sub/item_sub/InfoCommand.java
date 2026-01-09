@@ -1,14 +1,15 @@
 package com.idk.essence.commands.essence_sub.item_sub;
 
+import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.items.ItemFactory;
 import com.idk.essence.utils.configs.ConfigFile;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
-import com.idk.essence.utils.permissions.SystemPermission;
 import com.idk.essence.items.wands.WandHandler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,27 +17,39 @@ import java.util.List;
 
 public class InfoCommand extends SubCommand {
 
-    @Override
-    public String getName() {
-        return "info";
+    public InfoCommand(String name) {
+        super(name);
     }
 
     @Override
     public String getDescription() {
-        return "Show the custom item info in main hand";
+        return "Show the custom item info in main hand.";
     }
 
     @Override
-    public String getSyntax() {
-        return "/essence item info";
+    public String getSyntax(CommandSender sender) {
+        return EssenceCommand.getSyntaxFromStrings("/essence item", "info", false);
     }
 
     @Override
-    public void perform(Player p, String[] args) {
-        if(!SystemPermission.checkPerm(p, Permission.COMMAND_ITEM_INFO.name)) {
-            SystemMessage.INADEQUATE_PERMISSION.send(p);
-            return;
-        }
+    public Permission getPermission() {
+        return Permission.COMMAND_ITEM_INFO;
+    }
+
+    @Override
+    public int getLeastArgs() {
+        return 2;
+    }
+
+    @Override
+    protected boolean isPlayerOnly() {
+        return true;
+    }
+
+    @Override
+    public void perform(CommandSender sender, String[] args) {
+        if(!preCheck(sender, args)) return;
+        Player p = (Player) sender;
         ItemStack itemInMainHand = p.getInventory().getItemInMainHand();
         if(itemInMainHand.getType().equals(Material.AIR)) {
             SystemMessage.NO_ITEM_IN_HAND.send(p);
@@ -46,17 +59,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
-//        Item item = ItemHandler.getCorrespondingItem(p);
-//        if(item != null) {
-//            List<String> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", item);
-//            for(String string : info) {
-//                p.sendMessage(string);
-//            }
-//            return;
-//        }
         List<Component> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", itemInMainHand);
-        for (Component component : info) {
-            p.sendMessage(component);
-        }
+        info.forEach(p::sendMessage);
     }
 }

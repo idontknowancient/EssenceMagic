@@ -12,10 +12,12 @@ public enum SystemMessage implements Message {
     PLAYER_QUIT_MESSAGE("player-quit-message"),
     UNKNOWN_COMMAND("unknown-command"),
     TOO_LITTLE_ARGUMENT("too-little-argument"),
+    CLICK_TO_USE("click-to-use"),
     INADEQUATE_PERMISSION("inadequate-permission"),
     INADEQUATE_MANA("inadequate-mana"),
     NOT_NUMBER("not-number"),
     NOT_NEGATIVE_NUMBER("not-negative-number"),
+    PLAYER_ONLY("player-only"),
     GOD_MODE_ENABLED("god-mode-enabled"),
     GOD_MODE_DISABLED("god-mode-disabled"),
     ITEM_GOT("item-got"),
@@ -55,6 +57,10 @@ public enum SystemMessage implements Message {
 
     SystemMessage(String path) {
         this.path = path;
+    }
+
+    public String get() {
+        return Message.get(path);
     }
 
     public Component out() {

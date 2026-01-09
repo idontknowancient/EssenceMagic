@@ -4,7 +4,10 @@ import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.messages.Message;
+import com.idk.essence.utils.permissions.Permission;
+import com.idk.essence.utils.permissions.SystemPermission;
 import net.kyori.adventure.text.Component;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -12,34 +15,50 @@ import java.util.List;
 
 public class HelpCommand extends SubCommand {
 
-    @Override
-    public String getName() {
-        return "help";
+    public HelpCommand(String name) {
+        super(name);
     }
 
     @Override
     public String getDescription() {
-        return "Get all command descriptions";
+        return "Get all command descriptions.";
     }
 
     @Override
-    public String getSyntax() {
-        return "/es help";
+    public String getSyntax(CommandSender sender) {
+        return EssenceCommand.getSyntaxFromStrings("/essence", "help", false);
     }
 
     @Override
-    public void perform(Player p, String[] args) {
+    public Permission getPermission() {
+        return null;
+    }
+
+    @Override
+    public int getLeastArgs() {
+        return 1;
+    }
+
+    @Override
+    protected boolean isPlayerOnly() {
+        return false;
+    }
+
+    @Override
+    public void perform(CommandSender sender, String[] args) {
         List<Component> messages = new ArrayList<>();
         messages.add(Util.parseMessage(Message.getPrefix() + "&eHelp List"));
         messages.add(Util.parseMessage("&e----------------------------------------"));
-        for(SubCommand sub : EssenceCommand.getSubCommands()) {
+        for(SubCommand sub : EssenceCommand.getSubCommands().values()) {
+            if(sender instanceof Player p && !SystemPermission.checkPerm(p, sub.getPermission())) continue;
             messages.add(Util.parseMessage("&e/essence " + sub.getName() + "&f: " + sub.getDescription()));
-            for(SubCommand detail : sub.getSubCommands()) {
-                messages.add(Util.parseMessage("&6" + detail.getSyntax() + "&7: " + detail.getDescription()));
+            for(SubCommand detail : sub.getSubCommands().values()) {
+                if(sender instanceof Player p && !SystemPermission.checkPerm(p, detail.getPermission())) continue;
+                messages.add(Util.parseMessage("&6" + detail.getSyntax(sender) + "&r&7: " + detail.getDescription()));
             }
         }
         messages.add(Util.parseMessage("&e----------------------------------------"));
 
-        messages.forEach(p::sendMessage);
+        messages.forEach(sender::sendMessage);
     }
 }

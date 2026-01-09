@@ -1,19 +1,19 @@
 flame_sword:
-  display-name: "&c烈焰之劍"
+  display-name: "<bold><gradient:red:gold><shadow:#FF5555:0.5>烈焰之劍"
   type: wooden_sword
   # item lore is not necessary
   lore:
-    - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
+    - "&8|&m           &r&7<&f物品介紹&7>&8&m           &r&8|"
     - " &7利用燃燒的火焰將敵人燒成灰燼"
     - " &7對木屬性敵人有加成傷害"
-    - "&8|&m           &7<&f物品資訊&7>&8&m           &r&8|"
+    - "&8|&m           &r&7<&f物品資訊&7>&8&m           &r&8|"
     - " &d元素&7: &c火"
     - " &b附魔&7:"
     - "   &8- &7耐久 III"
     - " &e技能&7:"
     - "   &c大火球"
   # if the element is not provided, the system will use 'none' instead
-  element: flame
+  element: wood
   # enchantments are not necessary
   enchantments:
     unbreaking: 3
@@ -31,7 +31,7 @@ flame_sword:
       # attack-knockback:
       # # add / multiply-continuous / multiply-separate
       # type: add
-      # value: 3
+    # value: 3
     # slot: hand
   skills:
     - fire_ball
@@ -41,9 +41,9 @@ snow_sword:
   type: iron_sword
   # item lore is not necessary
   lore:
-    - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
+    - "&8|&m           &r&7<&f物品介紹&7>&8&m           &r&8|"
     - " &7No"
-    - "&8|&m           &7<&f物品資訊&7>&8&m           &r&8|"
+    - "&8|&m           &r&7<&f物品資訊&7>&8&m           &r&8|"
     - " &d元素&7: &9水"
     - " &b附魔&7:"
     - "   &8- &7耐久 III"
@@ -67,9 +67,9 @@ floating_apple:
   type: golden_apple
   # item lore is not necessary
   lore:
-    - "&8|&m           &7<&f物品介紹&7>&8&m           &r&8|"
+    - "&8|&m           &r&7<&f物品介紹&7>&8&m           &r&8|"
     - " &7沒有介紹"
-    - "&8|&m           &7<&f物品資訊&7>&8&m           &r&8|"
+    - "&8|&m           &r&7<&f物品資訊&7>&8&m           &r&8|"
     - " &d元素&7: &2木"
     - " &b附魔&7:"
     - "   &8- &7耐久 III"
