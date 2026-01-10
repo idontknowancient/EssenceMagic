@@ -1,6 +1,6 @@
 package com.idk.essence.utils.messages;
 
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -72,13 +72,13 @@ public enum SystemMessage implements Message {
     }
 
     public void send(CommandSender sender) {
-        Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path));
+        Message.send(sender, ConfigManager.ConfigDefaultFile.MESSAGES.getString(path));
     }
 
     /**
      * With placeholders
      */
     public void send(CommandSender sender, Object info) {
-        Message.send(sender, ConfigFile.ConfigName.MESSAGES.getString(path), info);
+        Message.send(sender, ConfigManager.ConfigDefaultFile.MESSAGES.getString(path), info);
     }
 }

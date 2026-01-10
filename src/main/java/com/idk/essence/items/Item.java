@@ -1,10 +1,9 @@
 package com.idk.essence.items;
 
 import com.idk.essence.Essence;
-import com.idk.essence.elements.Element;
 import com.idk.essence.skills.Skill;
 import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,7 +70,7 @@ public class Item {
     }
 
     public Item(String itemName) {
-        ConfigFile.ConfigName ci = ConfigFile.ConfigName.ITEMS;
+        ConfigManager.ConfigDefaultFile ci = ConfigManager.ConfigDefaultFile.ITEMS;
 
         // variable setting
         name = itemName;
@@ -127,7 +126,7 @@ public class Item {
         item.setItemMeta(itemMeta);
     }
 
-    private void setItemEnchantments(Set<String> enchantmentSet, ConfigFile.ConfigName ci) {
+    private void setItemEnchantments(Set<String> enchantmentSet, ConfigManager.ConfigDefaultFile ci) {
         for(String s : enchantmentSet) {
             // notice some enchantments have different names from we are used to using
             Enchantment enchantment = Registry.ENCHANTMENT.get(NamespacedKey.minecraft(s));
@@ -136,7 +135,7 @@ public class Item {
         }
     }
 
-    private void setItemOptions(Set<String> optionSet, ConfigFile.ConfigName ci) {
+    private void setItemOptions(Set<String> optionSet, ConfigManager.ConfigDefaultFile ci) {
         for(String s : optionSet) {
             String prefix = name+".options.";
             if(optionList.contains(s) && ci.getBoolean(prefix+s)) {
@@ -147,7 +146,7 @@ public class Item {
         }
     }
 
-    private void setItemAttributes(Set<String> attributeSet, ConfigFile.ConfigName ci) {
+    private void setItemAttributes(Set<String> attributeSet, ConfigManager.ConfigDefaultFile ci) {
         for(String s : attributeSet) {
             String prefix = name + ".attributes.";
             if(attributeList.contains(s)) {
@@ -184,7 +183,7 @@ public class Item {
 
     //get the type of the attribute and return an int
     //add - 0 / multiply - 1 /
-    private int getAttributeType(String attributeName, ConfigFile.ConfigName ci) {
+    private int getAttributeType(String attributeName, ConfigManager.ConfigDefaultFile ci) {
         if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("add")) return 0;
         if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply-continuous")) return 1;
         if(ci.getString(name+".attributes."+attributeName+".type").equalsIgnoreCase("multiply-separate")) return 2;

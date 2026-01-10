@@ -1,7 +1,7 @@
 package com.idk.essence.magics.modifiers;
 
 import com.idk.essence.magics.Modifier;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 
 @Getter
@@ -18,7 +18,7 @@ public class Damage extends Modifier {
 
     public Damage(String magicName) {
         super("damage");
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MAGICS;
+        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MAGICS;
         String path = magicName + ".modifiers.damage";
 
         // set modifier damage base (default to 0)

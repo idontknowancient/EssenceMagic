@@ -2,7 +2,7 @@ package com.idk.essence.items;
 
 import com.idk.essence.Essence;
 import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -44,7 +44,7 @@ public abstract class SystemItem {
     private final ItemStack itemStack;
 
     protected SystemItem(String itemName) {
-        ConfigFile.ConfigName cs = ConfigFile.ConfigName.SYSTEM_ITEMS;
+        ConfigManager.ConfigDefaultFile cs = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS;
         name = itemName;
 
         // set usable (default to true)

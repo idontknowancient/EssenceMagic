@@ -3,7 +3,7 @@ package com.idk.essence.commands.essence_sub.item_sub;
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.items.ItemFactory;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.items.wands.WandHandler;
@@ -59,7 +59,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
-        List<Component> info = ConfigFile.ConfigName.MESSAGES.outStringList("item-info", itemInMainHand);
+        List<Component> info = ConfigManager.ConfigDefaultFile.MESSAGES.outStringList("item-info", itemInMainHand);
         info.forEach(p::sendMessage);
     }
 }

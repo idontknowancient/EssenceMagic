@@ -1,6 +1,6 @@
 package com.idk.essence.mobs;
 
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.Location;
 
 import java.util.Collection;
@@ -12,13 +12,13 @@ public class MobFactory {
 
     private static final Map<String, MobTemplate> mobs = new HashMap<>();
 
-    private static ConfigFile.ConfigName cm;
+    private static ConfigManager.ConfigDefaultFile cm;
 
     private MobFactory() {}
 
     public static void initialize() {
         mobs.clear();
-        cm = ConfigFile.ConfigName.MOBS;
+        cm = ConfigManager.ConfigDefaultFile.MOBS;
         for(String name : cm.getConfig().getKeys(false)) {
             register(name);
         }

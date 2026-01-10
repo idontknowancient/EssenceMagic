@@ -2,7 +2,7 @@ package com.idk.essence.skills.singleSkills;
 
 import com.idk.essence.skills.SingleSkill;
 import com.idk.essence.skills.SkillType;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -51,7 +51,7 @@ public class Shoot extends SingleSkill {
 
     @Override
     protected void skillDetailsSetting(String path) {
-        ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS;
+        ConfigManager.ConfigDefaultFile cs = ConfigManager.ConfigDefaultFile.SKILLS;
 
         // universal
         // set projectile (default to snowball)

@@ -1,12 +1,10 @@
 package com.idk.essence.mobs;
 
 import com.idk.essence.utils.CustomKey;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Set;
 
@@ -18,7 +16,7 @@ public class MobHandler {
     }
 
     private static void setMobs() {
-        Set<String> mobSet = ConfigFile.ConfigName.MOBS.getConfig().getKeys(false);
+        Set<String> mobSet = ConfigManager.ConfigDefaultFile.MOBS.getConfig().getKeys(false);
         for(String s : mobSet) {
 //            Mob.mobs.put(s, new Mob(s));
         }

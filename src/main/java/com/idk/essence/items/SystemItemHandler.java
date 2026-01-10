@@ -4,7 +4,7 @@ import com.idk.essence.Essence;
 import com.idk.essence.items.systemItems.features.Placeable;
 import com.idk.essence.utils.ClickHandler;
 import com.idk.essence.utils.Registry;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -28,7 +28,7 @@ public class SystemItemHandler implements Listener {
     }
 
     private static void setSystemItems() {
-        Set<String> systemItemSet = ConfigFile.ConfigName.SYSTEM_ITEMS.getConfig().getKeys(false);
+        Set<String> systemItemSet = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getConfig().getKeys(false);
         for(Registry.SystemItem registry : Registry.SystemItem.values()) {
             String name = registry.name().toLowerCase();
             if(systemItemSet.contains(name)) {

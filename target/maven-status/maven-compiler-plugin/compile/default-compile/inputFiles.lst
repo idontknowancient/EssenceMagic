@@ -80,7 +80,7 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\skills\Sk
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\skills\SkillType.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\skills\Trigger.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\ClickHandler.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\ConfigFile.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\ConfigManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\EssenceConfig.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\CustomKey.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\damage\DamageManager.java

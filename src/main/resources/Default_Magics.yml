@@ -1,0 +1,41 @@
+# magic child type
+fire_beam:
+  name: "&c火焰光束"
+  # convey "thoughts"
+  expression: none
+  # convey "wishes"
+  chant: none
+  # magic type (should learn all listed types to generate a child type)
+  type:
+    # attack/defense/support/control/feature
+    feature: attack
+    # element/reconcile/creation
+    attribute: element;flame
+  available-range:
+    # corresponding Roalkom's index of E0 : 1.0 ≤ R < 1.1
+    lower-limit: E;0
+    # corresponding Roalkom's index of S9 : 6.9 ≤ R < 7.0
+    upper-limit: S;9
+  # support multiple elements
+  applying-elements: flame
+  # custom particle type
+  particles: spiral
+  modifiers:
+    damage:
+      base: 3
+      # linear or exponential
+      type: linear
+      # by tier or level
+      add: tier
+      amount: 4
+
+sakura_maite:
+  name: "#F4CFE0櫻瓣紛飛"
+  expression: none
+  chant: none
+  type:
+    feature: attack
+    attribute: element;flame
+  available-range:
+    lower-limit: E,0
+    upper-limit: S,9

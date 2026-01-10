@@ -47,7 +47,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
             SystemMessage.TOO_LITTLE_ARGUMENT.send(sender, getSyntax(sender));
             return true;
         }
-        Optional.ofNullable(subCommands.get(args[0])).ifPresentOrElse(
+        Optional.ofNullable(subCommands.get(args[0].toLowerCase())).ifPresentOrElse(
                 subCommand -> subCommand.perform(sender, args),
                 () -> SystemMessage.UNKNOWN_COMMAND.send(sender));
         return true;

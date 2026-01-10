@@ -1,6 +1,6 @@
 package com.idk.essence.players;
 
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -24,7 +24,7 @@ public class PlayerData implements ManaHandler {
     @Setter private double manaRecoverySpeed;
 
     public PlayerData(Player player) {
-        ConfigFile.ConfigName cp = ConfigFile.ConfigName.PLAYER_DATA;
+        ConfigManager.ConfigDefaultFile cp = ConfigManager.ConfigDefaultFile.PLAYER_DATA;
         playerName = player.getName();
         playerUUID = player.getUniqueId().toString();
         manaLevel = cp.getInteger(playerName + "." + dataName[0]);

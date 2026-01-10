@@ -3,9 +3,8 @@ package com.idk.essence.magics;
 import com.idk.essence.Essence;
 import com.idk.essence.elements.Element;
 import com.idk.essence.magics.modifiers.Damage;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.particles.Spiral;
-import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 
@@ -41,7 +40,7 @@ public abstract class Magic {
     private final List<String> info = new ArrayList<>();
 
     public Magic(String magicName) {
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MAGICS;
+        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MAGICS;
         name = magicName;
 
         // set magic name (default to "")

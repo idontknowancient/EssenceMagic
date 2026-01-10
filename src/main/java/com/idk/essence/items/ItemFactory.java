@@ -2,7 +2,8 @@ package com.idk.essence.items;
 
 import com.idk.essence.elements.Element;
 import com.idk.essence.utils.CustomKey;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
+import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
@@ -20,16 +21,13 @@ public class ItemFactory {
 
     private static final Map<String, ItemBuilder> items = new HashMap<>();
 
-    private static ConfigFile.ConfigName ci;
+    private static ConfigManager.ConfigDefaultFile config;
 
     private ItemFactory() {}
 
     public static void initialize() {
         items.clear();
-        ci = ConfigFile.ConfigName.ITEMS;
-        for(String name : ci.getConfig().getKeys(false)) {
-            register(name);
-        }
+        ConfigManager.ConfigFolder.ITEMS.load(ItemFactory::register);
     }
 
     /**
@@ -92,15 +90,15 @@ public class ItemFactory {
      * Register a custom item.
      * @param internalName the internal name of the item
      */
-    private static void register(String internalName) {
-        if(!ci.has(internalName) || items.containsKey(internalName)) return;
+    private static void register(String internalName, EssenceConfig config) {
+        if(!config.has(internalName) || items.containsKey(internalName)) return;
 
-        ItemBuilder builder = new ItemBuilder(ci.getString(internalName + ".type", "stone"))
-                .displayName(ci.outString(internalName + ".display-name", ""))
-                .lore(ci.getStringList(internalName + ".lore"))
-                .enchant(ci.getConfigurationSection(internalName + ".enchantments"))
-                .flag(ci.getConfigurationSection(internalName + ".options"))
-                .element(ci.getString(internalName + ".element", Element.defaultInternalName))
+        ItemBuilder builder = new ItemBuilder(config.getString(internalName + ".type", "stone"))
+                .displayName(config.outString(internalName + ".display-name", ""))
+                .lore(config.getStringList(internalName + ".lore"))
+                .enchant(config.getConfigurationSection(internalName + ".enchantments"))
+                .flag(config.getConfigurationSection(internalName + ".options"))
+                .element(config.getString(internalName + ".element", Element.defaultInternalName))
                 .container(internalName);
         items.put(internalName, builder);
     }

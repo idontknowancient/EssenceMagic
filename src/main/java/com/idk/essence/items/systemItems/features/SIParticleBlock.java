@@ -4,7 +4,7 @@ import com.idk.essence.Essence;
 import com.idk.essence.items.SystemItem;
 import com.idk.essence.utils.DisplayHandler;
 import com.idk.essence.utils.Registry;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.particles.CustomParticle;
 import com.idk.essence.utils.particles.ParticleHandler;
 import com.jeff_media.customblockdata.CustomBlockData;
@@ -24,7 +24,7 @@ public abstract class SIParticleBlock extends SystemItem implements Placeable, W
 
     @Getter private static final Essence plugin = Essence.getPlugin();
 
-    boolean displayParticle = ConfigFile.ConfigName.SYSTEM_ITEMS.getBoolean(getName() + ".particle.display");
+    boolean displayParticle = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getBoolean(getName() + ".particle.display");
 
     protected SIParticleBlock(String itemName) {
         super(itemName);
@@ -78,7 +78,7 @@ public abstract class SIParticleBlock extends SystemItem implements Placeable, W
 
     @Override
     public void generateParticle(Location location) {
-        ConfigurationSection section = ConfigFile.ConfigName.SYSTEM_ITEMS.getConfigurationSection(getName() + ".particle");
+        ConfigurationSection section = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getConfigurationSection(getName() + ".particle");
         Registry.CustomParticle particle;
         try {
             particle = Registry.CustomParticle.valueOf(section.getString("shape", "circle").toUpperCase());

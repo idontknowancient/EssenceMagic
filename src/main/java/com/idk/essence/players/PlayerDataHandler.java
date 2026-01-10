@@ -1,6 +1,6 @@
 package com.idk.essence.players;
 
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,12 +9,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerDataHandler implements Listener {
 
-    private static ConfigFile.ConfigName cp;
-    private static ConfigFile.ConfigName cm;
+    private static ConfigManager.ConfigDefaultFile cp;
+    private static ConfigManager.ConfigDefaultFile cm;
 
     public static void initialize() {
-        cp = ConfigFile.ConfigName.PLAYER_DATA;
-        cm = ConfigFile.ConfigName.MANA;
+        cp = ConfigManager.ConfigDefaultFile.PLAYER_DATA;
+        cm = ConfigManager.ConfigDefaultFile.MANA;
         PlayerData.dataMap.clear();
         ManaHandler.initialize();
         setPlayerData();

@@ -1,10 +1,8 @@
 package com.idk.essence.elements;
 
-import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.List;
 import java.util.Set;
 
 public class ElementHandler {
@@ -16,8 +14,8 @@ public class ElementHandler {
 
     private static void setElements() {
         //config instance
-        ConfigFile.ConfigName ce = ConfigFile.ConfigName.ELEMENTS; //config elements
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS; //config menus
+        ConfigManager.ConfigDefaultFile ce = ConfigManager.ConfigDefaultFile.ELEMENTS; //config elements
+        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS; //config menus
 
         //directly use getKeys, not getDefaultSection
         Set<String> elementSet = ce.getConfig().getKeys(false);

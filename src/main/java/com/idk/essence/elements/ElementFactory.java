@@ -1,8 +1,7 @@
 package com.idk.essence.elements;
 
 import com.idk.essence.utils.CustomKey;
-import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -16,15 +15,15 @@ public class ElementFactory {
 
     private static final Map<String, ElementBuilder> elements = new HashMap<>();
 
-    private static ConfigFile.ConfigName ce;
+    private static ConfigManager.ConfigDefaultFile ce;
 
     private ElementFactory() {}
 
     public static void initialize() {
         elements.clear();
-        ce = ConfigFile.ConfigName.ELEMENTS;
-        ConfigFile.ConfigName cc = ConfigFile.ConfigName.CONFIG;
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
+        ce = ConfigManager.ConfigDefaultFile.ELEMENTS;
+        ConfigManager.ConfigDefaultFile cc = ConfigManager.ConfigDefaultFile.CONFIG;
+        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS;
         Element.setCounterEffect(cc.getBoolean("element-counter-effect", true));
         Element.setShowDamageMultiplier(cm.getBoolean("element.show-damage-multiplier", true));
         for(String name : ce.getConfig().getKeys(false)) {

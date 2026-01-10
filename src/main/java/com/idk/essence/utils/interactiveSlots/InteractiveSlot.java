@@ -2,7 +2,7 @@ package com.idk.essence.utils.interactiveSlots;
 
 import com.idk.essence.Essence;
 import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableArrayDataType;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,7 +55,7 @@ public class InteractiveSlot implements ConfigurationSerializable {
         if(location.getWorld() == null) return;
 
         Particle.DustOptions options = new Particle.DustOptions(color, 1);
-        ConfigFile.ConfigName EssenceMagic;
+        ConfigManager.ConfigDefaultFile EssenceMagic;
         if(displayParticle)
             task = new BukkitRunnable() {
                 @Override

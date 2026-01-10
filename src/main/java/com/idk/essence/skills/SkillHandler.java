@@ -3,7 +3,7 @@ package com.idk.essence.skills;
 import com.idk.essence.Essence;
 import com.idk.essence.items.ItemFactory;
 import com.idk.essence.players.PlayerData;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -32,7 +32,7 @@ public class SkillHandler implements Listener {
     }
 
     private static void setSkills() {
-        Set<String> skillSet = ConfigFile.ConfigName.SKILLS.getConfig().getKeys(false);
+        Set<String> skillSet = ConfigManager.ConfigDefaultFile.SKILLS.getConfig().getKeys(false);
         for(String skillName : skillSet) {
             Skill.skills.put(skillName, new Skill(skillName));
         }
@@ -300,7 +300,7 @@ public class SkillHandler implements Listener {
             double amount = Double.parseDouble(cost.substring(cost.indexOf(":") + 1).trim());
             if(item.equalsIgnoreCase("mana"))
                 // consume mana depending on the setting
-                if(success || ConfigFile.ConfigName.MANA.getBoolean("consume-while-skill-fail"))
+                if(success || ConfigManager.ConfigDefaultFile.MANA.getBoolean("consume-while-skill-fail"))
                     PlayerData.dataMap.get(player.getName()).setMana(
                             PlayerData.dataMap.get(player.getName()).getMana() - amount);
         }

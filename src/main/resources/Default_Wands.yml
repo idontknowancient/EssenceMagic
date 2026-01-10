@@ -1,0 +1,24 @@
+basic:
+  material: stick
+  name: "&b初級魔杖"
+  lore:
+    - "&7新手魔法師的魔杖"
+    - "&7承受不了太大的魔力"
+    - "&7儲存的魔力: &b%wand_mana%"
+    - ""
+    - "&7目前使用: &a%wand_magic_using%"
+    - "&7==============="
+    - "&f%wand_magic%"
+    - "&7==============="
+  available-range:
+    lower-limit: F;0
+    upper-limit: C;9
+  default-mana: 0
+  # can add multiple default magic to a wand
+  default-magic: fire_beam
+  # injection amount per right click
+  mana-injection: 2
+  # available amount of magic
+  magic-slot: 2
+  glowing: true
+  custom-model-data: 1001

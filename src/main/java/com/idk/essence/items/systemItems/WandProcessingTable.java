@@ -2,7 +2,7 @@ package com.idk.essence.items.systemItems;
 
 import com.idk.essence.items.systemItems.features.SIParticleBlock;
 import com.idk.essence.utils.DisplayHandler;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlot;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essence.items.wands.Wand;
@@ -51,7 +51,7 @@ public class WandProcessingTable extends SIParticleBlock {
 
             InteractiveSlot[] slots = InteractiveSlotHandler.setSlotsAround(
                     block.getLocation(), player.getLocation().getYaw(), WandHandler.getSlot(item),
-                    ConfigFile.ConfigName.SYSTEM_ITEMS.getConfigurationSection(getName() + ".slot"));
+                    ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getConfigurationSection(getName() + ".slot"));
             InteractiveSlotHandler.setContainer(container, slots);
         } else if(container.has(wandProcessingTableKey) && item == null) {
             // remove and remove container

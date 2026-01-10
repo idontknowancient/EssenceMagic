@@ -49,7 +49,7 @@ public abstract class SubCommand {
     @Nullable
     public List<String> getTabCompletion(Player p, String[] args) {
         if(args.length > getLeastArgs()) {
-            String sub = args[getLeastArgs() - 1];
+            String sub = args[getLeastArgs() - 1].toLowerCase();
             return Optional.ofNullable(subCommands.get(sub))
                     .filter(subCommand -> SystemPermission.checkPerm(p, subCommand.getPermission()))
                     .map(subCommand -> subCommand.getTabCompletion(p, args))

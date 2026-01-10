@@ -2,7 +2,7 @@ package com.idk.essence.skills.singleSkills;
 
 import com.idk.essence.skills.SingleSkill;
 import com.idk.essence.skills.SkillType;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
@@ -38,7 +38,7 @@ public class Potion extends SingleSkill {
 
     @Override
     protected void skillDetailsSetting(String path) {
-        ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS;
+        ConfigManager.ConfigDefaultFile cs = ConfigManager.ConfigDefaultFile.SKILLS;
 
         // set potion effect
         if(cs.isString(path + ".effect"))

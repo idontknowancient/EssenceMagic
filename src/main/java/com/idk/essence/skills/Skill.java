@@ -4,8 +4,7 @@ import com.idk.essence.Essence;
 import com.idk.essence.skills.singleSkills.Potion;
 import com.idk.essence.skills.singleSkills.Shoot;
 import com.idk.essence.skills.singleSkills.Wait;
-import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 
@@ -32,8 +31,8 @@ public class Skill {
 
     public Skill(String skillName) {
         // config skills
-        ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS;
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
+        ConfigManager.ConfigDefaultFile cs = ConfigManager.ConfigDefaultFile.SKILLS;
+        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS;
         String singleSkillType;
 
         name = skillName;

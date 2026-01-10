@@ -1,6 +1,6 @@
 package com.idk.essence.skills;
 
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public abstract class SingleSkill {
     }
 
     private void skillSetting(String skillName, String singleSkillName) {
-        ConfigFile.ConfigName cs = ConfigFile.ConfigName.SKILLS;
+        ConfigManager.ConfigDefaultFile cs = ConfigManager.ConfigDefaultFile.SKILLS;
         String path;
         if(singleSkillName.isEmpty())
             path = skillName;

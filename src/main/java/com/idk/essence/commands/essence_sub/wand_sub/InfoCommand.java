@@ -2,7 +2,7 @@ package com.idk.essence.commands.essence_sub.wand_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.items.wands.WandHandler;
@@ -58,7 +58,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_WAND.send(p);
             return;
         }
-        List<Component> info = ConfigFile.ConfigName.MESSAGES.outStringList("wand-info", itemInMainHand);
+        List<Component> info = ConfigManager.ConfigDefaultFile.MESSAGES.outStringList("wand-info", itemInMainHand);
         for(Component component : info) {
             p.sendMessage(component);
         }

@@ -7,7 +7,7 @@ import com.idk.essence.items.ItemFactory;
 import com.idk.essence.items.SystemItemHandler;
 import com.idk.essence.magics.MagicHandler;
 import com.idk.essence.mobs.MobFactory;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.damage.DamageManager;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlot;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlotHandler;
@@ -46,7 +46,7 @@ public class Register {
 
     public static void initialize() {
         PlaceholderManager.initialize();
-        ConfigFile.initialize();
+        ConfigManager.initialize();
         ElementFactory.initialize();
         SkillHandler.initialize();
         MagicHandler.initialize();

@@ -1,7 +1,7 @@
 package com.idk.essence.utils.messages;
 
 import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 
@@ -16,15 +16,15 @@ public interface Message {
     }
 
     static String get(String path) {
-        return ConfigFile.ConfigName.MESSAGES.getString(path);
+        return ConfigManager.ConfigDefaultFile.MESSAGES.getString(path);
     }
 
     static Component out(String path) {
-        return ConfigFile.ConfigName.MESSAGES.outString(path);
+        return ConfigManager.ConfigDefaultFile.MESSAGES.outString(path);
     }
 
     static Component out(String path, Object info) {
-        return ConfigFile.ConfigName.MESSAGES.outString(path, info);
+        return ConfigManager.ConfigDefaultFile.MESSAGES.outString(path, info);
     }
 
     static String getPrefix() {

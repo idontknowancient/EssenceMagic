@@ -33,7 +33,6 @@ com\idk\essence\utils\DisplayHandler.class
 com\idk\essence\items\systemItems\features\SIParticleBlock.class
 com\idk\essence\menus\Menu.class
 com\idk\essence\commands\essence_sub\wand_sub\MenuCommand.class
-com\idk\essence\utils\configs\ConfigFile$ConfigName.class
 com\idk\essence\skills\SkillHandler.class
 com\idk\essence\items\systemItems\features\WithInteractiveSlot.class
 com\idk\essence\magics\MagicType.class
@@ -41,12 +40,13 @@ com\idk\essence\commands\essence_sub\WandCommand.class
 com\idk\essence\items\systemItems\features\SISlotBlock.class
 com\idk\essence\magics\MagicType$Feature.class
 com\idk\essence\skills\Trigger.class
-com\idk\essence\utils\configs\ConfigFile.class
 com\idk\essence\commands\essence_sub\item_sub\GetCommand.class
 com\idk\essence\magics\MagicType$Attribute.class
 com\idk\essence\utils\particles\ParticleHandler.class
 com\idk\essence\utils\placeholders\PlaceholderManager.class
 com\idk\essence\magics\ChildType.class
+com\idk\essence\utils\configs\ConfigManager$ConfigFolderFile.class
+com\idk\essence\utils\configs\ConfigManager$ConfigDefaultFile.class
 com\idk\essence\commands\essence_sub\ElementCommand.class
 com\idk\essence\utils\interactiveSlots\InteractiveSlot.class
 com\idk\essence\commands\essence_sub\mob_sub\SpawnCommand.class
@@ -78,6 +78,7 @@ com\idk\essence\utils\particles\Spiral.class
 com\idk\essence\commands\essence_sub\mana_sub\SetCommand.class
 com\idk\essence\utils\listeners\MenuListener.class
 com\idk\essence\skills\singleSkills\Wait.class
+com\idk\essence\utils\configs\ConfigManager$ConfigFolder.class
 com\idk\essence\utils\listeners\PlayerJoinQuitListener.class
 com\idk\essence\menus\holders\CancelHolder.class
 com\idk\essence\elements\Element.class
@@ -91,6 +92,7 @@ com\idk\essence\skills\singleSkills\Shoot.class
 com\idk\essence\commands\essence_sub\wand_sub\InfoCommand.class
 com\idk\essence\utils\placeholders\EssencePlaceholder.class
 com\idk\essence\commands\essence_sub\wand_sub\ManaCommand.class
+com\idk\essence\utils\configs\ConfigManager.class
 com\idk\essence\players\ManaHandler$2.class
 com\idk\essence\utils\permissions\SystemPermission.class
 com\idk\essence\utils\Registry$CustomParticle.class

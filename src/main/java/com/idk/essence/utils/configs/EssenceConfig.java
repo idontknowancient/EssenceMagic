@@ -21,36 +21,9 @@ import java.util.logging.Level;
 public interface EssenceConfig {
 
     Essence getPlugin();
-    String getConfigName();
+    String getFileName();
     File getFile();
     YamlConfiguration getConfig();
-
-    default void copyConfigFromResources() {
-        if(!getPlugin().getDataFolder().exists())
-            if(!getPlugin().getDataFolder().mkdirs()) {
-                Essence.getPlugin().getComponentLogger().error("Cannot create data folder!");
-                return;
-            }
-
-        File file = getFile();
-        YamlConfiguration config = getConfig();
-        if(!file.exists()) {
-            try(InputStream is = getPlugin().getClass().getResourceAsStream("/" + getConfigName())) {
-                if(is != null) {
-                    Files.copy(is, Paths.get(file.toURI()));
-                    config.load(file);
-                }
-            } catch (IOException | InvalidConfigurationException e) {
-                getPlugin().getLogger().log(Level.SEVERE, "", e);
-            }
-        } else {
-            try {
-                config.load(file);
-            } catch (IOException | InvalidConfigurationException e) {
-                getPlugin().getLogger().log(Level.SEVERE, "", e);
-            }
-        }
-    }
 
     default boolean has(String path) {
         return getConfig().contains(path);

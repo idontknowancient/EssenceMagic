@@ -1,9 +1,7 @@
 package com.idk.essence.players;
 
 import com.idk.essence.Essence;
-import com.idk.essence.utils.configs.ConfigFile;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -14,7 +12,7 @@ import java.util.List;
 public interface ManaHandler {
 
     Essence plugin = Essence.getPlugin();
-    ConfigFile.ConfigName cm = ConfigFile.ConfigName.MANA;
+    ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MANA;
     List<Integer> taskIds = new ArrayList<>();
     int interval = cm.getInteger("update-interval");
 

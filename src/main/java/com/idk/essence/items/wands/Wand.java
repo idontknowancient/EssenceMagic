@@ -4,7 +4,7 @@ import com.idk.essence.Essence;
 import com.idk.essence.magics.Magic;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -73,7 +73,7 @@ public class Wand {
     @Getter private static final NamespacedKey wandMagicKey = new NamespacedKey(plugin, "wand-magic-key");
 
     public Wand(String wandName) {
-        ConfigFile.ConfigName cw = ConfigFile.ConfigName.WANDS;
+        ConfigManager.ConfigDefaultFile cw = ConfigManager.ConfigDefaultFile.WANDS;
         name = wandName;
 
         // set wand material (default to stick)
@@ -123,7 +123,7 @@ public class Wand {
             slot = 1;
 
         // set empty string (default to "&7[empty]")
-        ConfigFile.ConfigName cm = ConfigFile.ConfigName.MESSAGES;
+        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MESSAGES;
         if(cm.isString("wand-magic-empty"))
             emptyString = cm.outString("wand-magic-empty");
 

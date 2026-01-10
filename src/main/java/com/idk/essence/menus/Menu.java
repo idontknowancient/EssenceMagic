@@ -9,10 +9,8 @@ import com.idk.essence.menus.holders.CancelHolder;
 import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
 import com.idk.essence.menus.holders.ShiftSpawnHolder;
-import com.idk.essence.mobs.Mob;
 import com.idk.essence.skills.Skill;
-import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.items.wands.Wand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -21,12 +19,9 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Menu {
 
-    private static final ConfigFile.ConfigName cm = ConfigFile.ConfigName.MENUS;
+    private static final ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS;
 
     public static Inventory getElementMenu() {
         Inventory elementMenu = createInventory(new CancelHolder(), "element");

@@ -2,14 +2,13 @@ package com.idk.essence.elements;
 
 import com.idk.essence.items.ItemBuilder;
 import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -81,7 +80,7 @@ public class Element {
                         e -> this.addDamageMultiplier(e, multiplier))
         );
         if(showDamageMultiplier) {
-            builder.addLore("", ConfigFile.ConfigName.MENUS.getString(
+            builder.addLore("", ConfigManager.ConfigDefaultFile.MENUS.getString(
                     "element.damage-multiplier-text", "&bDamage Multiplier:"));
             // Entry<Element, Double> -> Stream<String>
             builder.addLore(damageMultiplier.entrySet().stream().map(

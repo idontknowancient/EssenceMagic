@@ -1,6 +1,6 @@
 package com.idk.essence.utils.listeners;
 
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.EventHandler;
@@ -12,9 +12,9 @@ public class PlayerJoinQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        if(!ConfigFile.ConfigName.CONFIG.getBoolean("send-message-when-join")) {
+        if(!ConfigManager.ConfigDefaultFile.CONFIG.getBoolean("send-message-when-join")) {
             e.joinMessage(Component.text(""));
-        } else if(ConfigFile.ConfigName.CONFIG.getBoolean("send-custom-message-when-join")) {
+        } else if(ConfigManager.ConfigDefaultFile.CONFIG.getBoolean("send-custom-message-when-join")) {
             //with placeholders
             e.joinMessage(SystemMessage.PLAYER_JOIN_MESSAGE.out(e.getPlayer()));
         }
@@ -22,9 +22,9 @@ public class PlayerJoinQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        if(!ConfigFile.ConfigName.CONFIG.getBoolean("send-message-when-quit")) {
+        if(!ConfigManager.ConfigDefaultFile.CONFIG.getBoolean("send-message-when-quit")) {
             e.quitMessage(Component.text(""));
-        } else if(ConfigFile.ConfigName.CONFIG.getBoolean("send-custom-message-when-quit")) {
+        } else if(ConfigManager.ConfigDefaultFile.CONFIG.getBoolean("send-custom-message-when-quit")) {
             //with placeholders
             e.quitMessage(SystemMessage.PLAYER_QUIT_MESSAGE.out(e.getPlayer()));
         }

@@ -2,8 +2,7 @@ package com.idk.essence.items.wands;
 
 import com.idk.essence.players.PlayerData;
 import com.idk.essence.utils.ClickHandler;
-import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigFile;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,7 +17,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Set;
 
 public class WandHandler implements Listener {
@@ -30,7 +28,7 @@ public class WandHandler implements Listener {
     }
 
     private static void setWands() {
-        Set<String> wandSet = ConfigFile.ConfigName.WANDS.getConfig().getKeys(false);
+        Set<String> wandSet = ConfigManager.ConfigDefaultFile.WANDS.getConfig().getKeys(false);
         for(String wand : wandSet) {
             Wand.wands.put(wand, new Wand(wand));
         }
@@ -172,7 +170,7 @@ public class WandHandler implements Listener {
         setWandMagic(newWand, newMagic.toString());
 
         // update lore (based on old mana)
-//        List<String> lore = ConfigFile.ConfigName.WANDS.outStringList(name + ".lore", newWand);
+//        List<String> lore = ConfigManager.ConfigDefaultFile.WANDS.outStringList(name + ".lore", newWand);
 //        // handle "\n" in lore
 //        Util.setLore(newWand, Util.splitLore(lore));
 
