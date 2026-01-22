@@ -1,16 +1,21 @@
 package com.idk.essence.skills;
 
-public enum SkillType {
+import com.idk.essence.skills.types.ComboType;
+import com.idk.essence.skills.types.PotionType;
+import com.idk.essence.skills.types.ProjectileType;
+import org.bukkit.entity.LivingEntity;
 
-    CUSTOM("custom"),
-    POTION("potion"),
-    SHOOT("shoot"),
-    WAIT("wait"),
-    ;
+import java.util.Map;
 
-    public final String name;
+public interface SkillType {
 
-    SkillType(String name) {
-        this.name = name;
+    static void registerAll(Map<String, SkillType> skillTypes) {
+        skillTypes.put("combo", new ComboType());
+        skillTypes.put("potion", new PotionType());
+        skillTypes.put("projectile", new ProjectileType());
     }
+
+    String name();
+
+    void execute(LivingEntity target, SkillTemplate template);
 }

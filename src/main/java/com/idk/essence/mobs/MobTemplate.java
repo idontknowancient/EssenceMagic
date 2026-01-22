@@ -5,6 +5,7 @@ import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.ItemFactory;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.Util;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,7 +25,7 @@ import java.util.Optional;
 
 public class MobTemplate {
 
-    private final Mob mob;
+    @Getter private final Mob mob;
 
     public MobTemplate(String internalName) {
         mob = new Mob(internalName);
@@ -32,28 +33,31 @@ public class MobTemplate {
 
     public MobTemplate displayName(String displayName) {
         mob.setDisplayName(Util.parseMessage(displayName));
+        mob.getItemBuilder().displayName(displayName);
         return this;
     }
 
     public MobTemplate displayName(Component displayName) {
         mob.setDisplayName(displayName);
+        mob.getItemBuilder().displayName(displayName);
         return this;
     }
 
     public MobTemplate type(String typeString) {
         mob.setType(getEntityType(typeString));
-        mob.getBuilder().material(getSpawnEgg(mob.getType()));
+        mob.getItemBuilder().material(getSpawnEgg(mob.getType()));
         return this;
     }
 
     public MobTemplate type(EntityType type) {
         mob.setType(type);
-        mob.getBuilder().material(getSpawnEgg(type));
+        mob.getItemBuilder().material(getSpawnEgg(type));
         return this;
     }
 
     public MobTemplate health(double health) {
-        mob.setHealth(health);
+        if(health > 0)
+            mob.setHealth(health);
         return this;
     }
 
@@ -68,7 +72,7 @@ public class MobTemplate {
     }
 
     public MobTemplate description(List<String> description) {
-        mob.getBuilder().lore(description);
+        mob.getItemBuilder().lore(description);
         return this;
     }
 

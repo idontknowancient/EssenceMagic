@@ -14,4 +14,6 @@ public class CustomKey {
 
     @Getter private static final NamespacedKey mobKey = new NamespacedKey(plugin, "mob-key");
 
+    @Getter private static final NamespacedKey skillKey = new NamespacedKey(plugin, "skill-key");
+
 }

@@ -40,7 +40,7 @@ public class MenuCommand extends SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if(preCheck(sender, args)) return;
+        if(!preCheck(sender, args)) return;
         Player p = (Player) sender;
         p.openInventory(Menu.getSkillMenu());
     }

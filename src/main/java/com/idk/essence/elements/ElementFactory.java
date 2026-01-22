@@ -2,6 +2,7 @@ package com.idk.essence.elements;
 
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.configs.ConfigManager;
+import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -15,20 +16,15 @@ public class ElementFactory {
 
     private static final Map<String, ElementBuilder> elements = new HashMap<>();
 
-    private static ConfigManager.ConfigDefaultFile ce;
-
     private ElementFactory() {}
 
     public static void initialize() {
         elements.clear();
-        ce = ConfigManager.ConfigDefaultFile.ELEMENTS;
         ConfigManager.ConfigDefaultFile cc = ConfigManager.ConfigDefaultFile.CONFIG;
         ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS;
         Element.setCounterEffect(cc.getBoolean("element-counter-effect", true));
         Element.setShowDamageMultiplier(cm.getBoolean("element.show-damage-multiplier", true));
-        for(String name : ce.getConfig().getKeys(false)) {
-            register(name);
-        }
+        ConfigManager.ConfigFolder.ELEMENTS.load(ElementFactory::register);
         registerDefault();
         for(ElementBuilder builder : elements.values())
             builder.setCounter();
@@ -58,8 +54,7 @@ public class ElementFactory {
         ItemMeta meta = item.getItemMeta();
         if(meta == null || !meta.getPersistentDataContainer().has(CustomKey.getElementKey())) return null;
         String internalName = meta.getPersistentDataContainer().get(CustomKey.getElementKey(), PersistentDataType.STRING);
-        ElementBuilder builder = elements.get(internalName);
-        return builder != null ? builder.build() : null;
+        return get(internalName);
     }
 
     /**
@@ -98,13 +93,13 @@ public class ElementFactory {
         return elements.containsKey(internalName);
     }
 
-    private static void register(String internalName) {
-        if(!ce.has(internalName) || elements.containsKey(internalName)) return;
+    private static void register(String internalName, EssenceConfig config) {
+        if(!config.has(internalName) || elements.containsKey(internalName)) return;
         ElementBuilder builder = new ElementBuilder(internalName)
-                .displayName(ce.outString(internalName + ".display-name", ""))
-                .symbolItem(ce.getConfigurationSection(internalName + ".symbol-item"))
-                .slot(ce.getInteger(internalName + ".slot", -1))
-                .multiplier(ce.getConfigurationSection(internalName + ".damage-multiplier"));
+                .displayName(config.outString(internalName + ".display-name", ""))
+                .symbolItem(config.getConfigurationSection(internalName + ".symbol-item"))
+                .slot(config.getInteger(internalName + ".slot", -1))
+                .multiplier(config.getConfigurationSection(internalName + ".damage-multiplier"));
         elements.put(internalName, builder);
     }
 

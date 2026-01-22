@@ -6,6 +6,7 @@ import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,7 +32,7 @@ public class Element {
 
     @Getter @Setter private Component displayName;
 
-    @Getter private final ItemBuilder builder;
+    @Getter private final ItemBuilder itemBuilder;
 
     @Getter @Setter private int slot;
 
@@ -40,12 +41,12 @@ public class Element {
     private final Map<Element, Double> damageMultiplier = new HashMap<>();
 
     public Element(String internalName) {
-        builder = new ItemBuilder(Material.STONE);
+        itemBuilder = new ItemBuilder(Material.STONE);
         this.internalName = internalName;
     }
 
     public ItemStack getSymbolItem() {
-        return builder.build();
+        return itemBuilder.build();
     }
 
     public void addDamageMultiplier(String elementString, double damageMultiplier) {
@@ -80,11 +81,11 @@ public class Element {
                         e -> this.addDamageMultiplier(e, multiplier))
         );
         if(showDamageMultiplier) {
-            builder.addLore("", ConfigManager.ConfigDefaultFile.MENUS.getString(
+            itemBuilder.addLore("", ConfigManager.ConfigDefaultFile.MENUS.getString(
                     "element.damage-multiplier-text", "&bDamage Multiplier:"));
             // Entry<Element, Double> -> Stream<String>
-            builder.addLore(damageMultiplier.entrySet().stream().map(
-                    entry -> entry.getKey().getDisplayName() + " &7x" +
+            itemBuilder.addLore(damageMultiplier.entrySet().stream().map(
+                    entry -> MiniMessage.miniMessage().serialize(entry.getKey().getDisplayName()) + " &7x" +
                             entry.getValue()).toList());
         }
         primitiveDamageMultiplier.clear();

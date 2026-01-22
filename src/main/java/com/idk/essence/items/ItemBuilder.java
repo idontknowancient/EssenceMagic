@@ -2,6 +2,7 @@ package com.idk.essence.items;
 
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
+import com.idk.essence.skills.SkillManager;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.Util;
 import io.papermc.paper.registry.RegistryAccess;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Guide to adding a field:
@@ -47,6 +49,8 @@ public class ItemBuilder {
     private boolean forceGlow = false;
 
     private boolean glow;
+
+    private final List<String> skills = new ArrayList<>();
 
     private final Map<NamespacedKey, Object> persistentData = new HashMap<>();
 
@@ -150,7 +154,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder enchant(Enchantment enchantment, int level) {
-        enchantments.put(enchantment, level);
+        enchantments.put(enchantment, Math.max(level, 1));
         return this;
     }
 
@@ -223,6 +227,17 @@ public class ItemBuilder {
             meta.setEnchantmentGlintOverride(glow);
     }
 
+    public ItemBuilder skill(List<String> skillStrings) {
+        skills.addAll(skillStrings.stream().filter(SkillManager::has).toList());
+        return this;
+    }
+
+    private void applySkill(PersistentDataContainer container) {
+        // e.g. [a, b, c] -> a;b;c;
+        container.set(CustomKey.getSkillKey(), PersistentDataType.STRING,
+                skills.stream().collect(Collectors.joining(";", "", ";")));
+    }
+
     public ItemBuilder container(NamespacedKey key, Object value) {
         persistentData.put(key, value);
         return this;
@@ -256,6 +271,7 @@ public class ItemBuilder {
         applyEnchantments(meta);
         applyFlags(meta);
         applyGlow(meta);
+        applySkill(container);
         applyContainer(container);
 
         item.setItemMeta(meta);
@@ -277,6 +293,7 @@ public class ItemBuilder {
      * @param materialString the string to convert
      */
     public static Material getMaterial(String materialString) {
+        if(materialString == null) return Material.STONE;
         return Optional.ofNullable(Material.matchMaterial(materialString)).orElse(Material.STONE);
     }
 }

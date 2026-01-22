@@ -2,8 +2,8 @@ package com.idk.essence.commands.essence_sub.skill_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.skills.Skill;
-import com.idk.essence.skills.SkillHandler;
+import com.idk.essence.skills.SkillManager;
+import com.idk.essence.skills.SkillTemplate;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import org.bukkit.command.CommandSender;
@@ -45,7 +45,7 @@ public class ForceCommand extends SubCommand {
 
     @Override
     public @Nullable List<String> getTabCompletion(Player p, String[] args) {
-        return Skill.skills.keySet().stream().toList();
+        return SkillManager.getAllKeys().stream().toList();
     }
 
     @Override
@@ -53,12 +53,12 @@ public class ForceCommand extends SubCommand {
         if(!preCheck(sender, args)) return;
         Player p = (Player) sender;
         String internalName = args[2];
-        Skill skill = Skill.skills.get(internalName);
-        if(skill == null) {
+        SkillTemplate template = SkillManager.get(internalName);
+        if(template == null) {
             SystemMessage.SKILL_NOT_FOUND.send(p);
             return;
         }
-        SkillHandler.handleSkill(p, skill, new int[]{0}, true);
-        SystemMessage.SKILL_FORCED.send(p, skill);
+        if(template.execute(p, true))
+            SystemMessage.SKILL_CASTED.send(p, template);
     }
 }

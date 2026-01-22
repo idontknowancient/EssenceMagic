@@ -9,7 +9,10 @@ import com.idk.essence.menus.holders.CancelHolder;
 import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
 import com.idk.essence.menus.holders.ShiftSpawnHolder;
-import com.idk.essence.skills.Skill;
+import com.idk.essence.mobs.Mob;
+import com.idk.essence.mobs.MobManager;
+import com.idk.essence.skills.SkillManager;
+import com.idk.essence.skills.SkillTemplate;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.items.wands.Wand;
 import org.bukkit.Bukkit;
@@ -41,6 +44,9 @@ public class Menu {
 
     public static Inventory getMobMenu() {
         Inventory mobMenu = createInventory(new ShiftSpawnHolder(), "mob");
+        for(Mob m : MobManager.getAll())
+            mobMenu.addItem(m.getItemBuilder().build());
+        setOccupation(mobMenu, "element");
 
 //        for(Mob m : Mob.mobs.values()) {
 //            ItemStack item = new ItemStack(
@@ -63,24 +69,13 @@ public class Menu {
 //            item.setItemMeta(meta);
 //            mobMenu.addItem(item);
 //        }
-
-        setOccupation(mobMenu, "mob");
         return mobMenu;
     }
 
     public static Inventory getSkillMenu() {
         Inventory skillMenu = createInventory(new DetailInfoHolder(), "skill");
-
-        for(Skill skill : Skill.skills.values()) {
-            ItemStack item = new ItemStack(Material.valueOf(cm.getString("skill.item").toUpperCase()));
-            ItemMeta meta = item.getItemMeta();
-            if(meta == null) return skillMenu;
-            meta.displayName(skill.getDisplayName());
-            meta.setLore(skill.getInfo());
-            item.setItemMeta(meta);
-            skillMenu.addItem(item);
-        }
-
+        for(SkillTemplate template : SkillManager.getAll())
+            skillMenu.addItem(template.getItemBuilder().build());
         setOccupation(skillMenu, "skill");
         return skillMenu;
     }

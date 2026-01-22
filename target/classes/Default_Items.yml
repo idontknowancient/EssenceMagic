@@ -1,6 +1,6 @@
 flame_sword:
   display-name: "<bold><gradient:red:gold><shadow:#FF5555:0.5>烈焰之劍"
-  type: wooden_sword
+  type: diamond_sword
   # item lore is not necessary
   lore:
     - "&8|&m           &r&7<&f物品介紹&7>&8&m           &r&8|"
@@ -13,7 +13,7 @@ flame_sword:
     - " &e技能&7:"
     - "   &c大火球"
   # if the element is not provided, the system will use 'none' instead
-  element: wood
+  element: light
   # enchantments are not necessary
   enchantments:
     unbreaking: 3
@@ -30,11 +30,11 @@ flame_sword:
       # slot: hand
       # attack-knockback:
       # # add / multiply-continuous / multiply-separate
-      # type: add
+    # type: add
     # value: 3
     # slot: hand
   skills:
-    - fire_ball
+    - fireball
 
 snow_sword:
   display-name: "&f白雪細劍"
@@ -59,11 +59,11 @@ snow_sword:
     hide-enchants: true
     hide-attributes: false
   skills:
-    - snow_ball
+    - snowball
     - floating
 
 floating_apple:
-  display-name: "#bfc9ca懸浮之果"
+  display-name: "&#bfc9ca懸浮之果"
   type: golden_apple
   # item lore is not necessary
   lore:

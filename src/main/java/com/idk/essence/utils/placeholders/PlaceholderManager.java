@@ -7,11 +7,12 @@ import com.idk.essence.items.SystemItem;
 import com.idk.essence.magics.Magic;
 import com.idk.essence.players.ManaHandler;
 import com.idk.essence.players.PlayerData;
-import com.idk.essence.skills.Skill;
 import com.idk.essence.items.wands.Wand;
 import com.idk.essence.items.wands.WandHandler;
+import com.idk.essence.skills.SkillTemplate;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -44,8 +45,8 @@ public class PlaceholderManager {
             string = handleItemStack(string, i);
         else if(info instanceof SystemItem s)
             string = handleSystemItem(string, s);
-        else if(info instanceof Skill s)
-            string = handleSkill(string ,s);
+        else if(info instanceof SkillTemplate s)
+            string = handleSkillTemplate(string ,s);
         else if(info instanceof Wand w)
             string = handleWand(string, w);
         else if(info instanceof PlayerData d)
@@ -91,9 +92,9 @@ public class PlaceholderManager {
         return string;
     }
 
-    private static String handleSkill(String string, Skill info) {
+    private static String handleSkillTemplate(String string, SkillTemplate info) {
         if(string.contains(Placeholder.SKILL_DISPLAY_NAME.name))
-            string = string.replaceAll(Placeholder.SKILL_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
+            string = string.replaceAll(Placeholder.SKILL_DISPLAY_NAME.name, MiniMessage.miniMessage().serialize(info.getDisplayName()));
         return string;
     }
 

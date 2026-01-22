@@ -20,7 +20,7 @@ public class Mob {
 
     @Getter @Setter private EntityType type;
 
-    @Getter private final ItemBuilder builder;
+    @Getter private final ItemBuilder itemBuilder;
 
     @Getter @Setter private double health;
 
@@ -57,7 +57,7 @@ public class Mob {
     }
 
     public Mob(String internalName) {
-        builder = new ItemBuilder(Material.STONE);
+        itemBuilder = new ItemBuilder(Material.STONE);
         this.internalName = internalName;
     }
 }

@@ -81,8 +81,24 @@ public interface EssenceConfig {
         return getConfig().isList(path);
     }
 
-    @Nullable default List<String> getStringList(String path) {
+    @NotNull default List<String> getStringList(String path) {
         return getConfig().getStringList(path);
+    }
+
+    @NotNull default List<String> getStringListOrString(String path) {
+        if(isList(path))
+            return getStringList(path);
+        else if(isString(path))
+            return List.of(Optional.ofNullable(getString(path)).orElse(""));
+        return List.of("");
+    }
+
+    @NotNull default List<String> getStringListOrString(String path, String default_) {
+        if(isList(path))
+            return getStringList(path);
+        else if(isString(path))
+            return List.of(Optional.ofNullable(getString(path)).orElse(default_));
+        return List.of(default_);
     }
 
     default boolean isConfigurationSection(String path) {

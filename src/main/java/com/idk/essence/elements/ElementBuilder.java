@@ -1,10 +1,9 @@
 package com.idk.essence.elements;
 
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.items.ItemFactory;
 import com.idk.essence.utils.Util;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.persistence.PersistentDataType;
 
 public class ElementBuilder {
 
@@ -16,26 +15,24 @@ public class ElementBuilder {
 
     public ElementBuilder displayName(String displayName) {
         element.setDisplayName(Util.parseMessage(displayName));
+        element.getItemBuilder().displayName(Util.parseMessage(displayName));
         return this;
     }
 
     public ElementBuilder displayName(Component displayName) {
         element.setDisplayName(displayName);
+        element.getItemBuilder().displayName(displayName);
         return this;
     }
 
     public ElementBuilder symbolItem(String materialString) {
-        element.getBuilder().material(materialString);
+        element.getItemBuilder().material(materialString);
         return this;
     }
 
     public ElementBuilder symbolItem(ConfigurationSection symbolSection) {
         if(symbolSection == null) return this;
-        element.getBuilder().material(symbolSection.getString("type", "stone"))
-                .displayName(element.getDisplayName())
-                .lore(symbolSection.getStringList("description"))
-                .glow(symbolSection.getBoolean("glowing", false))
-                .container(CustomKey.getElementKey(), element.getInternalName());
+        ItemFactory.setSymbolItemBuilder(element.getInternalName(), symbolSection, element.getItemBuilder());
         return this;
     }
 

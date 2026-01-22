@@ -2,7 +2,7 @@ package com.idk.essence.commands.essence_sub.mob_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.mobs.MobFactory;
+import com.idk.essence.mobs.MobManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import org.bukkit.command.CommandSender;
@@ -44,7 +44,7 @@ public class SpawnCommand extends SubCommand {
 
     @Override
     public @Nullable List<String> getTabCompletion(Player p, String[] args) {
-        return MobFactory.getAllKeys().stream().toList();
+        return MobManager.getAllKeys().stream().toList();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SpawnCommand extends SubCommand {
         if(!preCheck(sender, args)) return;
         Player p = (Player) sender;
         String internalName = args[2];
-        if(!MobFactory.spawn(internalName, p.getLocation())) {
+        if(!MobManager.spawn(internalName, p.getLocation())) {
             SystemMessage.MOB_NOT_FOUND.send(p);
         }
     }

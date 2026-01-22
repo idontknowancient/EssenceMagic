@@ -96,7 +96,7 @@ public class EssenceCommand implements CommandExecutor, TabCompleter {
 //                return new ArrayList<>(PlayerData.dataMap.keySet());
 //            }
 //            if(args[0].equalsIgnoreCase("mob") && args[1].equalsIgnoreCase("spawn")) {
-//                return new ArrayList<>(MobFactory.getAllKeys());
+//                return new ArrayList<>(MobManager.getAllKeys());
 //            }
 //            if(args[0].equalsIgnoreCase("skill") && args[1].equalsIgnoreCase("cast")) {
 //                return new ArrayList<>(Skill.skills.keySet());

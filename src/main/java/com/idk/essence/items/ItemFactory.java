@@ -2,9 +2,12 @@ package com.idk.essence.items;
 
 import com.idk.essence.elements.Element;
 import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
@@ -20,8 +23,6 @@ import java.util.Optional;
 public class ItemFactory {
 
     private static final Map<String, ItemBuilder> items = new HashMap<>();
-
-    private static ConfigManager.ConfigDefaultFile config;
 
     private ItemFactory() {}
 
@@ -99,7 +100,19 @@ public class ItemFactory {
                 .enchant(config.getConfigurationSection(internalName + ".enchantments"))
                 .flag(config.getConfigurationSection(internalName + ".options"))
                 .element(config.getString(internalName + ".element", Element.defaultInternalName))
+                .skill(config.getStringListOrString(internalName + ".skills"))
                 .container(internalName);
         items.put(internalName, builder);
+    }
+
+    /**
+     * Get symbol item based on a section. Can be used as Element or Skill symbol. Automatically handle null section.
+     */
+    public static void setSymbolItemBuilder(String internalName, ConfigurationSection symbolSection, ItemBuilder builder) {
+        if(symbolSection == null) return;
+        builder.material(symbolSection.getString("type"))
+                .lore(symbolSection.getStringList("description"))
+                .glow(symbolSection.getBoolean("glowing", false))
+                .container(CustomKey.getItemKey(), internalName);
     }
 }
