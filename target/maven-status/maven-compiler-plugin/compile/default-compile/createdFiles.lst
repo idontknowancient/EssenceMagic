@@ -73,9 +73,9 @@ com\idk\essence\Essence.class
 com\idk\essence\magics\Modifier.class
 com\idk\essence\commands\essence_sub\MagicCommand.class
 com\idk\essence\utils\messages\SystemMessage.class
+com\idk\essence\menus\MenuListener.class
 com\idk\essence\utils\ConditionManager.class
 com\idk\essence\commands\essence_sub\mana_sub\SetCommand.class
-com\idk\essence\utils\listeners\MenuListener.class
 com\idk\essence\utils\configs\ConfigManager$ConfigFolder.class
 com\idk\essence\utils\listeners\PlayerJoinQuitListener.class
 com\idk\essence\menus\holders\CancelHolder.class

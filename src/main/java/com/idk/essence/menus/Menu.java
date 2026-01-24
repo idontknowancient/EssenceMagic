@@ -27,7 +27,7 @@ public class Menu {
     private static final ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS;
 
     public static Inventory getElementMenu() {
-        Inventory elementMenu = createInventory(new CancelHolder(), "element");
+        Inventory elementMenu = createInventory(DetailInfoHolder.getInstance(), "element");
         for(Element e : ElementFactory.getAll())
             elementMenu.setItem(e.getSlot(), e.getSymbolItem());
         setOccupation(elementMenu, "element");
@@ -35,7 +35,7 @@ public class Menu {
     }
 
     public static Inventory getItemMenu() {
-        Inventory itemMenu = createInventory(new GetItemHolder(), "item");
+        Inventory itemMenu = createInventory(GetItemHolder.getInstance(), "item");
         for(ItemStack i : ItemFactory.getAll())
             itemMenu.addItem(i);
         setOccupation(itemMenu, "item");
@@ -43,37 +43,15 @@ public class Menu {
     }
 
     public static Inventory getMobMenu() {
-        Inventory mobMenu = createInventory(new ShiftSpawnHolder(), "mob");
+        Inventory mobMenu = createInventory(ShiftSpawnHolder.getInstance(), "mob");
         for(Mob m : MobManager.getAll())
             mobMenu.addItem(m.getItemBuilder().build());
         setOccupation(mobMenu, "element");
-
-//        for(Mob m : Mob.mobs.values()) {
-//            ItemStack item = new ItemStack(
-//                    Material.valueOf(m.getType().toString() + "_spawn_egg" .toUpperCase()));
-//            ItemMeta meta = item.getItemMeta();
-//            meta.setDisplayName(m.getDisplayName());
-//
-//            List<String> lore = new ArrayList<>();
-//            lore.add(Util.colorize("&fInterior name: " + m.getInternalName()));
-//            lore.add(Util.colorize("&fType: " + m.getType().toString()));
-//            if(m.getHealth() != -1)
-//                lore.add(Util.colorize("&fHealth: " + m.getHealth()));
-//            else
-//                lore.add(Util.colorize("&fHealth: default"));
-//            lore.add(Util.colorize("&fElement: " + m.getElement().getDisplayName()));
-//            lore.add("");
-//            lore.addAll(m.getDescription());
-//            meta.setLore(lore);
-//
-//            item.setItemMeta(meta);
-//            mobMenu.addItem(item);
-//        }
         return mobMenu;
     }
 
     public static Inventory getSkillMenu() {
-        Inventory skillMenu = createInventory(new DetailInfoHolder(), "skill");
+        Inventory skillMenu = createInventory(DetailInfoHolder.getInstance(), "skill");
         for(SkillTemplate template : SkillManager.getAll())
             skillMenu.addItem(template.getItemBuilder().build());
         setOccupation(skillMenu, "skill");
@@ -81,7 +59,7 @@ public class Menu {
     }
 
     public static Inventory getMagicMenu() {
-        Inventory magicMenu = createInventory(new DetailInfoHolder(), "magic");
+        Inventory magicMenu = createInventory(DetailInfoHolder.getInstance(), "magic");
 
         for(Magic magic : Magic.magics.values()) {
             ItemStack item = new ItemStack(Material.valueOf(cm.getString("magic.item").toUpperCase()));
@@ -98,7 +76,7 @@ public class Menu {
     }
 
     public static Inventory getWandMenu() {
-        Inventory wandMenu = createInventory(new GetItemHolder(), "wand");
+        Inventory wandMenu = createInventory(GetItemHolder.getInstance(), "wand");
 
         for(Wand wand : Wand.wands.values()) {
             wandMenu.addItem(wand.getItemStack());

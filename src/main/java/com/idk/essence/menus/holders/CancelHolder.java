@@ -1,15 +1,23 @@
 package com.idk.essence.menus.holders;
 
+import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Cancel a click.
+ */
 public class CancelHolder implements InventoryHolder {
 
-    // used to cancel a click
+    @Getter private static final CancelHolder instance = new CancelHolder();
+
+    protected CancelHolder() {}
+
     @NotNull
     @Override
     public Inventory getInventory() {
-        return null;
+        return Bukkit.createInventory(this, 9);
     }
 }

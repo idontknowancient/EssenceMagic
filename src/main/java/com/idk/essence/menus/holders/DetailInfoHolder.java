@@ -1,7 +1,13 @@
 package com.idk.essence.menus.holders;
 
-import org.bukkit.inventory.InventoryHolder;
+import lombok.Getter;
 
-// used to get detail info by click
-public class DetailInfoHolder extends CancelHolder implements InventoryHolder {
+/**
+ * Get detail info by click.
+ */
+public class DetailInfoHolder extends CancelHolder {
+
+    @Getter private static final DetailInfoHolder instance = new DetailInfoHolder();
+
+    protected DetailInfoHolder() {}
 }

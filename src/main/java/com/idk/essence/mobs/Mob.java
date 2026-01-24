@@ -58,6 +58,7 @@ public class Mob {
 
     public Mob(String internalName) {
         itemBuilder = new ItemBuilder(Material.STONE);
+        itemBuilder.container(internalName);
         this.internalName = internalName;
     }
 }

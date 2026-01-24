@@ -1,7 +1,13 @@
 package com.idk.essence.menus.holders;
 
-import org.bukkit.inventory.InventoryHolder;
+import lombok.Getter;
 
-// used to spawn mobs from menu by shift-click
-public class ShiftSpawnHolder extends CancelHolder implements InventoryHolder {
+/**
+ * Spawn mobs from menus by shift-click.
+ */
+public class ShiftSpawnHolder extends CancelHolder {
+
+    @Getter private static final ShiftSpawnHolder instance = new ShiftSpawnHolder();
+
+    private ShiftSpawnHolder() {}
 }

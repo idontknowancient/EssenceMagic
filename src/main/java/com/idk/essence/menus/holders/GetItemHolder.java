@@ -1,7 +1,13 @@
 package com.idk.essence.menus.holders;
 
-import org.bukkit.inventory.InventoryHolder;
+import lombok.Getter;
 
-// used to get items from menu by click
-public class GetItemHolder extends CancelHolder implements InventoryHolder {
+/**
+ * Get items from menus ny click.
+ */
+public class GetItemHolder extends CancelHolder {
+
+    @Getter private static final GetItemHolder instance = new GetItemHolder();
+
+    private GetItemHolder() {}
 }

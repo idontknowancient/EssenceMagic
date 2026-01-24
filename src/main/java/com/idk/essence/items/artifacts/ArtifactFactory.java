@@ -74,9 +74,11 @@ public class ArtifactFactory implements Listener {
         if(!isArtifact(state)) return;
 
         // Drop artifact
-        event.setDropItems(false);
-        Optional.ofNullable(getArtifact(state)).ifPresent(artifact ->
-                state.getWorld().dropItemNaturally(state.getLocation().add(0.5, 0.5, 0.5), artifact));
+        if(event.isDropItems()) {
+            event.setDropItems(false);
+            Optional.ofNullable(getArtifact(state)).ifPresent(artifact ->
+                    state.getWorld().dropItemNaturally(state.getLocation().add(0.5, 0.5, 0.5), artifact));
+        }
 
         // Pass the event to behavior
         Optional.ofNullable(getBehavior(state)).ifPresent(behavior -> behavior.onBlockBreak(event));
