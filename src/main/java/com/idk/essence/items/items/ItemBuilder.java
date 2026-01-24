@@ -1,4 +1,4 @@
-package com.idk.essence.items;
+package com.idk.essence.items.items;
 
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
@@ -33,25 +33,15 @@ import java.util.stream.Collectors;
 public class ItemBuilder {
 
     private ItemStack item = null;
-
     @NotNull private Material material;
-
     private Component displayName;
-
     private final List<Component> lore = new ArrayList<>();
-
     private Element element;
-
     private final Map<Enchantment, Integer> enchantments = new HashMap<>();
-
     private final Map<ItemFlag, Boolean> flags = new HashMap<>();
-
-    private boolean forceGlow = false;
-
-    private boolean glow;
-
+    private boolean forceGlowing = false;
+    private boolean glowing;
     private final List<String> skills = new ArrayList<>();
-
     private final Map<NamespacedKey, Object> persistentData = new HashMap<>();
 
     public ItemBuilder(@NonNull Material material) {
@@ -216,15 +206,15 @@ public class ItemBuilder {
             meta.addItemFlags(entry.getKey());
     }
 
-    public ItemBuilder glow(boolean glow) {
-        forceGlow = true;
-        this.glow = glow;
+    public ItemBuilder glowing(boolean glowing) {
+        forceGlowing = true;
+        this.glowing = glowing;
         return this;
     }
 
-    private void applyGlow(ItemMeta meta) {
-        if(forceGlow)
-            meta.setEnchantmentGlintOverride(glow);
+    private void applyGlowing(ItemMeta meta) {
+        if(forceGlowing)
+            meta.setEnchantmentGlintOverride(glowing);
     }
 
     public ItemBuilder skill(List<String> skillStrings) {
@@ -270,7 +260,7 @@ public class ItemBuilder {
         applyElement(container);
         applyEnchantments(meta);
         applyFlags(meta);
-        applyGlow(meta);
+        applyGlowing(meta);
         applySkill(container);
         applyContainer(container);
 

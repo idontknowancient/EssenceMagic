@@ -1,0 +1,27 @@
+wand_processing_table:
+  enabled: true
+  display-name: "&9魔杖加工台"
+  material: enchanting_table
+  lore:
+    - "&7加工魔杖啊，不然呢"
+  glowing: true
+  usable: true
+  placeable: true
+  particle:
+    # display, shape, y-offset, and type are common attributes
+    display: false
+    shape: rotating_square
+    y-offset: 0.1
+    type: crit
+    # varying with shape
+    settings:
+      radius: 3
+      point-count: 8
+      bounce-amplitude: 0.1
+      rotation-speed: 3
+  node:
+    display: true
+    type: item
+    radius: 3
+    y-offset: 1.2
+    color: yellow

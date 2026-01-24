@@ -4,7 +4,7 @@ import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
-import com.idk.essence.items.wands.WandHandler;
+import com.idk.essence.items.arcana.WandHandler;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

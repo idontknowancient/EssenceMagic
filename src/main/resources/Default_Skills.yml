@@ -1,7 +1,7 @@
 fireball:
   display-name: "&c火球"
   symbol-item:
-    type: fire_charge
+    material: fire_charge
     description:
       - "<gray>凝聚火焰之力噴射而出"
     glowing: true

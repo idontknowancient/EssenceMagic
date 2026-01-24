@@ -1,6 +1,6 @@
 flame_sword:
   display-name: "<bold><gradient:red:gold><shadow:#FF5555:0.5>烈焰之劍"
-  type: diamond_sword
+  material: diamond_sword
   # item lore is not necessary
   lore:
     - "&8|&m           &r&7<&f物品介紹&7>&8&m           &r&8|"
@@ -38,7 +38,7 @@ flame_sword:
 
 snow_sword:
   display-name: "&f白雪細劍"
-  type: iron_sword
+  material: iron_sword
   # item lore is not necessary
   lore:
     - "&8|&m           &r&7<&f物品介紹&7>&8&m           &r&8|"
@@ -59,12 +59,12 @@ snow_sword:
     hide-enchants: true
     hide-attributes: false
   skills:
-    - snowball
-    - floating
+    - snowball_combo
+    - fireball
 
 floating_apple:
   display-name: "&#bfc9ca懸浮之果"
-  type: golden_apple
+  material: golden_apple
   # item lore is not necessary
   lore:
     - "&8|&m           &r&7<&f物品介紹&7>&8&m           &r&8|"
@@ -74,7 +74,7 @@ floating_apple:
     - " &b附魔&7:"
     - "   &8- &7耐久 III"
     - " &e技能&7:"
-    - "   #bfc9ca懸浮"
+    - "   &#bfc9ca懸浮"
   # if the element is not provided, the system will use 'none' instead
   element: wood
   # enchantments are not necessary
@@ -89,7 +89,7 @@ floating_apple:
 
 test_helmet:
   display-name: "&2測試用頭盔"
-  type: iron_helmet
+  material: iron_helmet
   lore:
     - "&fAll for test."
   element: water
@@ -100,7 +100,7 @@ test_helmet:
 
 test_chestplate:
   display-name: "&2測試用胸甲"
-  type: iron_chestplate
+  material: iron_chestplate
   lore:
     - "&fAll for test."
   element: water
@@ -111,7 +111,7 @@ test_chestplate:
 
 test_leggings:
   display-name: "&2測試用護腿"
-  type: iron_leggings
+  material: iron_leggings
   lore:
     - "&fAll for test."
   element: water
@@ -122,7 +122,7 @@ test_leggings:
 
 test_boots:
   display-name: "&2測試用靴子"
-  type: iron_boots
+  material: iron_boots
   lore:
     - "&fAll for test."
   element: water

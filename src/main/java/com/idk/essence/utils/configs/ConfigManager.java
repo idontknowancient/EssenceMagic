@@ -1,7 +1,6 @@
 package com.idk.essence.utils.configs;
 
 import com.idk.essence.Essence;
-import lombok.Getter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -33,7 +32,18 @@ public class ConfigManager {
 
     public enum ConfigFolder {
         ELEMENTS("elements"),
-        ITEMS("items"),
+        /**
+         * Magical items
+         */
+        ITEMS_ARCANA("items/arcana"),
+        /**
+         * System items
+         */
+        ITEMS_ARTIFACT("items/artifacts"),
+        /**
+         * Regular items
+         */
+        ITEMS_ITEMS("items/items"),
         MAGICS("magics"),
         MOBS("mobs"),
         SKILLS("skills"),
@@ -136,8 +146,9 @@ public class ConfigManager {
     }
 
     public enum ConfigDefaultFile implements EssenceConfig {
+        ARTIFACTS("items/artifacts",  "Artifacts"),
         ELEMENTS("elements", "Default_Elements"),
-        ITEMS("items", "Default_Items"),
+        ITEMS("items/items", "Default_Items"),
         MAGICS("magics", "Default_Magics"),
         MOBS("mobs", "Default_Mobs"),
         SKILLS("skills", "Default_Skills"),
@@ -148,7 +159,6 @@ public class ConfigManager {
         MENUS("menus"),
         MESSAGES("messages"),
         PLAYER_DATA("player_data"),
-        SYSTEM_ITEMS("system_items"),
         ;
 
         private final String fileName;

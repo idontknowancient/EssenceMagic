@@ -1,6 +1,6 @@
 package com.idk.essence.elements;
 
-import com.idk.essence.items.ItemFactory;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.Util;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;

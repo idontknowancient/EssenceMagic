@@ -1,11 +1,10 @@
-package com.idk.essence.items;
+package com.idk.essence.items.items;
 
 import com.idk.essence.elements.Element;
+import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.utils.CustomKey;
-import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
@@ -28,7 +27,7 @@ public class ItemFactory {
 
     public static void initialize() {
         items.clear();
-        ConfigManager.ConfigFolder.ITEMS.load(ItemFactory::register);
+        ConfigManager.ConfigFolder.ITEMS_ITEMS.load(ItemFactory::register);
     }
 
     /**
@@ -88,13 +87,32 @@ public class ItemFactory {
     }
 
     /**
+     * Check if an item stack is placeable. Only effective for blocks.
+     */
+    public static boolean isPlaceable(ItemStack item) {
+        if(!isCustom(item)) return true;
+        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
+                .get(CustomKey.getPlaceableKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+    }
+
+    /**
+     * Check if an item stack is usable. Only effective for interactable items.
+     */
+    public static boolean isUsable(ItemStack item) {
+        if(!isCustom(item)) return true;
+        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
+                .get(CustomKey.getUsableKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+    }
+
+    /**
      * Register a custom item.
      * @param internalName the internal name of the item
      */
     private static void register(String internalName, EssenceConfig config) {
-        if(!config.has(internalName) || items.containsKey(internalName)) return;
+        // Artifacts have higher priority to items. If the artifact is not enabled, item can use its name.
+        if(!config.has(internalName) || items.containsKey(internalName) || ArtifactFactory.hasActiveArtifact(internalName)) return;
 
-        ItemBuilder builder = new ItemBuilder(config.getString(internalName + ".type", "stone"))
+        ItemBuilder builder = new ItemBuilder(config.getString(internalName + ".material", "stone"))
                 .displayName(config.outString(internalName + ".display-name", ""))
                 .lore(config.getStringList(internalName + ".lore"))
                 .enchant(config.getConfigurationSection(internalName + ".enchantments"))
@@ -110,9 +128,9 @@ public class ItemFactory {
      */
     public static void setSymbolItemBuilder(String internalName, ConfigurationSection symbolSection, ItemBuilder builder) {
         if(symbolSection == null) return;
-        builder.material(symbolSection.getString("type"))
+        builder.material(symbolSection.getString("material"))
                 .lore(symbolSection.getStringList("description"))
-                .glow(symbolSection.getBoolean("glowing", false))
+                .glowing(symbolSection.getBoolean("glowing", false))
                 .container(CustomKey.getItemKey(), internalName);
     }
 }

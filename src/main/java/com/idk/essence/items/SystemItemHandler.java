@@ -28,7 +28,7 @@ public class SystemItemHandler implements Listener {
     }
 
     private static void setSystemItems() {
-        Set<String> systemItemSet = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getConfig().getKeys(false);
+        Set<String> systemItemSet = ConfigManager.ConfigDefaultFile.ARTIFACTS.getConfig().getKeys(false);
         for(Registry.SystemItem registry : Registry.SystemItem.values()) {
             String name = registry.name().toLowerCase();
             if(systemItemSet.contains(name)) {

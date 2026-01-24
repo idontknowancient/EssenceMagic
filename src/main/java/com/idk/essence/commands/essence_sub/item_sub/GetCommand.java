@@ -2,7 +2,8 @@ package com.idk.essence.commands.essence_sub.item_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.items.ItemFactory;
+import com.idk.essence.items.artifacts.ArtifactFactory;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import org.bukkit.command.CommandSender;
@@ -10,7 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GetCommand extends SubCommand {
 
@@ -45,7 +48,10 @@ public class GetCommand extends SubCommand {
 
     @Override
     public @Nullable List<String> getTabCompletion(Player p, String[] args) {
-        return ItemFactory.getAllKeys().stream().toList();
+        List<String> completions = new ArrayList<>();
+        completions.addAll(ItemFactory.getAllKeys());
+        completions.addAll(ArtifactFactory.getAllActivateKeys());
+        return completions;
     }
 
 
@@ -54,12 +60,16 @@ public class GetCommand extends SubCommand {
         if(!preCheck(sender, args)) return;
         Player p = (Player) sender;
         String internalName = args[2];
-        ItemStack stack = ItemFactory.get(internalName);
-        if(stack != null) {
-            p.getInventory().addItem(stack);
-            SystemMessage.ITEM_GOT.send(p, stack);
+
+        // Check artifact -> item
+        ItemStack stack = ArtifactFactory.getArtifact(internalName);
+        if(stack == null)
+            stack = ItemFactory.get(internalName);
+        if(stack == null) {
+            SystemMessage.ITEM_NOT_FOUND.send(p);
             return;
         }
-        SystemMessage.ITEM_NOT_FOUND.send(p);
+        p.getInventory().addItem(stack);
+        SystemMessage.ITEM_GOT.send(p, stack);
     }
 }

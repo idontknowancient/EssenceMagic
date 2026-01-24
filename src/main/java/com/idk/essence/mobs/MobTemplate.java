@@ -2,7 +2,7 @@ package com.idk.essence.mobs;
 
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
-import com.idk.essence.items.ItemFactory;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.Util;
 import lombok.Getter;

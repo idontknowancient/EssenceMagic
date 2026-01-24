@@ -1,5 +1,6 @@
-package com.idk.essence.utils.particles;
+package com.idk.essence.utils.particles.shapes;
 
+import com.idk.essence.utils.particles.CustomParticle;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;

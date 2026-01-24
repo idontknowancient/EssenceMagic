@@ -1,7 +1,7 @@
 package com.idk.essence.skills;
 
-import com.idk.essence.items.ItemBuilder;
-import com.idk.essence.items.ItemFactory;
+import com.idk.essence.items.items.ItemBuilder;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.ConditionManager;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.EssenceConfig;

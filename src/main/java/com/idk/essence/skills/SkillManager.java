@@ -1,6 +1,6 @@
 package com.idk.essence.skills;
 
-import com.idk.essence.items.ItemFactory;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.CustomKey;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;

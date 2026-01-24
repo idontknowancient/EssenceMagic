@@ -4,7 +4,7 @@ import com.idk.essence.Essence;
 import com.idk.essence.elements.Element;
 import com.idk.essence.magics.modifiers.Damage;
 import com.idk.essence.utils.configs.ConfigManager;
-import com.idk.essence.utils.particles.Spiral;
+import com.idk.essence.utils.particles.shapes.Spiral;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 

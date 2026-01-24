@@ -1,8 +1,8 @@
 package com.idk.essence.utils;
 
 import com.idk.essence.items.systemItems.WandProcessingTable;
-import com.idk.essence.utils.particles.Circle;
-import com.idk.essence.utils.particles.RotatingSquare;
+import com.idk.essence.utils.particles.shapes.Circle;
+import com.idk.essence.utils.particles.shapes.RotatingSquare;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.function.Function;

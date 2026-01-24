@@ -1,6 +1,6 @@
 package com.idk.essence.elements;
 
-import com.idk.essence.items.ItemBuilder;
+import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;

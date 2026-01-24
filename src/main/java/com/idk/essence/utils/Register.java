@@ -3,7 +3,8 @@ package com.idk.essence.utils;
 import com.idk.essence.Essence;
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.elements.ElementFactory;
-import com.idk.essence.items.ItemFactory;
+import com.idk.essence.items.artifacts.ArtifactFactory;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.items.SystemItemHandler;
 import com.idk.essence.magics.MagicHandler;
 import com.idk.essence.mobs.MobManager;
@@ -16,7 +17,7 @@ import com.idk.essence.utils.listeners.MenuListener;
 import com.idk.essence.utils.listeners.PlayerJoinQuitListener;
 import com.idk.essence.utils.particles.ParticleHandler;
 import com.idk.essence.players.PlayerDataHandler;
-import com.idk.essence.items.wands.WandHandler;
+import com.idk.essence.items.arcana.WandHandler;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Bukkit;
@@ -50,8 +51,8 @@ public class Register {
         ElementFactory.initialize();
         SkillManager.initialize();
         MagicHandler.initialize();
+        ArtifactFactory.initialize();
         ItemFactory.initialize();
-        SystemItemHandler.initialize();
         WandHandler.initialize();
         MobManager.initialize();
         PlayerDataHandler.initialize();
@@ -69,8 +70,8 @@ public class Register {
         register(new DamageManager());
         register(new PlayerDataHandler());
         register(SkillManager.getInstance());
+        register(ArtifactFactory.getInstance());
         register(new WandHandler());
-        register(new SystemItemHandler());
         register(new ParticleHandler());
         register(new InteractiveSlotHandler());
 

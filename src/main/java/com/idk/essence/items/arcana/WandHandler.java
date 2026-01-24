@@ -1,4 +1,4 @@
-package com.idk.essence.items.wands;
+package com.idk.essence.items.arcana;
 
 import com.idk.essence.players.PlayerData;
 import com.idk.essence.utils.ClickHandler;

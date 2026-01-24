@@ -1,14 +1,14 @@
 package com.idk.essence.utils.listeners;
 
-import com.idk.essence.items.ItemFactory;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.menus.holders.CancelHolder;
 import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
 import com.idk.essence.menus.holders.ShiftSpawnHolder;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
-import com.idk.essence.items.wands.Wand;
-import com.idk.essence.items.wands.WandHandler;
+import com.idk.essence.items.arcana.Wand;
+import com.idk.essence.items.arcana.WandHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -24,7 +24,7 @@ public abstract class SIParticleBlock extends SystemItem implements Placeable, W
 
     @Getter private static final Essence plugin = Essence.getPlugin();
 
-    boolean displayParticle = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getBoolean(getName() + ".particle.display");
+    boolean displayParticle = ConfigManager.ConfigDefaultFile.ARTIFACTS.getBoolean(getName() + ".particle.display");
 
     protected SIParticleBlock(String itemName) {
         super(itemName);
@@ -78,7 +78,7 @@ public abstract class SIParticleBlock extends SystemItem implements Placeable, W
 
     @Override
     public void generateParticle(Location location) {
-        ConfigurationSection section = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getConfigurationSection(getName() + ".particle");
+        ConfigurationSection section = ConfigManager.ConfigDefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".particle");
         Registry.CustomParticle particle;
         try {
             particle = Registry.CustomParticle.valueOf(section.getString("shape", "circle").toUpperCase());

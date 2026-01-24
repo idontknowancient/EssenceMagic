@@ -1,7 +1,7 @@
 package com.idk.essence.items.systemItems.features;
 
-import com.idk.essence.items.wands.Wand;
-import com.idk.essence.items.wands.WandHandler;
+import com.idk.essence.items.arcana.Wand;
+import com.idk.essence.items.arcana.WandHandler;
 import com.idk.essence.utils.DisplayHandler;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlot;
@@ -74,14 +74,14 @@ public abstract class SISlotBlock extends SIParticleBlock implements WithInterac
     // also set container
     @Override
     public void generateSlotsAround(Location center, float startYaw, int count) {
-        ConfigurationSection section = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getConfigurationSection(getName() + ".slot");
+        ConfigurationSection section = ConfigManager.ConfigDefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot");
         PersistentDataContainer container = new CustomBlockData(center.getBlock(), getPlugin());
 //        InteractiveSlotHandler.setSlotsAround(center, startYaw, count, section, container);
     }
 
     @Override
     public void rebuildSlotsAround(Location center) {
-        ConfigurationSection section = ConfigManager.ConfigDefaultFile.SYSTEM_ITEMS.getConfigurationSection(getName() + ".slot");
+        ConfigurationSection section = ConfigManager.ConfigDefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot");
         PersistentDataContainer container = new CustomBlockData(center.getBlock(), getPlugin());
 //        InteractiveSlotHandler.rebuildSlotsAround(center, section, container);
     }

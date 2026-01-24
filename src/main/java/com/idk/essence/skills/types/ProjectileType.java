@@ -1,6 +1,6 @@
 package com.idk.essence.skills.types;
 
-import com.idk.essence.items.ItemBuilder;
+import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.skills.SkillTemplate;
 import com.idk.essence.skills.SkillType;
 import com.idk.essence.utils.Util;
