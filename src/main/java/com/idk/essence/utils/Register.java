@@ -14,9 +14,9 @@ import com.idk.essence.utils.damage.DamageManager;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlot;
 import com.idk.essence.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essence.menus.MenuListener;
-import com.idk.essence.utils.listeners.PlayerJoinQuitListener;
-import com.idk.essence.utils.particles.ParticleHandler;
+import com.idk.essence.utils.messages.PlayerJoinQuitMessage;
 import com.idk.essence.items.arcana.WandHandler;
+import com.idk.essence.utils.particles.ParticleManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Bukkit;
@@ -54,7 +54,7 @@ public class Register {
         WandHandler.initialize();
         MobManager.initialize();
         PlayerDataManager.initialize();
-        ParticleHandler.initialize();
+        ParticleManager.initialize();
         InteractiveSlotHandler.initialize();
     }
 
@@ -63,14 +63,14 @@ public class Register {
     }
 
     public static void registerListeners() {
-        register(new PlayerJoinQuitListener());
+        register(PlayerJoinQuitMessage.getInstance());
         register(MenuListener.getInstance());
         register(DamageManager.getInstance());
         register(PlayerDataManager.getInstance());
         register(SkillManager.getInstance());
         register(ArtifactFactory.getInstance());
         register(new WandHandler());
-        register(new ParticleHandler());
+        register(ParticleManager.getInstance());
         register(new InteractiveSlotHandler());
 
         // Needed when using ConfigurationSerializable

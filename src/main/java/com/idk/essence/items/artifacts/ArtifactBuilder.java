@@ -2,6 +2,7 @@ package com.idk.essence.items.artifacts;
 
 import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.utils.CustomKey;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +14,8 @@ public class ArtifactBuilder {
 
     private final ItemBuilder itemBuilder;
     private ItemStack item;
-    @Nullable private ConfigurationSection particle;
-    @Nullable private ConfigurationSection node;
+    @Nullable @Getter private ConfigurationSection particleSection;
+    @Nullable @Getter private ConfigurationSection nodeSection;
 
     public ArtifactBuilder(String materialString) {
         itemBuilder = new ItemBuilder(materialString);
@@ -57,6 +58,20 @@ public class ArtifactBuilder {
      */
     public ArtifactBuilder usable(boolean usable) {
         itemBuilder.container(CustomKey.getUsableKey(), usable);
+        return this;
+    }
+
+    public ArtifactBuilder particle(ConfigurationSection particle) {
+        this.particleSection = particle;
+        if(particle != null)
+            itemBuilder.container(CustomKey.getParticleKey(), true);
+        return this;
+    }
+
+    public ArtifactBuilder node(ConfigurationSection node) {
+        this.nodeSection = node;
+        if(node != null)
+            itemBuilder.container(CustomKey.getNodeKey(), true);
         return this;
     }
 

@@ -1,11 +1,15 @@
 package com.idk.essence.items.artifacts;
 
+import com.idk.essence.Essence;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
+import com.jeff_media.customblockdata.CustomBlockData;
 import lombok.Getter;
-import org.bukkit.block.TileState;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -52,14 +56,12 @@ public class ArtifactFactory implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
+        Block block = event.getBlockPlaced();
         if(!isPlaceable(item)) event.setCancelled(true);
 
-        // Transfer all PDC to the tile state
-        if(event.getBlockPlaced().getState() instanceof TileState state) {
-            // Override all PDC
-            item.getPersistentDataContainer().copyTo(state.getPersistentDataContainer(), true);
-            state.update();
-        }
+        // Transfer all PDC to the block and override all PDC
+        CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
+        Util.copyPDC(item.getPersistentDataContainer(), data);
 
         // Pass the event to behavior
         Optional.ofNullable(getBehavior(item)).ifPresent(behavior -> behavior.onBlockPlace(event));
@@ -70,18 +72,18 @@ public class ArtifactFactory implements Listener {
      */
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if(!(event.getBlock().getState() instanceof TileState state)) return;
-        if(!isArtifact(state)) return;
+        Block block = event.getBlock();
+        if(!isArtifact(block)) return;
 
         // Drop artifact
         if(event.isDropItems()) {
             event.setDropItems(false);
-            Optional.ofNullable(getArtifact(state)).ifPresent(artifact ->
-                    state.getWorld().dropItemNaturally(state.getLocation().add(0.5, 0.5, 0.5), artifact));
+            Optional.ofNullable(getArtifact(block)).ifPresent(artifact ->
+                    block.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.5, 0.5), artifact));
         }
 
         // Pass the event to behavior
-        Optional.ofNullable(getBehavior(state)).ifPresent(behavior -> behavior.onBlockBreak(event));
+        Optional.ofNullable(getBehavior(block)).ifPresent(behavior -> behavior.onBlockBreak(event));
     }
 
     /**
@@ -89,12 +91,11 @@ public class ArtifactFactory implements Listener {
      */
     @EventHandler
     public void onBlockInteract(PlayerInteractEvent event) {
-        if(event.getClickedBlock() == null) return;
-        if(!(event.getClickedBlock().getState() instanceof TileState state)) return;
-        if(!isArtifact(state)) return;
+        Block block = event.getClickedBlock();
+        if(block == null || !isArtifact(block)) return;
 
         // Pass the event to behavior
-        Optional.ofNullable(getBehavior(state)).ifPresent(behavior -> behavior.onBlockInteract(event));
+        Optional.ofNullable(getBehavior(block)).ifPresent(behavior -> behavior.onBlockInteract(event));
     }
 
     /**
@@ -113,9 +114,10 @@ public class ArtifactFactory implements Listener {
         return ItemFactory.isCustom(item) && item.getItemMeta().getPersistentDataContainer().has(CustomKey.getArtifactKey());
     }
 
-    public static boolean isArtifact(TileState state) {
-        return state.getPersistentDataContainer().has(CustomKey.getItemKey(), PersistentDataType.STRING) &&
-                state.getPersistentDataContainer().has(CustomKey.getArtifactKey(), PersistentDataType.STRING);
+    public static boolean isArtifact(Block block) {
+        CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
+        return data.has(CustomKey.getItemKey(), PersistentDataType.STRING) &&
+                data.has(CustomKey.getArtifactKey(), PersistentDataType.STRING);
     }
 
     /**
@@ -146,9 +148,20 @@ public class ArtifactFactory implements Listener {
     }
 
     @Nullable
-    public static ItemStack getArtifact(TileState state) {
-        return Optional.ofNullable(activateArtifacts.get(state.getPersistentDataContainer()
+    public static ItemStack getArtifact(Block block) {
+        CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
+        return Optional.ofNullable(activateArtifacts.get(data
                 .get(CustomKey.getArtifactKey(), PersistentDataType.STRING))).map(ArtifactBuilder::build).orElse(null);
+    }
+
+    @Nullable
+    public static ConfigurationSection getParticleSection(String internalName) {
+        return activateArtifacts.get(internalName).getParticleSection();
+    }
+
+    @Nullable
+    public static ConfigurationSection getNodeSection(String internalName) {
+        return activateArtifacts.get(internalName).getNodeSection();
     }
 
     public static Collection<String> getAllActivateKeys() {
@@ -171,9 +184,10 @@ public class ArtifactFactory implements Listener {
     }
 
     @Nullable
-    public static ArtifactBehavior getBehavior(TileState state) {
-        if(!isArtifact(state)) return null;
-        return getBehavior(state.getPersistentDataContainer().get(CustomKey.getArtifactKey(),  PersistentDataType.STRING));
+    public static ArtifactBehavior getBehavior(Block block) {
+        if(!isArtifact(block)) return null;
+        CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
+        return getBehavior(data.get(CustomKey.getArtifactKey(),  PersistentDataType.STRING));
     }
 
     /**
@@ -191,7 +205,9 @@ public class ArtifactFactory implements Listener {
                 .lore(config.getStringList(internalName + ".lore"))
                 .glowing(config.getBoolean(internalName + ".glowing", false))
                 .placeable(config.getBoolean(internalName + ".placeable", true))
-                .usable(config.getBoolean(internalName + ".usable", true));
+                .usable(config.getBoolean(internalName + ".usable", true))
+                .particle(config.getConfigurationSection(internalName + ".particle"))
+                .node(config.getConfigurationSection(internalName + ".node"));
         activateArtifacts.put(internalName, builder);
     }
 }

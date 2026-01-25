@@ -1,42 +1,41 @@
 package com.idk.essence.utils.particles;
 
 import com.idk.essence.Essence;
+import com.idk.essence.utils.Util;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.bukkit.util.Vector;
 
 @Getter
-public abstract class CustomParticle {
+public abstract class ParticleEffect {
 
-    public static final Map<Location, CustomParticle> activatingParticles = new LinkedHashMap<>();
+    protected BukkitTask task;
+    protected ConfigurationSection section;
+    protected boolean display;
+    protected Particle particle;
+    protected Vector offset;
+    protected Location center;
+    protected final int tickInterval = 1;
 
-    BukkitTask task;
-    ConfigurationSection section;
-    Location center;
-    Location offset;
-    Particle particle;
-    final int tickInterval = 1;
-
-    // get the custom particle part
-    public CustomParticle(ConfigurationSection section) {
+    // Get the particle section and set the particle type
+    protected ParticleEffect(ConfigurationSection section) {
         this.section = section;
-    }
-
-    public void generate(Location location) {
-        // initialize common attributes
-        offset = new Location(location.getWorld(), 0.5, section.getDouble("y-offset", 0.1), 0.5);
-        center = location.clone().add(offset); // move above based on the block
+        display = section.getBoolean("display", true);
         try {
             particle = Particle.valueOf(section.getString("type", "CLOUD").toUpperCase());
         } catch(IllegalArgumentException e) {
             particle = Particle.CLOUD;
         }
+    }
+
+    public void generate(Location location) {
+        offset = Util.getVector(section.getConfigurationSection("offset"));
+        center = location.clone().add(offset);
+        if(!display || ParticleManager.hasKey(location.clone())) return;
 
         this.task = new BukkitRunnable() {
             @Override
@@ -45,7 +44,8 @@ public abstract class CustomParticle {
             }
         }.runTaskTimer(Essence.getPlugin(), 0L, tickInterval);
 
-        activatingParticles.put(location, this);
+        // Remember to clone
+        ParticleManager.add(location.clone(), this);
     }
 
     public abstract void repeat();

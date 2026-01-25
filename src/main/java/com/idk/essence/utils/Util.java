@@ -2,13 +2,16 @@ package com.idk.essence.utils;
 
 import com.idk.essence.Essence;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
+import io.papermc.paper.persistence.PersistentDataContainerView;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Color;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,13 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Util {
 
-    private static final Essence plugin = Essence.getPlugin();
     private static final Pattern hexPattern = Pattern.compile("&#([A-Fa-f0-9]{6})", Pattern.CASE_INSENSITIVE);
 
     /**
@@ -59,13 +60,6 @@ public class Util {
         TYPE_MAP.put(byte[].class, PersistentDataType.BYTE_ARRAY);
         TYPE_MAP.put(int[].class, PersistentDataType.INTEGER_ARRAY);
         TYPE_MAP.put(long[].class, PersistentDataType.LONG_ARRAY);
-    }
-
-    public static void setLore(ItemStack item, List<String> lore) {
-        ItemMeta meta = item.getItemMeta();
-        if(meta == null) return;
-        meta.setLore(lore);
-        item.setItemMeta(meta);
     }
 
     // used to handle "\n" in a line
@@ -113,14 +107,6 @@ public class Util {
      */
     public static double yawToMathDegree(double yaw) {
         return 0 < yaw && yaw <= 180 ? 360 - yaw : -yaw;
-    }
-
-    public static void consoleOuts(String s) {
-        plugin.getLogger().log(Level.INFO, s);
-    }
-
-    public static double stringExpressionConverter(String s) {
-        return 0;
     }
 
     public static double round(double value, int places) {
@@ -177,5 +163,36 @@ public class Util {
     public static <T, Z> PersistentDataType<T, Z> getDataTypeByObject(Z object) {
         if(object == null) return null;
         return getDataTypeByClass((Class<Z>) object.getClass());
+    }
+
+    public static Vector getVector(ConfigurationSection vectorSection) {
+        if(vectorSection == null)
+            return new Vector(0, 0, 0);
+        double x = vectorSection.getDouble("x", 0);
+        double y = vectorSection.getDouble("y", 0);
+        double z = vectorSection.getDouble("z", 0);
+
+        return new Vector(x, y, z);
+    }
+
+    /**
+     * Copy pdc from src to dest.
+     */
+    public static void copyPDC(PersistentDataContainerView src, PersistentDataContainer dest) {
+        for(NamespacedKey key : src.getKeys()) {
+            copyTag(src, dest, key, PersistentDataType.STRING);
+            copyTag(src, dest, key, PersistentDataType.INTEGER);
+            copyTag(src, dest, key, PersistentDataType.DOUBLE);
+            copyTag(src, dest, key, PersistentDataType.BOOLEAN);
+        }
+    }
+
+    private static <T, Z> void copyTag(PersistentDataContainerView src, PersistentDataContainer dest, NamespacedKey key, PersistentDataType<T, Z> type) {
+        if(src.has(key, type)) {
+            Z value = src.get(key, type);
+            if(value != null) {
+                dest.set(key, type, value);
+            }
+        }
     }
 }

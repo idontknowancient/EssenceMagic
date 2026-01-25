@@ -14,6 +14,8 @@ public class CustomKey {
     @Getter private static final NamespacedKey elementKey = new NamespacedKey(plugin, "element-key");
     @Getter private static final NamespacedKey mobKey = new NamespacedKey(plugin, "mob-key");
     @Getter private static final NamespacedKey skillKey = new NamespacedKey(plugin, "skill-key");
+    @Getter private static final NamespacedKey particleKey = new NamespacedKey(plugin, "particle-key");
+    @Getter private static final NamespacedKey nodeKey = new NamespacedKey(plugin, "node-key");
 
     // Feature key
     @Getter private static final NamespacedKey placeableKey = new NamespacedKey(plugin, "placeable-key");

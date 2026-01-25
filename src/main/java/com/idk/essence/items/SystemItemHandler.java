@@ -3,7 +3,6 @@ package com.idk.essence.items;
 import com.idk.essence.Essence;
 import com.idk.essence.items.systemItems.features.Placeable;
 import com.idk.essence.utils.ClickHandler;
-import com.idk.essence.utils.Registry;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.block.Block;
@@ -29,13 +28,13 @@ public class SystemItemHandler implements Listener {
 
     private static void setSystemItems() {
         Set<String> systemItemSet = ConfigManager.DefaultFile.ARTIFACTS.getConfig().getKeys(false);
-        for(Registry.SystemItem registry : Registry.SystemItem.values()) {
-            String name = registry.name().toLowerCase();
-            if(systemItemSet.contains(name)) {
-                // use Function to automatically generate SystemItem from a string
-                SystemItem.systemItems.put(name, registry.constructor.apply(name));
-            }
-        }
+//        for(Registry.SystemItem registry : Registry.SystemItem.values()) {
+//            String name = registry.name().toLowerCase();
+//            if(systemItemSet.contains(name)) {
+//                // use Function to automatically generate SystemItem from a string
+//                SystemItem.systemItems.put(name, registry.constructor.apply(name));
+//            }
+//        }
     }
 
     @Nullable

@@ -18,6 +18,7 @@ public enum ArtifactRegistry {
     }
 
     public static void registerBehaviors() {
-        Arrays.stream(ArtifactRegistry.values()).forEach(artifact -> ArtifactFactory.addBehavior(artifact.internalName, artifact.behavior));
+        Arrays.stream(ArtifactRegistry.values()).forEach(artifact ->
+                ArtifactFactory.addBehavior(artifact.internalName, artifact.behavior));
     }
 }

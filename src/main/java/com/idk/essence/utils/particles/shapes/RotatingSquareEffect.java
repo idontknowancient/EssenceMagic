@@ -1,12 +1,12 @@
 package com.idk.essence.utils.particles.shapes;
 
-import com.idk.essence.utils.particles.CustomParticle;
+import com.idk.essence.utils.particles.ParticleEffect;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
 @Getter
-public class RotatingSquare extends CustomParticle {
+public class RotatingSquareEffect extends ParticleEffect {
 
     private double baseAngle = 0;
     private final double radius;
@@ -15,7 +15,7 @@ public class RotatingSquare extends CustomParticle {
     private final double rotationSpeed;
     private int tick = 0;
 
-    public RotatingSquare(ConfigurationSection section) {
+    public RotatingSquareEffect(ConfigurationSection section) {
         super(section);
         radius = getSection().getDouble("radius", 3);
         pointCount = getSection().getInt("point-count", 8);

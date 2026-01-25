@@ -3,10 +3,10 @@ package com.idk.essence.items.systemItems.features;
 import com.idk.essence.Essence;
 import com.idk.essence.items.SystemItem;
 import com.idk.essence.utils.DisplayHandler;
-import com.idk.essence.utils.Registry;
 import com.idk.essence.utils.configs.ConfigManager;
-import com.idk.essence.utils.particles.CustomParticle;
-import com.idk.essence.utils.particles.ParticleHandler;
+import com.idk.essence.utils.particles.ParticleEffect;
+import com.idk.essence.utils.particles.ParticleManager;
+import com.idk.essence.utils.particles.ParticleRegistry;
 import com.jeff_media.customblockdata.CustomBlockData;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -63,7 +63,7 @@ public abstract class SIParticleBlock extends SystemItem implements Placeable, W
             block.getWorld().dropItemNaturally(block.getLocation(), getBack);
         // stop the particle if activated
         if(isDisplayParticle())
-            ParticleHandler.stopParticle(block.getLocation());
+            ParticleManager.stop(block.getLocation());
     }
 
     @Override
@@ -79,15 +79,10 @@ public abstract class SIParticleBlock extends SystemItem implements Placeable, W
     @Override
     public void generateParticle(Location location) {
         ConfigurationSection section = ConfigManager.DefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".particle");
-        Registry.CustomParticle particle;
-        try {
-            particle = Registry.CustomParticle.valueOf(section.getString("shape", "circle").toUpperCase());
-        } catch (IllegalArgumentException e) {
-            particle = Registry.CustomParticle.CIRCLE;
-        }
 
         // create custom particle
-        CustomParticle activating = particle.constructor.apply(section);
+        ParticleEffect activating = ParticleRegistry.get(section);
+        if(activating == null) return;
         activating.generate(location);
     }
 }

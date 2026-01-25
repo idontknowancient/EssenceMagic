@@ -40,12 +40,14 @@ public class MenuListener implements Listener {
         Inventory inventory = e.getInventory();
         ItemStack item = e.getCurrentItem();
         ItemMeta itemMeta = item.getItemMeta();
-        Component displayName = itemMeta.displayName();
-        List<Component> lore = itemMeta.lore();
 
         // Cancel a click
         if(inventory.getHolder() instanceof CancelHolder)
             e.setCancelled(true);
+
+        if(itemMeta ==  null) return;
+        Component displayName = itemMeta.displayName();
+        List<Component> lore = itemMeta.lore();
 
         // Provide info by click (elements & skills & magics)
         if(inventory.getHolder() instanceof DetailInfoHolder) {

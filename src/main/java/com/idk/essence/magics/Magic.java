@@ -4,7 +4,8 @@ import com.idk.essence.Essence;
 import com.idk.essence.elements.Element;
 import com.idk.essence.magics.modifiers.Damage;
 import com.idk.essence.utils.configs.ConfigManager;
-import com.idk.essence.utils.particles.shapes.Spiral;
+import com.idk.essence.utils.particles.ParticleEffect;
+import com.idk.essence.utils.particles.shapes.SpiralEffect;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 
@@ -13,8 +14,6 @@ import java.util.*;
 
 @Getter
 public abstract class Magic {
-
-    private static final Essence plugin = Essence.getPlugin();
 
     // record all child types
     public static final Map<String, Magic> magics = new LinkedHashMap<>();
@@ -33,7 +32,7 @@ public abstract class Magic {
 
     private final List<Element> applyingElements = new ArrayList<>();
 
-    @Nullable private final CustomParticle particle;
+    @Nullable private final ParticleEffect particle;
 
     private final List<Modifier> modifiers = new ArrayList<>();
 
@@ -97,8 +96,8 @@ public abstract class Magic {
         if(cm.isString(magicName + ".particles")) {
             String path = magicName + ".particles";
             if(cm.getString(path).equalsIgnoreCase("spiral")) {
-                particle = new Spiral();
-                info.add("&7Particles: Spiral");
+                particle = new SpiralEffect(cm.getConfigurationSection(""));
+                info.add("&7Particles: SpiralEffect");
             }
             else
                 particle = null;
