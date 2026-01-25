@@ -73,7 +73,7 @@ public class Wand {
     @Getter private static final NamespacedKey wandMagicKey = new NamespacedKey(plugin, "wand-magic-key");
 
     public Wand(String wandName) {
-        ConfigManager.ConfigDefaultFile cw = ConfigManager.ConfigDefaultFile.WANDS;
+        ConfigManager.DefaultFile cw = ConfigManager.DefaultFile.WANDS;
         name = wandName;
 
         // set wand material (default to stick)
@@ -123,7 +123,7 @@ public class Wand {
             slot = 1;
 
         // set empty string (default to "&7[empty]")
-        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MESSAGES;
+        ConfigManager.DefaultFile cm = ConfigManager.DefaultFile.MESSAGES;
         if(cm.isString("wand-magic-empty"))
             emptyString = cm.outString("wand-magic-empty");
 

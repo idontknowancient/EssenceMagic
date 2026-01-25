@@ -3,6 +3,7 @@ package com.idk.essence.utils.damage;
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.utils.Util;
+import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
@@ -19,6 +20,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DamageManager implements Listener {
+
+    @Getter private static final DamageManager instance = new DamageManager();
+
+    private DamageManager() {}
 
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event) {

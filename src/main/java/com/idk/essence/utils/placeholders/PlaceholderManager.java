@@ -5,7 +5,7 @@ import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.SystemItem;
 import com.idk.essence.magics.Magic;
-import com.idk.essence.players.ManaHandler;
+import com.idk.essence.players.ManaManager;
 import com.idk.essence.players.PlayerData;
 import com.idk.essence.items.arcana.Wand;
 import com.idk.essence.items.arcana.WandHandler;
@@ -199,14 +199,14 @@ public class PlaceholderManager {
 
     private static String handlePlayerData(String string, PlayerData info) {
         if(string.contains(Placeholder.PLAYER.name))
-            string = string.replaceAll(Placeholder.PLAYER.name, String.valueOf(info.getPlayerName()));
+            string = string.replaceAll(Placeholder.PLAYER.name, String.valueOf(info.getPlayer().getName()));
         if(string.contains(Placeholder.MANA_LEVEL.name))
             string = string.replaceAll(Placeholder.MANA_LEVEL.name, String.valueOf(info.getManaLevel()));
         if(string.contains(Placeholder.MANA.name))
             // rounding two digits
             string = string.replaceAll(Placeholder.MANA.name, String.valueOf(Math.round(info.getMana() * 100.00) / 100.00));
         if(string.contains(Placeholder.DEFAULT_MANA.name))
-            string = string.replaceAll(Placeholder.DEFAULT_MANA.name, String.valueOf(ManaHandler.getDefaultMana()));
+            string = string.replaceAll(Placeholder.DEFAULT_MANA.name, String.valueOf(ManaManager.getDefaultMana()));
         if(string.contains(Placeholder.MAX_MANA.name))
             // rounding two digits
             string = string.replaceAll(Placeholder.MAX_MANA.name, String.valueOf(Math.round(info.getMaxMana() * 100.00) / 100.00));
@@ -217,7 +217,7 @@ public class PlaceholderManager {
 
     private static String handleDouble(String string, double info) {
         if(string.contains(Placeholder.DEFAULT_MANA.name))
-            string = string.replaceAll(Placeholder.DEFAULT_MANA.name, String.valueOf(ManaHandler.getDefaultMana()));
+            string = string.replaceAll(Placeholder.DEFAULT_MANA.name, String.valueOf(ManaManager.getDefaultMana()));
         return string;
     }
 

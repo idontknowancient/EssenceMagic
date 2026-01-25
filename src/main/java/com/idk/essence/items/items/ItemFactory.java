@@ -27,7 +27,7 @@ public class ItemFactory {
 
     public static void initialize() {
         items.clear();
-        ConfigManager.ConfigFolder.ITEMS_ITEMS.load(ItemFactory::register);
+        ConfigManager.Folder.ITEMS_ITEMS.load(ItemFactory::register);
     }
 
     /**

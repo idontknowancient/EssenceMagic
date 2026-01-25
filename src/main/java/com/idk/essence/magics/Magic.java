@@ -40,7 +40,7 @@ public abstract class Magic {
     private final List<String> info = new ArrayList<>();
 
     public Magic(String magicName) {
-        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MAGICS;
+        ConfigManager.DefaultFile cm = ConfigManager.DefaultFile.MAGICS;
         name = magicName;
 
         // set magic name (default to "")

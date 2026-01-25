@@ -3,8 +3,8 @@ default-level: 0
 naturally-recover: true
 # What amount should max mana be added when mana level grows 1
 max-mana-modifier: 5
-# Past how many seconds to recover 1 mana
-recovery-speed: 10
+# How many ticks will it take to recover 1 mana
+recovery-speed: 100
 # Whether to show current mana in the action bar
 show-in-action-bar: true
 # Whether to consume mana while skills fail to generate

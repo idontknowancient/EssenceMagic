@@ -1,6 +1,6 @@
 package com.idk.essence.items.arcana;
 
-import com.idk.essence.players.PlayerData;
+import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.utils.ClickHandler;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
@@ -28,7 +28,7 @@ public class WandHandler implements Listener {
     }
 
     private static void setWands() {
-        Set<String> wandSet = ConfigManager.ConfigDefaultFile.WANDS.getConfig().getKeys(false);
+        Set<String> wandSet = ConfigManager.DefaultFile.WANDS.getConfig().getKeys(false);
         for(String wand : wandSet) {
             Wand.wands.put(wand, new Wand(wand));
         }
@@ -170,7 +170,7 @@ public class WandHandler implements Listener {
         setWandMagic(newWand, newMagic.toString());
 
         // update lore (based on old mana)
-//        List<String> lore = ConfigManager.ConfigDefaultFile.WANDS.outStringList(name + ".lore", newWand);
+//        List<String> lore = ConfigManager.DefaultFile.WANDS.outStringList(name + ".lore", newWand);
 //        // handle "\n" in lore
 //        Util.setLore(newWand, Util.splitLore(lore));
 
@@ -191,7 +191,7 @@ public class WandHandler implements Listener {
         ItemStack wand = player.getInventory().getItemInMainHand();
         if(wand.getItemMeta() == null) return;
 
-        double playerMana = PlayerData.dataMap.get(player.getName()).getMana();
+        double playerMana = PlayerDataManager.get(player).getMana();
         double manaInjection = getInjection(wand);
 
         // the player's mana is less than the amount that will be consumed per right click
@@ -202,7 +202,7 @@ public class WandHandler implements Listener {
         setMana(wand, getMana(wand) + manaInjection);
 
         // update player's mana
-        PlayerData.dataMap.get(player.getName()).setMana(playerMana - manaInjection);
+        PlayerDataManager.get(player).setMana(playerMana - manaInjection);
         SystemMessage.WAND_MANA_INJECTED.send(player, wand);
 
         updateWand(wand);

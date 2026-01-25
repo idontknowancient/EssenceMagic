@@ -81,7 +81,7 @@ public class Element {
                         e -> this.addDamageMultiplier(e, multiplier))
         );
         if(showDamageMultiplier) {
-            itemBuilder.addLore("", ConfigManager.ConfigDefaultFile.MENUS.getString(
+            itemBuilder.addLore("", ConfigManager.DefaultFile.MENUS.getString(
                     "element.damage-multiplier-text", "&bDamage Multiplier:"));
             // Entry<Element, Double> -> Stream<String>
             itemBuilder.addLore(damageMultiplier.entrySet().stream().map(

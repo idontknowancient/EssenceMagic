@@ -43,7 +43,7 @@ public class ArtifactFactory implements Listener {
         activateArtifacts.clear();
         behaviors.clear();
         ArtifactRegistry.registerBehaviors();
-        ConfigManager.ConfigFolder.ITEMS_ARTIFACT.load(ArtifactFactory::register);
+        ConfigManager.Folder.ITEMS_ARTIFACT.load(ArtifactFactory::register);
     }
 
     /**

@@ -5,7 +5,6 @@ import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.magics.Magic;
-import com.idk.essence.menus.holders.CancelHolder;
 import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
 import com.idk.essence.menus.holders.ShiftSpawnHolder;
@@ -24,7 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Menu {
 
-    private static final ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS;
+    private static final ConfigManager.DefaultFile cm = ConfigManager.DefaultFile.MENUS;
 
     public static Inventory getElementMenu() {
         Inventory elementMenu = createInventory(DetailInfoHolder.getInstance(), "element");

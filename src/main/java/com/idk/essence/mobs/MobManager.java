@@ -17,7 +17,7 @@ public class MobManager {
 
     public static void initialize() {
         mobs.clear();
-        ConfigManager.ConfigFolder.MOBS.load(MobManager::register);
+        ConfigManager.Folder.MOBS.load(MobManager::register);
     }
 
     public static Collection<String> getAllKeys() {

@@ -16,15 +16,15 @@ public interface Message {
     }
 
     static String get(String path) {
-        return ConfigManager.ConfigDefaultFile.MESSAGES.getString(path);
+        return ConfigManager.DefaultFile.MESSAGES.getString(path);
     }
 
     static Component out(String path) {
-        return ConfigManager.ConfigDefaultFile.MESSAGES.outString(path);
+        return ConfigManager.DefaultFile.MESSAGES.outString(path);
     }
 
     static Component out(String path, Object info) {
-        return ConfigManager.ConfigDefaultFile.MESSAGES.outString(path, info);
+        return ConfigManager.DefaultFile.MESSAGES.outString(path, info);
     }
 
     static String getPrefix() {

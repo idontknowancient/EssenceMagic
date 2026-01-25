@@ -74,14 +74,14 @@ public abstract class SISlotBlock extends SIParticleBlock implements WithInterac
     // also set container
     @Override
     public void generateSlotsAround(Location center, float startYaw, int count) {
-        ConfigurationSection section = ConfigManager.ConfigDefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot");
+        ConfigurationSection section = ConfigManager.DefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot");
         PersistentDataContainer container = new CustomBlockData(center.getBlock(), getPlugin());
 //        InteractiveSlotHandler.setSlotsAround(center, startYaw, count, section, container);
     }
 
     @Override
     public void rebuildSlotsAround(Location center) {
-        ConfigurationSection section = ConfigManager.ConfigDefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot");
+        ConfigurationSection section = ConfigManager.DefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot");
         PersistentDataContainer container = new CustomBlockData(center.getBlock(), getPlugin());
 //        InteractiveSlotHandler.rebuildSlotsAround(center, section, container);
     }

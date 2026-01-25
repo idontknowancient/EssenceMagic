@@ -1,6 +1,7 @@
 package com.idk.essence.players;
 
 import com.idk.essence.utils.configs.ConfigManager;
+import com.idk.essence.utils.configs.EssenceConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -10,30 +11,48 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class PlayerData implements ManaHandler {
+public class PlayerData implements ManaManager {
 
-    public static final Map<String, PlayerData> dataMap = new HashMap<>();
-    public static final String[] dataName = {
-            "mana-level", "mana-recovery-speed"
-    };
-    private final String playerName;
-    private final String playerUUID;
+    private final EssenceConfig config;
+    private final Player player;
+
+    // In config
     @Setter private int manaLevel;
-    @Setter private double mana;
+    @Setter private int manaRecoverySpeed;
+
+    // Not in config
     @Setter private double maxMana;
-    @Setter private double manaRecoverySpeed;
+    private double mana;
 
     public PlayerData(Player player) {
-        ConfigManager.ConfigDefaultFile cp = ConfigManager.ConfigDefaultFile.PLAYER_DATA;
-        playerName = player.getName();
-        playerUUID = player.getUniqueId().toString();
-        manaLevel = cp.getInteger(playerName + "." + dataName[0]);
-        manaRecoverySpeed = cp.getDouble(playerName + "." + dataName[1]);
-        setup();
+        config = ConfigManager.Folder.PLAYER_DATA.getConfig(player.getUniqueId().toString());
+        this.player = player;
+        if(config == null) return;
+
+        manaLevel = config.getInteger(PlayerDataRegistry.MANA_LEVEL.getName());
+        manaRecoverySpeed = config.getInteger(PlayerDataRegistry.MANA_RECOVERY_SPEED.getName());
+        manaSetup();
     }
 
     @Override
     public Player getPlayer() {
-        return Bukkit.getPlayer(playerName);
+        return player;
+    }
+
+    /**
+     * -1 means max amount.
+     */
+    public void setMana(double amount) {
+        if(amount == -1)
+            mana = getMaxMana();
+        else
+            mana = amount;
+    }
+
+    /**
+     * Deduct mana by the amount.
+     */
+    public void deductMana(double amount) {
+        mana -= amount;
     }
 }

@@ -55,7 +55,7 @@ public class InteractiveSlot implements ConfigurationSerializable {
         if(location.getWorld() == null) return;
 
         Particle.DustOptions options = new Particle.DustOptions(color, 1);
-        ConfigManager.ConfigDefaultFile EssenceMagic;
+        ConfigManager.DefaultFile EssenceMagic;
         if(displayParticle)
             task = new BukkitRunnable() {
                 @Override

@@ -41,7 +41,7 @@ public class SkillManager implements Listener {
         skillTypes.clear();
         skillCooldowns.clear();
         SkillType.registerAll(skillTypes);
-        ConfigManager.ConfigFolder.SKILLS.load(SkillManager::register);
+        ConfigManager.Folder.SKILLS.load(SkillManager::register);
     }
 
     @EventHandler

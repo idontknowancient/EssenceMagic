@@ -7,6 +7,7 @@ import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.magics.MagicHandler;
 import com.idk.essence.mobs.MobManager;
+import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.skills.SkillManager;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.damage.DamageManager;
@@ -15,12 +16,10 @@ import com.idk.essence.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essence.menus.MenuListener;
 import com.idk.essence.utils.listeners.PlayerJoinQuitListener;
 import com.idk.essence.utils.particles.ParticleHandler;
-import com.idk.essence.players.PlayerDataHandler;
 import com.idk.essence.items.arcana.WandHandler;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 
@@ -54,7 +53,7 @@ public class Register {
         ItemFactory.initialize();
         WandHandler.initialize();
         MobManager.initialize();
-        PlayerDataHandler.initialize();
+        PlayerDataManager.initialize();
         ParticleHandler.initialize();
         InteractiveSlotHandler.initialize();
     }
@@ -65,9 +64,9 @@ public class Register {
 
     public static void registerListeners() {
         register(new PlayerJoinQuitListener());
-        register(new MenuListener());
-        register(new DamageManager());
-        register(new PlayerDataHandler());
+        register(MenuListener.getInstance());
+        register(DamageManager.getInstance());
+        register(PlayerDataManager.getInstance());
         register(SkillManager.getInstance());
         register(ArtifactFactory.getInstance());
         register(new WandHandler());
@@ -81,11 +80,8 @@ public class Register {
         CustomBlockData.registerListener(plugin);
     }
 
-    private static void register(String string, CommandExecutor executor) {
-        Optional.ofNullable(plugin.getCommand(string)).ifPresent(command -> command.setExecutor(executor));
-    }
-
     public static void registerCommands() {
-        register("essence", new EssenceCommand());
+        Optional.ofNullable(plugin.getCommand("essence"))
+                .ifPresent(command -> command.setExecutor(EssenceCommand.getInstance()));
     }
 }

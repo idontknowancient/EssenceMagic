@@ -20,11 +20,11 @@ public class ElementFactory {
 
     public static void initialize() {
         elements.clear();
-        ConfigManager.ConfigDefaultFile cc = ConfigManager.ConfigDefaultFile.CONFIG;
-        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MENUS;
+        ConfigManager.DefaultFile cc = ConfigManager.DefaultFile.CONFIG;
+        ConfigManager.DefaultFile cm = ConfigManager.DefaultFile.MENUS;
         Element.setCounterEffect(cc.getBoolean("element-counter-effect", true));
         Element.setShowDamageMultiplier(cm.getBoolean("element.show-damage-multiplier", true));
-        ConfigManager.ConfigFolder.ELEMENTS.load(ElementFactory::register);
+        ConfigManager.Folder.ELEMENTS.load(ElementFactory::register);
         registerDefault();
         for(ElementBuilder builder : elements.values())
             builder.setCounter();

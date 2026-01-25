@@ -51,7 +51,7 @@ public class WandProcessingTable extends SIParticleBlock {
 
             InteractiveSlot[] slots = InteractiveSlotHandler.setSlotsAround(
                     block.getLocation(), player.getLocation().getYaw(), WandHandler.getSlot(item),
-                    ConfigManager.ConfigDefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot"));
+                    ConfigManager.DefaultFile.ARTIFACTS.getConfigurationSection(getName() + ".slot"));
             InteractiveSlotHandler.setContainer(container, slots);
         } else if(container.has(wandProcessingTableKey) && item == null) {
             // remove and remove container

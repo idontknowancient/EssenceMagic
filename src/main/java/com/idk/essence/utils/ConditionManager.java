@@ -1,6 +1,6 @@
 package com.idk.essence.utils;
 
-import com.idk.essence.players.PlayerData;
+import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -86,7 +86,7 @@ public class ConditionManager {
         if(matcher.find()) {
             // e.g. %player_mana%
             String left = matcher.group(1).trim();
-            left = PlaceholderManager.translate(left, PlayerData.dataMap.get(player.getName()));
+            left = PlaceholderManager.translate(left, PlayerDataManager.get(player));
             // Handle if the placeholder is not a custom one
             if(left.contains("%"))
                 left = PlaceholderAPI.setPlaceholders(player, left);
@@ -96,7 +96,7 @@ public class ConditionManager {
 
             // e.g. 20
             String right = matcher.group(3).trim();
-            right = PlaceholderManager.translate(right, PlayerData.dataMap.get(player.getName()));
+            right = PlaceholderManager.translate(right, PlayerDataManager.get(player));
             if(left.contains("%"))
                 left = PlaceholderAPI.setPlaceholders(player, left);
 
@@ -121,8 +121,7 @@ public class ConditionManager {
 
         if(type.equalsIgnoreCase("mana"))
             // Consume mana depending on the settings
-            if(success || ConfigManager.ConfigDefaultFile.MANA.getBoolean("consume-while-skill-fail"))
-                PlayerData.dataMap.get(player.getName()).setMana(
-                        PlayerData.dataMap.get(player.getName()).getMana() - amount);
+            if(success || ConfigManager.DefaultFile.MANA.getBoolean("consume-while-skill-fail"))
+                PlayerDataManager.get(player).deductMana(amount);
     }
 }

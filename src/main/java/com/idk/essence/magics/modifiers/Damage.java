@@ -18,7 +18,7 @@ public class Damage extends Modifier {
 
     public Damage(String magicName) {
         super("damage");
-        ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MAGICS;
+        ConfigManager.DefaultFile cm = ConfigManager.DefaultFile.MAGICS;
         String path = magicName + ".modifiers.damage";
 
         // set modifier damage base (default to 0)

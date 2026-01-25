@@ -2,10 +2,11 @@ package com.idk.essence.commands.essence_sub.mana_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.players.PlayerData;
+import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -51,8 +52,7 @@ public class GetCommand extends SubCommand {
                 SystemMessage.PLAYER_ONLY.send(sender);
                 return;
             }
-            playerName = p.getName();
-            SystemMessage.GET_MANA.send(p, PlayerData.dataMap.get(playerName));
+            SystemMessage.GET_MANA.send(p, PlayerDataManager.get(p));
             return;
         }
 
@@ -61,11 +61,11 @@ public class GetCommand extends SubCommand {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
-        playerName = args[2];
-        if(!PlayerData.dataMap.containsKey(playerName)) {
+        Player target = Bukkit.getPlayer(args[2]);
+        if(!PlayerDataManager.has(target)) {
             SystemMessage.PLAYER_NOT_EXIST.send(sender);
             return;
         }
-        SystemMessage.GET_MANA.send(sender, PlayerData.dataMap.get(playerName));
+        SystemMessage.GET_MANA.send(sender, PlayerDataManager.get(target));
     }
 }

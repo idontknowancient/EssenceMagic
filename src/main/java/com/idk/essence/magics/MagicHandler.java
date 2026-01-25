@@ -14,7 +14,7 @@ public class MagicHandler {
     }
 
     private static void setMagics() {
-        Set<String> magicSet = ConfigManager.ConfigDefaultFile.MAGICS.getConfig().getKeys(false);
+        Set<String> magicSet = ConfigManager.DefaultFile.MAGICS.getConfig().getKeys(false);
         for(String magicName : magicSet) {
             if(magicName.equalsIgnoreCase(ChildType.FIRE_BEAM.name))
                 Magic.magics.put(magicName, new FireBeam(magicName));

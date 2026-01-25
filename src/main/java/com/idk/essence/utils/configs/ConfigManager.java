@@ -3,6 +3,7 @@ package com.idk.essence.utils.configs;
 import com.idk.essence.Essence;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +11,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.stream.Stream;
@@ -19,18 +20,18 @@ import java.util.stream.Stream;
 public class ConfigManager {
 
     public static void initialize() {
-        for(ConfigFolder folder : ConfigFolder.values()) {
+        for(Folder folder : Folder.values()) {
             folder.setupFolders();
         }
-        for(ConfigDefaultFile file : ConfigDefaultFile.values()) {
+        for(DefaultFile file : DefaultFile.values()) {
             file.copyFromResources();
         }
-        for(ConfigFolder folder : ConfigFolder.values()) {
+        for(Folder folder : Folder.values()) {
             folder.setupFiles();
         }
     }
 
-    public enum ConfigFolder {
+    public enum Folder {
         ELEMENTS("elements"),
         /**
          * Magical items
@@ -46,6 +47,7 @@ public class ConfigManager {
         ITEMS_ITEMS("items/items"),
         MAGICS("magics"),
         MOBS("mobs"),
+        PLAYER_DATA("player_data"),
         SKILLS("skills"),
         WANDS("wands"),
         ;
@@ -54,9 +56,9 @@ public class ConfigManager {
 
         private final String folderName;
 
-        private final List<EssenceConfig> configFiles = new ArrayList<>();
+        private final Map<String, EssenceConfig> configFiles = new HashMap<>();
 
-        ConfigFolder(String folderName) {
+        Folder(String folderName) {
             this.folderName = folderName;
         }
 
@@ -89,7 +91,7 @@ public class ConfigManager {
                             Path relativePath = folderPath.relativize(path);
                             // id will be "weapons/gold_sword.yml"
                             String fileName = relativePath.toString().replace("\\", "/");
-                            configFiles.add(new ConfigFolderFile(path.toFile(), fileName));
+                            configFiles.put(fileName, new FolderFile(path.toFile(), fileName));
                         });
             } catch(IOException e) {
                 Essence.getPlugin().getComponentLogger().error("Error occurred when walking folder: {} !", folderName);
@@ -97,11 +99,41 @@ public class ConfigManager {
         }
 
         /**
+         * Create files in this folder if not exist.
+         * @param fileName no .yml needed
+         */
+        public void createFile(String fileName) {
+            if(!fileName.endsWith(".yml")) fileName += ".yml";
+            Path path = plugin.getDataFolder().toPath().resolve(folderName).resolve(fileName);
+            try {
+                // Ensure all parent folders are created
+                Files.createDirectories(path.getParent());
+                // Create if not exist
+                if(Files.notExists(path)) {
+                    Files.createFile(path);
+                    configFiles.put(fileName, new FolderFile(path.toFile(), fileName));
+                }
+            } catch(IOException e) {
+                Essence.getPlugin().getComponentLogger().error("Error occurred when creating file: {} !", fileName);
+            }
+        }
+
+        /**
+         * Get EssenceConfig by file name.
+         * @param fileName relative file name. e.g. items/artifacts/Artifacts.yml -> Artifacts.yml & elements/Elements.yml -> Elements.yml
+         */
+        @Nullable
+        public EssenceConfig getConfig(String fileName) {
+            fileName = fileName + (fileName.endsWith(".yml") ? "" : ".yml");
+            return configFiles.get(fileName);
+        }
+
+        /**
          * Load all content.
          * @param consumer for example, ItemBuilder::register
          */
         public void load(BiConsumer<String, EssenceConfig> consumer) {
-            for(EssenceConfig configFile : configFiles) {
+            for(EssenceConfig configFile : configFiles.values()) {
                 for(String name : configFile.getConfig().getKeys(false)) {
                     consumer.accept(name, configFile);
                 }
@@ -109,7 +141,7 @@ public class ConfigManager {
         }
     }
 
-    public static class ConfigFolderFile implements EssenceConfig {
+    public static class FolderFile implements EssenceConfig {
 
         private final String fileName;
         private final File file;
@@ -118,7 +150,7 @@ public class ConfigManager {
         /**
          * @param fileName .yml will be automatically appended if missing
          */
-        public ConfigFolderFile(File file, String fileName) {
+        public FolderFile(File file, String fileName) {
             this.fileName = fileName + (fileName.endsWith(".yml") ? "" : ".yml");
             this.file = file;
             config = YamlConfiguration.loadConfiguration(file);
@@ -145,7 +177,7 @@ public class ConfigManager {
         }
     }
 
-    public enum ConfigDefaultFile implements EssenceConfig {
+    public enum DefaultFile implements EssenceConfig {
         ARTIFACTS("items/artifacts",  "Artifacts"),
         ELEMENTS("elements", "Default_Elements"),
         ITEMS("items/items", "Default_Items"),
@@ -166,13 +198,13 @@ public class ConfigManager {
         private final Path folderPath;
         private final YamlConfiguration config = new YamlConfiguration();
 
-        ConfigDefaultFile(String fileName) {
+        DefaultFile(String fileName) {
             this.fileName = fileName + ".yml";
             this.file = new File(getPlugin().getDataFolder(), this.fileName);
             folderPath = null;
         }
 
-        ConfigDefaultFile(String folderName, String fileName) {
+        DefaultFile(String folderName, String fileName) {
             this.fileName = fileName + ".yml";
             folderPath = getPlugin().getDataFolder().toPath().resolve(folderName);
             this.file = new File(folderPath.toFile(), this.fileName);

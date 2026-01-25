@@ -70,9 +70,10 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\menus\Men
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\Mob.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\MobManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\MobTemplate.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\ManaHandler.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\ManaManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerData.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerDataHandler.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerDataManager.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerDataRegistry.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\skills\SkillManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\skills\SkillTemplate.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\skills\SkillType.java

@@ -44,7 +44,7 @@ public abstract class SystemItem {
     private final ItemStack itemStack;
 
     protected SystemItem(String itemName) {
-        ConfigManager.ConfigDefaultFile cs = ConfigManager.ConfigDefaultFile.ARTIFACTS;
+        ConfigManager.DefaultFile cs = ConfigManager.DefaultFile.ARTIFACTS;
         name = itemName;
 
         // set usable (default to true)

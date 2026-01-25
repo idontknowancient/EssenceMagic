@@ -58,7 +58,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_WAND.send(p);
             return;
         }
-        List<Component> info = ConfigManager.ConfigDefaultFile.MESSAGES.outStringList("wand-info", itemInMainHand);
+        List<Component> info = ConfigManager.DefaultFile.MESSAGES.outStringList("wand-info", itemInMainHand);
         for(Component component : info) {
             p.sendMessage(component);
         }

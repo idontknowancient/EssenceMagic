@@ -23,8 +23,9 @@ import java.util.*;
 public class EssenceCommand implements CommandExecutor, TabCompleter {
 
     @Getter private static final Map<String, SubCommand> subCommands = new HashMap<>();
+    @Getter private static final EssenceCommand instance = new EssenceCommand();
 
-    public EssenceCommand() {
+    private EssenceCommand() {
         subCommands.put("element", new ElementCommand("element"));
         subCommands.put("help", new HelpCommand("help"));
         subCommands.put("item", new ItemCommand("item"));

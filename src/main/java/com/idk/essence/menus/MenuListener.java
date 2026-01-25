@@ -11,6 +11,7 @@ import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
 import com.idk.essence.items.arcana.Wand;
 import com.idk.essence.items.arcana.WandHandler;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +27,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class MenuListener implements Listener {
+
+    @Getter private static final MenuListener instance = new MenuListener();
+
+    private MenuListener() {}
 
     @EventHandler
     public void onCustomMenuClick(InventoryClickEvent e) {

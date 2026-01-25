@@ -72,13 +72,13 @@ public enum SystemMessage implements Message {
     }
 
     public void send(CommandSender sender) {
-        Message.send(sender, ConfigManager.ConfigDefaultFile.MESSAGES.getString(path));
+        Message.send(sender, ConfigManager.DefaultFile.MESSAGES.getString(path));
     }
 
     /**
      * With placeholders
      */
     public void send(CommandSender sender, Object info) {
-        Message.send(sender, ConfigManager.ConfigDefaultFile.MESSAGES.getString(path), info);
+        Message.send(sender, ConfigManager.DefaultFile.MESSAGES.getString(path), info);
     }
 }

@@ -59,7 +59,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
-        List<Component> info = ConfigManager.ConfigDefaultFile.MESSAGES.outStringList("item-info", itemInMainHand);
+        List<Component> info = ConfigManager.DefaultFile.MESSAGES.outStringList("item-info", itemInMainHand);
         info.forEach(p::sendMessage);
     }
 }

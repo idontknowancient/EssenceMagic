@@ -9,40 +9,35 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ManaHandler {
+public interface ManaManager {
 
     Essence plugin = Essence.getPlugin();
-    ConfigManager.ConfigDefaultFile cm = ConfigManager.ConfigDefaultFile.MANA;
+    ConfigManager.DefaultFile manaFile = ConfigManager.DefaultFile.MANA;
     List<Integer> taskIds = new ArrayList<>();
-    int interval = cm.getInteger("update-interval");
+    int interval = manaFile.getInteger("update-interval", 5);
+    boolean showInActionBar = manaFile.getBoolean("show-in-action-bar", true);
+    boolean naturallyRecover = manaFile.getBoolean("naturally-recover", true);
 
     int getManaLevel();
-
-    double getMana();
-
-    static double getDefaultMana() {
-        return cm.getDouble("default-value");
-    }
-
+    int getManaRecoverySpeed();
     double getMaxMana();
-
-    double getManaRecoverySpeed();
-
+    double getMana();
     Player getPlayer();
-
     void setMaxMana(double maxMana);
-
     void setMana(double mana);
 
+    static double getDefaultMana() {
+        return manaFile.getDouble("default-value", 20);
+    }
+
     static void initialize() {
-        //notice!
         for(int id : taskIds)
             Bukkit.getScheduler().cancelTask(id);
         taskIds.clear();
     }
 
-    default void setup() {
-        setMaxMana(getDefaultMana() + getManaLevel() * cm.getDouble("max-mana-modifier"));
+    default void manaSetup() {
+        setMaxMana(getDefaultMana() + getManaLevel() * manaFile.getDouble("max-mana-modifier", 5));
         setMana(getMaxMana());
         showInActionBar();
         recover();
@@ -52,12 +47,10 @@ public interface ManaHandler {
         taskIds.add(new BukkitRunnable() {
             @Override
             public void run() {
-                //self-cancelling bukkit runnable
-                if(!cm.getBoolean("show-in-action-bar"))
+                if(!showInActionBar)
                     this.cancel();
-                if(getPlayer() != null) {
-                    getPlayer().sendActionBar(cm.outString("show-message", PlayerData.dataMap.get(getPlayer().getName())));
-                }
+                if(getPlayer() != null)
+                    getPlayer().sendActionBar(manaFile.outString("show-message", PlayerDataManager.get(getPlayer())));
             }
         }.runTaskTimer(plugin, 0L, interval).getTaskId());
     }
@@ -66,11 +59,12 @@ public interface ManaHandler {
         taskIds.add(new BukkitRunnable() {
             @Override
             public void run() {
-                if(!cm.getBoolean("naturally-recover"))
+                if(!naturallyRecover)
                     this.cancel();
                 if(getPlayer() != null) {
                     if(getMana() <= getMaxMana()) {
-                        setMana(Math.min(getMana() + getManaRecoverySpeed()*interval/20.00d, getMaxMana()));
+                        // e.g. interval = 5, speed = 100(tick per mana), so add 1/20 per interval
+                        setMana(Math.min(getMana() + (double) interval / getManaRecoverySpeed(), getMaxMana()));
                     }
                 }
             }
