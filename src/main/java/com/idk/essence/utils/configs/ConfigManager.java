@@ -190,7 +190,6 @@ public class ConfigManager {
         MANA("mana"),
         MENUS("menus"),
         MESSAGES("messages"),
-        PLAYER_DATA("player_data"),
         ;
 
         private final String fileName;

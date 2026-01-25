@@ -25,6 +25,7 @@ public class PlayerDataManager implements Listener {
 
     public static void initialize() {
         playerData.clear();
+        PlayerDataRegistry.initialize();
         ManaManager.initialize();
         // Set all online players' data
         Bukkit.getOnlinePlayers().forEach(PlayerDataManager::setPlayerData);

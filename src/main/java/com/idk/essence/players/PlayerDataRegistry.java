@@ -10,16 +10,42 @@ import java.util.Optional;
 
 public enum PlayerDataRegistry {
 
-    MANA_LEVEL("mana-level", ConfigManager.DefaultFile.MANA.getInteger("default-level", 0)),
-    MANA_RECOVERY_SPEED("mana-recovery-speed", ConfigManager.DefaultFile.MANA.getInteger("recovery-speed", 5)),
+    MANA_LEVEL("mana-level", "default-level", 0, Integer.class, ConfigManager.DefaultFile.MANA),
+    MANA_RECOVERY_SPEED("mana-recovery-speed", "recovery-speed", 60, Integer.class, ConfigManager.DefaultFile.MANA),
     ;
 
     @Getter private final String name;
-    @Getter private final Object default_;
+    @Getter private final String path;
+    @Getter private Object default_;
+    private final Class<?> clazz;
+    private final EssenceConfig config;
 
-    PlayerDataRegistry(String name, Object default_) {
+    PlayerDataRegistry(String name, String path, Object default_, Class<?> clazz, EssenceConfig config) {
         this.name = name;
+        this.path = path;
+        this.clazz = clazz;
         this.default_ = default_;
+        this.config = config;
+    }
+
+    /**
+     * Set default values of data.
+     */
+    public static void initialize() {
+        for(PlayerDataRegistry registry : PlayerDataRegistry.values())
+            registry.setDefaultValue();
+    }
+
+    private void setDefaultValue() {
+        try {
+            if(clazz.equals(Integer.class))
+                default_ = config.getInteger(path, (Integer) default_);
+            else if(clazz.equals(Double.class))
+                default_ = config.getDouble(path, (Double) default_);
+            else if(clazz.equals(String.class))
+                default_ = config.getString(path, (String) default_);
+        } catch(ClassCastException ignored) {
+        }
     }
 
     /**
