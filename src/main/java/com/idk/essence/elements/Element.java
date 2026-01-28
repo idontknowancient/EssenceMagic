@@ -68,7 +68,7 @@ public class Element {
         if(!counterEffect) return;
         primitiveDamageMultiplier.forEach((id, multiplier) ->
                 Optional.ofNullable(ElementFactory.get(id)).ifPresent(
-                        e -> e.addDamageMultiplier(internalName, Util.round(1.0 / multiplier, 4)))
+                        e -> e.addDamageMultiplier(internalName, Util.MathTool.round(1.0 / multiplier, 4)))
         );
     }
 

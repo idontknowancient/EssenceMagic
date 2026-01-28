@@ -3,7 +3,6 @@ package com.idk.essence.items.artifacts;
 import com.idk.essence.Essence;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import com.jeff_media.customblockdata.CustomBlockData;
@@ -61,7 +60,7 @@ public class ArtifactFactory implements Listener {
 
         // Transfer all PDC to the block and override all PDC
         CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        Util.copyPDC(item.getPersistentDataContainer(), data);
+        Key.copy(item.getPersistentDataContainer(), data);
 
         // Pass the event to behavior
         Optional.ofNullable(getBehavior(item)).ifPresent(behavior -> behavior.onBlockPlace(event));
@@ -113,14 +112,14 @@ public class ArtifactFactory implements Listener {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isArtifact(ItemStack item) {
-        return ItemFactory.isCustom(item) && item.getItemMeta().getPersistentDataContainer().has(Key.Class.ARTIFACT.get());
+        return ItemFactory.isCustom(item) && item.getItemMeta().getPersistentDataContainer().has(Key.Type.ARTIFACT.getKey());
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isArtifact(Block block) {
         CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        return data.has(Key.Class.ITEM.get(), PersistentDataType.STRING) &&
-                data.has(Key.Class.ARTIFACT.get(), PersistentDataType.STRING);
+        return data.has(Key.Type.ITEM.getKey(), PersistentDataType.STRING) &&
+                data.has(Key.Type.ARTIFACT.getKey(), PersistentDataType.STRING);
     }
 
     /**
@@ -129,7 +128,7 @@ public class ArtifactFactory implements Listener {
     public static boolean isPlaceable(ItemStack item) {
         if(!isArtifact(item)) return true;
         return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.PLACEABLE.get(),  PersistentDataType.BOOLEAN)).orElse(true);
+                .get(Key.Feature.PLACEABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
     }
 
     /**
@@ -138,7 +137,7 @@ public class ArtifactFactory implements Listener {
     public static boolean isUsable(ItemStack item) {
         if(!isArtifact(item)) return true;
         return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.USABLE.get(),  PersistentDataType.BOOLEAN)).orElse(true);
+                .get(Key.Feature.USABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
     }
 
     public static boolean hasActiveArtifact(String internalName) {
@@ -154,7 +153,7 @@ public class ArtifactFactory implements Listener {
     public static ItemStack getArtifact(Block block) {
         CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
         return Optional.ofNullable(activateArtifacts.get(data
-                .get(Key.Class.ARTIFACT.get(), PersistentDataType.STRING))).map(ArtifactBuilder::build).orElse(null);
+                .get(Key.Type.ARTIFACT.getKey(), PersistentDataType.STRING))).map(ArtifactBuilder::build).orElse(null);
     }
 
     @Nullable
@@ -185,14 +184,14 @@ public class ArtifactFactory implements Listener {
     @Nullable
     public static ArtifactBehavior getBehavior(ItemStack item) {
         if(!isArtifact(item)) return null;
-        return getBehavior(item.getItemMeta().getPersistentDataContainer().get(Key.Class.ARTIFACT.get(),  PersistentDataType.STRING));
+        return getBehavior(item.getItemMeta().getPersistentDataContainer().get(Key.Type.ARTIFACT.getKey(),  PersistentDataType.STRING));
     }
 
     @Nullable
     public static ArtifactBehavior getBehavior(Block block) {
         if(!isArtifact(block)) return null;
         CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        return getBehavior(data.get(Key.Class.ARTIFACT.get(),  PersistentDataType.STRING));
+        return getBehavior(data.get(Key.Type.ARTIFACT.getKey(),  PersistentDataType.STRING));
     }
 
     /**

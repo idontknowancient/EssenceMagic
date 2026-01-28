@@ -53,7 +53,7 @@ public class SkillTemplate {
     }
 
     public SkillTemplate displayName(String displayName) {
-        this.displayName = Util.parseMessage(displayName);
+        this.displayName = Util.System.parseMessage(displayName);
         itemBuilder.displayName(displayName);
         return this;
     }

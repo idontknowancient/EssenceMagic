@@ -63,7 +63,7 @@ public abstract class SystemItem {
         for(String string : cs.getStringList(name + ".lore")) {
             lore.add(PlaceholderManager.translate(string, this));
         }
-        lore = Util.splitLore(lore);
+        lore = Util.System.splitLore(lore);
 
         // set glowing (default to true)
         glowing = cs.getBoolean(name + ".glowing", true);

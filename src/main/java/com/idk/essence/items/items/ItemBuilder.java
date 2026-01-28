@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +43,7 @@ public class ItemBuilder {
     private boolean forceGlowing = false;
     private boolean glowing;
     private final List<String> skills = new ArrayList<>();
-    private final Map<NamespacedKey, Object> persistentData = new HashMap<>();
+    private final List<Consumer<PersistentDataContainer>> persistentData = new ArrayList<>();
 
     public ItemBuilder(@NonNull Material material) {
         this.material = material;
@@ -53,7 +54,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder displayName(String name) {
-        displayName = Util.parseMessage(name);
+        displayName = Util.System.parseMessage(name);
         return this;
     }
 
@@ -93,7 +94,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(String ... lore) {
-        this.lore.addAll(Arrays.stream(lore).map(Util::parseMessage).toList());
+        this.lore.addAll(Arrays.stream(lore).map(Util.System::parseMessage).toList());
         return this;
     }
 
@@ -103,7 +104,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(List<String> lore) {
-        this.lore.addAll(lore.stream().map(Util::parseMessage).toList());
+        this.lore.addAll(lore.stream().map(Util.System::parseMessage).toList());
         return this;
     }
 
@@ -124,9 +125,9 @@ public class ItemBuilder {
 
     private void applyElement(PersistentDataContainer container) {
         if(element != null)
-            container.set(Key.Class.ELEMENT.get(), PersistentDataType.STRING, element.getInternalName());
+            container.set(Key.Type.ELEMENT.getKey(), PersistentDataType.STRING, element.getInternalName());
         else
-            container.set(Key.Class.ELEMENT.get(), PersistentDataType.STRING, Element.defaultInternalName);
+            container.set(Key.Type.ELEMENT.getKey(), PersistentDataType.STRING, Element.defaultInternalName);
     }
 
     public ItemBuilder enchant(String enchantment) {
@@ -224,27 +225,30 @@ public class ItemBuilder {
 
     private void applySkill(PersistentDataContainer container) {
         // e.g. [a, b, c] -> a;b;c;
-        container.set(Key.Class.SKILL.get(), PersistentDataType.STRING,
+        container.set(Key.Type.SKILL.getKey(), PersistentDataType.STRING,
                 skills.stream().collect(Collectors.joining(";", "", ";")));
     }
 
-    public ItemBuilder container(NamespacedKey key, Object value) {
-        persistentData.put(key, value);
+    public <T> ItemBuilder container(Key.Type<T> key, T value) {
+        persistentData.add(container -> key.set(container, value));
+        return this;
+    }
+
+    public <T> ItemBuilder container(Key.Feature<T> key, T value) {
+        persistentData.add(container -> key.set(container, value));
         return this;
     }
 
     /**
      * Set persistent data container with default key "item-key".
      */
-    public ItemBuilder container(Object value) {
-        return container(Key.Class.ITEM.get(), value);
+    public ItemBuilder container(String value) {
+        persistentData.add(container -> Key.Type.ITEM.set(container, value));
+        return container(Key.Type.ITEM, value);
     }
 
     private void applyContainer(PersistentDataContainer container) {
-        for(Map.Entry<NamespacedKey, Object> entry : persistentData.entrySet())
-            Optional.ofNullable(Util.getDataTypeByObject(entry.getValue())).ifPresent(
-                    type -> container.set(entry.getKey(), type, entry.getValue())
-            );
+        persistentData.forEach(consumer -> consumer.accept(container));
     }
 
     /**

@@ -4,6 +4,8 @@ import com.idk.essence.Essence;
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
@@ -22,6 +24,7 @@ public abstract class ParticleEffect {
     protected ConfigurationSection section;
     protected boolean display = true;
     protected Particle particle = Particle.DUST;
+    @Setter private Particle.DustOptions options = new Particle.DustOptions(Color.YELLOW, 1);
     protected Vector offset;
     protected Location center;
     protected final int tickInterval = 2;
@@ -45,7 +48,7 @@ public abstract class ParticleEffect {
      * Automatically add to map.
      */
     public void generate(Location location) {
-        offset = Util.getVectorFromSection(section.getConfigurationSection("offset"));
+        offset = Util.MathTool.getVectorFromSection(section.getConfigurationSection("offset"));
         center = location.clone().add(offset);
         if(!display || ParticleManager.hasKey(location.clone())) return;
 
@@ -65,9 +68,9 @@ public abstract class ParticleEffect {
      * Automatically add to map and set particle key.
      */
     public void generate(Entity entity) {
-        UUID uuid = Util.getUUIDFromContainer(entity);
+        UUID uuid = Key.Type.NODE_SELF.getContent(entity);
         if(uuid == null || ParticleManager.hasKey(uuid)) return;
-        entity.getPersistentDataContainer().set(Key.Class.PARTICLE.get(), PersistentDataType.BOOLEAN, true);
+        entity.getPersistentDataContainer().set(Key.Type.PARTICLE.getKey(), PersistentDataType.BOOLEAN, true);
 
         this.task = new BukkitRunnable() {
             @Override
@@ -80,6 +83,9 @@ public abstract class ParticleEffect {
         ParticleManager.add(uuid, this);
     }
 
+    /**
+     * Get the location where the particle will appear.
+     */
     public abstract void repeat();
 
     public void stop() {

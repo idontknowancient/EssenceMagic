@@ -14,8 +14,8 @@ public class ElementBuilder {
     }
 
     public ElementBuilder displayName(String displayName) {
-        element.setDisplayName(Util.parseMessage(displayName));
-        element.getItemBuilder().displayName(Util.parseMessage(displayName));
+        element.setDisplayName(Util.System.parseMessage(displayName));
+        element.getItemBuilder().displayName(Util.System.parseMessage(displayName));
         return this;
     }
 

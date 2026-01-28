@@ -64,12 +64,10 @@ public class NodeManager implements Listener {
 
     private static void lifetimeManager() {
         int frequency = 5;
-        BukkitTask task = Bukkit.getScheduler().runTaskTimer(Essence.getPlugin(), () -> {
-            removeAll(node -> {
-                node.updateLifetime(frequency);
-                return node.isExpired();
-            });
-        }, 0L, frequency);
+        BukkitTask task = Bukkit.getScheduler().runTaskTimer(Essence.getPlugin(), () -> removeAll(node -> {
+            node.updateLifetime(frequency);
+            return node.isExpired();
+        }), 0L, frequency);
         tasks.add(task);
     }
 
@@ -96,7 +94,7 @@ public class NodeManager implements Listener {
     }
 
     private static void activateNode(Entity entity) {
-        if(!has(entity) || activeNodes.containsKey(Util.getUUIDFromContainer(entity))) return;
+        if(!has(entity) || activeNodes.containsKey(Key.Type.NODE_SELF.getContent(entity))) return;
         BaseNode node = recreate(entity);
         if(node == null) return;
         add(node);
@@ -116,11 +114,11 @@ public class NodeManager implements Listener {
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
         if(!has(entity)) return;
-        activeNodes.get(Util.getUUIDFromContainer(entity)).perform(event);
+        activeNodes.get(Key.Type.NODE_SELF.getContent(entity)).perform(event);
     }
 
     public static boolean has(Entity entity) {
-        return entity.getPersistentDataContainer().has(Key.Class.NODE_TYPE.get(), PersistentDataType.STRING);
+        return entity.getPersistentDataContainer().has(Key.Type.NODE_TYPE.getKey(), PersistentDataType.STRING);
     }
 
     public static void add(BaseNode node) {
@@ -147,7 +145,7 @@ public class NodeManager implements Listener {
      * Entity will also be removed.
      */
     public static void remove(Entity entity) {
-        Optional.ofNullable(Util.getUUIDFromContainer(entity)).ifPresent(NodeManager::remove);
+        Optional.ofNullable(Key.Type.NODE_SELF.getContent(entity)).ifPresent(NodeManager::remove);
     }
 
     /**
@@ -172,7 +170,7 @@ public class NodeManager implements Listener {
      * Entity will not be removed.
      */
     public static void unload(Entity entity) {
-        Optional.ofNullable(Util.getUUIDFromContainer(entity)).ifPresent(NodeManager::unload);
+        Optional.ofNullable(Key.Type.NODE_SELF.getContent(entity)).ifPresent(NodeManager::unload);
     }
 
     /**
@@ -231,7 +229,7 @@ public class NodeManager implements Listener {
     @Nullable
     public static BaseNode recreate(Entity entity) {
         PersistentDataContainer container = entity.getPersistentDataContainer();
-        String type = container.get(Key.Class.NODE_TYPE.get(), PersistentDataType.STRING);
+        String type = container.get(Key.Type.NODE_TYPE.getKey(), PersistentDataType.STRING);
 
         if(NodeRegistry.ITEM.getName().equalsIgnoreCase(type) && entity instanceof ItemDisplay display) {
             ItemNode node = new ItemNode(entity.getLocation());

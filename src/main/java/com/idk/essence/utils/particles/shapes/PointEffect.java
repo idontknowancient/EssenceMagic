@@ -1,6 +1,7 @@
 package com.idk.essence.utils.particles.shapes;
 
 import com.idk.essence.utils.particles.ParticleEffect;
+import lombok.Setter;
 import org.bukkit.Color;
 import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
@@ -21,7 +22,6 @@ public class PointEffect extends ParticleEffect {
     @Override
     public void repeat() {
         Optional.ofNullable(getCenter().getWorld()).ifPresent(world ->
-                world.spawnParticle(getParticle(), getCenter().clone(), 1, 0, 0, 0, 0,
-                        new Particle.DustOptions(Color.YELLOW, 1)));
+                world.spawnParticle(getParticle(), getCenter().clone(), 1, 0, 0, 0, 0, getOptions()));
     }
 }

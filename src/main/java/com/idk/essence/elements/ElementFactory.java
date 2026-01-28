@@ -52,8 +52,8 @@ public class ElementFactory {
     public static Element get(ItemStack item) {
         if(item == null) return null;
         ItemMeta meta = item.getItemMeta();
-        if(meta == null || !meta.getPersistentDataContainer().has(Key.Class.ELEMENT.get())) return null;
-        String internalName = meta.getPersistentDataContainer().get(Key.Class.ELEMENT.get(), PersistentDataType.STRING);
+        if(meta == null || !meta.getPersistentDataContainer().has(Key.Type.ELEMENT.getKey())) return null;
+        String internalName = meta.getPersistentDataContainer().get(Key.Type.ELEMENT.getKey(), PersistentDataType.STRING);
         return get(internalName);
     }
 

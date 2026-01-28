@@ -2,7 +2,6 @@ package com.idk.essence.utils.nodes.types;
 
 import com.idk.essence.Essence;
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.Util;
 import com.idk.essence.utils.nodes.BaseNode;
 import com.idk.essence.utils.nodes.NodeManager;
 import com.idk.essence.utils.nodes.NodeRegistry;
@@ -13,7 +12,6 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Transformation;
@@ -39,20 +37,22 @@ public class ItemNode extends BaseNode {
     @Override
     public void onSpawn(Entity entity) {
         if(!(entity instanceof ItemDisplay display)) return;
+        // Correlation action node
         actionNode = (ActionNode) NodeRegistry.ACTION.getConstructor().apply(getLocation());
-        setCorrelationUUID(actionNode.getSelfUUID());
         actionNode.setAttachment(true);
+        actionNode.setAction(this::setItem);
 
+        // Link
+        setCorrelationUUID(actionNode.getSelfUUID());
+        Key.Type.NODE_CORRELATION.set(display, getCorrelationUUID());
+
+        // ItemDisplay attributes
         display.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.FIXED);
-        display.getPersistentDataContainer().set(
-                Key.Class.NODE_CORRELATION.get(), PersistentDataType.STRING, getCorrelationUUID().toString());
-
         if(currentItem != null)
             display.setItemStack(currentItem);
         applyAnimation(display);
         setScale(0.7f);
 
-        actionNode.setAction(this::setItem);
         actionNode.spawn();
     }
 
@@ -84,6 +84,9 @@ public class ItemNode extends BaseNode {
         if(NodeManager.get(getCorrelationUUID()) instanceof ActionNode action) {
             action.setAction(this::setItem);
             this.actionNode = action;
+        } else {
+            setCorrelationUUID(null);
+            Key.Type.NODE_CORRELATION.remove(getDisplayEntity());
         }
     }
 

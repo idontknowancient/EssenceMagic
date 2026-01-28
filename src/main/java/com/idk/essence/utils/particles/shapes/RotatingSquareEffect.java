@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 
+import java.util.Optional;
+
 @Getter
 public class RotatingSquareEffect extends ParticleEffect {
 
@@ -55,8 +57,8 @@ public class RotatingSquareEffect extends ParticleEffect {
                 double y = bounceAmplitude * Math.sin(Math.toRadians(tick * 10 + j * 15));
 
                 Location location = getCenter().clone().add(rotatedX, y, rotatedZ);
-                assert getCenter().getWorld() != null;
-                getCenter().getWorld().spawnParticle(getParticle(), location, 1, 0, 0, 0, 0);
+                Optional.ofNullable(getCenter().getWorld()).ifPresent(world ->
+                        world.spawnParticle(getParticle(), getCenter().clone(), 1, 0, 0, 0, 0, getOptions()));
             }
         }
 

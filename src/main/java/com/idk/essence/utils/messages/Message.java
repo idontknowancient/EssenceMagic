@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 public interface Message {
 
     static void send(CommandSender sender, String content) {
-        sender.sendMessage(Util.parseMessage(getPrefix() + content));
+        sender.sendMessage(Util.System.parseMessage(getPrefix() + content));
     }
 
     static void send(CommandSender sender, String content, Object info) {
-        sender.sendMessage(Util.parseMessage(getPrefix() + content, info));
+        sender.sendMessage(Util.System.parseMessage(getPrefix() + content, info));
     }
 
     static String get(String path) {

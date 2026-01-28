@@ -32,7 +32,7 @@ public class MobTemplate {
     }
 
     public MobTemplate displayName(String displayName) {
-        mob.setDisplayName(Util.parseMessage(displayName));
+        mob.setDisplayName(Util.System.parseMessage(displayName));
         mob.getItemBuilder().displayName(displayName);
         return this;
     }
@@ -113,7 +113,7 @@ public class MobTemplate {
      * Set persistent data container with default key "mob-key".
      */
     public <P, C>MobTemplate persistentDataContainer(PersistentDataContainer container, PersistentDataType<P, C> type, C value) {
-        return persistentDataContainer(container, Key.Class.MOB.get(), type, value);
+        return persistentDataContainer(container, Key.Type.MOB.getKey(), type, value);
     }
 
     public void spawn(Location location) {
@@ -138,7 +138,7 @@ public class MobTemplate {
                     });
         }
         persistentDataContainer(container, PersistentDataType.STRING, mob.getInternalName());
-        persistentDataContainer(container, Key.Class.ELEMENT.get(),
+        persistentDataContainer(container, Key.Type.ELEMENT.getKey(),
                 PersistentDataType.STRING, mob.getElement().getInternalName());
     }
 

@@ -43,9 +43,8 @@ public class CircleEffect extends ParticleEffect {
             double y = bounceAmplitude * Math.sin(Math.toRadians(tick * 10 + i * 20));
 
             Location location = getCenter().clone().add(x, y, z);
-            assert getCenter().getWorld() != null;
             Optional.ofNullable(getCenter().getWorld()).ifPresent(world ->
-                            world.spawnParticle(getParticle(), location, 1, 0, 0, 0, 0));
+                            world.spawnParticle(getParticle(), location, 1, 0, 0, 0, 0, getOptions()));
         }
 
         baseAngle = (baseAngle + rotationSpeed) % 360;

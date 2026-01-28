@@ -75,7 +75,7 @@ public class MenuListener implements Listener {
             if(!SystemPermission.checkPerm(player, Permission.COMMAND_MOB_MENU_SPAWN)) return;
             if(!(e.getClick().equals(ClickType.SHIFT_LEFT) || e.getClick().equals(ClickType.SHIFT_RIGHT))) return;
             // e.g. internalName: test_zombie
-            String mobName = itemMeta.getPersistentDataContainer().get(Key.Class.ITEM.get(), PersistentDataType.STRING);
+            String mobName = itemMeta.getPersistentDataContainer().get(Key.Type.ITEM.getKey(), PersistentDataType.STRING);
             Optional.ofNullable(mobName).ifPresent(internalName -> MobManager.spawn(internalName, player.getLocation()));
         }
     }

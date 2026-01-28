@@ -24,8 +24,8 @@ public class ArtifactBuilder {
      * Apply both item key and artifact key.
      */
     public ArtifactBuilder internalName(String internalName) {
-        itemBuilder.container(Key.Class.ITEM.get(), internalName);
-        itemBuilder.container(Key.Class.ARTIFACT.get(), internalName);
+        itemBuilder.container(Key.Type.ITEM, internalName);
+        itemBuilder.container(Key.Type.ARTIFACT, internalName);
         return this;
     }
 
@@ -48,7 +48,7 @@ public class ArtifactBuilder {
      * Whether an item stack can be placed. Only effective for blocks.
      */
     public ArtifactBuilder placeable(boolean placeable) {
-        itemBuilder.container(Key.Feature.PLACEABLE.get(), placeable);
+        itemBuilder.container(Key.Feature.PLACEABLE, placeable);
         return this;
     }
 
@@ -56,14 +56,14 @@ public class ArtifactBuilder {
      * Whether an item stack can be used. Only effective for interactable items.
      */
     public ArtifactBuilder usable(boolean usable) {
-        itemBuilder.container(Key.Feature.USABLE.get(), usable);
+        itemBuilder.container(Key.Feature.USABLE, usable);
         return this;
     }
 
     public ArtifactBuilder particle(ConfigurationSection particle) {
         this.particleSection = particle;
         if(particle != null)
-            itemBuilder.container(Key.Class.PARTICLE.get(), true);
+            itemBuilder.container(Key.Type.PARTICLE, true);
         return this;
     }
 

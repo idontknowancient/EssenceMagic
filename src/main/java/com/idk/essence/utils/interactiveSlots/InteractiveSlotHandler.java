@@ -63,7 +63,7 @@ public class InteractiveSlotHandler implements Listener {
     public static InteractiveSlot[] setSlotsAround(Location center, float startYaw, int count, ConfigurationSection section) {
         InteractiveSlot[] slots = new InteractiveSlot[count];
         // turns Minecraft yaw to a regular math angle
-        double startYawRadian = Math.toRadians(Util.yawToMathDegree(startYaw));
+        double startYawRadian = Math.toRadians(Util.MathTool.yawToMathDegree(startYaw));
         for(int i = 0; i < count; i++) {
             double radian = 2 * Math.PI * i / count + startYawRadian;
             InteractiveSlot slot = new InteractiveSlot(section);

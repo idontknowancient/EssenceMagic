@@ -1,6 +1,8 @@
 package com.idk.essence.utils.nodes;
 
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -34,7 +36,7 @@ public interface NodeFeature {
      */
     default void spawnNode(Block block, double startYaw, int amount) {
         UUID ownerUUID = UUID.randomUUID();
-        Util.setUUID(block, ownerUUID);
+        Key.Type.NODE_SELF.set(block, ownerUUID);
         spawnNode(ownerUUID, block.getLocation(), startYaw, amount);
     }
 
@@ -51,10 +53,10 @@ public interface NodeFeature {
             if(type == null || !enabled) continue;
 
             boolean visible = getNodeSection().getBoolean(key + ".visible", true);
-            String color = getNodeSection().getString(key + ".color", "yellow");
+            Color color = Util.System.stringToColor(getNodeSection().getString(key + ".color", "yellow"));
             int radius = getNodeSection().getInt(key + ".radius", 1);
-            double startRadian = Math.toRadians(Util.yawToMathDegree(startYaw));
-            Vector offset = Util.getVectorFromList(getNodeSection().getDoubleList(key + ".offset"));
+            double startRadian = Math.toRadians(Util.MathTool.yawToMathDegree(startYaw));
+            Vector offset = Util.MathTool.getVectorFromList(getNodeSection().getDoubleList(key + ".offset"));
 
             // Scatter in the arc
             for(int i = 0; i < amount; i++) {
@@ -76,8 +78,8 @@ public interface NodeFeature {
      * Automatically get UUID in the block.
      */
     default void removeNode(Block block) {
-        removeNode(Util.getUUIDFromContainer(block));
-        Util.removeUUIDFromContainer(block);
+        removeNode(Key.Type.NODE_SELF.getContent(block));
+        Key.Type.NODE_SELF.remove(block);
     }
 
     /**

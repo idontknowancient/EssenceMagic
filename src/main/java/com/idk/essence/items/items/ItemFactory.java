@@ -56,7 +56,7 @@ public class ItemFactory {
         if(equipment == null || !isCustom(equipment.getItemInMainHand())) return null;
         ItemMeta meta = equipment.getItemInMainHand().getItemMeta();
         if(meta == null) return null;
-        String internalName = meta.getPersistentDataContainer().get(Key.Class.ITEM.get(), PersistentDataType.STRING);
+        String internalName = meta.getPersistentDataContainer().get(Key.Type.ITEM.getKey(), PersistentDataType.STRING);
         return get(internalName);
     }
 
@@ -75,7 +75,7 @@ public class ItemFactory {
         if(itemStack == null) return false;
         ItemMeta meta = itemStack.getItemMeta();
         if(meta == null) return false;
-        return meta.getPersistentDataContainer().has(Key.Class.ITEM.get());
+        return meta.getPersistentDataContainer().has(Key.Type.ITEM.getKey());
     }
 
     /**
@@ -92,7 +92,7 @@ public class ItemFactory {
     public static boolean isPlaceable(ItemStack item) {
         if(!isCustom(item)) return true;
         return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.PLACEABLE.get(),  PersistentDataType.BOOLEAN)).orElse(true);
+                .get(Key.Feature.PLACEABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
     }
 
     /**
@@ -101,7 +101,7 @@ public class ItemFactory {
     public static boolean isUsable(ItemStack item) {
         if(!isCustom(item)) return true;
         return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.USABLE.get(),  PersistentDataType.BOOLEAN)).orElse(true);
+                .get(Key.Feature.USABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
     }
 
     /**
@@ -131,6 +131,6 @@ public class ItemFactory {
         builder.material(symbolSection.getString("material"))
                 .lore(symbolSection.getStringList("description"))
                 .glowing(symbolSection.getBoolean("glowing", false))
-                .container(Key.Class.ITEM.get(), internalName);
+                .container(Key.Type.ITEM, internalName);
     }
 }

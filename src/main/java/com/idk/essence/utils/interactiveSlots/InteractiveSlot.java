@@ -46,7 +46,7 @@ public class InteractiveSlot implements ConfigurationSerializable {
         displayParticle = section.getBoolean("display", true);
         radius = section.getDouble("radius", 3);
         yOffset = section.getDouble("y-offset", 1.2);
-        color = Util.stringToColor(section.getString("color", "WHITE"));
+        color = Util.System.stringToColor(section.getString("color", "WHITE"));
         storedItem = null;
     }
 

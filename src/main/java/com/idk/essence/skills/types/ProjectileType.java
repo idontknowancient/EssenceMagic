@@ -48,7 +48,7 @@ public class ProjectileType implements SkillType {
          */
         public void init(LivingEntity target, Projectile projectile, ConfigurationSection settings) {
             if(settings.contains("display-name"))
-                projectile.customName(Util.parseMessage(settings.getString("display-name", "")));
+                projectile.customName(Util.System.parseMessage(settings.getString("display-name", "")));
             if(settings.contains("name-visible"))
                 projectile.setCustomNameVisible(settings.getBoolean("name-visible", true));
             if(settings.contains("glowing"))

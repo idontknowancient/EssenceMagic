@@ -1,16 +1,17 @@
 package com.idk.essence.utils.nodes;
 
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.Util;
 import com.idk.essence.utils.particles.ParticleManager;
 import com.idk.essence.utils.particles.ParticleRegistry;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,21 +22,16 @@ public abstract class BaseNode {
     /**
      * To have entities able to reconnect to nodes
      */
-    @Getter @Setter private UUID ownerUUID;
+    @Nullable @Getter @Setter private UUID ownerUUID;
     /**
      * To make nodes connect to another one
      */
-    @Getter @Setter private UUID correlationUUID;
+    @Nullable@Getter @Setter private UUID correlationUUID;
     /**
      * To identify the node as an attachment to another node.
      * Will not spawn particle.
-     * -- SETTER --
-     *  Set whether the node is an attachment to another node.
-     *  Automatically add to pdc.
-
      */
-    @Setter
-    @Getter private boolean attachment = false;
+    @Setter @Getter private boolean attachment = false;
     @Getter private final Location location;
     @Getter @Setter private Entity displayEntity;
     /**
@@ -43,7 +39,7 @@ public abstract class BaseNode {
      */
     @Getter @Setter private int lifeTime = -1;
     private boolean visible = true;
-    private String color = "yellow";
+    private Color color = Color.YELLOW;
 
     public BaseNode(Location location) {
         this.selfUUID = UUID.randomUUID();
@@ -59,13 +55,11 @@ public abstract class BaseNode {
 
         location.getWorld().spawn(location, entityClass, entity -> {
             PersistentDataContainer container = entity.getPersistentDataContainer();
-            container.set(Key.Class.NODE_TYPE.get(), PersistentDataType.STRING, getNodeType().getName());
-            container.set(Key.Class.NODE_SELF.get(), PersistentDataType.STRING, selfUUID.toString());
-            container.set(Key.Class.NODE_ATTACHMENT.get(),  PersistentDataType.BOOLEAN, attachment);
-            container.set(Key.Class.PARTICLE.get(),  PersistentDataType.BOOLEAN, !attachment);
-            if(ownerUUID != null) {
-                container.set(Key.Class.NODE_OWNER.get(), PersistentDataType.STRING, ownerUUID.toString());
-            }
+            Key.Type.NODE_TYPE.set(container, getNodeType().getName());
+            Key.Type.NODE_SELF.set(container, selfUUID);
+            Key.Type.NODE_ATTACHMENT.set(container, attachment);
+            Key.Type.PARTICLE.set(container, !attachment);
+            Key.Type.NODE_OWNER.set(container, ownerUUID);
 
             this.displayEntity = entity;
             // Initialization of subclass
@@ -81,12 +75,9 @@ public abstract class BaseNode {
      * Subclass should invoke generateParticle() if wanted.
      */
     public void load(Entity entity) {
-        selfUUID = Optional.ofNullable(Util.getUUIDFromContainer(entity)).orElse(selfUUID);
-        Optional.ofNullable(entity.getPersistentDataContainer()
-                .get(Key.Class.NODE_OWNER.get(), PersistentDataType.STRING)).ifPresent(ownerUUID ->
-                setOwnerUUID(UUID.fromString(ownerUUID)));
-        attachment = Optional.ofNullable(entity.getPersistentDataContainer()
-                .get(Key.Class.NODE_ATTACHMENT.get(), PersistentDataType.BOOLEAN)).orElse(false);
+        selfUUID = Optional.ofNullable(Key.Type.NODE_SELF.getContent(entity)).orElse(selfUUID);
+        ownerUUID = Optional.ofNullable(Key.Type.NODE_OWNER.getContent(entity)).orElse(ownerUUID);
+        attachment = Optional.ofNullable(Key.Type.NODE_ATTACHMENT.getContent(entity)).orElse(false);
         onLoad(entity);
     }
 
@@ -114,9 +105,7 @@ public abstract class BaseNode {
      * Subclass should implement onCorrelate() to actually link the node.
      */
     public void correlate() {
-        Optional.ofNullable(displayEntity.getPersistentDataContainer().get(
-                Key.Class.NODE_CORRELATION.get(), PersistentDataType.STRING)).ifPresent(uuidString ->
-                setCorrelationUUID(UUID.fromString(uuidString)));
+        correlationUUID = Optional.ofNullable(Key.Type.NODE_CORRELATION.getContent(getDisplayEntity())).orElse(correlationUUID);
         onCorrelate();
     }
 
@@ -139,14 +128,14 @@ public abstract class BaseNode {
             lifeTime = Math.max(0, lifeTime - frequency);
     }
 
-    public void setParticleAttribute(boolean visible, String color) {
+    public void setParticleAttribute(boolean visible, Color color) {
         this.visible = visible;
         this.color = color;
     }
 
     public void generateParticle() {
         if(attachment || displayEntity == null || !visible || ParticleManager.hasKey(selfUUID)) return;
-        ParticleManager.generate(displayEntity, ParticleRegistry.POINT);
+        ParticleManager.generate(displayEntity, ParticleRegistry.POINT, new Particle.DustOptions(color, 1));
     }
 
     public void stopParticle() {

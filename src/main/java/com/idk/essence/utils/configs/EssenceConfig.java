@@ -5,18 +5,13 @@ import com.idk.essence.utils.Util;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.logging.Level;
 
 public interface EssenceConfig {
 
@@ -118,7 +113,7 @@ public interface EssenceConfig {
      * @return the component
      */
     @NotNull default Component outString(String path) { //with no placeholders
-        return Util.parseMessage(getString(path));
+        return Util.System.parseMessage(getString(path));
     }
 
     /**
@@ -126,7 +121,7 @@ public interface EssenceConfig {
      * @return the component
      */
     default Component outString(String path, String default_) { //with no placeholders
-        return Util.parseMessage(getString(path, default_));
+        return Util.System.parseMessage(getString(path, default_));
     }
 
     /**
@@ -134,7 +129,7 @@ public interface EssenceConfig {
      * @return the component
      */
     @NotNull default Component outString(String path, Object info) { //with placeholders
-        return Util.parseMessage(
+        return Util.System.parseMessage(
                 PlaceholderManager.translate(getString(path), info));
     }
 
@@ -143,7 +138,7 @@ public interface EssenceConfig {
      * @return the component
      */
     default Component outString(String path, String default_, Object info) { //with placeholders
-        return Util.parseMessage(
+        return Util.System.parseMessage(
                 PlaceholderManager.translate(getString(path, default_), info));
     }
 
@@ -153,7 +148,7 @@ public interface EssenceConfig {
      */
     @NotNull default List<Component> outStringList(String path) {
         return Optional.ofNullable(getStringList(path)).orElse(Collections.emptyList())
-                .stream().map(Util::parseMessage).toList();
+                .stream().map(Util.System::parseMessage).toList();
     }
 
     /**
@@ -162,7 +157,7 @@ public interface EssenceConfig {
      */
     @NotNull default List<Component> outStringList(String path, Object info) {
         return Optional.ofNullable(getStringList(path)).orElse(Collections.emptyList())
-                .stream().map(string -> Util.parseMessage(string, info)).toList();
+                .stream().map(string -> Util.System.parseMessage(string, info)).toList();
     }
 
     default void save() {

@@ -38,9 +38,9 @@ public class DamageManager implements Listener {
         LivingEntity target = getTarget(event);
 
         if(attacker == null || target == null) return original;
-        multiplier = Util.round(multiplier * elementMultiplier(attacker, target), 4);
-        final_ = Util.round(original * multiplier, 4);
-        attacker.sendMessage(Util.parseMessage("&7attack damage &bx" + multiplier + "&7, " + final_));
+        multiplier = Util.MathTool.round(multiplier * elementMultiplier(attacker, target), 4);
+        final_ = Util.MathTool.round(original * multiplier, 4);
+        attacker.sendMessage(Util.System.parseMessage("&7attack damage &bx" + multiplier + "&7, " + final_));
 
         return final_;
     }

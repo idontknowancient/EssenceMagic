@@ -66,7 +66,7 @@ public class Wand {
     @Getter private static final NamespacedKey slotKey = new NamespacedKey(plugin, "slot-key");
 
     // show when there is an empty slot in a wand
-    @Getter private static Component emptyString = Util.parseMessage("&7[empty]");
+    @Getter private static Component emptyString = Util.System.parseMessage("&7[empty]");
 
     // magicKey will be used in Magic.java
     private final StringBuilder defaultMagic = new StringBuilder();
@@ -84,9 +84,9 @@ public class Wand {
 
         // set wand display name (default to the name of stick)
         if(cw.isString(name + ".name"))
-            displayName = Util.parseMessage(cw.getString(name + ".name"));
+            displayName = Util.System.parseMessage(cw.getString(name + ".name"));
         else
-            displayName = Util.parseMessage(material.name());
+            displayName = Util.System.parseMessage(material.name());
 
         // set storage mana (default to 0)
         if(cw.isDouble(name + ".default-mana") && cw.getDouble(name + ".default-mana") >= 0)
@@ -164,7 +164,7 @@ public class Wand {
             for(String string : cw.getStringList(name + ".lore")) {
                 lore.add(PlaceholderManager.translate(string, this));
             }
-            lore = Util.splitLore(lore);
+            lore = Util.System.splitLore(lore);
         }
 
         // set wand glowing (default to false)
@@ -196,7 +196,7 @@ public class Wand {
         // unique (unstackable)
         container.set(uniqueWandKey, PersistentDataType.STRING, System.currentTimeMillis()+""+Math.random());
         // custom item
-        container.set(Key.Class.ITEM.get(), PersistentDataType.STRING, name);
+        container.set(Key.Type.ITEM.getKey(), PersistentDataType.STRING, name);
         // wand (internal name)
         container.set(wandKey, PersistentDataType.STRING, name);
         // mana

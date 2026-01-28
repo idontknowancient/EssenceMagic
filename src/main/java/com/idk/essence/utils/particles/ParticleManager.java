@@ -2,13 +2,10 @@ package com.idk.essence.utils.particles;
 
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.Util;
+import com.idk.essence.utils.particles.shapes.PointEffect;
 import com.jeff_media.customblockdata.CustomBlockData;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -111,7 +108,7 @@ public class ParticleManager implements Listener {
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean hasParticle(Block block) {
         CustomBlockData data = new CustomBlockData(block, plugin);
-        return Optional.ofNullable(data.get(Key.Class.PARTICLE.get(), PersistentDataType.BOOLEAN)).orElse(false);
+        return Optional.ofNullable(data.get(Key.Type.PARTICLE.getKey(), PersistentDataType.BOOLEAN)).orElse(false);
     }
 
     /**
@@ -119,7 +116,7 @@ public class ParticleManager implements Listener {
      */
     public static boolean hasParticle(Entity entity) {
         return Optional.ofNullable(entity.getPersistentDataContainer()
-                .get(Key.Class.PARTICLE.get(), PersistentDataType.BOOLEAN)).orElse(false);
+                .get(Key.Type.PARTICLE.getKey(), PersistentDataType.BOOLEAN)).orElse(false);
     }
 
     public static boolean hasKey(Location location) {
@@ -138,16 +135,25 @@ public class ParticleManager implements Listener {
         locationParticles.put(location, particle);
     }
 
-    public static void generate(Entity owner, ParticleRegistry registry) {
-        Util.consoleLog("has particle", hasParticle(owner));
-        Util.consoleLog("has key", hasKey(Util.getUUIDFromContainer(owner)));
-        if(owner == null || registry == null || !hasParticle(owner) || hasKey(Util.getUUIDFromContainer(owner))) return;
-        registry.getEntityConstructor().apply(owner).generate(owner);
+    public static void generate(Entity entity, ParticleRegistry registry) {
+        if(entity == null || registry == null || !hasParticle(entity) || hasKey(Key.Type.NODE_SELF.getContent(entity))) return;
+        registry.getEntityConstructor().apply(entity).generate(entity);
     }
 
-    public static void generate(Entity owner, String particleName) {
+    public static void generate(Entity entity, String particleName) {
         Optional.ofNullable(ParticleRegistry.get(particleName)).ifPresent(registry ->
-                generate(owner, registry));
+                generate(entity, registry));
+    }
+
+    public static void generate(Entity entity, ParticleRegistry registry, Particle.DustOptions options) {
+        ParticleEffect effect = registry.getEntityConstructor().apply(entity);
+        effect.setOptions(options);
+        effect.generate(entity);
+    }
+
+    public static void generate(Entity entity, String particleName, Particle.DustOptions options) {
+        Optional.ofNullable(ParticleRegistry.get(particleName)).ifPresent(registry ->
+                generate(entity, registry, options));
     }
 
     /**

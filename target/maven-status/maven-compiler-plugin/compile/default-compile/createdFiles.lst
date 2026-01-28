@@ -2,9 +2,11 @@ com\idk\essence\items\SystemItem.class
 com\idk\essence\magics\childTypes\FireBeam.class
 com\idk\essence\utils\particles\ParticleFeature.class
 com\idk\essence\items\systemItems\WandProcessingTable.class
+com\idk\essence\utils\Util$System.class
 com\idk\essence\menus\holders\ShiftSpawnHolder.class
 com\idk\essence\magics\modifiers\Damage.class
 com\idk\essence\commands\essence_sub\mana_sub\GetCommand.class
+com\idk\essence\utils\Key$KeyComponent.class
 com\idk\essence\commands\essence_sub\element_sub\MenuCommand.class
 com\idk\essence\commands\essence_sub\mob_sub\MenuCommand.class
 com\idk\essence\skills\types\PotionType.class
@@ -23,6 +25,7 @@ com\idk\essence\elements\ElementFactory.class
 com\idk\essence\commands\essence_sub\SkillCommand.class
 com\idk\essence\utils\nodes\types\ItemNode.class
 com\idk\essence\commands\essence_sub\skill_sub\ForceCommand.class
+com\idk\essence\utils\Key$Type.class
 com\idk\essence\utils\particles\ParticleEffect$1.class
 com\idk\essence\mobs\Mob.class
 com\idk\essence\skills\SkillType.class
@@ -50,6 +53,7 @@ com\idk\essence\utils\nodes\types\ItemNode$1.class
 com\idk\essence\commands\essence_sub\item_sub\GetCommand.class
 com\idk\essence\magics\MagicType$Attribute.class
 com\idk\essence\utils\placeholders\PlaceholderManager.class
+com\idk\essence\utils\Util$MathTool.class
 com\idk\essence\magics\ChildType.class
 com\idk\essence\mobs\MobManager.class
 com\idk\essence\utils\particles\shapes\RotatingSquareEffect.class
@@ -84,7 +88,6 @@ com\idk\essence\utils\ConditionManager.class
 com\idk\essence\commands\essence_sub\mana_sub\SetCommand.class
 com\idk\essence\menus\holders\CancelHolder.class
 com\idk\essence\items\artifacts\ArtifactBuilder.class
-com\idk\essence\utils\Key$Class.class
 com\idk\essence\utils\nodes\BaseNode.class
 com\idk\essence\elements\Element.class
 com\idk\essence\players\ManaManager$1.class

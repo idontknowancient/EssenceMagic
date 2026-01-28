@@ -47,17 +47,17 @@ public class HelpCommand extends SubCommand {
     @Override
     public void perform(CommandSender sender, String[] args) {
         List<Component> messages = new ArrayList<>();
-        messages.add(Util.parseMessage(Message.getPrefix() + "&eHelp List"));
-        messages.add(Util.parseMessage("&e----------------------------------------"));
+        messages.add(Util.System.parseMessage(Message.getPrefix() + "&eHelp List"));
+        messages.add(Util.System.parseMessage("&e----------------------------------------"));
         for(SubCommand sub : EssenceCommand.getSubCommands().values()) {
             if(sender instanceof Player p && !SystemPermission.checkPerm(p, sub.getPermission())) continue;
-            messages.add(Util.parseMessage("&e/essence " + sub.getName() + "&f: " + sub.getDescription()));
+            messages.add(Util.System.parseMessage("&e/essence " + sub.getName() + "&f: " + sub.getDescription()));
             for(SubCommand detail : sub.getSubCommands().values()) {
                 if(sender instanceof Player p && !SystemPermission.checkPerm(p, detail.getPermission())) continue;
-                messages.add(Util.parseMessage("&6" + detail.getSyntax(sender) + "&r&7: " + detail.getDescription()));
+                messages.add(Util.System.parseMessage("&6" + detail.getSyntax(sender) + "&r&7: " + detail.getDescription()));
             }
         }
-        messages.add(Util.parseMessage("&e----------------------------------------"));
+        messages.add(Util.System.parseMessage("&e----------------------------------------"));
 
         messages.forEach(sender::sendMessage);
     }

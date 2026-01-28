@@ -3,6 +3,7 @@ package com.idk.essence.items.artifacts.behaviors;
 import com.idk.essence.items.artifacts.ArtifactBehavior;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.artifacts.ArtifactRegistry;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.nodes.NodeFeature;
 import com.idk.essence.utils.particles.ParticleFeature;
@@ -30,7 +31,7 @@ public class WandWorkTableBehavior implements ArtifactBehavior, ParticleFeature,
     @Override
     public void onBlockInteract(PlayerInteractEvent event) {
         Block block = event.getClickedBlock();
-        if(Util.getUUIDFromContainer(block) == null)
+        if(Key.Type.NODE_SELF.getContent(block) == null)
             spawnNode(block, event.getPlayer().getLocation().getYaw(), 3);
         else
             removeNode(block);

@@ -96,7 +96,7 @@ public class SkillManager implements Listener {
     @Nullable
     public static List<SkillTemplate> get(ItemStack item) {
         if(!ItemFactory.isCustom(item)) return null;
-        String skill = item.getItemMeta().getPersistentDataContainer().get(Key.Class.SKILL.get(), PersistentDataType.STRING);
+        String skill = item.getItemMeta().getPersistentDataContainer().get(Key.Type.SKILL.getKey(), PersistentDataType.STRING);
         if(skill == null) return null;
         // Ignore suffix ";"
         // e.g. a;b;c; -> [a, b, c]
