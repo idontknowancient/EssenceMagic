@@ -21,7 +21,6 @@ public class PointEffect extends ParticleEffect {
 
     @Override
     public void repeat() {
-        Optional.ofNullable(getCenter().getWorld()).ifPresent(world ->
-                world.spawnParticle(getParticle(), getCenter().clone(), 1, 0, 0, 0, 0, getOptions()));
+        spawn(getCenter());
     }
 }

@@ -4,7 +4,7 @@ import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.skills.SkillManager;
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.Util;
+import com.idk.essence.utils.messages.Message;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
@@ -54,7 +54,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder displayName(String name) {
-        displayName = Util.System.parseMessage(name);
+        displayName = Message.parse(name);
         return this;
     }
 
@@ -94,7 +94,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(String ... lore) {
-        this.lore.addAll(Arrays.stream(lore).map(Util.System::parseMessage).toList());
+        this.lore.addAll(Arrays.stream(lore).map(Message::parse).toList());
         return this;
     }
 
@@ -104,7 +104,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addLore(List<String> lore) {
-        this.lore.addAll(lore.stream().map(Util.System::parseMessage).toList());
+        this.lore.addAll(lore.stream().map(Message::parse).toList());
         return this;
     }
 

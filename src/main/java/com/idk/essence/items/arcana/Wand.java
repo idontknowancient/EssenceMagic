@@ -5,6 +5,7 @@ import com.idk.essence.magics.Magic;
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
+import com.idk.essence.utils.messages.Message;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -66,7 +67,7 @@ public class Wand {
     @Getter private static final NamespacedKey slotKey = new NamespacedKey(plugin, "slot-key");
 
     // show when there is an empty slot in a wand
-    @Getter private static Component emptyString = Util.System.parseMessage("&7[empty]");
+    @Getter private static Component emptyString = Message.parse("&7[empty]");
 
     // magicKey will be used in Magic.java
     private final StringBuilder defaultMagic = new StringBuilder();
@@ -84,9 +85,9 @@ public class Wand {
 
         // set wand display name (default to the name of stick)
         if(cw.isString(name + ".name"))
-            displayName = Util.System.parseMessage(cw.getString(name + ".name"));
+            displayName = Message.parse(cw.getString(name + ".name"));
         else
-            displayName = Util.System.parseMessage(material.name());
+            displayName = Message.parse(material.name());
 
         // set storage mana (default to 0)
         if(cw.isDouble(name + ".default-mana") && cw.getDouble(name + ".default-mana") >= 0)

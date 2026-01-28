@@ -3,7 +3,7 @@ package com.idk.essence.skills.types;
 import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.skills.SkillTemplate;
 import com.idk.essence.skills.SkillType;
-import com.idk.essence.utils.Util;
+import com.idk.essence.utils.messages.Message;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
@@ -48,7 +48,7 @@ public class ProjectileType implements SkillType {
          */
         public void init(LivingEntity target, Projectile projectile, ConfigurationSection settings) {
             if(settings.contains("display-name"))
-                projectile.customName(Util.System.parseMessage(settings.getString("display-name", "")));
+                projectile.customName(Message.parse(settings.getString("display-name", "")));
             if(settings.contains("name-visible"))
                 projectile.setCustomNameVisible(settings.getBoolean("name-visible", true));
             if(settings.contains("glowing"))

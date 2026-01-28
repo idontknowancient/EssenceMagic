@@ -3,8 +3,8 @@ package com.idk.essence.skills;
 import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.ConditionManager;
-import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.EssenceConfig;
+import com.idk.essence.utils.messages.Message;
 import com.idk.essence.utils.messages.SystemMessage;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,7 +53,7 @@ public class SkillTemplate {
     }
 
     public SkillTemplate displayName(String displayName) {
-        this.displayName = Util.System.parseMessage(displayName);
+        this.displayName = Message.parse(displayName);
         itemBuilder.displayName(displayName);
         return this;
     }

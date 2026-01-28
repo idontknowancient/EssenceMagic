@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Getter
@@ -87,6 +88,19 @@ public abstract class ParticleEffect {
      * Get the location where the particle will appear.
      */
     public abstract void repeat();
+
+    /**
+     * Only spawn on particle.
+     * Use options if the particle is dust.
+     */
+    protected void spawn(Location location) {
+        Optional.ofNullable(getCenter().getWorld()).ifPresent(world -> {
+            if(getParticle() == Particle.DUST)
+                world.spawnParticle(getParticle(), location, 1, 0, 0, 0, 0, getOptions());
+            else
+                world.spawnParticle(getParticle(), location, 1, 0, 0, 0, 0);
+            });
+    }
 
     public void stop() {
         if(task != null && !task.isCancelled())

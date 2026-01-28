@@ -44,14 +44,6 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\art
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\artifacts\behaviors\WandWorkTableBehavior.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\items\ItemBuilder.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\items\ItemFactory.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\SystemItem.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\SystemItemHandler.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\systemItems\features\Placeable.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\systemItems\features\SIParticleBlock.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\systemItems\features\SISlotBlock.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\systemItems\features\WithInteractiveSlot.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\systemItems\features\WithParticle.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\items\systemItems\WandProcessingTable.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\ChildType.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\childTypes\FireBeam.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\childTypes\SakuraMaite.java
@@ -88,8 +80,6 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\con
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\configs\EssenceConfig.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\damage\DamageManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\DisplayHandler.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\interactiveSlots\InteractiveSlot.java
-D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\interactiveSlots\InteractiveSlotHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\Key.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\messages\Message.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\messages\PlayerJoinQuitMessage.java

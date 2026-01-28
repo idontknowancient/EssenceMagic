@@ -1,7 +1,7 @@
 package com.idk.essence.elements;
 
 import com.idk.essence.items.items.ItemFactory;
-import com.idk.essence.utils.Util;
+import com.idk.essence.utils.messages.Message;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -14,8 +14,8 @@ public class ElementBuilder {
     }
 
     public ElementBuilder displayName(String displayName) {
-        element.setDisplayName(Util.System.parseMessage(displayName));
-        element.getItemBuilder().displayName(Util.System.parseMessage(displayName));
+        element.setDisplayName(Message.parse(displayName));
+        element.getItemBuilder().displayName(Message.parse(displayName));
         return this;
     }
 

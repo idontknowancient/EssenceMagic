@@ -11,9 +11,8 @@ import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.skills.SkillManager;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.damage.DamageManager;
-import com.idk.essence.utils.interactiveSlots.InteractiveSlot;
-import com.idk.essence.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essence.menus.MenuListener;
+import com.idk.essence.utils.messages.Message;
 import com.idk.essence.utils.messages.PlayerJoinQuitMessage;
 import com.idk.essence.items.arcana.WandHandler;
 import com.idk.essence.utils.nodes.NodeManager;
@@ -21,7 +20,6 @@ import com.idk.essence.utils.particles.ParticleManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 
 import java.util.Optional;
@@ -45,6 +43,7 @@ public class Register {
     }
 
     public static void initialize() {
+        Message.initialize();
         PlaceholderManager.initialize();
         ConfigManager.initialize();
         ElementFactory.initialize();
@@ -57,7 +56,6 @@ public class Register {
         PlayerDataManager.initialize();
         ParticleManager.initialize();
         NodeManager.initialize();
-        InteractiveSlotHandler.initialize();
     }
 
     private static void register(Listener listener) {
@@ -74,10 +72,6 @@ public class Register {
         register(new WandHandler());
         register(ParticleManager.getInstance());
         register(NodeManager.getInstance());
-        register(new InteractiveSlotHandler());
-
-        // Needed when using ConfigurationSerializable
-        ConfigurationSerialization.registerClass(InteractiveSlot.class);
 
         // CustomBlockData will automatically handle moving/removing block data for changed blocks
         CustomBlockData.registerListener(plugin);

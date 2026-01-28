@@ -4,7 +4,7 @@ import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.Util;
+import com.idk.essence.utils.messages.Message;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
@@ -32,7 +32,7 @@ public class MobTemplate {
     }
 
     public MobTemplate displayName(String displayName) {
-        mob.setDisplayName(Util.System.parseMessage(displayName));
+        mob.setDisplayName(Message.parse(displayName));
         mob.getItemBuilder().displayName(displayName);
         return this;
     }

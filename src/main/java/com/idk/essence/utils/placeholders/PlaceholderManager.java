@@ -3,7 +3,6 @@ package com.idk.essence.utils.placeholders;
 import com.idk.essence.Essence;
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
-import com.idk.essence.items.SystemItem;
 import com.idk.essence.magics.Magic;
 import com.idk.essence.players.ManaManager;
 import com.idk.essence.players.PlayerData;
@@ -43,8 +42,6 @@ public class PlaceholderManager {
             string = handleComponent(string, c);
         else if(info instanceof ItemStack i)
             string = handleItemStack(string, i);
-        else if(info instanceof SystemItem s)
-            string = handleSystemItem(string, s);
         else if(info instanceof SkillTemplate s)
             string = handleSkillTemplate(string ,s);
         else if(info instanceof Wand w)
@@ -79,16 +76,6 @@ public class PlaceholderManager {
         if(string.contains(Placeholder.ITEM_ELEMENT.name))
             string = string.replaceAll(Placeholder.ITEM_ELEMENT.name,
                     Optional.ofNullable(ElementFactory.get(info)).map(Element::getDisplayName).orElse(Component.text("")).toString());
-        return string;
-    }
-
-    private static String handleSystemItem(String string, SystemItem info) {
-        if(string.contains(Placeholder.ITEM_NAME.name))
-            string = string.replaceAll(Placeholder.ITEM_NAME.name, info.getName());
-//        if(string.contains(Placeholder.ITEM_DISPLAY_NAME.name))
-//            string = string.replaceAll(Placeholder.ITEM_DISPLAY_NAME.name, info.getDisplayName());
-        if(string.contains(Placeholder.ITEM_TYPE.name))
-            string = string.replaceAll(Placeholder.ITEM_TYPE.name, info.getMaterial().name());
         return string;
     }
 

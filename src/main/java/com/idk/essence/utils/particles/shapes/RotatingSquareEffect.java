@@ -57,8 +57,7 @@ public class RotatingSquareEffect extends ParticleEffect {
                 double y = bounceAmplitude * Math.sin(Math.toRadians(tick * 10 + j * 15));
 
                 Location location = getCenter().clone().add(rotatedX, y, rotatedZ);
-                Optional.ofNullable(getCenter().getWorld()).ifPresent(world ->
-                        world.spawnParticle(getParticle(), getCenter().clone(), 1, 0, 0, 0, 0, getOptions()));
+                spawn(location);
             }
         }
 

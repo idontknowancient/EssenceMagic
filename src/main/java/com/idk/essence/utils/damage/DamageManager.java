@@ -3,6 +3,7 @@ package com.idk.essence.utils.damage;
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.utils.Util;
+import com.idk.essence.utils.messages.Message;
 import lombok.Getter;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -40,7 +41,7 @@ public class DamageManager implements Listener {
         if(attacker == null || target == null) return original;
         multiplier = Util.MathTool.round(multiplier * elementMultiplier(attacker, target), 4);
         final_ = Util.MathTool.round(original * multiplier, 4);
-        attacker.sendMessage(Util.System.parseMessage("&7attack damage &bx" + multiplier + "&7, " + final_));
+        attacker.sendMessage(Message.parse("&7attack damage &bx" + multiplier + "&7, " + final_));
 
         return final_;
     }
