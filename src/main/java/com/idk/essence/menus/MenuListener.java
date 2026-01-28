@@ -6,7 +6,7 @@ import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
 import com.idk.essence.menus.holders.ShiftSpawnHolder;
 import com.idk.essence.mobs.MobManager;
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
 import com.idk.essence.items.arcana.Wand;
@@ -75,7 +75,7 @@ public class MenuListener implements Listener {
             if(!SystemPermission.checkPerm(player, Permission.COMMAND_MOB_MENU_SPAWN)) return;
             if(!(e.getClick().equals(ClickType.SHIFT_LEFT) || e.getClick().equals(ClickType.SHIFT_RIGHT))) return;
             // e.g. internalName: test_zombie
-            String mobName = itemMeta.getPersistentDataContainer().get(CustomKey.getItemKey(), PersistentDataType.STRING);
+            String mobName = itemMeta.getPersistentDataContainer().get(Key.Class.ITEM.get(), PersistentDataType.STRING);
             Optional.ofNullable(mobName).ifPresent(internalName -> MobManager.spawn(internalName, player.getLocation()));
         }
     }

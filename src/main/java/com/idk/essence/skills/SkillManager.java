@@ -1,7 +1,7 @@
 package com.idk.essence.skills;
 
 import com.idk.essence.items.items.ItemFactory;
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import lombok.Getter;
@@ -96,7 +96,7 @@ public class SkillManager implements Listener {
     @Nullable
     public static List<SkillTemplate> get(ItemStack item) {
         if(!ItemFactory.isCustom(item)) return null;
-        String skill = item.getItemMeta().getPersistentDataContainer().get(CustomKey.getSkillKey(), PersistentDataType.STRING);
+        String skill = item.getItemMeta().getPersistentDataContainer().get(Key.Class.SKILL.get(), PersistentDataType.STRING);
         if(skill == null) return null;
         // Ignore suffix ";"
         // e.g. a;b;c; -> [a, b, c]

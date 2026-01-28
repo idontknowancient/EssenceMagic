@@ -2,7 +2,7 @@ package com.idk.essence.items.artifacts;
 
 import com.idk.essence.Essence;
 import com.idk.essence.items.items.ItemFactory;
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
@@ -92,9 +92,10 @@ public class ArtifactFactory implements Listener {
     @EventHandler
     public void onBlockInteract(PlayerInteractEvent event) {
         Block block = event.getClickedBlock();
-        if(block == null || !isArtifact(block)) return;
+        if(block == null || !isArtifact(block) || !event.getAction().isRightClick()) return;
 
         // Pass the event to behavior
+        event.setCancelled(true);
         Optional.ofNullable(getBehavior(block)).ifPresent(behavior -> behavior.onBlockInteract(event));
     }
 
@@ -110,14 +111,16 @@ public class ArtifactFactory implements Listener {
         Optional.ofNullable(getBehavior(item)).ifPresent(behavior -> behavior.onItemInteract(event));
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isArtifact(ItemStack item) {
-        return ItemFactory.isCustom(item) && item.getItemMeta().getPersistentDataContainer().has(CustomKey.getArtifactKey());
+        return ItemFactory.isCustom(item) && item.getItemMeta().getPersistentDataContainer().has(Key.Class.ARTIFACT.get());
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isArtifact(Block block) {
         CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        return data.has(CustomKey.getItemKey(), PersistentDataType.STRING) &&
-                data.has(CustomKey.getArtifactKey(), PersistentDataType.STRING);
+        return data.has(Key.Class.ITEM.get(), PersistentDataType.STRING) &&
+                data.has(Key.Class.ARTIFACT.get(), PersistentDataType.STRING);
     }
 
     /**
@@ -126,7 +129,7 @@ public class ArtifactFactory implements Listener {
     public static boolean isPlaceable(ItemStack item) {
         if(!isArtifact(item)) return true;
         return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(CustomKey.getPlaceableKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+                .get(Key.Feature.PLACEABLE.get(),  PersistentDataType.BOOLEAN)).orElse(true);
     }
 
     /**
@@ -135,7 +138,7 @@ public class ArtifactFactory implements Listener {
     public static boolean isUsable(ItemStack item) {
         if(!isArtifact(item)) return true;
         return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(CustomKey.getUsableKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+                .get(Key.Feature.USABLE.get(),  PersistentDataType.BOOLEAN)).orElse(true);
     }
 
     public static boolean hasActiveArtifact(String internalName) {
@@ -151,17 +154,19 @@ public class ArtifactFactory implements Listener {
     public static ItemStack getArtifact(Block block) {
         CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
         return Optional.ofNullable(activateArtifacts.get(data
-                .get(CustomKey.getArtifactKey(), PersistentDataType.STRING))).map(ArtifactBuilder::build).orElse(null);
+                .get(Key.Class.ARTIFACT.get(), PersistentDataType.STRING))).map(ArtifactBuilder::build).orElse(null);
     }
 
     @Nullable
     public static ConfigurationSection getParticleSection(String internalName) {
-        return activateArtifacts.get(internalName).getParticleSection();
+        return Optional.ofNullable(activateArtifacts.get(internalName))
+                .map(ArtifactBuilder::getParticleSection).orElse(null);
     }
 
     @Nullable
     public static ConfigurationSection getNodeSection(String internalName) {
-        return activateArtifacts.get(internalName).getNodeSection();
+        return Optional.ofNullable(activateArtifacts.get(internalName))
+                .map(ArtifactBuilder::getNodeSection).orElse(null);
     }
 
     public static Collection<String> getAllActivateKeys() {
@@ -180,14 +185,14 @@ public class ArtifactFactory implements Listener {
     @Nullable
     public static ArtifactBehavior getBehavior(ItemStack item) {
         if(!isArtifact(item)) return null;
-        return getBehavior(item.getItemMeta().getPersistentDataContainer().get(CustomKey.getArtifactKey(),  PersistentDataType.STRING));
+        return getBehavior(item.getItemMeta().getPersistentDataContainer().get(Key.Class.ARTIFACT.get(),  PersistentDataType.STRING));
     }
 
     @Nullable
     public static ArtifactBehavior getBehavior(Block block) {
         if(!isArtifact(block)) return null;
         CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        return getBehavior(data.get(CustomKey.getArtifactKey(),  PersistentDataType.STRING));
+        return getBehavior(data.get(Key.Class.ARTIFACT.get(),  PersistentDataType.STRING));
     }
 
     /**

@@ -2,23 +2,23 @@ package com.idk.essence.utils;
 
 import com.idk.essence.Essence;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
+import com.jeff_media.customblockdata.CustomBlockData;
 import io.papermc.paper.persistence.PersistentDataContainerView;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -165,7 +165,10 @@ public class Util {
         return getDataTypeByClass((Class<Z>) object.getClass());
     }
 
-    public static Vector getVector(ConfigurationSection vectorSection) {
+    /**
+     * Read offset: \x:? \y:? \z:? vector.
+     */
+    public static Vector getVectorFromSection(ConfigurationSection vectorSection) {
         if(vectorSection == null)
             return new Vector(0, 0, 0);
         double x = vectorSection.getDouble("x", 0);
@@ -173,6 +176,15 @@ public class Util {
         double z = vectorSection.getDouble("z", 0);
 
         return new Vector(x, y, z);
+    }
+
+    /**
+     * Read [x, y, z] vector.
+     */
+    public static Vector getVectorFromList(List<Double> doubleList) {
+        if(doubleList == null || doubleList.size() < 3)
+            return new Vector(0, 0, 0);
+        return new Vector(doubleList.getFirst(), doubleList.get(1), doubleList.get(2));
     }
 
     /**
@@ -194,5 +206,58 @@ public class Util {
                 dest.set(key, type, value);
             }
         }
+    }
+
+    /**
+     * Set UUID for a block (e.g. a placeable artifact).
+     */
+    public static void setUUID(Block block, UUID uuid) {
+        new CustomBlockData(block, Essence.getPlugin())
+                .set(Key.Class.NODE_SELF.get(), PersistentDataType.STRING, uuid.toString());
+    }
+
+    public static void setUUID(@NotNull Entity entity, @NotNull UUID uuid) {
+        entity.getPersistentDataContainer().set(Key.Class.NODE_SELF.get(), PersistentDataType.STRING, uuid.toString());
+    }
+
+    /**
+     * Get UUID in a block (e.g. a placeable artifact).
+     */
+    @Nullable
+    public static UUID getUUIDFromContainer(Block block) {
+        return Optional.ofNullable(new CustomBlockData(block, Essence.getPlugin())
+                .get(Key.Class.NODE_SELF.get(), PersistentDataType.STRING)).map(UUID::fromString).orElse(null);
+    }
+
+    /**
+     * Remove UUID in a block (e.g. a placeable artifact).
+     */
+    public static void removeUUIDFromContainer(Block block) {
+        new CustomBlockData(block, Essence.getPlugin()).remove(Key.Class.NODE_SELF.get());
+    }
+
+    /**
+     * Get UUID in pdc of an entity (e.g. an interaction created by ActionNode).
+     */
+    @Nullable
+    public static UUID getUUIDFromContainer(@Nullable Entity entity) {
+        if(entity == null) return null;
+        return Optional.ofNullable(entity.getPersistentDataContainer()
+                .get(Key.Class.NODE_SELF.get(), PersistentDataType.STRING)).map(UUID::fromString).orElse(null)
+        ;
+    }
+
+    /**
+     * Format: <message>
+     */
+    public static void consoleLog(String message) {
+        Essence.getPlugin().getComponentLogger().info(message);
+    }
+
+    /**
+     * Format: <message>: <object>
+     */
+    public static void consoleLog(String message, Object info) {
+        Essence.getPlugin().getComponentLogger().info("{}: {}", message, info);
     }
 }

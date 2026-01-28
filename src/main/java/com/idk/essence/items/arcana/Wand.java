@@ -2,7 +2,7 @@ package com.idk.essence.items.arcana;
 
 import com.idk.essence.Essence;
 import com.idk.essence.magics.Magic;
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
@@ -196,7 +196,7 @@ public class Wand {
         // unique (unstackable)
         container.set(uniqueWandKey, PersistentDataType.STRING, System.currentTimeMillis()+""+Math.random());
         // custom item
-        container.set(CustomKey.getItemKey(), PersistentDataType.STRING, name);
+        container.set(Key.Class.ITEM.get(), PersistentDataType.STRING, name);
         // wand (internal name)
         container.set(wandKey, PersistentDataType.STRING, name);
         // mana

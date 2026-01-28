@@ -1,6 +1,7 @@
 package com.idk.essence.items.artifacts;
 
 import com.idk.essence.items.artifacts.behaviors.WandWorkTableBehavior;
+import lombok.Getter;
 
 import java.util.Arrays;
 
@@ -9,7 +10,7 @@ public enum ArtifactRegistry {
     WAND_WORK_TABLE("wand_work_table", new WandWorkTableBehavior())
     ;
 
-    private final String internalName;
+    @Getter private final String internalName;
     private final ArtifactBehavior behavior;
 
     ArtifactRegistry(String internalName, ArtifactBehavior behavior) {

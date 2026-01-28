@@ -3,7 +3,7 @@ package com.idk.essence.items.items;
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.skills.SkillManager;
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
@@ -124,9 +124,9 @@ public class ItemBuilder {
 
     private void applyElement(PersistentDataContainer container) {
         if(element != null)
-            container.set(CustomKey.getElementKey(), PersistentDataType.STRING, element.getInternalName());
+            container.set(Key.Class.ELEMENT.get(), PersistentDataType.STRING, element.getInternalName());
         else
-            container.set(CustomKey.getElementKey(), PersistentDataType.STRING, Element.defaultInternalName);
+            container.set(Key.Class.ELEMENT.get(), PersistentDataType.STRING, Element.defaultInternalName);
     }
 
     public ItemBuilder enchant(String enchantment) {
@@ -224,7 +224,7 @@ public class ItemBuilder {
 
     private void applySkill(PersistentDataContainer container) {
         // e.g. [a, b, c] -> a;b;c;
-        container.set(CustomKey.getSkillKey(), PersistentDataType.STRING,
+        container.set(Key.Class.SKILL.get(), PersistentDataType.STRING,
                 skills.stream().collect(Collectors.joining(";", "", ";")));
     }
 
@@ -237,7 +237,7 @@ public class ItemBuilder {
      * Set persistent data container with default key "item-key".
      */
     public ItemBuilder container(Object value) {
-        return container(CustomKey.getItemKey(), value);
+        return container(Key.Class.ITEM.get(), value);
     }
 
     private void applyContainer(PersistentDataContainer container) {
@@ -250,7 +250,7 @@ public class ItemBuilder {
     /**
      * Apply all fields to the item stack.
      */
-    public void generate() {
+    private void generate() {
         item = ItemStack.of(material);
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();

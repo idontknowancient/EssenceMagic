@@ -1,7 +1,7 @@
 package com.idk.essence.items.artifacts;
 
 import com.idk.essence.items.items.ItemBuilder;
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,7 +13,6 @@ import java.util.List;
 public class ArtifactBuilder {
 
     private final ItemBuilder itemBuilder;
-    private ItemStack item;
     @Nullable @Getter private ConfigurationSection particleSection;
     @Nullable @Getter private ConfigurationSection nodeSection;
 
@@ -25,8 +24,8 @@ public class ArtifactBuilder {
      * Apply both item key and artifact key.
      */
     public ArtifactBuilder internalName(String internalName) {
-        itemBuilder.container(CustomKey.getItemKey(), internalName);
-        itemBuilder.container(CustomKey.getArtifactKey(), internalName);
+        itemBuilder.container(Key.Class.ITEM.get(), internalName);
+        itemBuilder.container(Key.Class.ARTIFACT.get(), internalName);
         return this;
     }
 
@@ -49,7 +48,7 @@ public class ArtifactBuilder {
      * Whether an item stack can be placed. Only effective for blocks.
      */
     public ArtifactBuilder placeable(boolean placeable) {
-        itemBuilder.container(CustomKey.getPlaceableKey(), placeable);
+        itemBuilder.container(Key.Feature.PLACEABLE.get(), placeable);
         return this;
     }
 
@@ -57,21 +56,22 @@ public class ArtifactBuilder {
      * Whether an item stack can be used. Only effective for interactable items.
      */
     public ArtifactBuilder usable(boolean usable) {
-        itemBuilder.container(CustomKey.getUsableKey(), usable);
+        itemBuilder.container(Key.Feature.USABLE.get(), usable);
         return this;
     }
 
     public ArtifactBuilder particle(ConfigurationSection particle) {
         this.particleSection = particle;
         if(particle != null)
-            itemBuilder.container(CustomKey.getParticleKey(), true);
+            itemBuilder.container(Key.Class.PARTICLE.get(), true);
         return this;
     }
 
+    /**
+     * Node data are stored in the entity, so no key needed.
+     */
     public ArtifactBuilder node(ConfigurationSection node) {
         this.nodeSection = node;
-        if(node != null)
-            itemBuilder.container(CustomKey.getNodeKey(), true);
         return this;
     }
 
@@ -81,7 +81,6 @@ public class ArtifactBuilder {
      * @return the brand new item stack
      */
     public ItemStack build() {
-        if(item == null) item = itemBuilder.build();
-        return item.clone();
+        return itemBuilder.build();
     }
 }

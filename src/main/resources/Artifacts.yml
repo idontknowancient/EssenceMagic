@@ -1,4 +1,4 @@
-wand_processing_table:
+wand_work_table:
   enabled: true
   display-name: "&9魔杖加工台"
   material: enchanting_table
@@ -8,17 +8,20 @@ wand_processing_table:
   usable: true
   placeable: true
   particle:
-    # display, shape, y-offset, and type are common attributes
-    display: false
-    shape: rotating_square
-    y-offset: 0.1
-    type: crit
+    # display, shape, offset, and type are common attributes
+    display: true
+    shape: circle
+    offset:
+      x: 0.5
+      y: 0.1
+      z: 0.5
+    type: enchant
     # varying with shape
     settings:
       radius: 3
       point-count: 8
       bounce-amplitude: 0.1
-      rotation-speed: 3
+      rotation-speed: 2
   node:
     display: true
     type: item

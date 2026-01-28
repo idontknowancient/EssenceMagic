@@ -4,15 +4,16 @@ import com.idk.essence.utils.particles.ParticleEffect;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 
 @Getter
 public class RotatingSquareEffect extends ParticleEffect {
 
     private double baseAngle = 0;
-    private final double radius;
-    private final int pointCount;
-    private final double bounceAmplitude;
-    private final double rotationSpeed;
+    private double radius = 3;
+    private int pointCount = 8;
+    private double bounceAmplitude = 0.2;
+    private double rotationSpeed = 2;
     private int tick = 0;
 
     public RotatingSquareEffect(ConfigurationSection section) {
@@ -20,7 +21,11 @@ public class RotatingSquareEffect extends ParticleEffect {
         radius = getSection().getDouble("radius", 3);
         pointCount = getSection().getInt("point-count", 8);
         bounceAmplitude = getSection().getDouble("bounce-amplitude", 0.2);
-        rotationSpeed = getSection().getDouble("rotation-speed", 20);
+        rotationSpeed = getSection().getDouble("rotation-speed", 2);
+    }
+
+    public RotatingSquareEffect(Entity owner) {
+        super(owner);
     }
 
     @Override

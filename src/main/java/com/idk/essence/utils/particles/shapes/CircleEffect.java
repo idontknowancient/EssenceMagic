@@ -4,6 +4,7 @@ import com.idk.essence.utils.particles.ParticleEffect;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Entity;
 
 import java.util.Optional;
 
@@ -11,10 +12,10 @@ import java.util.Optional;
 public class CircleEffect extends ParticleEffect {
 
     private double baseAngle = 0;
-    private final double radius;
-    private final int pointCount;
-    private final double bounceAmplitude;
-    private final double rotationSpeed;
+    private double radius = 3;
+    private int pointCount = 8;
+    private double bounceAmplitude = 0;
+    private double rotationSpeed = 2;
     private int tick = 0;
 
     public CircleEffect(ConfigurationSection section) {
@@ -24,6 +25,10 @@ public class CircleEffect extends ParticleEffect {
         pointCount = Optional.ofNullable(settings).map(s -> s.getInt("point-count", 8)).orElse(8);
         bounceAmplitude = Optional.ofNullable(settings).map(s -> s.getDouble("bounce-amplitude", 0)).orElse(0d);
         rotationSpeed = Optional.ofNullable(settings).map(s -> s.getDouble("rotation-speed", 2)).orElse(2d);
+    }
+
+    public CircleEffect(Entity owner) {
+        super(owner);
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.idk.essence.utils.interactiveSlots.InteractiveSlotHandler;
 import com.idk.essence.menus.MenuListener;
 import com.idk.essence.utils.messages.PlayerJoinQuitMessage;
 import com.idk.essence.items.arcana.WandHandler;
+import com.idk.essence.utils.nodes.NodeManager;
 import com.idk.essence.utils.particles.ParticleManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
 import com.jeff_media.customblockdata.CustomBlockData;
@@ -55,6 +56,7 @@ public class Register {
         MobManager.initialize();
         PlayerDataManager.initialize();
         ParticleManager.initialize();
+        NodeManager.initialize();
         InteractiveSlotHandler.initialize();
     }
 
@@ -71,6 +73,7 @@ public class Register {
         register(ArtifactFactory.getInstance());
         register(new WandHandler());
         register(ParticleManager.getInstance());
+        register(NodeManager.getInstance());
         register(new InteractiveSlotHandler());
 
         // Needed when using ConfigurationSerializable

@@ -1,6 +1,6 @@
 package com.idk.essence.elements;
 
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.inventory.ItemStack;
@@ -52,8 +52,8 @@ public class ElementFactory {
     public static Element get(ItemStack item) {
         if(item == null) return null;
         ItemMeta meta = item.getItemMeta();
-        if(meta == null || !meta.getPersistentDataContainer().has(CustomKey.getElementKey())) return null;
-        String internalName = meta.getPersistentDataContainer().get(CustomKey.getElementKey(), PersistentDataType.STRING);
+        if(meta == null || !meta.getPersistentDataContainer().has(Key.Class.ELEMENT.get())) return null;
+        String internalName = meta.getPersistentDataContainer().get(Key.Class.ELEMENT.get(), PersistentDataType.STRING);
         return get(internalName);
     }
 

@@ -3,7 +3,7 @@ package com.idk.essence.mobs;
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.items.ItemFactory;
-import com.idk.essence.utils.CustomKey;
+import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -113,7 +113,7 @@ public class MobTemplate {
      * Set persistent data container with default key "mob-key".
      */
     public <P, C>MobTemplate persistentDataContainer(PersistentDataContainer container, PersistentDataType<P, C> type, C value) {
-        return persistentDataContainer(container, CustomKey.getMobKey(), type, value);
+        return persistentDataContainer(container, Key.Class.MOB.get(), type, value);
     }
 
     public void spawn(Location location) {
@@ -138,7 +138,7 @@ public class MobTemplate {
                     });
         }
         persistentDataContainer(container, PersistentDataType.STRING, mob.getInternalName());
-        persistentDataContainer(container, CustomKey.getElementKey(),
+        persistentDataContainer(container, Key.Class.ELEMENT.get(),
                 PersistentDataType.STRING, mob.getElement().getInternalName());
     }
 
