@@ -2,7 +2,6 @@ package com.idk.essence.utils.nodes;
 
 import com.idk.essence.Essence;
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.Util;
 import com.idk.essence.utils.nodes.types.ActionNode;
 import com.idk.essence.utils.nodes.types.ItemNode;
 import lombok.Getter;
@@ -16,8 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.EntitiesUnloadEvent;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 
@@ -88,13 +85,13 @@ public class NodeManager implements Listener {
     @EventHandler
     public void onEntityUnload(EntitiesUnloadEvent event) {
         for(Entity entity : event.getEntities()) {
-            if(!has(entity)) continue;
+            if(!hasNode(entity)) continue;
             unload(entity);
         }
     }
 
     private static void activateNode(Entity entity) {
-        if(!has(entity) || activeNodes.containsKey(Key.Type.NODE_SELF.getContent(entity))) return;
+        if(!hasNode(entity) || hasKey(Key.Type.NODE_SELF.getContent(entity))) return;
         BaseNode node = recreate(entity);
         if(node == null) return;
         add(node);
@@ -113,12 +110,18 @@ public class NodeManager implements Listener {
     @EventHandler
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if(!has(entity)) return;
-        activeNodes.get(Key.Type.NODE_SELF.getContent(entity)).perform(event);
+        if(!hasNode(entity)) return;
+        Optional.ofNullable(activeNodes.get(Key.Type.NODE_SELF.getContent(entity)))
+                .ifPresent(node -> node.perform(event));
     }
 
-    public static boolean has(Entity entity) {
-        return entity.getPersistentDataContainer().has(Key.Type.NODE_TYPE.getKey(), PersistentDataType.STRING);
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean hasNode(Entity entity) {
+        return Key.Type.NODE_TYPE.check(entity);
+    }
+
+    public static boolean hasKey(UUID uuid) {
+        return activeNodes.containsKey(uuid);
     }
 
     public static void add(BaseNode node) {
@@ -141,7 +144,7 @@ public class NodeManager implements Listener {
     }
 
     /**
-     * Remove a node by the entity's pdc. Automatically call BaseNode::remove.
+     * Remove a node by the self uuid. Automatically call BaseNode::remove.
      * Entity will also be removed.
      */
     public static void remove(Entity entity) {
@@ -228,8 +231,8 @@ public class NodeManager implements Listener {
      */
     @Nullable
     public static BaseNode recreate(Entity entity) {
-        PersistentDataContainer container = entity.getPersistentDataContainer();
-        String type = container.get(Key.Type.NODE_TYPE.getKey(), PersistentDataType.STRING);
+        String type = Key.Type.NODE_TYPE.getContent(entity);
+        if(type ==  null) return null;
 
         if(NodeRegistry.ITEM.getName().equalsIgnoreCase(type) && entity instanceof ItemDisplay display) {
             ItemNode node = new ItemNode(entity.getLocation());

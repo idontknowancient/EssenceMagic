@@ -10,8 +10,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -36,7 +34,8 @@ public class ItemFactory {
      * @return the corresponding item stack
      */
     @Nullable
-    public static ItemStack get(String internalName) {
+    public static ItemStack get(@Nullable String internalName) {
+        if(internalName == null) return null;
         ItemBuilder builder = items.get(internalName);
         if(builder != null)
             return builder.build();
@@ -51,12 +50,11 @@ public class ItemFactory {
      * @return the corresponding item stack
      */
     @Nullable
-    public static ItemStack get(LivingEntity entity) {
+    public static ItemStack get(@Nullable LivingEntity entity) {
+        if(entity == null) return null;
         EntityEquipment equipment = entity.getEquipment();
         if(equipment == null || !isCustom(equipment.getItemInMainHand())) return null;
-        ItemMeta meta = equipment.getItemInMainHand().getItemMeta();
-        if(meta == null) return null;
-        String internalName = meta.getPersistentDataContainer().get(Key.Type.ITEM.getKey(), PersistentDataType.STRING);
+        String internalName = Key.Type.ITEM.getContent(equipment.getItemInMainHand());
         return get(internalName);
     }
 
@@ -72,10 +70,7 @@ public class ItemFactory {
      * Check if an item stack is a custom item.
      */
     public static boolean isCustom(ItemStack itemStack) {
-        if(itemStack == null) return false;
-        ItemMeta meta = itemStack.getItemMeta();
-        if(meta == null) return false;
-        return meta.getPersistentDataContainer().has(Key.Type.ITEM.getKey());
+        return Key.Type.ITEM.check(itemStack);
     }
 
     /**
@@ -91,8 +86,7 @@ public class ItemFactory {
      */
     public static boolean isPlaceable(ItemStack item) {
         if(!isCustom(item)) return true;
-        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.PLACEABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+        return Key.Feature.PLACEABLE.getContentOrDefault(item, true);
     }
 
     /**
@@ -100,8 +94,7 @@ public class ItemFactory {
      */
     public static boolean isUsable(ItemStack item) {
         if(!isCustom(item)) return true;
-        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.USABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+        return Key.Feature.USABLE.getContentOrDefault(item, true);
     }
 
     /**

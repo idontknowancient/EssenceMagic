@@ -15,7 +15,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -112,14 +111,12 @@ public class ArtifactFactory implements Listener {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isArtifact(ItemStack item) {
-        return ItemFactory.isCustom(item) && item.getItemMeta().getPersistentDataContainer().has(Key.Type.ARTIFACT.getKey());
+        return ItemFactory.isCustom(item) && Key.Type.ARTIFACT.check(item);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isArtifact(Block block) {
-        CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        return data.has(Key.Type.ITEM.getKey(), PersistentDataType.STRING) &&
-                data.has(Key.Type.ARTIFACT.getKey(), PersistentDataType.STRING);
+        return Key.Type.ITEM.check(block) && Key.Type.ARTIFACT.check(block);
     }
 
     /**
@@ -127,8 +124,7 @@ public class ArtifactFactory implements Listener {
      */
     public static boolean isPlaceable(ItemStack item) {
         if(!isArtifact(item)) return true;
-        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.PLACEABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+        return Key.Feature.PLACEABLE.getContentOrDefault(item, true);
     }
 
     /**
@@ -136,8 +132,7 @@ public class ArtifactFactory implements Listener {
      */
     public static boolean isUsable(ItemStack item) {
         if(!isArtifact(item)) return true;
-        return Optional.ofNullable(item.getItemMeta().getPersistentDataContainer()
-                .get(Key.Feature.USABLE.getKey(),  PersistentDataType.BOOLEAN)).orElse(true);
+        return Key.Feature.USABLE.getContentOrDefault(item, true);
     }
 
     public static boolean hasActiveArtifact(String internalName) {
@@ -151,9 +146,8 @@ public class ArtifactFactory implements Listener {
 
     @Nullable
     public static ItemStack getArtifact(Block block) {
-        CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        return Optional.ofNullable(activateArtifacts.get(data
-                .get(Key.Type.ARTIFACT.getKey(), PersistentDataType.STRING))).map(ArtifactBuilder::build).orElse(null);
+        return Optional.ofNullable(activateArtifacts.get(Key.Type.ARTIFACT.getContent(block)))
+                .map(ArtifactBuilder::build).orElse(null);
     }
 
     @Nullable
@@ -184,14 +178,13 @@ public class ArtifactFactory implements Listener {
     @Nullable
     public static ArtifactBehavior getBehavior(ItemStack item) {
         if(!isArtifact(item)) return null;
-        return getBehavior(item.getItemMeta().getPersistentDataContainer().get(Key.Type.ARTIFACT.getKey(),  PersistentDataType.STRING));
+        return getBehavior(Key.Type.ARTIFACT.getContent(item));
     }
 
     @Nullable
     public static ArtifactBehavior getBehavior(Block block) {
         if(!isArtifact(block)) return null;
-        CustomBlockData data = new CustomBlockData(block, Essence.getPlugin());
-        return getBehavior(data.get(Key.Type.ARTIFACT.getKey(),  PersistentDataType.STRING));
+        return getBehavior(Key.Type.ARTIFACT.getContent(block));
     }
 
     /**
@@ -199,7 +192,7 @@ public class ArtifactFactory implements Listener {
      * @param internalName the internal name of the artifact
      */
     public static void register(String internalName, EssenceConfig config) {
-        if(!config.has(internalName) || !behaviors.containsKey(internalName) || activateArtifacts.containsKey(internalName)) return;
+        if(!config.has(internalName) || !behaviors.containsKey(internalName) || hasActiveArtifact(internalName)) return;
         // Not enabled
         if(!config.getBoolean(internalName + ".enabled", true)) return;
 

@@ -4,8 +4,6 @@ import com.idk.essence.utils.Key;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -38,7 +36,8 @@ public class ElementFactory {
      * @return the corresponding element
      */
     @Nullable
-    public static Element get(String internalName) {
+    public static Element get(@Nullable String internalName) {
+        if(internalName == null) return null;
         ElementBuilder builder = elements.get(internalName);
         return builder != null ? builder.build() : null;
     }
@@ -51,9 +50,7 @@ public class ElementFactory {
     @Nullable
     public static Element get(ItemStack item) {
         if(item == null) return null;
-        ItemMeta meta = item.getItemMeta();
-        if(meta == null || !meta.getPersistentDataContainer().has(Key.Type.ELEMENT.getKey())) return null;
-        String internalName = meta.getPersistentDataContainer().get(Key.Type.ELEMENT.getKey(), PersistentDataType.STRING);
+        String internalName = Key.Type.ELEMENT.getContent(item);
         return get(internalName);
     }
 
@@ -89,12 +86,12 @@ public class ElementFactory {
         return elements.values().stream().map(ElementBuilder::build).toList();
     }
 
-    public static boolean contains(String internalName) {
+    public static boolean has(String internalName) {
         return elements.containsKey(internalName);
     }
 
     private static void register(String internalName, EssenceConfig config) {
-        if(!config.has(internalName) || elements.containsKey(internalName)) return;
+        if(!config.has(internalName) || has(internalName)) return;
         ElementBuilder builder = new ElementBuilder(internalName)
                 .displayName(config.outString(internalName + ".display-name", ""))
                 .symbolItem(config.getConfigurationSection(internalName + ".symbol-item"))

@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -71,7 +70,7 @@ public abstract class ParticleEffect {
     public void generate(Entity entity) {
         UUID uuid = Key.Type.NODE_SELF.getContent(entity);
         if(uuid == null || ParticleManager.hasKey(uuid)) return;
-        entity.getPersistentDataContainer().set(Key.Type.PARTICLE.getKey(), PersistentDataType.BOOLEAN, true);
+        Key.Type.PARTICLE.set(entity, true);
 
         this.task = new BukkitRunnable() {
             @Override

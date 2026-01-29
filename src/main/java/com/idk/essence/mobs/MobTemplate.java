@@ -9,7 +9,6 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
@@ -18,11 +17,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class MobTemplate {
 
     @Getter private final Mob mob;
@@ -103,19 +102,6 @@ public class MobTemplate {
         return this;
     }
 
-    public <P, C>MobTemplate persistentDataContainer(PersistentDataContainer container, NamespacedKey key,
-                                                     PersistentDataType<P, C> type, C value) {
-        container.set(key, type, value);
-        return this;
-    }
-
-    /**
-     * Set persistent data container with default key "mob-key".
-     */
-    public <P, C>MobTemplate persistentDataContainer(PersistentDataContainer container, PersistentDataType<P, C> type, C value) {
-        return persistentDataContainer(container, Key.Type.MOB.getKey(), type, value);
-    }
-
     public void spawn(Location location) {
         World world = location.getWorld();
         if(world == null) return;
@@ -137,9 +123,8 @@ public class MobTemplate {
                         e.setItemInOffHand(mob.getOffHand());
                     });
         }
-        persistentDataContainer(container, PersistentDataType.STRING, mob.getInternalName());
-        persistentDataContainer(container, Key.Type.ELEMENT.getKey(),
-                PersistentDataType.STRING, mob.getElement().getInternalName());
+        Key.Type.MOB.set(container, mob.getInternalName());
+        Key.Type.ELEMENT.set(container, mob.getElement().getInternalName());
     }
 
     /**

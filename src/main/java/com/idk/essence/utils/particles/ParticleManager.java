@@ -2,7 +2,6 @@ package com.idk.essence.utils.particles;
 
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.utils.Key;
-import com.idk.essence.utils.particles.shapes.PointEffect;
 import com.jeff_media.customblockdata.CustomBlockData;
 import lombok.Getter;
 import org.bukkit.*;
@@ -14,7 +13,6 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.EntitiesUnloadEvent;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +87,7 @@ public class ParticleManager implements Listener {
         for(Block block : CustomBlockData.getBlocksWithCustomData(plugin, chunk)) {
             if(!hasParticle(block)) return;
             if(ArtifactFactory.getBehavior(block) instanceof ParticleFeature particleFeature &&
-                    !locationParticles.containsKey(block.getLocation())) {
+                    !hasKey(block.getLocation())) {
                 particleFeature.generateParticle(block.getLocation());
             }
         }
@@ -107,16 +105,14 @@ public class ParticleManager implements Listener {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean hasParticle(Block block) {
-        CustomBlockData data = new CustomBlockData(block, plugin);
-        return Optional.ofNullable(data.get(Key.Type.PARTICLE.getKey(), PersistentDataType.BOOLEAN)).orElse(false);
+        return Key.Type.PARTICLE.check(block);
     }
 
     /**
      * Check if the entity has the particle key in its container.
      */
     public static boolean hasParticle(Entity entity) {
-        return Optional.ofNullable(entity.getPersistentDataContainer()
-                .get(Key.Type.PARTICLE.getKey(), PersistentDataType.BOOLEAN)).orElse(false);
+        return Key.Type.PARTICLE.check(entity);
     }
 
     public static boolean hasKey(Location location) {

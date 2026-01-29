@@ -13,7 +13,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -96,7 +95,7 @@ public class SkillManager implements Listener {
     @Nullable
     public static List<SkillTemplate> get(ItemStack item) {
         if(!ItemFactory.isCustom(item)) return null;
-        String skill = item.getItemMeta().getPersistentDataContainer().get(Key.Type.SKILL.getKey(), PersistentDataType.STRING);
+        String skill = Key.Type.SKILL.getContent(item);
         if(skill == null) return null;
         // Ignore suffix ";"
         // e.g. a;b;c; -> [a, b, c]
@@ -157,7 +156,7 @@ public class SkillManager implements Listener {
      * @param internalName the internal name of the skill
      */
     public static void register(String internalName, EssenceConfig config) {
-        if(!config.isConfigurationSection(internalName) || skillTemplates.containsKey(internalName)) return;
+        if(!config.isConfigurationSection(internalName) || has(internalName)) return;
 
         SkillTemplate template = SkillTemplate.create(internalName, config);
         skillTemplates.put(internalName, template);

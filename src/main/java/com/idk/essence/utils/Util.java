@@ -1,7 +1,6 @@
 package com.idk.essence.utils;
 
 import com.idk.essence.Essence;
-import com.idk.essence.utils.messages.Message;
 import org.bukkit.Color;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.util.Vector;
@@ -83,21 +82,20 @@ public class Util {
                 case "RED" -> Color.RED;
                 case "SILVER" -> Color.SILVER;
                 case "TEAL" -> Color.TEAL;
-                case "WHITE" -> Color.WHITE;
                 case "YELLOW" -> Color.YELLOW;
-                default -> Color.WHITE; // fallback
+                default -> Color.WHITE;
             };
         }
 
         /**
-         * Format: <message>
+         * Format: [message]
          */
         public static void consoleLog(String message) {
             Essence.getPlugin().getComponentLogger().info(message);
         }
 
         /**
-         * Format: <message>: <object>
+         * Format: [message: object]
          */
         public static void consoleLog(String message, Object info) {
             Essence.getPlugin().getComponentLogger().info("{}: {}", message, info);

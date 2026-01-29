@@ -11,8 +11,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -109,6 +111,26 @@ public class Key {
         default T getContent(@Nullable PersistentDataContainer container) {
             if(container == null) return null;
             return container.get(getKey(), getDataType());
+        }
+
+        @NotNull
+        default T getContentOrDefault(@Nullable Entity entity, @NotNull T defaultValue) {
+            return Optional.ofNullable(getContent(entity)).orElse(defaultValue);
+        }
+
+        @NotNull
+        default T getContentOrDefault(@Nullable ItemStack item, @NotNull T defaultValue) {
+            return Optional.ofNullable(getContent(item)).orElse(defaultValue);
+        }
+
+        @NotNull
+        default T getContentOrDefault(@Nullable Block block, @NotNull T defaultValue) {
+            return Optional.ofNullable(getContent(block)).orElse(defaultValue);
+        }
+
+        @NotNull
+        default T getContentOrDefault(@Nullable PersistentDataContainer container, @NotNull T defaultValue) {
+            return Optional.ofNullable(getContent(container)).orElse(defaultValue);
         }
     }
 
