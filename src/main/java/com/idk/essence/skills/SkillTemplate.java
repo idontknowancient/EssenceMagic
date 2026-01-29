@@ -6,6 +6,8 @@ import com.idk.essence.utils.ConditionManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import com.idk.essence.utils.messages.Message;
 import com.idk.essence.utils.messages.SystemMessage;
+import com.idk.essence.utils.placeholders.Placeholder;
+import com.idk.essence.utils.placeholders.PlaceholderProvider;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
@@ -19,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
-public class SkillTemplate {
+public class SkillTemplate implements PlaceholderProvider {
 
     private final String internalName;
     @Setter private Component displayName;
@@ -290,5 +292,13 @@ public class SkillTemplate {
         for(String cost : costs) {
             ConditionManager.applyCost(cost, player, success);
         }
+    }
+
+    @Override
+    public Map<String, String> getPlaceholders() {
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put(Placeholder.SKILL_NAME.name, internalName);
+        placeholders.put(Placeholder.SKILL_DISPLAY_NAME.name, Message.serialize(displayName));
+        return placeholders;
     }
 }

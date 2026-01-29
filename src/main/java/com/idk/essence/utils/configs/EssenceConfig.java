@@ -120,7 +120,7 @@ public interface EssenceConfig {
      * Without placeholders, with default value.
      * @return the component
      */
-    default Component outString(String path, String default_) { //with no placeholders
+    default Component outString(String path, String default_) {
         return Message.parse(getString(path, default_));
     }
 
@@ -128,7 +128,7 @@ public interface EssenceConfig {
      * With placeholders, without default value.
      * @return the component
      */
-    @NotNull default Component outString(String path, Object info) { //with placeholders
+    @NotNull default Component outString(String path, Object info) {
         return Message.parse(PlaceholderManager.translate(getString(path), info));
     }
 
@@ -136,7 +136,7 @@ public interface EssenceConfig {
      * With placeholders, with default value.
      * @return the component
      */
-    default Component outString(String path, String default_, Object info) { //with placeholders
+    default Component outString(String path, String default_, Object info) {
         return Message.parse(PlaceholderManager.translate(getString(path, default_), info));
     }
 

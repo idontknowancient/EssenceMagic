@@ -94,6 +94,14 @@ public interface Message {
             input = input.replace(entry.getKey().toUpperCase(), entry.getValue());
         }
 
-        return MiniMessage.miniMessage().deserialize(input).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return deserialize(input).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+    }
+
+    static String serialize(Component component) {
+        return MiniMessage.miniMessage().serialize(component);
+    }
+
+    static Component deserialize(String string) {
+        return MiniMessage.miniMessage().deserialize(string);
     }
 }

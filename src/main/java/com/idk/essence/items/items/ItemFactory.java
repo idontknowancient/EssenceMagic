@@ -58,6 +58,11 @@ public class ItemFactory {
         return get(internalName);
     }
 
+    @Nullable
+    public static ItemBuilder getBuilder(String internalName) {
+        return items.get(internalName);
+    }
+
     public static Collection<String> getAllKeys() {
         return items.keySet();
     }
@@ -112,7 +117,7 @@ public class ItemFactory {
                 .flag(config.getConfigurationSection(internalName + ".options"))
                 .element(config.getString(internalName + ".element", Element.defaultInternalName))
                 .skill(config.getStringListOrString(internalName + ".skills"))
-                .container(internalName);
+                .internalName(internalName);
         items.put(internalName, builder);
     }
 

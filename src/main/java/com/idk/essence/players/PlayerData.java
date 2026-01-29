@@ -1,7 +1,10 @@
 package com.idk.essence.players;
 
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
+import com.idk.essence.utils.placeholders.Placeholder;
+import com.idk.essence.utils.placeholders.PlaceholderProvider;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -11,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public class PlayerData implements ManaManager {
+public class PlayerData implements PlaceholderProvider, ManaManager {
 
     private final EssenceConfig config;
     private final Player player;
@@ -54,5 +57,17 @@ public class PlayerData implements ManaManager {
      */
     public void deductMana(double amount) {
         mana -= amount;
+    }
+
+    @Override
+    public Map<String, String> getPlaceholders() {
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put(Placeholder.PLAYER.name, player.getName());
+        placeholders.put(Placeholder.MANA_LEVEL.name, String.valueOf(manaLevel));
+        placeholders.put(Placeholder.MANA.name, String.valueOf(Util.MathTool.round(mana, 2)));
+        placeholders.put(Placeholder.DEFAULT_MANA.name, String.valueOf(Util.MathTool.round(ManaManager.getDefaultMana(), 2)));
+        placeholders.put(Placeholder.MAX_MANA.name, String.valueOf(Util.MathTool.round(maxMana, 2)));
+        placeholders.put(Placeholder.MANA_RECOVERY_SPEED.name, String.valueOf(manaRecoverySpeed));
+        return placeholders;
     }
 }

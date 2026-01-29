@@ -25,9 +25,12 @@ public class EssencePlaceholder extends PlaceholderExpansion {
         return plugin.getPluginMeta().getVersion();
     }
 
+    /**
+     * Tell PlaceholderAPI not to unload the placeholders.
+     */
     @Override
     public boolean persist() {
-        return true; //telling placeholderAPI not to unload the placeholders
+        return true;
     }
 
     @Override

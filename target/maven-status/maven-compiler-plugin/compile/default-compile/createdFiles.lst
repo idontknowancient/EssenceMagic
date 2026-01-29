@@ -39,6 +39,7 @@ com\idk\essence\skills\SkillManager.class
 com\idk\essence\skills\SkillTemplate.class
 com\idk\essence\magics\MagicType.class
 com\idk\essence\utils\nodes\types\ActionNode.class
+com\idk\essence\utils\placeholders\PlaceholderProvider.class
 com\idk\essence\commands\essence_sub\WandCommand.class
 com\idk\essence\utils\particles\shapes\CircleEffect.class
 com\idk\essence\magics\MagicType$Feature.class

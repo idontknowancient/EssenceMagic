@@ -9,11 +9,13 @@ import com.jeff_media.customblockdata.CustomBlockData;
 import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -120,6 +122,14 @@ public class ArtifactFactory implements Listener {
     }
 
     /**
+     * Check if an entity is holding an artifact.
+     */
+    public static boolean isHoldingArtifact(LivingEntity entity) {
+        ItemStack item = Optional.ofNullable(entity.getEquipment()).map(EntityEquipment::getItemInMainHand).orElse(null);
+        return isArtifact(item);
+    }
+
+    /**
      * Check if an item stack is placeable. Only effective for blocks.
      */
     public static boolean isPlaceable(ItemStack item) {
@@ -148,6 +158,11 @@ public class ArtifactFactory implements Listener {
     public static ItemStack getArtifact(Block block) {
         return Optional.ofNullable(activateArtifacts.get(Key.Type.ARTIFACT.getContent(block)))
                 .map(ArtifactBuilder::build).orElse(null);
+    }
+
+    @Nullable
+    public static ArtifactBuilder getBuilder(String internalName) {
+        return activateArtifacts.get(internalName);
     }
 
     @Nullable

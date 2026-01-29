@@ -3,21 +3,24 @@ package com.idk.essence.utils.placeholders;
 import com.idk.essence.Essence;
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
+import com.idk.essence.items.artifacts.ArtifactFactory;
+import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.magics.Magic;
-import com.idk.essence.players.ManaManager;
-import com.idk.essence.players.PlayerData;
 import com.idk.essence.items.arcana.Wand;
 import com.idk.essence.items.arcana.WandHandler;
-import com.idk.essence.skills.SkillTemplate;
+import com.idk.essence.utils.Key;
+import com.idk.essence.utils.messages.Message;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 
@@ -33,55 +36,47 @@ public class PlaceholderManager {
         }
     }
 
-    public static String translate(String string, Object info) {
-        if(string == null || string.equalsIgnoreCase("")) return "";
+    @NotNull
+    public static String translate(@Nullable String string, Object ... infos) {
+        if(string == null || string.isEmpty()) return "";
+        for(Object info : infos) {
 
-        if(info instanceof String s)
-            string = handleString(string, s);
-        else if(info instanceof Component c)
-            string = handleComponent(string, c);
-        else if(info instanceof ItemStack i)
-            string = handleItemStack(string, i);
-        else if(info instanceof SkillTemplate s)
-            string = handleSkillTemplate(string ,s);
-        else if(info instanceof Wand w)
-            string = handleWand(string, w);
-        else if(info instanceof PlayerData d)
-            string = handlePlayerData(string, d);
-        else if(info instanceof Double d)
-            string = handleDouble(string, d);
-        else if(info instanceof Player p)
-            string = handlePlaceholderAPI(string, p);
+            Object actualInfo = info;
+            // Check if the info is a custom item and cast to ? implements PlaceholderProvider
+            if(info instanceof ItemStack item) {
+                if(ArtifactFactory.isArtifact(item))
+                    actualInfo = ArtifactFactory.getBuilder(Key.Type.ARTIFACT.getContent(item));
+                else if(ItemFactory.isCustom(item))
+                    actualInfo = ItemFactory.getBuilder(Key.Type.ITEM.getContent(item));
+            }
+
+            switch(actualInfo) {
+                // Handle providers (including Item / Artifact / Arcana)
+                case PlaceholderProvider provider -> string = provider.applyTo(string);
+
+                // Handle PAPI
+                case Player p -> string = PlaceholderAPI.setPlaceholders(p, string);
+
+                // Handle normal items
+                case ItemStack i -> string = handle(string, i);
+
+                // Handle command usage
+                case String s -> string = handle(string, s);
+
+                case null, default -> {}
+            }
+        }
         return string;
     }
 
-    private static String handleString(String string, String info) {
-        if(string.contains(Placeholder.PLAYER.name))
-            string = string.replaceAll(Placeholder.PLAYER.name, info);
-        if(string.contains(Placeholder.USAGE.name))
-            string = string.replaceAll(Placeholder.USAGE.name, info);
+    private static String handle(String string, ItemStack info) {
+        string = string.replace(Placeholder.ITEM_DISPLAY_NAME.name, Message.serialize(info.getItemMeta().displayName()));
+        string = string.replace(Placeholder.ITEM_TYPE.name, info.getType().name());
         return string;
     }
 
-    private static String handleComponent(String string, Component info) {
-        return string;
-    }
-
-    private static String handleItemStack(String string, ItemStack info) {
-        ItemMeta meta = info.getItemMeta();
-        if(meta == null) return string;
-        PersistentDataContainer container = meta.getPersistentDataContainer();
-        if(container.has(Wand.getWandKey()))
-            string = handleWand(string, info);
-        if(string.contains(Placeholder.ITEM_ELEMENT.name))
-            string = string.replaceAll(Placeholder.ITEM_ELEMENT.name,
-                    Optional.ofNullable(ElementFactory.get(info)).map(Element::getDisplayName).orElse(Component.text("")).toString());
-        return string;
-    }
-
-    private static String handleSkillTemplate(String string, SkillTemplate info) {
-        if(string.contains(Placeholder.SKILL_DISPLAY_NAME.name))
-            string = string.replaceAll(Placeholder.SKILL_DISPLAY_NAME.name, MiniMessage.miniMessage().serialize(info.getDisplayName()));
+    private static String handle(String string, String info) {
+        string = string.replace(Placeholder.USAGE.name, info);
         return string;
     }
 
@@ -90,14 +85,14 @@ public class PlaceholderManager {
         String[] containerMagic = info.getDefaultMagic().toString().split(";");
 
         if(string.contains(Placeholder.WAND_NAME.name))
-            string = string.replaceAll(Placeholder.WAND_NAME.name, info.getName());
+            string = string.replace(Placeholder.WAND_NAME.name, info.getName());
         if(string.contains(Placeholder.WAND_DISPLAY_NAME.name))
-            string = string.replaceAll(Placeholder.WAND_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
+            string = string.replace(Placeholder.WAND_DISPLAY_NAME.name, String.valueOf(info.getDisplayName()));
         if(string.contains(Placeholder.WAND_MANA.name))
             // rounding two digits
-            string = string.replaceAll(Placeholder.WAND_MANA.name, String.valueOf(Math.round(info.getDefaultMana() * 100.00) / 100.00));
+            string = string.replace(Placeholder.WAND_MANA.name, String.valueOf(Math.round(info.getDefaultMana() * 100.00) / 100.00));
         if(string.contains(Placeholder.WAND_SLOT.name))
-            string = string.replaceAll(Placeholder.WAND_SLOT.name, info.getSlot()+"");
+            string = string.replace(Placeholder.WAND_SLOT.name, info.getSlot()+"");
         if(string.contains(Placeholder.WAND_MAGIC.name)) {
             StringBuilder loreMagic = new StringBuilder();
             for(int i = 0; i < info.getSlot(); i++) {
@@ -107,7 +102,7 @@ public class PlaceholderManager {
                 else
                     loreMagic.append(Wand.getEmptyString()).append("\n");
             }
-            string = string.replaceAll(Placeholder.WAND_MAGIC.name, loreMagic.toString());
+            string = string.replace(Placeholder.WAND_MAGIC.name, loreMagic.toString());
         }
         if(string.contains(Placeholder.WAND_MAGIC_USING.name)) {
             // include indicating number`
@@ -119,10 +114,10 @@ public class PlaceholderManager {
             }
             String using = containerMagic[usingNum];
 //            if(Magic.magics.containsKey(using))
-//                string = string.replaceAll(Placeholder.WAND_MAGIC_USING.name,
+//                string = string.replace(Placeholder.WAND_MAGIC_USING.name,
 //                        Magic.magics.get(using).getDisplayName());
 //            else
-//                string = string.replaceAll(Placeholder.WAND_MAGIC_USING.name, "");
+//                string = string.replace(Placeholder.WAND_MAGIC_USING.name, "");
         }
         return string;
     }
@@ -140,19 +135,19 @@ public class PlaceholderManager {
         if(string.contains(Placeholder.WAND_NAME.name)) {
             String Name = container.get(Wand.getWandKey(), PersistentDataType.STRING);
             String name = Name != null ? Name : "";
-            string = string.replaceAll(Placeholder.WAND_NAME.name, name);
+            string = string.replace(Placeholder.WAND_NAME.name, name);
         }
         if(string.contains(Placeholder.WAND_DISPLAY_NAME.name)) {
-            string = string.replaceAll(Placeholder.WAND_DISPLAY_NAME.name, info.getItemMeta().getDisplayName());
+            string = string.replace(Placeholder.WAND_DISPLAY_NAME.name, info.getItemMeta().getDisplayName());
         }
         if(string.contains(Placeholder.WAND_MANA.name)) {
             Double Mana = container.get(Wand.getManaKey(), PersistentDataType.DOUBLE);
             // assign default value if the key doesn't exist
             double mana = Mana != null ? Mana : 0.0;
-            string = string.replaceAll(Placeholder.WAND_MANA.name, mana+"");
+            string = string.replace(Placeholder.WAND_MANA.name, mana+"");
         }
         if(string.contains(Placeholder.WAND_SLOT.name)) {
-            string = string.replaceAll(Placeholder.WAND_SLOT.name, slot+"");
+            string = string.replace(Placeholder.WAND_SLOT.name, slot+"");
         }
         if(string.contains(Placeholder.WAND_MAGIC.name)) {
             StringBuilder loreMagic = new StringBuilder();
@@ -163,7 +158,7 @@ public class PlaceholderManager {
                 else
                     loreMagic.append(Wand.getEmptyString()).append("\n");
             }
-            string = string.replaceAll(Placeholder.WAND_MAGIC.name, loreMagic.toString());
+            string = string.replace(Placeholder.WAND_MAGIC.name, loreMagic.toString());
         }
         if(string.contains(Placeholder.WAND_MAGIC_USING.name)) {
             // include indicating number`
@@ -174,41 +169,13 @@ public class PlaceholderManager {
             }
             String using = containerMagic[index];
 //            if(Magic.magics.containsKey(using))
-//                string = string.replaceAll(Placeholder.WAND_MAGIC_USING.name,
+//                string = string.replace(Placeholder.WAND_MAGIC_USING.name,
 //                        Magic.magics.get(using).getDisplayName());
 //            else
-//                string = string.replaceAll(Placeholder.WAND_MAGIC_USING.name, "");
+//                string = string.replace(Placeholder.WAND_MAGIC_USING.name, "");
         }
         if(string.contains(Placeholder.WAND_MANA_INJECTION.name))
-            string = string.replaceAll(Placeholder.WAND_MANA_INJECTION.name, WandHandler.getInjection(info)+"");
+            string = string.replace(Placeholder.WAND_MANA_INJECTION.name, WandHandler.getInjection(info)+"");
         return string;
-    }
-
-    private static String handlePlayerData(String string, PlayerData info) {
-        if(string.contains(Placeholder.PLAYER.name))
-            string = string.replaceAll(Placeholder.PLAYER.name, String.valueOf(info.getPlayer().getName()));
-        if(string.contains(Placeholder.MANA_LEVEL.name))
-            string = string.replaceAll(Placeholder.MANA_LEVEL.name, String.valueOf(info.getManaLevel()));
-        if(string.contains(Placeholder.MANA.name))
-            // rounding two digits
-            string = string.replaceAll(Placeholder.MANA.name, String.valueOf(Math.round(info.getMana() * 100.00) / 100.00));
-        if(string.contains(Placeholder.DEFAULT_MANA.name))
-            string = string.replaceAll(Placeholder.DEFAULT_MANA.name, String.valueOf(ManaManager.getDefaultMana()));
-        if(string.contains(Placeholder.MAX_MANA.name))
-            // rounding two digits
-            string = string.replaceAll(Placeholder.MAX_MANA.name, String.valueOf(Math.round(info.getMaxMana() * 100.00) / 100.00));
-        if(string.contains(Placeholder.MANA_RECOVERY_SPEED.name))
-            string = string.replaceAll(Placeholder.MANA_RECOVERY_SPEED.name, String.valueOf(info.getManaRecoverySpeed()));
-        return string;
-    }
-
-    private static String handleDouble(String string, double info) {
-        if(string.contains(Placeholder.DEFAULT_MANA.name))
-            string = string.replaceAll(Placeholder.DEFAULT_MANA.name, String.valueOf(ManaManager.getDefaultMana()));
-        return string;
-    }
-
-    private static String handlePlaceholderAPI(String string, Player player) {
-        return PlaceholderAPI.setPlaceholders(player, string);
     }
 }

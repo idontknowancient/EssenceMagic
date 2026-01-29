@@ -2,6 +2,7 @@ package com.idk.essence.items.artifacts;
 
 import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.utils.Key;
+import com.idk.essence.utils.placeholders.PlaceholderProvider;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,8 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
-public class ArtifactBuilder {
+public class ArtifactBuilder implements PlaceholderProvider {
 
     private final ItemBuilder itemBuilder;
     @Nullable @Getter private ConfigurationSection particleSection;
@@ -24,7 +26,7 @@ public class ArtifactBuilder {
      * Apply both item key and artifact key.
      */
     public ArtifactBuilder internalName(String internalName) {
-        itemBuilder.container(Key.Type.ITEM, internalName);
+        itemBuilder.internalName(internalName);
         itemBuilder.container(Key.Type.ARTIFACT, internalName);
         return this;
     }
@@ -82,5 +84,10 @@ public class ArtifactBuilder {
      */
     public ItemStack build() {
         return itemBuilder.build();
+    }
+
+    @Override
+    public Map<String, String> getPlaceholders() {
+        return itemBuilder.getPlaceholders();
     }
 }

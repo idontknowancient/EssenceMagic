@@ -58,6 +58,11 @@ public class Register {
         NodeManager.initialize();
     }
 
+    public static void shutdown() {
+        ParticleManager.shutdown();
+        NodeManager.shutdown();
+    }
+
     private static void register(Listener listener) {
         plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }

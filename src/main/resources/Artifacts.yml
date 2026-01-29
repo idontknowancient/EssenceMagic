@@ -21,10 +21,11 @@ wand_work_table:
       radius: 3
       point-count: 8
       bounce-amplitude: 0.1
-      rotation-speed: 2
+      rotation-speed: 10
   node:
-    display: true
-    type: item
-    radius: 3
-    y-offset: 1.2
-    color: yellow
+    item:
+      enabled: true
+      visible: true
+      color: green
+      radius: 3
+      offset: [0.5, 1.2, 0.5]

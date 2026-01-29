@@ -22,7 +22,6 @@ public final class Essence extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        ParticleManager.shutdown();
-        NodeManager.shutdown();
+        Register.shutdown();
     }
 }

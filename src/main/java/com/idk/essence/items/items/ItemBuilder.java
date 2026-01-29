@@ -5,6 +5,8 @@ import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.skills.SkillManager;
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.messages.Message;
+import com.idk.essence.utils.placeholders.Placeholder;
+import com.idk.essence.utils.placeholders.PlaceholderProvider;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
@@ -31,10 +33,11 @@ import java.util.stream.Collectors;
  * 3. Add apply
  * 4. Use apply
  */
-public class ItemBuilder {
+public class ItemBuilder implements PlaceholderProvider {
 
     private ItemStack item = null;
     @NotNull private Material material;
+    private String internalName = "";
     private Component displayName;
     private final List<Component> lore = new ArrayList<>();
     private Element element;
@@ -51,6 +54,16 @@ public class ItemBuilder {
 
     public ItemBuilder(String materialString) {
         material = getMaterial(materialString);
+    }
+
+    /**
+     * Set internal name for the custom item.
+     * Automatically set Key.Type.ITEM
+     */
+    public ItemBuilder internalName(String internalName) {
+        this.internalName = internalName;
+        container(internalName);
+        return this;
     }
 
     public ItemBuilder displayName(String name) {
@@ -289,5 +302,16 @@ public class ItemBuilder {
     public static Material getMaterial(String materialString) {
         if(materialString == null) return Material.STONE;
         return Optional.ofNullable(Material.matchMaterial(materialString)).orElse(Material.STONE);
+    }
+
+    @Override
+    public Map<String, String> getPlaceholders() {
+        Map<String, String> placeholders = new HashMap<>();
+        placeholders.put(Placeholder.ITEM_NAME.name, internalName);
+        placeholders.put(Placeholder.ITEM_DISPLAY_NAME.name, Message.serialize(displayName));
+        placeholders.put(Placeholder.ITEM_TYPE.name, material.name());
+        placeholders.put(Placeholder.ITEM_ELEMENT.name, Message.serialize(Optional.ofNullable(element)
+                .map(Element::getDisplayName).orElse(ElementFactory.getDefault().getDisplayName())));
+        return placeholders;
     }
 }

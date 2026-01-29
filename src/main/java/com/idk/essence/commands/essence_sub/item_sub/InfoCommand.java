@@ -2,6 +2,7 @@ package com.idk.essence.commands.essence_sub.item_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
+import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
@@ -55,7 +56,7 @@ public class InfoCommand extends SubCommand {
             SystemMessage.NO_ITEM_IN_HAND.send(p);
             return;
         }
-        if(!ItemFactory.isHoldingCustom(p) && !WandHandler.isHoldingWand(p)) {
+        if(!ItemFactory.isHoldingCustom(p) && !ArtifactFactory.isHoldingArtifact(p)) {
             SystemMessage.NOT_CUSTOM_ITEM.send(p);
             return;
         }
