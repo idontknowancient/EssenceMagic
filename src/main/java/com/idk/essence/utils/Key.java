@@ -182,9 +182,14 @@ public class Key {
         public static final Type<UUID> NODE_OWNER = new Type<>("node-owner-key", DataType.UUID);
 
         /**
-         * Node correlation identifier. Type: UUID. Content: correlation node UUID.
+         * Node correlation is action node identifier. Type: UUID. Content: correlation node UUID.
          */
-        public static final Type<UUID> NODE_CORRELATION = new Type<>("node-correlation-key", DataType.UUID);
+        public static final Type<UUID> NODE_CORRELATION_ACTION = new Type<>("node-correlation-action-key", DataType.UUID);
+
+        /**
+         * Node correlation is text node identifier. Type: UUID. Content: correlation node UUID.
+         */
+        public static final Type<UUID> NODE_CORRELATION_TEXT = new Type<>("node-correlation-text-key", DataType.UUID);
 
         /**
          * Node attachment identifier. Type: boolean. Content: is attachment.

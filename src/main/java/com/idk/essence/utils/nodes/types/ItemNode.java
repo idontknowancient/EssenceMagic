@@ -5,6 +5,7 @@ import com.idk.essence.utils.Key;
 import com.idk.essence.utils.nodes.BaseNode;
 import com.idk.essence.utils.nodes.NodeManager;
 import com.idk.essence.utils.nodes.NodeRegistry;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -23,6 +24,8 @@ public class ItemNode extends BaseNode {
      * The attachment of the item node
      */
     private ActionNode actionNode;
+    private TextNode textNode;
+
     private BukkitTask animation;
 
     public ItemNode(Location location) {
@@ -41,10 +44,15 @@ public class ItemNode extends BaseNode {
         actionNode = (ActionNode) NodeRegistry.ACTION.getConstructor().apply(getLocation());
         actionNode.setAttachment(true);
         actionNode.setAction(this::setItem);
+        // Correlation text node
+        textNode = (TextNode) NodeRegistry.TEXT.getConstructor().apply(getLocation());
+        textNode.setAttachment(true);
 
         // Link
-        setCorrelationUUID(actionNode.getSelfUUID());
-        Key.Type.NODE_CORRELATION.set(display, getCorrelationUUID());
+        setCorrelationActionUUID(actionNode.getSelfUUID());
+        setCorrelationTextUUID(textNode.getSelfUUID());
+        Key.Type.NODE_CORRELATION_ACTION.set(display, getCorrelationActionUUID());
+        Key.Type.NODE_CORRELATION_TEXT.set(display, getCorrelationTextUUID());
 
         // ItemDisplay attributes
         display.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.FIXED);
@@ -54,6 +62,7 @@ public class ItemNode extends BaseNode {
         setScale(0.7f);
 
         actionNode.spawn();
+        textNode.spawn();
     }
 
     @Override
@@ -71,6 +80,7 @@ public class ItemNode extends BaseNode {
     public void onRemove() {
         dropItem();
         actionNode.remove();
+        textNode.remove();
         stopAnimation();
     }
 
@@ -81,12 +91,18 @@ public class ItemNode extends BaseNode {
 
     @Override
     protected void onCorrelate() {
-        if(NodeManager.get(getCorrelationUUID()) instanceof ActionNode action) {
+        if(NodeManager.get(getCorrelationActionUUID()) instanceof ActionNode action) {
             action.setAction(this::setItem);
             this.actionNode = action;
         } else {
-            setCorrelationUUID(null);
-            Key.Type.NODE_CORRELATION.remove(getDisplayEntity());
+            setCorrelationActionUUID(null);
+            Key.Type.NODE_CORRELATION_ACTION.remove(getDisplayEntity());
+        }
+        if(NodeManager.get(getCorrelationTextUUID()) instanceof TextNode text) {
+            this.textNode = text;
+        } else {
+            setCorrelationTextUUID(null);
+            Key.Type.NODE_CORRELATION_TEXT.remove(getDisplayEntity());
         }
     }
 
@@ -108,18 +124,21 @@ public class ItemNode extends BaseNode {
         if(itemInHand.getType() == Material.AIR) {
             dropItem();
             generateParticle();
+            textNode.setText(Component.empty());
             return;
         }
         // Drop item if there is an item on the display and player's hand
         if(this.currentItem != null && this.currentItem.getType() != Material.AIR) {
             dropItem();
             generateParticle();
+            textNode.setText(Component.empty());
             return;
         }
 
         ItemStack toPut = itemInHand.clone();
         toPut.setAmount(1);
         setItem(toPut);
+        textNode.setText(toPut.getItemMeta().displayName());
 
         // Deduct the amount
         if(itemInHand.getAmount() > 1) {

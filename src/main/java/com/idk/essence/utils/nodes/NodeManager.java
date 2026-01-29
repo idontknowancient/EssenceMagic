@@ -4,12 +4,14 @@ import com.idk.essence.Essence;
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.nodes.types.ActionNode;
 import com.idk.essence.utils.nodes.types.ItemNode;
+import com.idk.essence.utils.nodes.types.TextNode;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -241,6 +243,10 @@ public class NodeManager implements Listener {
         } else if(NodeRegistry.ACTION.getName().equalsIgnoreCase(type) && entity instanceof Interaction interaction) {
             ActionNode node = new ActionNode(entity.getLocation());
             node.load(interaction);
+            return node;
+        } else if(NodeRegistry.TEXT.getName().equalsIgnoreCase(type) && entity instanceof TextDisplay display) {
+            TextNode node = new TextNode(entity.getLocation());
+            node.load(display);
             return node;
         }
 

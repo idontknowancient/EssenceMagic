@@ -7,7 +7,6 @@ import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
-import com.idk.essence.items.arcana.WandHandler;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;

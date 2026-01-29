@@ -1,8 +1,6 @@
 package com.idk.essence.utils.placeholders;
 
 import com.idk.essence.Essence;
-import com.idk.essence.elements.Element;
-import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.magics.Magic;
@@ -11,17 +9,13 @@ import com.idk.essence.items.arcana.WandHandler;
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.messages.Message;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Level;
 
 public class PlaceholderManager {
@@ -41,6 +35,7 @@ public class PlaceholderManager {
         if(string == null || string.isEmpty()) return "";
         for(Object info : infos) {
 
+            if(info == null) continue;
             Object actualInfo = info;
             // Check if the info is a custom item and cast to ? implements PlaceholderProvider
             if(info instanceof ItemStack item) {
@@ -48,6 +43,7 @@ public class PlaceholderManager {
                     actualInfo = ArtifactFactory.getBuilder(Key.Type.ARTIFACT.getContent(item));
                 else if(ItemFactory.isCustom(item))
                     actualInfo = ItemFactory.getBuilder(Key.Type.ITEM.getContent(item));
+                if(actualInfo == null) actualInfo = info;
             }
 
             switch(actualInfo) {
@@ -63,7 +59,7 @@ public class PlaceholderManager {
                 // Handle command usage
                 case String s -> string = handle(string, s);
 
-                case null, default -> {}
+                default -> {}
             }
         }
         return string;

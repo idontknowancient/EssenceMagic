@@ -2,11 +2,13 @@ package com.idk.essence.utils.nodes;
 
 import com.idk.essence.utils.nodes.types.ActionNode;
 import com.idk.essence.utils.nodes.types.ItemNode;
+import com.idk.essence.utils.nodes.types.TextNode;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.TextDisplay;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -16,6 +18,7 @@ public enum NodeRegistry {
 
     ITEM("item", ItemDisplay.class, ItemNode::new),
     ACTION("action", Interaction.class, ActionNode::new),
+    TEXT("text", TextDisplay.class, TextNode::new),
     ;
 
     @Getter private final String name;

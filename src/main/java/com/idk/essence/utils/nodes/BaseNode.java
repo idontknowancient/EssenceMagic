@@ -24,9 +24,13 @@ public abstract class BaseNode {
      */
     @Nullable @Getter @Setter private UUID ownerUUID;
     /**
-     * To make nodes connect to another one
+     * To make nodes connect to another action node
      */
-    @Nullable@Getter @Setter private UUID correlationUUID;
+    @Nullable@Getter @Setter private UUID correlationActionUUID;
+    /**
+     * To make nodes connect to another text node
+     */
+    @Nullable@Getter @Setter private UUID correlationTextUUID;
     /**
      * To identify the node as an attachment to another node.
      * Will not spawn particle.
@@ -101,11 +105,12 @@ public abstract class BaseNode {
     }
 
     /**
-     * Get and set correlationUUID from the pdc.
+     * Get and set correlationActionUUID from the pdc.
      * Subclass should implement onCorrelate() to actually link the node.
      */
     public void correlate() {
-        correlationUUID = Optional.ofNullable(Key.Type.NODE_CORRELATION.getContent(getDisplayEntity())).orElse(correlationUUID);
+        correlationActionUUID = Optional.ofNullable(Key.Type.NODE_CORRELATION_ACTION.getContent(getDisplayEntity())).orElse(correlationActionUUID);
+        correlationTextUUID = Optional.ofNullable(Key.Type.NODE_CORRELATION_TEXT.getContent(getDisplayEntity())).orElse(correlationTextUUID);
         onCorrelate();
     }
 
@@ -143,11 +148,11 @@ public abstract class BaseNode {
             ParticleManager.stop(selfUUID);
     }
 
+    public abstract NodeRegistry getNodeType();
     protected abstract void onSpawn(Entity entity);
     protected abstract void onLoad(Entity entity);
     protected abstract void onRemove();
     protected abstract void onUnload();
     protected abstract void onCorrelate();
     protected abstract void onPerform(PlayerInteractEntityEvent event);
-    public abstract NodeRegistry getNodeType();
 }

@@ -7,7 +7,6 @@ import com.idk.essence.utils.placeholders.Placeholder;
 import com.idk.essence.utils.placeholders.PlaceholderProvider;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

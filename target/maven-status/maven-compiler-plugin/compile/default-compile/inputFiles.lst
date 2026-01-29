@@ -90,6 +90,7 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\nod
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\nodes\NodeRegistry.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\nodes\types\ActionNode.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\nodes\types\ItemNode.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\nodes\types\TextNode.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\particles\ParticleEffect.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\particles\ParticleFeature.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\utils\particles\ParticleManager.java
