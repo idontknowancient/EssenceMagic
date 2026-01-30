@@ -1,11 +1,12 @@
 package com.idk.essence.utils.placeholders;
 
 import com.idk.essence.Essence;
+import com.idk.essence.items.arcana.ArcanaFactory;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.magics.Magic;
-import com.idk.essence.items.arcana.Wand;
-import com.idk.essence.items.arcana.WandHandler;
+import com.idk.essence.outdated.Wand;
+import com.idk.essence.outdated.WandHandler;
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.messages.Message;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -39,7 +40,9 @@ public class PlaceholderManager {
             Object actualInfo = info;
             // Check if the info is a custom item and cast to ? implements PlaceholderProvider
             if(info instanceof ItemStack item) {
-                if(ArtifactFactory.isArtifact(item))
+                if(ArcanaFactory.isArcana(item))
+                    actualInfo = ArcanaFactory.get(Key.Type.ARCANA.getContent(item));
+                else if(ArtifactFactory.isArtifact(item))
                     actualInfo = ArtifactFactory.getBuilder(Key.Type.ARTIFACT.getContent(item));
                 else if(ItemFactory.isCustom(item))
                     actualInfo = ItemFactory.getBuilder(Key.Type.ITEM.getContent(item));

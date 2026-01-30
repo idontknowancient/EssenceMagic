@@ -46,19 +46,13 @@ public class ArtifactBuilder implements PlaceholderProvider {
         return this;
     }
 
-    /**
-     * Whether an item stack can be placed. Only effective for blocks.
-     */
     public ArtifactBuilder placeable(boolean placeable) {
-        itemBuilder.container(Key.Feature.PLACEABLE, placeable);
+        itemBuilder.placeable(placeable);
         return this;
     }
 
-    /**
-     * Whether an item stack can be used. Only effective for interactable items.
-     */
     public ArtifactBuilder usable(boolean usable) {
-        itemBuilder.container(Key.Feature.USABLE, usable);
+        itemBuilder.usable(usable);
         return this;
     }
 

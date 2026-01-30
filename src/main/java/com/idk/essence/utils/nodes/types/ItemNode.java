@@ -5,6 +5,7 @@ import com.idk.essence.utils.Key;
 import com.idk.essence.utils.nodes.BaseNode;
 import com.idk.essence.utils.nodes.NodeManager;
 import com.idk.essence.utils.nodes.NodeRegistry;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,6 +24,8 @@ public class ItemNode extends BaseNode {
     /**
      * The attachment of the item node
      */
+    @Setter private boolean interactable = true;
+    @Setter private boolean textDisplayable = true;
     private ActionNode actionNode;
     private TextNode textNode;
 
@@ -40,19 +43,26 @@ public class ItemNode extends BaseNode {
     @Override
     public void onSpawn(Entity entity) {
         if(!(entity instanceof ItemDisplay display)) return;
-        // Correlation action node
-        actionNode = (ActionNode) NodeRegistry.ACTION.getConstructor().apply(getLocation());
-        actionNode.setAttachment(true);
-        actionNode.setAction(this::setItem);
-        // Correlation text node
-        textNode = (TextNode) NodeRegistry.TEXT.getConstructor().apply(getLocation());
-        textNode.setAttachment(true);
 
-        // Link
-        setCorrelationActionUUID(actionNode.getSelfUUID());
-        setCorrelationTextUUID(textNode.getSelfUUID());
-        Key.Type.NODE_CORRELATION_ACTION.set(display, getCorrelationActionUUID());
-        Key.Type.NODE_CORRELATION_TEXT.set(display, getCorrelationTextUUID());
+        // Correlation action node
+        if(interactable) {
+            actionNode = (ActionNode) NodeRegistry.ACTION.getConstructor().apply(getLocation());
+            actionNode.setAttachment(true);
+            actionNode.setAction(this::setItem);
+            setCorrelationActionUUID(actionNode.getSelfUUID());
+            Key.Type.NODE_CORRELATION_ACTION.set(display, getCorrelationActionUUID());
+            actionNode.spawn();
+        }
+        // Correlation text node
+        if(textDisplayable) {
+            textNode = (TextNode) NodeRegistry.TEXT.getConstructor().apply(getLocation());
+            textNode.setAttachment(true);
+            if(currentItem != null)
+                textNode.setText(currentItem.getItemMeta().displayName());
+            setCorrelationTextUUID(textNode.getSelfUUID());
+            Key.Type.NODE_CORRELATION_TEXT.set(display, getCorrelationTextUUID());
+            textNode.spawn();
+        }
 
         // ItemDisplay attributes
         display.setItemDisplayTransform(ItemDisplay.ItemDisplayTransform.FIXED);
@@ -60,9 +70,6 @@ public class ItemNode extends BaseNode {
             display.setItemStack(currentItem);
         applyAnimation(display);
         setScale(0.7f);
-
-        actionNode.spawn();
-        textNode.spawn();
     }
 
     @Override
@@ -79,8 +86,10 @@ public class ItemNode extends BaseNode {
     @Override
     public void onRemove() {
         dropItem();
-        actionNode.remove();
-        textNode.remove();
+        if(actionNode != null)
+            actionNode.remove();
+        if(textNode != null)
+            textNode.remove();
         stopAnimation();
     }
 
@@ -111,7 +120,7 @@ public class ItemNode extends BaseNode {
         actionNode.perform(event);
     }
 
-    private void setItem(ItemStack item) {
+    public void setItem(ItemStack item) {
         this.currentItem = item;
         if(getDisplayEntity() instanceof ItemDisplay display)
             display.setItemStack(item);

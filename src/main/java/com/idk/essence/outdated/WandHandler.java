@@ -1,7 +1,6 @@
-package com.idk.essence.items.arcana;
+package com.idk.essence.outdated;
 
 import com.idk.essence.players.PlayerDataManager;
-import com.idk.essence.utils.ClickHandler;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import org.bukkit.entity.LivingEntity;
@@ -28,7 +27,7 @@ public class WandHandler implements Listener {
     }
 
     private static void setWands() {
-        Set<String> wandSet = ConfigManager.DefaultFile.WANDS.getConfig().getKeys(false);
+        Set<String> wandSet = ConfigManager.DefaultFile.ARCANA.getConfig().getKeys(false);
         for(String wand : wandSet) {
             Wand.wands.put(wand, new Wand(wand));
         }

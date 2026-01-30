@@ -1,0 +1,35 @@
+basic_wand:
+  type: wand
+  material: stick
+  display-name: "&b初級魔杖"
+  lore:
+    - "&7新手魔法師的魔杖"
+    - "&7承受不了太大的魔力"
+    - "&7儲存的魔力: &b%wand_mana%"
+    - ""
+    - "&7目前使用: &a%wand_magic_using%"
+    - "&7==============="
+    - "&f%wand_magic%"
+    - "&7==============="
+  glowing: true
+  # available amount of magic
+  magic-slot: 2
+  available-range:
+    lower-limit: F;0
+    upper-limit: C;9
+  default-mana: 0
+  # can add multiple default magic to a wand
+  default-magic: fire_beam
+  # injection amount per right click
+  mana-injection: 2
+  custom-model-data: 1001
+
+fire_rune:
+  type: rune
+  material: bolt_armor_trim_smithing_template
+  display-name: "&#c53d43火焰符文"
+  lore:
+    - ""
+    - "&7最初階的符文"
+    - "&7有著些微的火焰能量"
+  glowing: false

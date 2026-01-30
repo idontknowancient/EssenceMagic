@@ -178,13 +178,13 @@ public class ConfigManager {
     }
 
     public enum DefaultFile implements EssenceConfig {
+        ARCANA("items/arcana", "Default_Arcana"),
         ARTIFACTS("items/artifacts",  "Artifacts"),
         ELEMENTS("elements", "Default_Elements"),
         ITEMS("items/items", "Default_Items"),
         MAGICS("magics", "Default_Magics"),
         MOBS("mobs", "Default_Mobs"),
         SKILLS("skills", "Default_Skills"),
-        WANDS("wands", "Default_Wands"),
 
         CONFIG("config"),
         MANA("mana"),

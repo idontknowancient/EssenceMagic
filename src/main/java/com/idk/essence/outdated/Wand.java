@@ -1,4 +1,4 @@
-package com.idk.essence.items.arcana;
+package com.idk.essence.outdated;
 
 import com.idk.essence.Essence;
 import com.idk.essence.magics.Magic;
@@ -74,7 +74,7 @@ public class Wand {
     @Getter private static final NamespacedKey wandMagicKey = new NamespacedKey(plugin, "wand-magic-key");
 
     public Wand(String wandName) {
-        ConfigManager.DefaultFile cw = ConfigManager.DefaultFile.WANDS;
+        ConfigManager.DefaultFile cw = ConfigManager.DefaultFile.MENUS;
         name = wandName;
 
         // set wand material (default to stick)

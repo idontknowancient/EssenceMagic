@@ -24,6 +24,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +46,8 @@ public class ItemBuilder implements PlaceholderProvider {
     private final Map<ItemFlag, Boolean> flags = new HashMap<>();
     private boolean forceGlowing = false;
     private boolean glowing;
+    private boolean placeable;
+    private boolean usable;
     private final List<String> skills = new ArrayList<>();
     private final List<Consumer<PersistentDataContainer>> persistentData = new ArrayList<>();
 
@@ -226,6 +229,26 @@ public class ItemBuilder implements PlaceholderProvider {
         return this;
     }
 
+    /**
+     * Whether an item stack can be placed. Only effective for blocks.
+     * Automatically set key.
+     */
+    public ItemBuilder placeable(boolean placeable) {
+        this.placeable = placeable;
+        container(Key.Feature.PLACEABLE,  placeable);
+        return this;
+    }
+
+    /**
+     * Whether an item stack can be used. Only effective for interactable items.
+     * Automatically set key.
+     */
+    public ItemBuilder usable(boolean usable) {
+        this.usable = usable;
+        container(Key.Feature.USABLE,  usable);
+        return this;
+    }
+
     private void applyGlowing(ItemMeta meta) {
         if(forceGlowing)
             meta.setEnchantmentGlintOverride(glowing);
@@ -293,6 +316,18 @@ public class ItemBuilder implements PlaceholderProvider {
     public ItemStack build() {
         if(item == null) generate();
         return item.clone();
+    }
+
+    /**
+     * **Set custom attributes when building, like UUID.**
+     * Build an item stack from the builder.
+     * Complete with deep copy.
+     * Automatically handle default element.
+     * @return the brand new item stack
+     */
+    public ItemStack build(Function<ItemStack, ItemStack> function) {
+        if(item == null) generate();
+        return function.apply(item.clone());
     }
 
     /**

@@ -3,6 +3,7 @@ package com.idk.essence.utils;
 import com.idk.essence.Essence;
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.elements.ElementFactory;
+import com.idk.essence.items.arcana.ArcanaFactory;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.magics.MagicHandler;
@@ -14,7 +15,6 @@ import com.idk.essence.utils.damage.DamageManager;
 import com.idk.essence.menus.MenuListener;
 import com.idk.essence.utils.messages.Message;
 import com.idk.essence.utils.messages.PlayerJoinQuitMessage;
-import com.idk.essence.items.arcana.WandHandler;
 import com.idk.essence.utils.nodes.NodeManager;
 import com.idk.essence.utils.particles.ParticleManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
@@ -49,9 +49,9 @@ public class Register {
         ElementFactory.initialize();
         SkillManager.initialize();
         MagicHandler.initialize();
+        ArcanaFactory.initialize();
         ArtifactFactory.initialize();
         ItemFactory.initialize();
-        WandHandler.initialize();
         MobManager.initialize();
         PlayerDataManager.initialize();
         ParticleManager.initialize();
@@ -73,8 +73,8 @@ public class Register {
         register(DamageManager.getInstance());
         register(PlayerDataManager.getInstance());
         register(SkillManager.getInstance());
+        register(ArcanaFactory.getInstance());
         register(ArtifactFactory.getInstance());
-        register(new WandHandler());
         register(ParticleManager.getInstance());
         register(NodeManager.getInstance());
 

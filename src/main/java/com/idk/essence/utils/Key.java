@@ -147,6 +147,26 @@ public class Key {
         public static final Type<String> ARTIFACT = new Type<>("artifact-key", PersistentDataType.STRING);
 
         /**
+         * Arcana identifier. Type: string. Content: internalName.
+         */
+        public static final Type<String> ARCANA = new Type<>("arcana-key", PersistentDataType.STRING);
+
+        /**
+         * Wand identifier. Type: string. Content: internalName.
+         */
+        public static final Type<String> ARCANA_WAND = new Type<>("arcana-wand-key", PersistentDataType.STRING);
+
+        /**
+         * Wand slot identifier. Type: integer. Content: slot number.
+         */
+        public static final Type<Integer> WAND_SLOT = new Type<>("wand-slot-key", PersistentDataType.INTEGER);
+
+        /**
+         * Rune identifier. Type: string. Content: internalName.
+         */
+        public static final Type<String> ARCANA_RUNE = new Type<>("arcana-rune-key", PersistentDataType.STRING);
+
+        /**
          * Element identifier. Type: string. Content: internalName.
          */
         public static final Type<String> ELEMENT = new Type<>("element-key", PersistentDataType.STRING);

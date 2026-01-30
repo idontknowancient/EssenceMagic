@@ -2,10 +2,12 @@ package com.idk.essence.utils.nodes;
 
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
+import com.idk.essence.utils.nodes.types.ItemNode;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +40,18 @@ public interface NodeFeature {
         UUID ownerUUID = UUID.randomUUID();
         Key.Type.NODE_SELF.set(block, ownerUUID);
         spawnNode(ownerUUID, block.getLocation(), startYaw, amount);
+    }
+
+    default void spawnItemNode(@Nullable UUID ownerUUID, @Nullable ItemStack item, @Nullable Location location,
+                               boolean particleVisible, Color particleColor, boolean interactable, boolean textDisplayable) {
+        if(ownerUUID == null || item == null || location == null) return;
+        ItemNode node = (ItemNode) NodeRegistry.ITEM.getConstructor().apply(location);
+        node.setOwnerUUID(ownerUUID);
+        node.setItem(item);
+        node.setParticleAttribute(particleVisible, particleColor);
+        node.setInteractable(interactable);
+        node.setTextDisplayable(textDisplayable);
+        node.spawn();
     }
 
     /**

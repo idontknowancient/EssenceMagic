@@ -1,13 +1,13 @@
 test_zombie:
   display-name: "&2測試殭屍"
   type: zombie
-  health: 100
+  health: 1000
   element: wood
   description:
     - "&2只是測試用的殭屍"
   equipment:
     head: test_helmet
-    chest: test_chestplate
+    body: test_chestplate
     legs: test_leggings
     feet: test_boots
     hand: flame_sword

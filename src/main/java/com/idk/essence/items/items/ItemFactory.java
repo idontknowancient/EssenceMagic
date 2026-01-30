@@ -39,7 +39,7 @@ public class ItemFactory {
         ItemBuilder builder = items.get(internalName);
         if(builder != null)
             return builder.build();
-        Material material = Material.getMaterial(internalName);
+        Material material = Material.getMaterial(internalName.toUpperCase());
         return material != null ? new ItemStack(material) : null;
     }
 

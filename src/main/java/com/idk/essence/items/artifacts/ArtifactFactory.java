@@ -17,6 +17,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -181,6 +182,10 @@ public class ArtifactFactory implements Listener {
         return activateArtifacts.keySet();
     }
 
+    public static Collection<ItemStack> getAllActivateItems() {
+        return activateArtifacts.values().stream().map(ArtifactBuilder::build).toList();
+    }
+
     public static void addBehavior(String internalName, ArtifactBehavior behavior) {
         behaviors.put(internalName, behavior);
     }
@@ -206,7 +211,7 @@ public class ArtifactFactory implements Listener {
      * Register an artifact. Case-sensitive.
      * @param internalName the internal name of the artifact
      */
-    public static void register(String internalName, EssenceConfig config) {
+    public static void register(@NotNull String internalName, EssenceConfig config) {
         if(!config.has(internalName) || !behaviors.containsKey(internalName) || hasActiveArtifact(internalName)) return;
         // Not enabled
         if(!config.getBoolean(internalName + ".enabled", true)) return;

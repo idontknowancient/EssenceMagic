@@ -2,8 +2,8 @@ package com.idk.essence.menus;
 
 import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
+import com.idk.essence.items.ItemResolver;
 import com.idk.essence.items.items.ItemBuilder;
-import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.magics.Magic;
 import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
@@ -13,7 +13,7 @@ import com.idk.essence.mobs.MobManager;
 import com.idk.essence.skills.SkillManager;
 import com.idk.essence.skills.SkillTemplate;
 import com.idk.essence.utils.configs.ConfigManager;
-import com.idk.essence.items.arcana.Wand;
+import com.idk.essence.outdated.Wand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -35,7 +35,7 @@ public class Menu {
 
     public static Inventory getItemMenu() {
         Inventory itemMenu = createInventory(GetItemHolder.getInstance(), "item");
-        for(ItemStack i : ItemFactory.getAll())
+        for(ItemStack i : ItemResolver.getAllItems())
             itemMenu.addItem(i);
         setOccupation(itemMenu, "item");
         return itemMenu;
