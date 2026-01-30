@@ -90,14 +90,14 @@ public class Util {
         /**
          * Format: [message]
          */
-        public static void consoleLog(String message) {
+        public static void info(String message) {
             Essence.getPlugin().getComponentLogger().info(message);
         }
 
         /**
          * Format: [message: object]
          */
-        public static void consoleLog(String message, Object info) {
+        public static void info(String message, Object info) {
             Essence.getPlugin().getComponentLogger().info("{}: {}", message, info);
         }
     }

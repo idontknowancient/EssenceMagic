@@ -2,6 +2,7 @@ package com.idk.essence.skills;
 
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.Key;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import lombok.Getter;
@@ -41,6 +42,7 @@ public class SkillManager implements Listener {
         skillCooldowns.clear();
         SkillType.registerAll(skillTypes);
         ConfigManager.Folder.SKILLS.load(SkillManager::register);
+        Util.System.info("Registered Skills", skillTemplates.size());
     }
 
     @EventHandler

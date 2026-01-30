@@ -3,6 +3,7 @@ package com.idk.essence.items.artifacts;
 import com.idk.essence.Essence;
 import com.idk.essence.items.items.ItemFactory;
 import com.idk.essence.utils.Key;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import com.jeff_media.customblockdata.CustomBlockData;
@@ -49,6 +50,7 @@ public class ArtifactFactory implements Listener {
         behaviors.clear();
         ArtifactRegistry.registerBehaviors();
         ConfigManager.Folder.ITEMS_ARTIFACT.load(ArtifactFactory::register);
+        Util.System.info("Registered Artifacts", activateArtifacts.size());
     }
 
     /**
@@ -224,7 +226,8 @@ public class ArtifactFactory implements Listener {
                 .placeable(config.getBoolean(internalName + ".placeable", true))
                 .usable(config.getBoolean(internalName + ".usable", true))
                 .particle(config.getConfigurationSection(internalName + ".particle"))
-                .node(config.getConfigurationSection(internalName + ".node"));
+                .node(config.getConfigurationSection(internalName + ".node"))
+                .recipe(config.getConfigurationSection(internalName + ".recipe"));
         activateArtifacts.put(internalName, builder);
     }
 }

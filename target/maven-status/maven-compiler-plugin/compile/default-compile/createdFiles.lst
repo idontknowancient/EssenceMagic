@@ -50,6 +50,7 @@ com\idk\essence\skills\Trigger.class
 com\idk\essence\utils\nodes\types\ItemNode$1.class
 com\idk\essence\commands\essence_sub\item_sub\GetCommand.class
 com\idk\essence\magics\MagicType$Attribute.class
+com\idk\essence\utils\recipes\RecipeManager.class
 com\idk\essence\utils\placeholders\PlaceholderManager.class
 com\idk\essence\utils\Util$MathTool.class
 com\idk\essence\magics\ChildType.class

@@ -3,6 +3,7 @@ package com.idk.essence.items.items;
 import com.idk.essence.elements.Element;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.utils.Key;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ public class ItemFactory {
     public static void initialize() {
         items.clear();
         ConfigManager.Folder.ITEMS_ITEMS.load(ItemFactory::register);
+        Util.System.info("Registered Items", items.size());
     }
 
     /**
@@ -117,6 +119,7 @@ public class ItemFactory {
                 .flag(config.getConfigurationSection(internalName + ".options"))
                 .element(config.getString(internalName + ".element", Element.defaultInternalName))
                 .skill(config.getStringListOrString(internalName + ".skills"))
+                .recipe(config.getConfigurationSection(internalName + ".recipe"))
                 .internalName(internalName);
         items.put(internalName, builder);
     }

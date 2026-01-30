@@ -1,6 +1,7 @@
 package com.idk.essence.items.arcana;
 
 import com.idk.essence.utils.Key;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class ArcanaFactory implements Listener {
     public static void initialize() {
         activeArcana.clear();
         ConfigManager.Folder.ITEMS_ARCANA.load(ArcanaFactory::register);
+        Util.System.info("Registered Arcana", activeArcana.size());
     }
 
     @EventHandler

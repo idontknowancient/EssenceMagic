@@ -1,5 +1,6 @@
 package com.idk.essence.mobs;
 
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.Location;
@@ -18,6 +19,7 @@ public class MobManager {
     public static void initialize() {
         mobs.clear();
         ConfigManager.Folder.MOBS.load(MobManager::register);
+        Util.System.info("Registered Mobs", mobs.size());
     }
 
     public static Collection<String> getAllKeys() {

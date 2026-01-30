@@ -18,6 +18,7 @@ import com.idk.essence.utils.messages.PlayerJoinQuitMessage;
 import com.idk.essence.utils.nodes.NodeManager;
 import com.idk.essence.utils.particles.ParticleManager;
 import com.idk.essence.utils.placeholders.PlaceholderManager;
+import com.idk.essence.utils.recipes.RecipeManager;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -46,6 +47,7 @@ public class Register {
         Message.initialize();
         PlaceholderManager.initialize();
         ConfigManager.initialize();
+        RecipeManager.shutdown();
         ElementFactory.initialize();
         SkillManager.initialize();
         MagicHandler.initialize();
@@ -56,11 +58,13 @@ public class Register {
         PlayerDataManager.initialize();
         ParticleManager.initialize();
         NodeManager.initialize();
+        RecipeManager.initialize();
     }
 
     public static void shutdown() {
         ParticleManager.shutdown();
         NodeManager.shutdown();
+        RecipeManager.shutdown();
     }
 
     private static void register(Listener listener) {
@@ -77,6 +81,7 @@ public class Register {
         register(ArtifactFactory.getInstance());
         register(ParticleManager.getInstance());
         register(NodeManager.getInstance());
+        register(RecipeManager.getInstance());
 
         // CustomBlockData will automatically handle moving/removing block data for changed blocks
         CustomBlockData.registerListener(plugin);

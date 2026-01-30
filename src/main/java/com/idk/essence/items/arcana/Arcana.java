@@ -81,13 +81,19 @@ public abstract class Arcana implements PlaceholderProvider {
             return self();
         }
 
+        public T recipe(ConfigurationSection recipeSection) {
+            itemBuilder.recipe(recipeSection);
+            return self();
+        }
+
         protected T fromConfig(EssenceConfig config) {
              return displayName(config.outString(internalName + ".display-name", ""))
                      .lore(config.getStringList(internalName + ".lore"))
                      .glowing(config.getBoolean(internalName + ".glowing", false))
                      .placeable(config.getBoolean(internalName + ".placeable", true))
                      .usable(config.getBoolean(internalName + ".usable", true))
-                     .flag(config.getConfigurationSection(internalName + ".options"));
+                     .flag(config.getConfigurationSection(internalName + ".options"))
+                     .recipe(config.getConfigurationSection(internalName + ".recipe"));
         }
 
         /**

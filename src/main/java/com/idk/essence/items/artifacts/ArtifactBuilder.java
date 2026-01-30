@@ -71,6 +71,11 @@ public class ArtifactBuilder implements PlaceholderProvider {
         return this;
     }
 
+    public ArtifactBuilder recipe(ConfigurationSection recipe) {
+        itemBuilder.recipe(recipe);
+        return this;
+    }
+
     /**
      * Build an artifact from the builder.
      * Complete with deep copy.

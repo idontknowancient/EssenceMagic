@@ -1,6 +1,7 @@
 package com.idk.essence.elements;
 
 import com.idk.essence.utils.Key;
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,7 @@ public class ElementFactory {
             builder.setCounter();
         for(ElementBuilder builder : elements.values())
             builder.convert();
+        Util.System.info("Registered Elements", elements.size());
     }
 
     /**

@@ -7,6 +7,7 @@ import com.idk.essence.utils.Key;
 import com.idk.essence.utils.messages.Message;
 import com.idk.essence.utils.placeholders.Placeholder;
 import com.idk.essence.utils.placeholders.PlaceholderProvider;
+import com.idk.essence.utils.recipes.RecipeManager;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
@@ -272,6 +273,11 @@ public class ItemBuilder implements PlaceholderProvider {
 
     public <T> ItemBuilder container(Key.Feature<T> key, T value) {
         persistentData.add(container -> key.set(container, value));
+        return this;
+    }
+
+    public ItemBuilder recipe(ConfigurationSection recipeSection) {
+        RecipeManager.add(internalName, recipeSection);
         return this;
     }
 
