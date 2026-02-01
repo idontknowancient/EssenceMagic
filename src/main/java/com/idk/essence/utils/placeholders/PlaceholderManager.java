@@ -4,7 +4,7 @@ import com.idk.essence.Essence;
 import com.idk.essence.items.arcana.ArcanaFactory;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.items.ItemFactory;
-import com.idk.essence.magics.Magic;
+import com.idk.essence.magics_old.Magic;
 import com.idk.essence.outdated.Wand;
 import com.idk.essence.outdated.WandHandler;
 import com.idk.essence.utils.Key;

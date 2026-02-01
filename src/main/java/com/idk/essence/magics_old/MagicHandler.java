@@ -1,0 +1,25 @@
+package com.idk.essence.magics_old;
+
+import com.idk.essence.magics_old.childTypes.FireBeam;
+import com.idk.essence.magics_old.childTypes.SakuraMaite;
+import com.idk.essence.utils.configs.ConfigManager;
+
+import java.util.Set;
+
+public class MagicHandler {
+
+    public static void initialize() {
+        Magic.magics.clear();
+        setMagics();
+    }
+
+    private static void setMagics() {
+        Set<String> magicSet = ConfigManager.DefaultFile.MAGICS.getConfig().getKeys(false);
+        for(String magicName : magicSet) {
+            if(magicName.equalsIgnoreCase(ChildType.FIRE_BEAM.name))
+                Magic.magics.put(magicName, new FireBeam(magicName));
+            if(magicName.equalsIgnoreCase(ChildType.SAKURA_MAITE.name))
+                Magic.magics.put(magicName, new SakuraMaite(magicName));
+        }
+    }
+}

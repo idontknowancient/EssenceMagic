@@ -21,10 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ArtifactFactory implements Listener {
 
@@ -36,12 +33,12 @@ public class ArtifactFactory implements Listener {
     /**
      * Store all activateArtifacts enabled (can adjust in config)
      */
-    private static final Map<String, ArtifactBuilder> activateArtifacts = new HashMap<>();
+    private static final Map<String, ArtifactBuilder> activateArtifacts = new LinkedHashMap<>();
 
     /**
      * Store all behaviors no matter whether an artifact is enabled
      */
-    private static final Map<String, ArtifactBehavior>  behaviors = new HashMap<>();
+    private static final Map<String, ArtifactBehavior>  behaviors = new LinkedHashMap<>();
 
     private ArtifactFactory() {}
 

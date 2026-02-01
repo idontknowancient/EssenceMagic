@@ -4,7 +4,8 @@ import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.ItemResolver;
 import com.idk.essence.items.items.ItemBuilder;
-import com.idk.essence.magics.Magic;
+import com.idk.essence.magics.MagicManager;
+import com.idk.essence.magics.MagicSignet;
 import com.idk.essence.menus.holders.DetailInfoHolder;
 import com.idk.essence.menus.holders.GetItemHolder;
 import com.idk.essence.menus.holders.ShiftSpawnHolder;
@@ -59,17 +60,8 @@ public class Menu {
 
     public static Inventory getMagicMenu() {
         Inventory magicMenu = createInventory(DetailInfoHolder.getInstance(), "magic");
-
-        for(Magic magic : Magic.magics.values()) {
-            ItemStack item = new ItemStack(Material.valueOf(cm.getString("magic.item").toUpperCase()));
-            ItemMeta meta = item.getItemMeta();
-            if(meta == null) return magicMenu;
-            meta.displayName(magic.getDisplayName());
-            meta.setLore(magic.getInfo());
-            item.setItemMeta(meta);
-            magicMenu.addItem(item);
-        }
-
+        for(MagicSignet signet : MagicManager.getAllSignets())
+            magicMenu.addItem(signet.getItemBuilder().build());
         setOccupation(magicMenu, "magic");
         return magicMenu;
     }

@@ -2,7 +2,7 @@ package com.idk.essence.commands.essence_sub.wand_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.magics.Magic;
+import com.idk.essence.magics_old.Magic;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;

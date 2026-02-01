@@ -42,8 +42,8 @@ public class SkillTemplate implements PlaceholderProvider {
         this.internalName = internalName;
         itemBuilder = new ItemBuilder(Material.STONE);
 
-        triggers = new HashSet<>();
-        targets = new HashSet<>();
+        triggers = new LinkedHashSet<>();
+        targets = new LinkedHashSet<>();
         requirements = new ArrayList<>();
         costs = new ArrayList<>();
     }
@@ -296,7 +296,7 @@ public class SkillTemplate implements PlaceholderProvider {
 
     @Override
     public Map<String, String> getPlaceholders() {
-        Map<String, String> placeholders = new HashMap<>();
+        Map<String, String> placeholders = new LinkedHashMap<>();
         placeholders.put(Placeholder.SKILL_NAME.name, internalName);
         placeholders.put(Placeholder.SKILL_DISPLAY_NAME.name, Message.serialize(displayName));
         return placeholders;

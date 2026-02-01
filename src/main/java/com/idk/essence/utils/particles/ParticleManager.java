@@ -1,5 +1,6 @@
 package com.idk.essence.utils.particles;
 
+import com.idk.essence.Essence;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.utils.Key;
 import com.jeff_media.customblockdata.CustomBlockData;
@@ -14,12 +15,7 @@ import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.EntitiesUnloadEvent;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import static com.idk.essence.players.ManaManager.plugin;
+import java.util.*;
 
 public class ParticleManager implements Listener {
 
@@ -31,12 +27,12 @@ public class ParticleManager implements Listener {
     /**
      * Store all custom particles according to UUID (entity owner)
      */
-    private static final Map<UUID, ParticleEffect> uuidParticles = new HashMap<>();
+    private static final Map<UUID, ParticleEffect> uuidParticles = new LinkedHashMap<>();
 
     /**
      * Store all custom particles according to Location
      */
-    private static final Map<Location, ParticleEffect> locationParticles = new HashMap<>();
+    private static final Map<Location, ParticleEffect> locationParticles = new LinkedHashMap<>();
 
     private ParticleManager() {}
 
@@ -84,7 +80,7 @@ public class ParticleManager implements Listener {
     }
 
     private static void activateLocationParticles(Chunk chunk) {
-        for(Block block : CustomBlockData.getBlocksWithCustomData(plugin, chunk)) {
+        for(Block block : CustomBlockData.getBlocksWithCustomData(Essence.getPlugin(), chunk)) {
             if(!hasParticle(block)) return;
             if(ArtifactFactory.getBehavior(block) instanceof ParticleFeature particleFeature &&
                     !hasKey(block.getLocation())) {
@@ -97,7 +93,7 @@ public class ParticleManager implements Listener {
      * Save resources.
      */
     private static void deactivateLocationParticles(Chunk chunk) {
-        for(Block block : CustomBlockData.getBlocksWithCustomData(plugin, chunk)) {
+        for(Block block : CustomBlockData.getBlocksWithCustomData(Essence.getPlugin(), chunk)) {
             if(!hasParticle(block)) return;
             stop(block.getLocation());
         }

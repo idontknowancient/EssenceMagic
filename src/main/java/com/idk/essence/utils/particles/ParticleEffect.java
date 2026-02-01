@@ -48,7 +48,7 @@ public abstract class ParticleEffect {
      * Automatically add to map.
      */
     public void generate(Location location) {
-        offset = Util.MathTool.getVectorFromSection(section.getConfigurationSection("offset"));
+        offset = Util.Tool.getVectorFromSection(section.getConfigurationSection("offset"));
         center = location.clone().add(offset);
         if(!display || ParticleManager.hasKey(location.clone())) return;
 

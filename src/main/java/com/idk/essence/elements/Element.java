@@ -10,7 +10,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,9 +36,9 @@ public class Element {
 
     @Getter @Setter private int slot;
 
-    private final Map<String, Double> primitiveDamageMultiplier = new HashMap<>();
+    private final Map<String, Double> primitiveDamageMultiplier = new LinkedHashMap<>();
 
-    private final Map<Element, Double> damageMultiplier = new HashMap<>();
+    private final Map<Element, Double> damageMultiplier = new LinkedHashMap<>();
 
     public Element(String internalName) {
         itemBuilder = new ItemBuilder(Material.STONE);
@@ -68,7 +68,7 @@ public class Element {
         if(!counterEffect) return;
         primitiveDamageMultiplier.forEach((id, multiplier) ->
                 Optional.ofNullable(ElementFactory.get(id)).ifPresent(
-                        e -> e.addDamageMultiplier(internalName, Util.MathTool.round(1.0 / multiplier, 4)))
+                        e -> e.addDamageMultiplier(internalName, Util.Tool.round(1.0 / multiplier, 4)))
         );
     }
 

@@ -5,14 +5,11 @@ import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import org.bukkit.Location;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MobManager {
 
-    private static final Map<String, MobTemplate> mobs = new HashMap<>();
+    private static final Map<String, MobTemplate> mobs = new LinkedHashMap<>();
 
     private MobManager() {}
 

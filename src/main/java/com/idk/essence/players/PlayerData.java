@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Getter
@@ -60,12 +60,12 @@ public class PlayerData implements PlaceholderProvider, ManaManager {
 
     @Override
     public Map<String, String> getPlaceholders() {
-        Map<String, String> placeholders = new HashMap<>();
+        Map<String, String> placeholders = new LinkedHashMap<>();
         placeholders.put(Placeholder.PLAYER.name, player.getName());
         placeholders.put(Placeholder.MANA_LEVEL.name, String.valueOf(manaLevel));
-        placeholders.put(Placeholder.MANA.name, String.valueOf(Util.MathTool.round(mana, 2)));
-        placeholders.put(Placeholder.DEFAULT_MANA.name, String.valueOf(Util.MathTool.round(ManaManager.getDefaultMana(), 2)));
-        placeholders.put(Placeholder.MAX_MANA.name, String.valueOf(Util.MathTool.round(maxMana, 2)));
+        placeholders.put(Placeholder.MANA.name, String.valueOf(Util.Tool.round(mana, 2)));
+        placeholders.put(Placeholder.DEFAULT_MANA.name, String.valueOf(Util.Tool.round(ManaManager.getDefaultMana(), 2)));
+        placeholders.put(Placeholder.MAX_MANA.name, String.valueOf(Util.Tool.round(maxMana, 2)));
         placeholders.put(Placeholder.MANA_RECOVERY_SPEED.name, String.valueOf(manaRecoverySpeed));
         return placeholders;
     }

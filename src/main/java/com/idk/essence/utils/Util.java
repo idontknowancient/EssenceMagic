@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Util {
 
-    public static class MathTool {
+    public static class Tool {
 
         /**
          * If looking downward, z-x plane is "x-y" plane we used to (z is "x" and x is "y").
@@ -45,6 +45,16 @@ public class Util {
             if(doubleList == null || doubleList.size() < 3)
                 return new Vector(0, 0, 0);
             return new Vector(doubleList.getFirst(), doubleList.get(1), doubleList.get(2));
+        }
+
+        /**
+         * Capitalize the first char.
+         */
+        public static String capitalize(String input) {
+            if(input == null || input.isEmpty()) {
+                return input;
+            }
+            return input.substring(0, 1).toUpperCase() + input.substring(1);
         }
     }
 

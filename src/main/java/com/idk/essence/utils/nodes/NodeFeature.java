@@ -69,8 +69,8 @@ public interface NodeFeature {
             boolean visible = getNodeSection().getBoolean(key + ".visible", true);
             Color color = Util.System.stringToColor(getNodeSection().getString(key + ".color", "yellow"));
             int radius = getNodeSection().getInt(key + ".radius", 1);
-            double startRadian = Math.toRadians(Util.MathTool.yawToMathDegree(startYaw));
-            Vector offset = Util.MathTool.getVectorFromList(getNodeSection().getDoubleList(key + ".offset"));
+            double startRadian = Math.toRadians(Util.Tool.yawToMathDegree(startYaw));
+            Vector offset = Util.Tool.getVectorFromList(getNodeSection().getDoubleList(key + ".offset"));
 
             // Scatter in the arc
             for(int i = 0; i < amount; i++) {

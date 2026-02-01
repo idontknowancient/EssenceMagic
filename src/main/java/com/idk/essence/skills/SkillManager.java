@@ -25,14 +25,14 @@ public class SkillManager implements Listener {
      */
     @Getter private static final SkillManager instance = new SkillManager();
 
-    private static final Map<String, SkillTemplate> skillTemplates = new HashMap<>();
+    private static final Map<String, SkillTemplate> skillTemplates = new LinkedHashMap<>();
 
-    private static final Map<String, SkillType> skillTypes = new HashMap<>();
+    private static final Map<String, SkillType> skillTypes = new LinkedHashMap<>();
 
     /**
      * UUID of caster, internal name of skill, system time millis
      */
-    private static final Map<UUID, Map<String, Long>> skillCooldowns = new HashMap<>();
+    private static final Map<UUID, Map<String, Long>> skillCooldowns = new LinkedHashMap<>();
 
     private SkillManager() {}
 
@@ -132,7 +132,7 @@ public class SkillManager implements Listener {
      * Check if a specific skill is in cooldown.
      */
     public static boolean inCooldown(UUID casterUUID, SkillTemplate template) {
-        skillCooldowns.putIfAbsent(casterUUID, new HashMap<>());
+        skillCooldowns.putIfAbsent(casterUUID, new LinkedHashMap<>());
         if(!skillCooldowns.get(casterUUID).containsKey(template.getInternalName())) return false;
 
         long timeElapsed = System.currentTimeMillis() - skillCooldowns.get(casterUUID).get(template.getInternalName());
@@ -148,7 +148,7 @@ public class SkillManager implements Listener {
      * Put currentTimeMillis to cooldown map.
      */
     public static void updateCooldown(UUID casterUUID, SkillTemplate template) {
-        skillCooldowns.putIfAbsent(casterUUID, new HashMap<>());
+        skillCooldowns.putIfAbsent(casterUUID, new LinkedHashMap<>());
         if(template.getCooldown() == 0) return;
         skillCooldowns.get(casterUUID).put(template.getInternalName(), System.currentTimeMillis());
     }

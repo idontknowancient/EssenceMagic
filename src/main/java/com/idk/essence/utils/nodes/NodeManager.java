@@ -33,7 +33,7 @@ public class NodeManager implements Listener {
     /**
      * Store all active nodes. Use selfUUID as key.
      */
-    private static final Map<UUID, BaseNode> activeNodes = new HashMap<>();
+    private static final Map<UUID, BaseNode> activeNodes = new LinkedHashMap<>();
     private static final List<BukkitTask> tasks = new ArrayList<>();
 
 

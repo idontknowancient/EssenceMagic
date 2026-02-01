@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
@@ -56,7 +56,7 @@ public class ConfigManager {
 
         private final String folderName;
 
-        private final Map<String, EssenceConfig> configFiles = new HashMap<>();
+        private final Map<String, EssenceConfig> configFiles = new LinkedHashMap<>();
 
         Folder(String folderName) {
             this.folderName = folderName;

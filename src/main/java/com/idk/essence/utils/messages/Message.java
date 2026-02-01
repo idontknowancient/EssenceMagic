@@ -8,7 +8,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +23,7 @@ public interface Message {
     /**
      * Create map with respect to legacy code and minimessage tags.
      */
-    Map<String, String> LEGACY_MAP = new HashMap<>();
+    Map<String, String> LEGACY_MAP = new LinkedHashMap<>();
     
     static void initialize() {
         LEGACY_MAP.put("&0", "<black>");     LEGACY_MAP.put("&1", "<dark_blue>");

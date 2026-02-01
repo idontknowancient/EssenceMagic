@@ -15,7 +15,7 @@ public abstract class SubCommand {
 
     private final String name;
 
-    private final Map<String, SubCommand> subCommands = new HashMap<>();
+    private final Map<String, SubCommand> subCommands = new LinkedHashMap<>();
 
     public SubCommand(String name) {
         this.name = name;

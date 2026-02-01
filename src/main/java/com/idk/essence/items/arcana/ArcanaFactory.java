@@ -13,10 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ArcanaFactory implements Listener {
 
@@ -25,7 +22,7 @@ public class ArcanaFactory implements Listener {
      */
     @Getter private static final ArcanaFactory instance = new ArcanaFactory();
 
-    private static final Map<String, Arcana> activeArcana = new HashMap<>();
+    private static final Map<String, Arcana> activeArcana = new LinkedHashMap<>();
 
     private ArcanaFactory() {}
 

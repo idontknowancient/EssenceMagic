@@ -1,17 +1,14 @@
 package com.idk.essence.players;
 
-import com.idk.essence.Essence;
 import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ManaManager {
+public interface ManaManager extends DataProvider {
 
-    Essence plugin = Essence.getPlugin();
     ConfigManager.DefaultFile manaFile = ConfigManager.DefaultFile.MANA;
     List<Integer> taskIds = new ArrayList<>();
     int interval = manaFile.getInteger("update-interval", 5);
@@ -22,7 +19,6 @@ public interface ManaManager {
     int getManaRecoverySpeed();
     double getMaxMana();
     double getMana();
-    Player getPlayer();
     void setMaxMana(double maxMana);
     void setMana(double mana);
 

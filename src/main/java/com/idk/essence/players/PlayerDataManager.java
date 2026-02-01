@@ -11,15 +11,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerDataManager implements Listener {
 
     @Getter private static final PlayerDataManager instance = new PlayerDataManager();
-    private static final Map<UUID, PlayerData> playerData = new HashMap<>();
+    private static final Map<UUID, PlayerData> playerData = new LinkedHashMap<>();
 
     private PlayerDataManager() {}
 

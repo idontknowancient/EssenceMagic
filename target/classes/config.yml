@@ -14,3 +14,99 @@ send-custom-message-when-quit: true
 extra-damage-by-mob-element: true
 # For example, if A makes 2x damage to B, B makes 0.5x damage to A
 element-counter-effect: true
+
+# Magic settings
+roalkom-log-base: 2.7
+# Four types are fixed, subtypes can be modified.
+domain:
+  feature:
+    display-name: "&a功能"
+    # ID: display-name
+    attack: "&#c1d8ac攻擊型"
+    defense: "&#f0cfa0防禦型"
+    support: "&#a2d7dd支援型"
+    control: "&#f6bfbc控制型"
+    utility: "&#c8c2be功能型"
+  element:
+    display-name: "&b元素"
+    all-in-folder: true
+    otherwise:
+      - flame
+      - water
+  intensity:
+    display-name: "&c強度"
+    F:
+      display-name: "&7F"
+      # By Roalkom's index
+      range: "[0, 1)"
+    E:
+      display-name: "&7E"
+      range: "[1, 2)"
+    D:
+      display-name: "&7D"
+      range: "[2, 3)"
+    C:
+      display-name: "&7C"
+      range: "[3, 4)"
+    B:
+      display-name: "&7B"
+      range: "[4, 5)"
+    A:
+      display-name: "&7A"
+      range: "[5, 6)"
+    S:
+      display-name: "&7S"
+      range: "[6, 7)"
+    I:
+      display-name: "&7I"
+      range: "[7, 8)"
+    II:
+      display-name: "&7II"
+      range: "[8, 9)"
+    III:
+      display-name: "&7III"
+      range: "[9, 10)"
+    IV:
+      display-name: "&7IV"
+      range: "[10, 11)"
+    V:
+      display-name: "&7V"
+      range: "[11, 12)"
+    VI:
+      display-name: "&7VI"
+      range: "[12, 13)"
+    VII:
+      display-name: "&7VII"
+      range: "[13, 14)"
+    VIII:
+      display-name: "&7VIII"
+      range: "[14, 15)"
+    IX:
+      display-name: "&7IX"
+      range: "[15, 16)"
+    X:
+      display-name: "&7X"
+      range: "[16, 17)"
+    XI:
+      display-name: "&7XI"
+      range: "[17, 18)"
+    XII:
+      display-name: "&7XII"
+      range: "[18, 19)"
+    Firmament:
+      display-name: "&7●"
+      range: "[19, 23)"
+      # Whether the tier has level 0-9
+      with-level: false
+    Eternity:
+      display-name: "&#dfff00&l<shadow:#d8e698:0.5>★"
+      range: "[23, inf)"
+      with-level: false
+  origin:
+    display-name: "&d來源"
+    scroll: "&#dcd3b2卷軸"
+    reconciliation: "&#fdeff2調和"
+    creation: "&#ffec47創造"
+    mutation: "&#ec6800突變"
+    awakening: "&#c0a2c7覺醒"
+    intrinsic: "&#e6eae3固有"

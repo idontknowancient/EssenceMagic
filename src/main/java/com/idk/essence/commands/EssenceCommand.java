@@ -22,7 +22,7 @@ import java.util.*;
 
 public class EssenceCommand implements CommandExecutor, TabCompleter {
 
-    @Getter private static final Map<String, SubCommand> subCommands = new HashMap<>();
+    @Getter private static final Map<String, SubCommand> subCommands = new LinkedHashMap<>();
     @Getter private static final EssenceCommand instance = new EssenceCommand();
 
     private EssenceCommand() {

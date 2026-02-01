@@ -8,12 +8,12 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ElementFactory {
 
-    private static final Map<String, ElementBuilder> elements = new HashMap<>();
+    private static final Map<String, ElementBuilder> elements = new LinkedHashMap<>();
 
     private ElementFactory() {}
 
@@ -82,6 +82,10 @@ public class ElementFactory {
      */
     public static Element getDefault() {
         return elements.get(Element.defaultInternalName).build();
+    }
+
+    public static Collection<String> getAllKeys() {
+        return elements.keySet();
     }
 
     public static Collection<Element> getAll() {

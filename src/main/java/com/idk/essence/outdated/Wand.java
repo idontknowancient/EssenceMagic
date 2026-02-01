@@ -1,7 +1,7 @@
 package com.idk.essence.outdated;
 
 import com.idk.essence.Essence;
-import com.idk.essence.magics.Magic;
+import com.idk.essence.magics_old.Magic;
 import com.idk.essence.utils.Key;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;

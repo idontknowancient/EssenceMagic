@@ -13,14 +13,11 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ItemFactory {
 
-    private static final Map<String, ItemBuilder> items = new HashMap<>();
+    private static final Map<String, ItemBuilder> items = new LinkedHashMap<>();
 
     private ItemFactory() {}
 

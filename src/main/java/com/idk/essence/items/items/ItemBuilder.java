@@ -43,8 +43,8 @@ public class ItemBuilder implements PlaceholderProvider {
     private Component displayName;
     private final List<Component> lore = new ArrayList<>();
     private Element element;
-    private final Map<Enchantment, Integer> enchantments = new HashMap<>();
-    private final Map<ItemFlag, Boolean> flags = new HashMap<>();
+    private final Map<Enchantment, Integer> enchantments = new LinkedHashMap<>();
+    private final Map<ItemFlag, Boolean> flags = new LinkedHashMap<>();
     private boolean forceGlowing = false;
     private boolean glowing;
     private boolean placeable;
@@ -347,7 +347,7 @@ public class ItemBuilder implements PlaceholderProvider {
 
     @Override
     public Map<String, String> getPlaceholders() {
-        Map<String, String> placeholders = new HashMap<>();
+        Map<String, String> placeholders = new LinkedHashMap<>();
         placeholders.put(Placeholder.ITEM_NAME.name, internalName);
         placeholders.put(Placeholder.ITEM_DISPLAY_NAME.name, Message.serialize(displayName));
         placeholders.put(Placeholder.ITEM_TYPE.name, material.name());

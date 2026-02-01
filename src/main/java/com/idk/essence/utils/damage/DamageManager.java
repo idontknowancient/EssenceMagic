@@ -14,10 +14,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DamageManager implements Listener {
@@ -39,8 +36,8 @@ public class DamageManager implements Listener {
         LivingEntity target = getTarget(event);
 
         if(attacker == null || target == null) return original;
-        multiplier = Util.MathTool.round(multiplier * elementMultiplier(attacker, target), 4);
-        final_ = Util.MathTool.round(original * multiplier, 4);
+        multiplier = Util.Tool.round(multiplier * elementMultiplier(attacker, target), 4);
+        final_ = Util.Tool.round(original * multiplier, 4);
         attacker.sendMessage(Message.parse("&7attack damage &bx" + multiplier + "&7, " + final_));
 
         return final_;
@@ -51,7 +48,7 @@ public class DamageManager implements Listener {
         Element element = ElementFactory.getOrDefault(
                 Optional.ofNullable(attacker.getEquipment()).map(EntityEquipment::getItemInMainHand).orElse(null));
         // Count the appearance of each element in the armor
-        Map<Element, Long> appearance = new HashMap<>();
+        Map<Element, Long> appearance = new LinkedHashMap<>();
         if(target.getEquipment() == null) {
             appearance.put(ElementFactory.getDefault(), 4L);
         } else {

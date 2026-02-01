@@ -22,8 +22,8 @@ import java.util.*;
 public class RecipeManager implements Listener {
 
     @Getter private static final RecipeManager instance = new RecipeManager();
-    private static final Set<NamespacedKey> recipes = new HashSet<>();
-    private static final Map<String, ConfigurationSection> recipeToBeAdded = new HashMap<>();
+    private static final Set<NamespacedKey> recipes = new LinkedHashSet<>();
+    private static final Map<String, ConfigurationSection> recipeToBeAdded = new LinkedHashMap<>();
 
     private RecipeManager() {}
 

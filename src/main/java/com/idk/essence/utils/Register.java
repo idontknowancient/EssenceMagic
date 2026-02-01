@@ -6,7 +6,7 @@ import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.arcana.ArcanaFactory;
 import com.idk.essence.items.artifacts.ArtifactFactory;
 import com.idk.essence.items.items.ItemFactory;
-import com.idk.essence.magics.MagicHandler;
+import com.idk.essence.magics.MagicManager;
 import com.idk.essence.mobs.MobManager;
 import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.skills.SkillManager;
@@ -50,7 +50,7 @@ public class Register {
         RecipeManager.shutdown();
         ElementFactory.initialize();
         SkillManager.initialize();
-        MagicHandler.initialize();
+        MagicManager.initialize();
         ArcanaFactory.initialize();
         ArtifactFactory.initialize();
         ItemFactory.initialize();
@@ -76,6 +76,7 @@ public class Register {
         register(MenuListener.getInstance());
         register(DamageManager.getInstance());
         register(PlayerDataManager.getInstance());
+        register(MagicManager.getInstance());
         register(SkillManager.getInstance());
         register(ArcanaFactory.getInstance());
         register(ArtifactFactory.getInstance());

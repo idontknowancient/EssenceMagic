@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public enum Target {
@@ -37,7 +37,7 @@ public enum Target {
     }
 
     private Set<LivingEntity> getTargets(LivingEntity caster, LivingEntity target) {
-        Set<LivingEntity> targets = new HashSet<>();
+        Set<LivingEntity> targets = new LinkedHashSet<>();
         if(this == SELF)
             targets.add(caster);
         if(this == ENTITY)
@@ -51,7 +51,7 @@ public enum Target {
     }
 
     public Set<LivingEntity> getTargets(LivingEntity caster, Event event) {
-        Set<LivingEntity> targets = new HashSet<>();
+        Set<LivingEntity> targets = new LinkedHashSet<>();
         if(event == null || event instanceof PlayerInteractEvent e) {
             targets.addAll(getTargets(caster, caster));
         } else if(event instanceof EntityDamageByEntityEvent e) {

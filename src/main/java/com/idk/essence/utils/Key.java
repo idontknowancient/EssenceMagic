@@ -216,6 +216,16 @@ public class Key {
          */
         public static final Type<Boolean> NODE_ATTACHMENT = new Type<>("node-attachment-key", PersistentDataType.BOOLEAN);
 
+        /**
+         * Magic domain identifier. Type: string. Content: internalName.
+         */
+        public static final Type<String> MAGIC_DOMAIN = new Type<>("magic-domain-key", PersistentDataType.STRING);
+
+        /**
+         * Magic signet identifier. Type: string. Content: internalName.
+         */
+        public static final Type<String> MAGIC_SIGNET = new Type<>("magic-signet-key", PersistentDataType.STRING);
+
         @Getter private final NamespacedKey key;
         @Getter private final PersistentDataType<?, T> dataType;
 

@@ -30,7 +30,7 @@ public abstract class Arcana implements PlaceholderProvider {
     }
 
     /**
-     * Parent return child.
+     * Parent returns child.
      */
     public abstract static class Builder<T extends Builder<T>> {
 

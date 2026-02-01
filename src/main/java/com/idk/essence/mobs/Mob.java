@@ -26,7 +26,7 @@ public class Mob {
 
     @Getter @Setter private Element element;
 
-    private final Map<EquipmentSlot, ItemStack> equipment = new HashMap<>();
+    private final Map<EquipmentSlot, ItemStack> equipment = new LinkedHashMap<>();
 
     public void addEquipment(EquipmentSlot slot, ItemStack item) {
         equipment.put(slot, item);
