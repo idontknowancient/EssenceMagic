@@ -55,6 +55,9 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\do
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\domains\FeatureDomain.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\domains\IntensityDomain.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\domains\OriginDomain.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\individuals\MECS.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\individuals\MPS.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\individuals\MS.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\MagicDomain.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\MagicManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\magics\MagicSignet.java
@@ -79,7 +82,11 @@ D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\mobs\MobT
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\outdated\ClickHandler.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\outdated\Wand.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\outdated\WandHandler.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\AbstractDataManager.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\DataProvider.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\MagicDataManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\ManaManager.java
+D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\ManaProvider.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerData.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerDataManager.java
 D:\Desktop\Minecraft plugin\EssenceMagic\src\main\java\com\idk\essence\players\PlayerDataRegistry.java

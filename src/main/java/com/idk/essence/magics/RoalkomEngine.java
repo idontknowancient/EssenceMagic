@@ -57,7 +57,7 @@ public class RoalkomEngine {
     private static final double LN_BASE = Math.log(LOG_BASE);
 
     /**
-     * Logarithm Roalkom Index
+     * Logarithm Roalkom Index.
      * @param conversionRatio depending on the player and environment
      * @param infusedMana depending on the player
      */

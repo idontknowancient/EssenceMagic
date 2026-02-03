@@ -1,72 +1,86 @@
 package com.idk.essence.players;
 
-import com.idk.essence.utils.Util;
-import com.idk.essence.utils.configs.ConfigManager;
-import com.idk.essence.utils.configs.EssenceConfig;
-import com.idk.essence.utils.placeholders.Placeholder;
-import com.idk.essence.utils.placeholders.PlaceholderProvider;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Getter
-public class PlayerData implements PlaceholderProvider, ManaManager {
+public class PlayerData implements ManaProvider {
 
-    private final EssenceConfig config;
     private final Player player;
-
-    // In config
-    @Setter private int manaLevel;
-    @Setter private int manaRecoverySpeed;
-
-    // Not in config
-    @Setter private double maxMana;
-    private double mana;
+    private final ManaManager manaManager;
 
     public PlayerData(Player player) {
-        config = ConfigManager.Folder.PLAYER_DATA.getConfig(player.getUniqueId().toString());
         this.player = player;
-        if(config == null) return;
+        manaManager = new ManaManager(player);
 
-        manaLevel = config.getInteger(PlayerDataRegistry.MANA_LEVEL.getName());
-        manaRecoverySpeed = config.getInteger(PlayerDataRegistry.MANA_RECOVERY_SPEED.getName());
-        manaSetup();
     }
 
     @Override
-    public Player getPlayer() {
-        return player;
+    public int getManaLevel() {
+        return manaManager.getManaLevel();
     }
 
-    /**
-     * -1 means max amount.
-     */
-    public void setMana(double amount) {
-        if(amount == -1)
-            mana = getMaxMana();
-        else
-            mana = amount;
+    @Override
+    public int getManaRecoverySpeed() {
+        return manaManager.getManaRecoverySpeed();
+    }
+
+    @Override
+    public double getMaxMana() {
+        return manaManager.getMaxMana();
+    }
+
+    @Override
+    public double getMana() {
+        return manaManager.getMana();
+    }
+
+    @Override
+    public void setMaxMana(double maxMana) {
+        manaManager.setMaxMana(Math.max(0, maxMana));
+    }
+
+    @Override
+    public void setMana(double mana) {
+        manaManager.setMana(mana);
     }
 
     /**
      * Deduct mana by the amount.
      */
+    @Override
     public void deductMana(double amount) {
-        mana -= amount;
+        manaManager.deductMana(amount);
     }
 
     @Override
     public Map<String, String> getPlaceholders() {
         Map<String, String> placeholders = new LinkedHashMap<>();
-        placeholders.put(Placeholder.PLAYER.name, player.getName());
-        placeholders.put(Placeholder.MANA_LEVEL.name, String.valueOf(manaLevel));
-        placeholders.put(Placeholder.MANA.name, String.valueOf(Util.Tool.round(mana, 2)));
-        placeholders.put(Placeholder.DEFAULT_MANA.name, String.valueOf(Util.Tool.round(ManaManager.getDefaultMana(), 2)));
-        placeholders.put(Placeholder.MAX_MANA.name, String.valueOf(Util.Tool.round(maxMana, 2)));
-        placeholders.put(Placeholder.MANA_RECOVERY_SPEED.name, String.valueOf(manaRecoverySpeed));
+        placeholders.putAll(manaManager.getPlaceholders());
         return placeholders;
     }
+
+    /**
+     * Set all data values to config.
+     */
+    @Override
+    public void setToConfig() {
+        if(getConfig() == null) return;
+        // Set player id, case-sensitive
+        if(!getConfig().isString("id"))
+            getConfig().set("id",  getPlayer().getName());
+        else if(!Optional.ofNullable(getConfig().getString("id"))
+                .map(id -> id.equals(player.getName())).orElse(false))
+            getConfig().set("id",  player.getName());
+
+        // Set data
+        manaManager.setToConfig();
+
+        getConfig().save();
+    }
+
 }

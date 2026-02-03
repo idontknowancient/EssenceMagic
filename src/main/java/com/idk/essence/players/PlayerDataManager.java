@@ -1,7 +1,7 @@
 package com.idk.essence.players;
 
+import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
-import com.idk.essence.utils.configs.EssenceConfig;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -22,10 +22,10 @@ public class PlayerDataManager implements Listener {
 
     public static void initialize() {
         playerData.clear();
-        PlayerDataRegistry.initialize();
-        ManaManager.initialize();
+        ManaProvider.initialize();
         // Set all online players' data
         Bukkit.getOnlinePlayers().forEach(PlayerDataManager::setPlayerData);
+        Util.System.info("Registered Player Data", playerData.size());
     }
 
     @EventHandler
@@ -34,39 +34,32 @@ public class PlayerDataManager implements Listener {
     }
 
     private static void setPlayerData(Player player) {
+        createConfig(player);
+        add(player);
         setupConfig(player);
-        if(has(player))
-            updatePlayerData(player);
-        else
-            add(player);
     }
 
     /**
-     * Create yml data file and set all default values if not exist.
+     * Create yml data file if not exist.
+     */
+    private static void createConfig(Player player) {
+        ConfigManager.Folder.PLAYER_DATA.createFile(player.getUniqueId().toString());
+    }
+
+    /**
+     * Set all data values to config.
      */
     private static void setupConfig(Player player) {
-        // File
-        ConfigManager.Folder.PLAYER_DATA.createFile(player.getUniqueId().toString());
-        // Content
-        EssenceConfig config = ConfigManager.Folder.PLAYER_DATA.getConfig(player.getUniqueId().toString());
-        if(config == null) return;
-        PlayerDataRegistry.setToConfig(config, player);
-    }
-
-    /**
-     * Fetch data from config and update to the map.
-     */
-    private static void updatePlayerData(Player player) {
-        EssenceConfig config = ConfigManager.Folder.PLAYER_DATA.getConfig(player.getUniqueId().toString());
-        if(config == null) return;
-        get(player).setManaLevel(config.getInteger(PlayerDataRegistry.MANA_LEVEL.getName()));
-        get(player).setManaRecoverySpeed(config.getInteger(PlayerDataRegistry.MANA_RECOVERY_SPEED.getName()));
+        get(player).setToConfig();
     }
 
     public static boolean has(Player player) {
         return player != null && playerData.containsKey(player.getUniqueId());
     }
 
+    /**
+     * Create player data object and add it to the map.
+     */
     public static void add(Player player) {
         playerData.put(player.getUniqueId(), new PlayerData(player));
     }

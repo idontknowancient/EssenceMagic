@@ -1,69 +1,81 @@
 package com.idk.essence.players;
 
-import com.idk.essence.utils.configs.ConfigManager;
-import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
+import com.idk.essence.utils.Util;
+import com.idk.essence.utils.placeholders.Placeholder;
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
-public interface ManaManager extends DataProvider {
+@Getter
+public class ManaManager extends AbstractDataManager implements ManaProvider {
 
-    ConfigManager.DefaultFile manaFile = ConfigManager.DefaultFile.MANA;
-    List<Integer> taskIds = new ArrayList<>();
-    int interval = manaFile.getInteger("update-interval", 5);
-    boolean showInActionBar = manaFile.getBoolean("show-in-action-bar", true);
-    boolean naturallyRecover = manaFile.getBoolean("naturally-recover", true);
+    // In config
+    @Setter private int manaLevel;
+    @Setter private int manaRecoverySpeed;
 
-    int getManaLevel();
-    int getManaRecoverySpeed();
-    double getMaxMana();
-    double getMana();
-    void setMaxMana(double maxMana);
-    void setMana(double mana);
+    // Not in config
+    @Setter private double maxMana;
+    private double mana;
 
-    static double getDefaultMana() {
-        return manaFile.getDouble("default-value", 20);
+    public ManaManager(Player player) {
+        super(player);
+        if(getConfig() == null) return;
+
+        // Get data from yml or default value
+        final PlayerDataRegistry levelRegistry = PlayerDataRegistry.MANA_LEVEL;
+        manaLevel = getOrDefault(levelRegistry.getName(), c -> c.getInteger(levelRegistry.getName()),
+                manaFile.getInteger(levelRegistry.getDefaultPath(), 0));
+
+        final PlayerDataRegistry speedRegistry = PlayerDataRegistry.MANA_RECOVERY_SPEED;
+        manaRecoverySpeed = getOrDefault(speedRegistry.getName(), c -> c.getInteger(speedRegistry.getName()),
+                manaFile.getInteger(speedRegistry.getDefaultPath(), 60));
+
+        manaSetup();
     }
 
-    static void initialize() {
-        for(int id : taskIds)
-            Bukkit.getScheduler().cancelTask(id);
-        taskIds.clear();
+    /**
+     * -1 means max amount.
+     */
+    public void setMana(double amount) {
+        if(amount == -1)
+            mana = getMaxMana();
+        else
+            mana = amount;
     }
 
-    default void manaSetup() {
-        setMaxMana(getDefaultMana() + getManaLevel() * manaFile.getDouble("max-mana-modifier", 5));
-        setMana(getMaxMana());
-        showInActionBar();
-        recover();
+    /**
+     * Deduct mana by the amount.
+     */
+    @Override
+    public void deductMana(double amount) {
+        mana -= amount;
     }
 
-    default void showInActionBar() {
-        taskIds.add(new BukkitRunnable() {
-            @Override
-            public void run() {
-                if(!showInActionBar)
-                    this.cancel();
-                if(getPlayer() != null)
-                    getPlayer().sendActionBar(manaFile.outString("show-message", PlayerDataManager.get(getPlayer())));
-            }
-        }.runTaskTimer(plugin, 0L, interval).getTaskId());
+    @Override
+    public Player getPlayer() {
+        return getPlayerInstance();
     }
 
-    default void recover() {
-        taskIds.add(new BukkitRunnable() {
-            @Override
-            public void run() {
-                if(!naturallyRecover)
-                    this.cancel();
-                if(getPlayer() != null) {
-                    if(getMana() <= getMaxMana()) {
-                        // e.g. interval = 5, speed = 100(tick per mana), so add 1/20 per interval
-                        setMana(Math.min(getMana() + (double) interval / getManaRecoverySpeed(), getMaxMana()));
-                    }
-                }
-            }
-        }.runTaskTimer(plugin, 0L, interval).getTaskId());
+    @Override
+    public Map<String, String> getPlaceholders() {
+        Map<String, String> placeholders = new LinkedHashMap<>();
+        placeholders.put(Placeholder.PLAYER.name, Optional.ofNullable(getPlayer()).map(Player::getName).orElse(""));
+        placeholders.put(Placeholder.MANA_LEVEL.name, String.valueOf(manaLevel));
+        placeholders.put(Placeholder.MANA.name, String.valueOf(Util.Tool.round(mana, 2)));
+        placeholders.put(Placeholder.DEFAULT_MANA.name, String.valueOf(Util.Tool.round(ManaProvider.getDefaultMana(), 2)));
+        placeholders.put(Placeholder.MAX_MANA.name, String.valueOf(Util.Tool.round(maxMana, 2)));
+        placeholders.put(Placeholder.MANA_RECOVERY_SPEED.name, String.valueOf(manaRecoverySpeed));
+        return placeholders;
+    }
+
+    @Override
+    public void setToConfig() {
+        if(getConfig() == null) return;
+        getConfig().set(PlayerDataRegistry.MANA_LEVEL.getName(), getManaLevel());
+        getConfig().set(PlayerDataRegistry.MANA_RECOVERY_SPEED.getName(), getManaRecoverySpeed());
     }
 }
