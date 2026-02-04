@@ -25,19 +25,13 @@ public class Element {
      * Whether to show damage multiplier in the element menu
      */
     @Getter @Setter private static boolean showDamageMultiplier;
-
     public static final String defaultInternalName = "none";
-
     @Getter private final String internalName;
-
     @Getter @Setter private Component displayName;
-
     @Getter private final ItemBuilder itemBuilder;
-
     @Getter @Setter private int slot;
-
+    @Getter @Setter private double aptitudeChance;
     private final Map<String, Double> primitiveDamageMultiplier = new LinkedHashMap<>();
-
     private final Map<Element, Double> damageMultiplier = new LinkedHashMap<>();
 
     public Element(String internalName) {

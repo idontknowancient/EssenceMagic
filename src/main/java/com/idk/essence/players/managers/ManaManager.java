@@ -1,9 +1,13 @@
-package com.idk.essence.players;
+package com.idk.essence.players.managers;
 
+import com.idk.essence.players.AbstractDataManager;
+import com.idk.essence.players.PlayerDataRegistry;
+import com.idk.essence.players.providers.ManaProvider;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.placeholders.Placeholder;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedHashMap;
@@ -21,18 +25,17 @@ public class ManaManager extends AbstractDataManager implements ManaProvider {
     @Setter private double maxMana;
     private double mana;
 
-    public ManaManager(Player player) {
+    public ManaManager(OfflinePlayer player) {
         super(player);
-        if(getConfig() == null) return;
 
         // Get data from yml or default value
         final PlayerDataRegistry levelRegistry = PlayerDataRegistry.MANA_LEVEL;
         manaLevel = getOrDefault(levelRegistry.getName(), c -> c.getInteger(levelRegistry.getName()),
-                manaFile.getInteger(levelRegistry.getDefaultPath(), 0));
+                () -> manaFile.getInteger(levelRegistry.getDefaultPath(), 0));
 
         final PlayerDataRegistry speedRegistry = PlayerDataRegistry.MANA_RECOVERY_SPEED;
         manaRecoverySpeed = getOrDefault(speedRegistry.getName(), c -> c.getInteger(speedRegistry.getName()),
-                manaFile.getInteger(speedRegistry.getDefaultPath(), 60));
+                () -> manaFile.getInteger(speedRegistry.getDefaultPath(), 60));
 
         manaSetup();
     }
@@ -56,14 +59,14 @@ public class ManaManager extends AbstractDataManager implements ManaProvider {
     }
 
     @Override
-    public Player getPlayer() {
+    public OfflinePlayer getOfflinePlayer() {
         return getPlayerInstance();
     }
 
     @Override
     public Map<String, String> getPlaceholders() {
         Map<String, String> placeholders = new LinkedHashMap<>();
-        placeholders.put(Placeholder.PLAYER.name, Optional.ofNullable(getPlayer()).map(Player::getName).orElse(""));
+        placeholders.put(Placeholder.PLAYER.name, Optional.ofNullable(getOfflinePlayer()).map(OfflinePlayer::getName).orElse(""));
         placeholders.put(Placeholder.MANA_LEVEL.name, String.valueOf(manaLevel));
         placeholders.put(Placeholder.MANA.name, String.valueOf(Util.Tool.round(mana, 2)));
         placeholders.put(Placeholder.DEFAULT_MANA.name, String.valueOf(Util.Tool.round(ManaProvider.getDefaultMana(), 2)));
@@ -75,7 +78,7 @@ public class ManaManager extends AbstractDataManager implements ManaProvider {
     @Override
     public void setToConfig() {
         if(getConfig() == null) return;
-        getConfig().set(PlayerDataRegistry.MANA_LEVEL.getName(), getManaLevel());
-        getConfig().set(PlayerDataRegistry.MANA_RECOVERY_SPEED.getName(), getManaRecoverySpeed());
+        getConfig().set(PlayerDataRegistry.MANA_LEVEL.getName(), manaLevel);
+        getConfig().set(PlayerDataRegistry.MANA_RECOVERY_SPEED.getName(), manaRecoverySpeed);
     }
 }

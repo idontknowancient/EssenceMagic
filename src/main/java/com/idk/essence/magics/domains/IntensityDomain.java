@@ -13,22 +13,29 @@ import java.util.*;
 
 public class IntensityDomain extends MagicDomain {
 
+    @Getter private static int leastAptitude;
     private static final List<String> tiers = new ArrayList<>();
     private static final Map<String, IntensityDomain> domains = new LinkedHashMap<>();
 
     @Getter private final RoalkomEngine.AvailableRange availableRange;
 
-    public IntensityDomain(String internalName, @Nullable String rangeString) {
+    public IntensityDomain(String internalName) {
         super(internalName);
-        availableRange = RoalkomEngine.parseDomain(rangeString);
+        availableRange = RoalkomEngine.parseDomain(config.getString(pathPrefix + ".range", ""));
+        setupItemBuilder();
+
         tiers.add(internalName);
         domains.put(internalName, this);
     }
 
+    public static void initialize() {
+        leastAptitude = config.getInteger("domain." + DomainAccordance.INTENSITY.getName() + ".least-aptitude", 1);
+    }
+
     @Override
-    public void initialize() {
-        tiers.clear();
-        domains.clear();
+    public void setupItemBuilder() {
+        super.setupItemBuilder();
+        itemBuilder.addLore("&fAvailable Range: " + availableRange.toString());
     }
 
     @Nullable
@@ -44,12 +51,6 @@ public class IntensityDomain extends MagicDomain {
     @Override
     protected DomainAccordance getAccordance() {
         return DomainAccordance.INTENSITY;
-    }
-
-    @Override
-    protected Component getDisplayName() {
-        return ConfigManager.DefaultFile.CONFIG.outString("domain." + getAccordance().getName() +
-                "." + getInternalName() + ".display-name",  Component.text(getInternalName()));
     }
 
     @Override

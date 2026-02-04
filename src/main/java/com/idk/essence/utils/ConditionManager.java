@@ -121,7 +121,7 @@ public class ConditionManager {
 
         if(type.equalsIgnoreCase("mana"))
             // Consume mana depending on the settings
-            if(success || ConfigManager.DefaultFile.MANA.getBoolean("consume-while-skill-fail"))
+            if(success || ConfigManager.DefaultFile.CONFIG.getBoolean("consume-while-skill-fail"))
                 PlayerDataManager.get(player).deductMana(amount);
     }
 }

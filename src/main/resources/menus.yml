@@ -26,10 +26,24 @@ skill:
   # not necessary
   occupation: gray_stained_glass_pane
 
+magic-domain:
+  title: "&8魔法領域一覽"
+  size: 45
+  item: nether_star
+  # not necessary
+  occupation: gray_stained_glass_pane
+
+magic-signet:
+  title: "&8魔法印記一覽"
+  size: 45
+  item: dragon_breath
+  # not necessary
+  occupation: gray_stained_glass_pane
+
+# both domains and signets
 magic:
   title: "&8魔法一覽"
   size: 45
-  item: dragon_breath
   # not necessary
   occupation: gray_stained_glass_pane
 

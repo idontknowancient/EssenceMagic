@@ -4,6 +4,7 @@ import com.idk.essence.elements.Element;
 import com.idk.essence.elements.ElementFactory;
 import com.idk.essence.items.ItemResolver;
 import com.idk.essence.items.items.ItemBuilder;
+import com.idk.essence.magics.MagicDomain;
 import com.idk.essence.magics.MagicManager;
 import com.idk.essence.magics.MagicSignet;
 import com.idk.essence.menus.holders.DetailInfoHolder;
@@ -16,11 +17,9 @@ import com.idk.essence.skills.SkillTemplate;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.outdated.Wand;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class Menu {
 
@@ -58,8 +57,29 @@ public class Menu {
         return skillMenu;
     }
 
+    public static Inventory getMagicDomainMenu() {
+        Inventory magicMenu = createInventory(DetailInfoHolder.getInstance(), "magic-domain");
+        for(MagicDomain domain : MagicManager.getAllDomains())
+            magicMenu.addItem(domain.getItemBuilder().build());
+        setOccupation(magicMenu, "magic-domain");
+        return magicMenu;
+    }
+
+    public static Inventory getMagicSignetMenu() {
+        Inventory magicMenu = createInventory(DetailInfoHolder.getInstance(), "magic-signet");
+        for(MagicSignet signet : MagicManager.getAllSignets())
+            magicMenu.addItem(signet.getItemBuilder().build());
+        setOccupation(magicMenu, "magic-signet");
+        return magicMenu;
+    }
+
+    /**
+     * Domains and signets.
+     */
     public static Inventory getMagicMenu() {
         Inventory magicMenu = createInventory(DetailInfoHolder.getInstance(), "magic");
+        for(MagicDomain domain : MagicManager.getAllDomains())
+            magicMenu.addItem(domain.getItemBuilder().build());
         for(MagicSignet signet : MagicManager.getAllSignets())
             magicMenu.addItem(signet.getItemBuilder().build());
         setOccupation(magicMenu, "magic");

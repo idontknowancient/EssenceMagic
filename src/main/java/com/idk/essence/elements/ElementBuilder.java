@@ -42,6 +42,11 @@ public class ElementBuilder {
         return this;
     }
 
+    public ElementBuilder aptitudeChance(double aptitudeChance) {
+        element.setAptitudeChance(Math.clamp(aptitudeChance, 0, 1));
+        return this;
+    }
+
     public ElementBuilder multiplier(String elementString, double damageMultiplier) {
         element.addDamageMultiplier(elementString, damageMultiplier);
         return this;

@@ -48,7 +48,8 @@ public abstract class SubCommand {
      */
     @Nullable
     public List<String> getTabCompletion(Player p, String[] args) {
-        if(args.length > getLeastArgs()) {
+        // Prevent out of bound
+        if(args.length > getLeastArgs() && getLeastArgs() - 1 > 0) {
             String sub = args[getLeastArgs() - 1].toLowerCase();
             return Optional.ofNullable(subCommands.get(sub))
                     .filter(subCommand -> SystemPermission.checkPerm(p, subCommand.getPermission()))

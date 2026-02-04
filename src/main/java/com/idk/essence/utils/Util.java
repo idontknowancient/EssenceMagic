@@ -1,9 +1,13 @@
 package com.idk.essence.utils;
 
 import com.idk.essence.Essence;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -55,6 +59,19 @@ public class Util {
                 return input;
             }
             return input.substring(0, 1).toUpperCase() + input.substring(1);
+        }
+
+        /**
+         * Get an online player, or an offline player having played before, otherwise null.
+         */
+        @Nullable
+        public static OfflinePlayer getPlayerByName(String playerName) {
+            if(Bukkit.getPlayerExact(playerName) != null)
+                return Bukkit.getPlayerExact(playerName);
+            else
+                return Arrays.stream(Bukkit.getOfflinePlayers())
+                    .filter(p -> playerName.equalsIgnoreCase(p.getName()))
+                    .findFirst().orElse(null);
         }
     }
 
@@ -108,6 +125,13 @@ public class Util {
          * Format: [message: object]
          */
         public static void info(String message, Object info) {
+            Essence.getPlugin().getComponentLogger().info("{}: {}", message, info);
+        }
+
+        /**
+         * Format: [message: object]
+         */
+        public static void info(Component message, Object info) {
             Essence.getPlugin().getComponentLogger().info("{}: {}", message, info);
         }
     }

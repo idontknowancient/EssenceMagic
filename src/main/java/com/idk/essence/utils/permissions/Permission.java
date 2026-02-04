@@ -6,31 +6,49 @@ public enum Permission {
 
     COMMAND_ELEMENT("command.element"),
     COMMAND_ELEMENT_MENU("command.element.menu"),
+
     COMMAND_ITEM("command.item"),
     COMMAND_ITEM_GET("command.item.get"),
     COMMAND_ITEM_INFO("command.item.info"),
     COMMAND_ITEM_MENU("command.item.menu"),
     COMMAND_ITEM_MENU_GET("command.item.menu.get"),
+
     COMMAND_MAGIC("command.magic"),
+    COMMAND_MAGIC_APTITUDE("command.magic.aptitude"),
+    COMMAND_MAGIC_APTITUDE_GET("command.magic.aptitude.get"),
+    COMMAND_MAGIC_APTITUDE_GIVE("command.magic.aptitude.give"),
+    COMMAND_MAGIC_APTITUDE_RESET("command.magic.aptitude.reset"),
+    COMMAND_MAGIC_DOMAIN("command.magic.domain"),
+    COMMAND_MAGIC_DOMAIN_MENU("command.magic.domain.menu"),
+    COMMAND_MAGIC_DOMAIN_GET("command.magic.domain.get"),
+    COMMAND_MAGIC_DOMAIN_GIVE("command.magic.domain.give"),
+    COMMAND_MAGIC_SIGNET("command.magic.signet"),
+    COMMAND_MAGIC_SIGNET_MENU("command.magic.signet.menu"),
+    COMMAND_MAGIC_SIGNET_GET("command.magic.signet.get"),
+    COMMAND_MAGIC_SIGNET_GIVE("command.magic.signet.give"),
     COMMAND_MAGIC_MENU("command.menu"),
-    COMMAND_MAGIC_CAST("command.cast"),
-    COMMAND_MAGIC_FORCE("command.force"),
+
     COMMAND_MANA("command.mana"),
     COMMAND_MANA_GET("command.mana.get"),
     COMMAND_MANA_GET_OTHERS("command.mana.get.others"),
     COMMAND_MANA_SET("command.mana.set"),
+
     COMMAND_MOB("command.mob"),
     COMMAND_MOB_MENU("command.mob.menu"),
     COMMAND_MOB_MENU_SPAWN("command.mob.menu.spawn"),
     COMMAND_MOB_SPAWN("command.spawn"),
+
     COMMAND_RELOAD("command.reload"),
+
     COMMAND_SKILL("command.skill"),
     COMMAND_SKILL_MENU("command.skill.menu"),
     COMMAND_SKILL_CAST("command.skill.cast"),
     COMMAND_SKILL_FORCE("command.skill.force"),
+
     COMMAND_UTIL("command.util"),
     COMMAND_UTIL_GOD("command.util.god"),
     COMMAND_UTIL_GOD_OTHERS("command.util.god.others"),
+
     COMMAND_WAND("command.wand"),
     COMMAND_WAND_GET("command.wand.get"),
     COMMAND_WAND_INFO("command.wand.info"),

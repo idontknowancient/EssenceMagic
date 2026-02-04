@@ -110,14 +110,14 @@ public class ItemFactory {
         if(!config.has(internalName) || items.containsKey(internalName) || ArtifactFactory.hasActiveArtifact(internalName)) return;
 
         ItemBuilder builder = new ItemBuilder(config.getString(internalName + ".material", "stone"))
+                .internalName(internalName)
                 .displayName(config.outString(internalName + ".display-name", ""))
                 .lore(config.getStringList(internalName + ".lore"))
                 .enchant(config.getConfigurationSection(internalName + ".enchantments"))
                 .flag(config.getConfigurationSection(internalName + ".options"))
                 .element(config.getString(internalName + ".element", Element.defaultInternalName))
                 .skill(config.getStringListOrString(internalName + ".skills"))
-                .recipe(config.getConfigurationSection(internalName + ".recipe"))
-                .internalName(internalName);
+                .recipe(config.getConfigurationSection(internalName + ".recipe"));
         items.put(internalName, builder);
     }
 

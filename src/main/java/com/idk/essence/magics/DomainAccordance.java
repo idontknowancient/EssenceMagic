@@ -20,12 +20,10 @@ public enum DomainAccordance {
     ;
 
     @Getter private final String name;
-    @Getter private final Component displayName;
+    @Getter private Component displayName;
 
     DomainAccordance(String name) {
         this.name = name;
-        displayName = ConfigManager.DefaultFile.CONFIG.outString("domain." + name + ".display-name",
-                Component.text(Util.Tool.capitalize(name) + " Domain"));
     }
 
     /**
@@ -33,6 +31,12 @@ public enum DomainAccordance {
      * Case-sensitive.
      */
     public static void registerDomains() {
+        // Set display name
+        for(DomainAccordance accordance : DomainAccordance.values()) {
+            accordance.displayName = ConfigManager.DefaultFile.CONFIG.outString("domain." + accordance.name + ".display-name",
+                    Component.text(Util.Tool.capitalize(accordance.name) + " Domain"));
+        }
+
         ConfigurationSection section = ConfigManager.DefaultFile.CONFIG.getConfigurationSection("domain");
         if(section == null) return;
         for(String key : section.getKeys(false)) {
@@ -40,7 +44,8 @@ public enum DomainAccordance {
             if(key.equals(DomainAccordance.FEATURE.name)) {
                 ConfigurationSection featureSection = section.getConfigurationSection(DomainAccordance.FEATURE.name);
                 if(featureSection == null) continue;
-                featureSection.getKeys(false).stream().filter(name -> !name.equals("display-name"))
+                featureSection.getKeys(false).stream()
+                        .filter(name -> !name.equals("display-name") && !name.equals("least-aptitude"))
                         .forEach(name -> MagicManager.addDomain(name, new FeatureDomain(name)));
             }
 
@@ -54,7 +59,7 @@ public enum DomainAccordance {
                             MagicManager.addDomain(name, new ElementDomain(name)));
                 } else {
                     elementSection.getStringList("otherwise").stream().filter(ElementFactory::has)
-                            .filter(name -> !name.equals("display-name"))
+                            .filter(name -> !name.equals("display-name") && !name.equals("least-aptitude"))
                             .forEach(name -> MagicManager.addDomain(name, new ElementDomain(name)));
                 }
             }
@@ -64,15 +69,16 @@ public enum DomainAccordance {
                 ConfigurationSection intensitySection = section.getConfigurationSection(DomainAccordance.INTENSITY.name);
                 if(intensitySection == null) continue;
                 intensitySection.getKeys(false).stream()
-                        .filter(name -> !name.equals("display-name")).forEach(name ->
-                        MagicManager.addDomain(name, new IntensityDomain(name, intensitySection.getString(name + ".range"))));
+                        .filter(name -> !name.equals("display-name") && !name.equals("least-aptitude"))
+                        .forEach(name -> MagicManager.addDomain(name, new IntensityDomain(name)));
             }
 
             // Accordance: origin. e.g. scroll
             else if(key.equals(DomainAccordance.ORIGIN.name)) {
                 ConfigurationSection originSection = section.getConfigurationSection(DomainAccordance.ORIGIN.name);
                 if(originSection == null) continue;
-                originSection.getKeys(false).stream().filter(name -> !name.equals("display-name"))
+                originSection.getKeys(false).stream()
+                        .filter(name -> !name.equals("display-name") && !name.equals("least-aptitude"))
                         .forEach(name -> MagicManager.addDomain(name, new OriginDomain(name)));
             }
         }

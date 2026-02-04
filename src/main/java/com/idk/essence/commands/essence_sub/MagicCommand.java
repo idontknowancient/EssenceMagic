@@ -2,9 +2,10 @@ package com.idk.essence.commands.essence_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.commands.essence_sub.magic_sub.CastCommand;
-import com.idk.essence.commands.essence_sub.magic_sub.ForceCommand;
+import com.idk.essence.commands.essence_sub.magic_sub.AptitudeCommand;
+import com.idk.essence.commands.essence_sub.magic_sub.DomainCommand;
 import com.idk.essence.commands.essence_sub.magic_sub.MenuCommand;
+import com.idk.essence.commands.essence_sub.magic_sub.SignetCommand;
 import com.idk.essence.utils.permissions.Permission;
 import org.bukkit.command.CommandSender;
 
@@ -12,9 +13,10 @@ public class MagicCommand extends SubCommand {
 
     public MagicCommand(String name) {
         super(name);
-        getSubCommands().put("cast", new CastCommand("cast"));
-        getSubCommands().put("force", new ForceCommand("force"));
-        getSubCommands().put("menu", new MenuCommand("menu"));
+        getSubCommands().put("aptitude", new AptitudeCommand("aptitude"));
+        getSubCommands().put("domain", new DomainCommand("domain"));
+        getSubCommands().put("menu", new MenuCommand("menu", this));
+        getSubCommands().put("signet", new SignetCommand("signet"));
     }
 
     @Override

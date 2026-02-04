@@ -3,6 +3,7 @@ package com.idk.essence.magics;
 import com.idk.essence.items.items.ItemBuilder;
 import com.idk.essence.magics.domains.IntensityDomain;
 import com.idk.essence.utils.Key;
+import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -18,6 +19,7 @@ public class MagicSignet {
 
     private final String internalName;
     private final ItemBuilder itemBuilder;
+    private Component displayName;
     private final List<MagicDomain> domains;
     private final RoalkomEngine.AvailableRange availableRange;
 
@@ -29,6 +31,7 @@ public class MagicSignet {
     public MagicSignet(Builder builder) {
         this.internalName = builder.internalName;
         this.itemBuilder = builder.itemBuilder;
+        this.displayName = builder.displayName;
         this.domains = builder.domains;
         this.availableRange = builder.availableRange;
     }
@@ -53,17 +56,19 @@ public class MagicSignet {
 
         private final String internalName;
         private final ItemBuilder itemBuilder;
+        private Component displayName;
         private final List<MagicDomain> domains = new ArrayList<>();
         private RoalkomEngine.AvailableRange availableRange = RoalkomEngine.AvailableRange.getDefault();
 
         public Builder(@NotNull String internalName) {
             this.internalName = internalName;
-            itemBuilder = new ItemBuilder(Material.DRAGON_BREATH);
+            itemBuilder = new ItemBuilder(ConfigManager.DefaultFile.MENUS.getString("magic-signet.item"));
             itemBuilder.internalName(internalName);
             itemBuilder.container(Key.Type.MAGIC_SIGNET,  internalName);
         }
 
         public Builder displayName(Component displayName) {
+            this.displayName = displayName;
             itemBuilder.displayName(displayName);
             return this;
         }

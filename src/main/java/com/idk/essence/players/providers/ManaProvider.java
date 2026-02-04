@@ -1,5 +1,7 @@
-package com.idk.essence.players;
+package com.idk.essence.players.providers;
 
+import com.idk.essence.players.DataProvider;
+import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.utils.configs.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -9,7 +11,7 @@ import java.util.List;
 
 public interface ManaProvider extends DataProvider {
 
-    ConfigManager.DefaultFile manaFile = ConfigManager.DefaultFile.MANA;
+    ConfigManager.DefaultFile manaFile = ConfigManager.DefaultFile.CONFIG;
     List<Integer> taskIds = new ArrayList<>();
     int interval = manaFile.getInteger("update-interval", 5);
     boolean showInActionBar = manaFile.getBoolean("show-in-action-bar", true);
@@ -33,7 +35,12 @@ public interface ManaProvider extends DataProvider {
         taskIds.clear();
     }
 
+    /**
+     * Block from offline players.
+     */
     default void manaSetup() {
+        // Only exact players can trigger
+        if(getOnlinePlayer() == null) return;
         setMaxMana(getDefaultMana() + getManaLevel() * manaFile.getDouble("max-mana-modifier", 5));
         setMana(getMaxMana());
         showInActionBar();
@@ -46,8 +53,8 @@ public interface ManaProvider extends DataProvider {
             public void run() {
                 if(!showInActionBar)
                     this.cancel();
-                if(getPlayer() != null)
-                    getPlayer().sendActionBar(manaFile.outString("show-message", PlayerDataManager.get(getPlayer())));
+                if(getOnlinePlayer() != null)
+                    getOnlinePlayer().sendActionBar(manaFile.outString("show-message", PlayerDataManager.get(getOfflinePlayer())));
             }
         }.runTaskTimer(plugin, 0L, interval).getTaskId());
     }
@@ -58,11 +65,9 @@ public interface ManaProvider extends DataProvider {
             public void run() {
                 if(!naturallyRecover)
                     this.cancel();
-                if(getPlayer() != null) {
-                    if(getMana() <= getMaxMana()) {
-                        // e.g. interval = 5, speed = 100(tick per mana), so add 1/20 per interval
-                        setMana(Math.min(getMana() + (double) interval / getManaRecoverySpeed(), getMaxMana()));
-                    }
+                if(getMana() <= getMaxMana()) {
+                    // e.g. interval = 5, speed = 100(tick per mana), so add 1/20 per interval
+                    setMana(Math.min(getMana() + (double) interval / getManaRecoverySpeed(), getMaxMana()));
                 }
             }
         }.runTaskTimer(plugin, 0L, interval).getTaskId());

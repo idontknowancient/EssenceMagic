@@ -11,102 +11,183 @@ send-message-when-join: true
 send-custom-message-when-join: true
 send-message-when-quit: true
 send-custom-message-when-quit: true
+
+
+
+#------------------#
+# Element Settings #
+#------------------#
 extra-damage-by-mob-element: true
 # For example, if A makes 2x damage to B, B makes 0.5x damage to A
 element-counter-effect: true
 
-# Magic settings
+
+
+#---------------#
+# Mana Settings #
+#---------------#
+default-value: 20
+default-level: 0
+naturally-recover: true
+# What amount should max mana be added when mana level grows 1
+max-mana-modifier: 5
+# How many ticks will it take to recover 1 mana
+recovery-speed: 60
+# Whether to show current mana in the action bar
+show-in-action-bar: true
+# Whether to consume mana while skills fail to execute
+consume-while-skill-fail: false
+show-message: "&7                        Lv.&b%mana_level% &7魔力: &b%mana%&7/&b%max_mana%"
+update-interval: 5 # In ticks
+
+
+
+#----------------#
+# Magic Settings #
+#----------------#
 roalkom-log-base: 2.7
-# Four types are fixed, subtypes can be modified.
+# Four accordances are fixed, domains can be modified.
 domain:
-  feature:
-    display-name: "&a功能"
-    # ID: display-name
-    attack: "&#c1d8ac攻擊型"
-    defense: "&#f0cfa0防禦型"
-    support: "&#a2d7dd支援型"
-    control: "&#f6bfbc控制型"
-    utility: "&#c8c2be功能型"
   element:
-    display-name: "&b元素"
+    display-name: "&#ad7d4c元素"
+    least-aptitude: 2
+    # Whether to use all elements as domains in element folder.
     all-in-folder: true
+    # If not using all, specify elements.
     otherwise:
       - flame
       - water
+  feature:
+    display-name: "&#d8e698功能"
+    # How many aptitudes of domains will the player have at least.
+    least-aptitude: 2
+    attack:
+      display-name: "&#c1d8ac攻擊型"
+      # Players have chance of 0.65 to have the aptitude of attack domain.
+      aptitude-chance: 0.65
+    defense:
+      display-name: "&#f0cfa0防禦型"
+      aptitude-chance: 0.65
+    support:
+      display-name: "&#a2d7dd支援型"
+      aptitude-chance: 0.65
+    control:
+      display-name: "&#f6bfbc控制型"
+      aptitude-chance: 0.65
+    utility:
+      display-name: "&#c8c2be功能型"
+      aptitude-chance: 0.65
   intensity:
-    display-name: "&c強度"
+    display-name: "&#fcc800強度"
+    least-aptitude: 1
     F:
       display-name: "&7F"
       # By Roalkom's index
       range: "[0, 1)"
+      # Chain, multiply from above.
+      # For example, D is 1 * 0.95 * 0.9
+      aptitude-chance: 1
     E:
       display-name: "&7E"
       range: "[1, 2)"
+      aptitude-chance: 0.95
     D:
       display-name: "&7D"
       range: "[2, 3)"
+      aptitude-chance: 0.9
     C:
       display-name: "&7C"
       range: "[3, 4)"
+      aptitude-chance: 0.85
     B:
       display-name: "&7B"
       range: "[4, 5)"
+      aptitude-chance: 0.8
     A:
       display-name: "&7A"
       range: "[5, 6)"
+      aptitude-chance: 0.75
     S:
       display-name: "&7S"
       range: "[6, 7)"
+      aptitude-chance: 0.7
     I:
       display-name: "&7I"
       range: "[7, 8)"
+      aptitude-chance: 0.65
     II:
       display-name: "&7II"
       range: "[8, 9)"
+      aptitude-chance: 0.6
     III:
       display-name: "&7III"
       range: "[9, 10)"
+      aptitude-chance: 0.55
     IV:
       display-name: "&7IV"
       range: "[10, 11)"
+      aptitude-chance: 0.5
     V:
       display-name: "&7V"
       range: "[11, 12)"
+      aptitude-chance: 0.45
     VI:
       display-name: "&7VI"
       range: "[12, 13)"
+      aptitude-chance: 0.4
     VII:
       display-name: "&7VII"
       range: "[13, 14)"
+      aptitude-chance: 0.35
     VIII:
       display-name: "&7VIII"
       range: "[14, 15)"
+      aptitude-chance: 0.3
     IX:
       display-name: "&7IX"
       range: "[15, 16)"
+      aptitude-chance: 0.25
     X:
       display-name: "&7X"
       range: "[16, 17)"
+      aptitude-chance: 0.2
     XI:
       display-name: "&7XI"
       range: "[17, 18)"
+      aptitude-chance: 0.15
     XII:
       display-name: "&7XII"
       range: "[18, 19)"
+      aptitude-chance: 0.1
     Firmament:
       display-name: "&7●"
       range: "[19, 23)"
       # Whether the tier has level 0-9
       with-level: false
+      aptitude-chance: 0.05
     Eternity:
-      display-name: "&#dfff00&l<shadow:#d8e698:0.5>★"
+      display-name: "&#dfff00<shadow:#d8e698:0.35>★"
       range: "[23, inf)"
       with-level: false
+      aptitude-chance: 0
   origin:
-    display-name: "&d來源"
-    scroll: "&#dcd3b2卷軸"
-    reconciliation: "&#fdeff2調和"
-    creation: "&#ffec47創造"
-    mutation: "&#ec6800突變"
-    awakening: "&#c0a2c7覺醒"
-    intrinsic: "&#e6eae3固有"
+    display-name: "&#89c3eb來源"
+    least-aptitude: 2
+    scroll:
+      display-name: "&#dcd3b2卷軸"
+      aptitude-chance: 0.95
+    reconciliation:
+      display-name: "&#fdeff2調和"
+      aptitude-chance: 0.75
+    creation:
+      display-name: "&#ffec47創造"
+      aptitude-chance: 0.2
+    mutation:
+      display-name: "&#ec6800突變"
+      aptitude-chance: 1
+    awakening:
+      display-name: "&#c0a2c7覺醒"
+      aptitude-chance: 1
+    intrinsic:
+      display-name: "&#e6eae3固有"
+      aptitude-chance: 0.45

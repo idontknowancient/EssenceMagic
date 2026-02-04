@@ -1,5 +1,9 @@
 package com.idk.essence.magics;
 
+import com.idk.essence.magics.domains.ElementDomain;
+import com.idk.essence.magics.domains.FeatureDomain;
+import com.idk.essence.magics.domains.IntensityDomain;
+import com.idk.essence.magics.domains.OriginDomain;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
@@ -23,7 +27,10 @@ public class MagicManager implements Listener {
     private MagicManager() {}
 
     public static void initialize() {
-        domains.values().forEach(MagicDomain::initialize);
+        ElementDomain.initialize();
+        FeatureDomain.initialize();
+        IntensityDomain.initialize();
+        OriginDomain.initialize();
         domains.clear();
         signets.clear();
         DomainAccordance.registerDomains();
@@ -64,8 +71,18 @@ public class MagicManager implements Listener {
     }
 
     @NotNull
-    public List<MagicSignet> getSignetsByDomain(@Nullable MagicDomain domain) {
+    public static Collection<MagicDomain> getAllDomains() {
+        return domains.values();
+    }
+
+    @NotNull
+    public static List<MagicSignet> getSignetsByDomain(@Nullable MagicDomain domain) {
         return signets.values().stream().filter(signet -> signet.isDomain(domain)).toList();
+    }
+
+    @NotNull
+    public static List<MagicDomain> getDomainsByAccordance(@NotNull DomainAccordance accordance) {
+        return domains.values().stream().filter(domain -> domain.isAccordance(accordance)).toList();
     }
 
 

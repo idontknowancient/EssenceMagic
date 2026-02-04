@@ -9,27 +9,44 @@ import org.bukkit.entity.Player;
 
 public class MenuCommand extends SubCommand {
 
-    public MenuCommand(String name) {
+    private final SubCommand parent;
+
+    public MenuCommand(String name, SubCommand parent) {
         super(name);
+        this.parent = parent;
     }
 
     @Override
     public String getDescription() {
-        return "Show all available magics.";
+        if(parent instanceof DomainCommand)
+            return "Show all available magic domains.";
+        if(parent instanceof SignetCommand)
+            return "Show all available magic signets.";
+        return "Show all available magic domains and signets.";
     }
 
     @Override
     public String getSyntax(CommandSender sender) {
+        if(parent instanceof DomainCommand)
+            return EssenceCommand.getSyntaxFromStrings("/essence magic domain", "menu", false);
+        if(parent instanceof SignetCommand)
+            return EssenceCommand.getSyntaxFromStrings("/essence magic signet", "menu", false);
         return EssenceCommand.getSyntaxFromStrings("/essence magic", "menu", false);
     }
 
     @Override
     public Permission getPermission() {
+        if(parent instanceof DomainCommand)
+            return Permission.COMMAND_MAGIC_DOMAIN_MENU;
+        if(parent instanceof SignetCommand)
+            return Permission.COMMAND_MAGIC_SIGNET_MENU;
         return Permission.COMMAND_MAGIC_MENU;
     }
 
     @Override
     public int getLeastArgs() {
+        if(parent instanceof DomainCommand || parent instanceof  SignetCommand)
+            return 3;
         return 2;
     }
 
@@ -42,6 +59,14 @@ public class MenuCommand extends SubCommand {
     public void perform(CommandSender sender, String[] args) {
         if(!preCheck(sender, args)) return;
         Player p = (Player) sender;
+        if(parent instanceof DomainCommand) {
+            p.openInventory(Menu.getMagicDomainMenu());
+            return;
+        }
+        if(parent instanceof SignetCommand) {
+            p.openInventory(Menu.getMagicSignetMenu());
+            return;
+        }
         p.openInventory(Menu.getMagicMenu());
     }
 }

@@ -102,6 +102,7 @@ public class ElementFactory {
                 .displayName(config.outString(internalName + ".display-name", ""))
                 .symbolItem(config.getConfigurationSection(internalName + ".symbol-item"))
                 .slot(config.getInteger(internalName + ".slot", -1))
+                .aptitudeChance(config.getDouble(internalName + ".aptitude-chance", 1))
                 .multiplier(config.getConfigurationSection(internalName + ".damage-multiplier"));
         elements.put(internalName, builder);
     }

@@ -1,9 +1,11 @@
 package com.idk.essence.players;
 
+import com.idk.essence.players.providers.ManaProvider;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +15,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+/**
+ * Online players: plugin init or login.
+ * Offline players: call get().
+ */
 public class PlayerDataManager implements Listener {
 
     @Getter private static final PlayerDataManager instance = new PlayerDataManager();
@@ -49,18 +55,18 @@ public class PlayerDataManager implements Listener {
     /**
      * Set all data values to config.
      */
-    private static void setupConfig(Player player) {
-        get(player).setToConfig();
+    private static void setupConfig(OfflinePlayer player) {
+        Optional.ofNullable(get(player)).ifPresent(PlayerData::setToConfig);
     }
 
-    public static boolean has(Player player) {
+    public static boolean has(OfflinePlayer player) {
         return player != null && playerData.containsKey(player.getUniqueId());
     }
 
     /**
      * Create player data object and add it to the map.
      */
-    public static void add(Player player) {
+    public static void add(OfflinePlayer player) {
         playerData.put(player.getUniqueId(), new PlayerData(player));
     }
 
@@ -73,10 +79,38 @@ public class PlayerDataManager implements Listener {
     }
 
     /**
+     * Get player data of an offline player.
+     */
+    @Nullable
+    public static PlayerData get(OfflinePlayer player) {
+        return Optional.ofNullable(player).map(p -> playerData.get(p.getUniqueId())).orElse(null);
+    }
+
+    /**
      * Get player data of a player.
+     * If the player is an offline player, create its file instance and add it to the map.
      */
     @Nullable
     public static PlayerData get(String playerName) {
-        return playerData.get(Optional.ofNullable(Bukkit.getPlayer(playerName)).map(Player::getUniqueId).orElse(null));
+        Player player = Bukkit.getPlayer(playerName);
+        if(player != null)
+            return get(player);
+        OfflinePlayer offlinePlayer = Util.Tool.getPlayerByName(playerName);
+        if(has(offlinePlayer))
+            return get(offlinePlayer);
+        if(offlinePlayer != null && offlinePlayer.hasPlayedBefore()) {
+            create(offlinePlayer);
+            return get(offlinePlayer);
+        }
+
+        return null;
+    }
+
+    /**
+     * Create a player's file instance and add it to the map.
+     */
+    public static void create(OfflinePlayer offlinePlayer) {
+        add(offlinePlayer);
+        setupConfig(offlinePlayer);
     }
 }

@@ -187,7 +187,6 @@ public class ConfigManager {
         SKILLS("skills", "Default_Skills"),
 
         CONFIG("config"),
-        MANA("mana"),
         MENUS("menus"),
         MESSAGES("messages"),
         ;

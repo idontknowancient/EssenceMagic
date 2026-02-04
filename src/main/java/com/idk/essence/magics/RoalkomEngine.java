@@ -3,7 +3,6 @@ package com.idk.essence.magics;
 import com.idk.essence.magics.domains.IntensityDomain;
 import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
