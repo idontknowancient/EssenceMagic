@@ -12,7 +12,6 @@ import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.skills.SkillManager;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.damage.DamageManager;
-import com.idk.essence.menus.MenuListener;
 import com.idk.essence.utils.messages.Message;
 import com.idk.essence.utils.messages.PlayerJoinQuitMessage;
 import com.idk.essence.utils.nodes.NodeManager;
@@ -73,7 +72,6 @@ public class Register {
 
     public static void registerListeners() {
         register(PlayerJoinQuitMessage.getInstance());
-        register(MenuListener.getInstance());
         register(DamageManager.getInstance());
         register(PlayerDataManager.getInstance());
         register(MagicManager.getInstance());

@@ -47,8 +47,7 @@ public class ItemBuilder implements PlaceholderProvider {
     private final Map<ItemFlag, Boolean> flags = new LinkedHashMap<>();
     private boolean forceGlowing = false;
     private boolean glowing;
-    private boolean placeable;
-    private boolean usable;
+    private int amount;
     private final List<String> skills = new ArrayList<>();
     private final List<Consumer<PersistentDataContainer>> persistentData = new ArrayList<>();
 
@@ -230,12 +229,16 @@ public class ItemBuilder implements PlaceholderProvider {
         return this;
     }
 
+    private void applyGlowing(ItemMeta meta) {
+        if(forceGlowing)
+            meta.setEnchantmentGlintOverride(glowing);
+    }
+
     /**
      * Whether an item stack can be placed. Only effective for blocks.
      * Automatically set key.
      */
     public ItemBuilder placeable(boolean placeable) {
-        this.placeable = placeable;
         container(Key.Feature.PLACEABLE,  placeable);
         return this;
     }
@@ -245,14 +248,20 @@ public class ItemBuilder implements PlaceholderProvider {
      * Automatically set key.
      */
     public ItemBuilder usable(boolean usable) {
-        this.usable = usable;
         container(Key.Feature.USABLE,  usable);
         return this;
     }
 
-    private void applyGlowing(ItemMeta meta) {
-        if(forceGlowing)
-            meta.setEnchantmentGlintOverride(glowing);
+    public ItemBuilder amount(int amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    /**
+     * Automatically handle max stack size.
+     */
+    private void applyAmount(ItemStack item) {
+        item.setAmount(Math.clamp(amount, 1, item.getMaxStackSize()));
     }
 
     public ItemBuilder skill(List<String> skillStrings) {
@@ -308,6 +317,7 @@ public class ItemBuilder implements PlaceholderProvider {
         applyFlags(meta);
         applyGlowing(meta);
         applySkill(container);
+        applyAmount(item);
         applyContainer(container);
 
         item.setItemMeta(meta);
@@ -340,6 +350,7 @@ public class ItemBuilder implements PlaceholderProvider {
      * Get a material from a string. Automatically handle uppercase and exception.
      * @param materialString the string to convert
      */
+    @NotNull
     public static Material getMaterial(String materialString) {
         if(materialString == null) return Material.STONE;
         return Optional.ofNullable(Material.matchMaterial(materialString)).orElse(Material.STONE);

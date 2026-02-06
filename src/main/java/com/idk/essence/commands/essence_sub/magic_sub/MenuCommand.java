@@ -2,7 +2,7 @@ package com.idk.essence.commands.essence_sub.magic_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
-import com.idk.essence.menus.Menu;
+import com.idk.essence.menus.MenuManager;
 import com.idk.essence.utils.permissions.Permission;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -60,13 +60,13 @@ public class MenuCommand extends SubCommand {
         if(!preCheck(sender, args)) return;
         Player p = (Player) sender;
         if(parent instanceof DomainCommand) {
-            p.openInventory(Menu.getMagicDomainMenu());
+            MenuManager.openDomainMenu(p);
             return;
         }
         if(parent instanceof SignetCommand) {
-            p.openInventory(Menu.getMagicSignetMenu());
+            MenuManager.openSignetMenu(p);
             return;
         }
-        p.openInventory(Menu.getMagicMenu());
+        MenuManager.openMagicMenu(p);
     }
 }

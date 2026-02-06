@@ -14,6 +14,25 @@ send-custom-message-when-quit: true
 
 
 
+#---------------#
+# Menu Settings #
+#---------------#
+previous-button:
+  material: arrow
+  display-name: "&a上一頁"
+  # Start from 1
+  column: 3
+next-button:
+  material: arrow
+  display-name: "&b下一頁"
+  column: 7
+page-number:
+  material: book
+  display-name: "&7%page% / %total_page%"
+  column: 5
+
+
+
 #------------------#
 # Element Settings #
 #------------------#

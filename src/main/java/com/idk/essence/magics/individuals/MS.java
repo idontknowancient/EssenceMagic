@@ -113,4 +113,49 @@ public class MS {
                     return true;
                 }).orElse(false);
     }
+
+    /**
+     * Remove magic aptitude from a player.
+     * Automatically save to config.
+     * @return successful
+     */
+    public static boolean removeAptitude(@NotNull PlayerData data, String aptitudeName) {
+        return Optional.ofNullable(MagicManager.getDomain(aptitudeName))
+                .filter(domain -> hasAptitude(data, domain))
+                .map(domain -> {
+                    data.getGottenAptitudes().remove(domain.getInternalName());
+                    data.setToConfig();
+                    return true;
+                }).orElse(false);
+    }
+
+    /**
+     * Remove magic domain from a player.
+     * Automatically save to config.
+     * @return successful
+     */
+    public static boolean removeDomain(@NotNull PlayerData data, String domainName) {
+        return Optional.ofNullable(MagicManager.getDomain(domainName))
+                .filter(domain -> hasDomain(data, domain))
+                .map(domain -> {
+                    data.getLearnedDomains().remove(domain.getInternalName());
+                    data.setToConfig();
+                    return true;
+                }).orElse(false);
+    }
+
+    /**
+     * Remove magic signet from a player.
+     * Automatically save to config.
+     * @return successful
+     */
+    public static boolean removeSignet(@NotNull PlayerData data, String signetName) {
+        return Optional.ofNullable(MagicManager.getSignet(signetName))
+                .filter(signet -> hasSignet(data, signet))
+                .map(signet -> {
+                    data.getLearnedSignets().remove(signet.getInternalName());
+                    data.setToConfig();
+                    return true;
+                }).orElse(false);
+    }
 }

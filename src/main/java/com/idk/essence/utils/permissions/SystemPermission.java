@@ -1,5 +1,6 @@
 package com.idk.essence.utils.permissions;
 
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -7,7 +8,7 @@ import java.util.Optional;
 
 public class SystemPermission {
 
-    public static boolean checkPerm(Player p, @Nullable Permission permission) {
+    public static boolean checkPerm(HumanEntity p, @Nullable Permission permission) {
         return Optional.ofNullable(permission).map(perm -> p.hasPermission(perm.getName())).orElse(true);
     }
 

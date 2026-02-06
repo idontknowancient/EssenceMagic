@@ -11,6 +11,7 @@ public class AptitudeCommand extends SubCommand {
         super(name);
         getSubCommands().put("get", new GetCommand("get", this));
         getSubCommands().put("give", new GiveCommand("give", this));
+        getSubCommands().put("remove", new RemoveCommand("remove", this));
         getSubCommands().put("reset", new ResetCommand("reset"));
     }
 

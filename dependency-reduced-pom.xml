@@ -51,11 +51,15 @@
           <relocations>
             <relocation>
               <pattern>com.jeff_media.customblockdata</pattern>
-              <shadedPattern>com.idk.essence.customblockdata</shadedPattern>
+              <shadedPattern>com.idk.essence.libs.customblockdata</shadedPattern>
             </relocation>
             <relocation>
               <pattern>com.jeff_media.morepersistentdatatypes</pattern>
-              <shadedPattern>com.idk.essence.morepersistentdatatypes</shadedPattern>
+              <shadedPattern>com.idk.essence.libs.morepersistentdatatypes</shadedPattern>
+            </relocation>
+            <relocation>
+              <pattern>dev.triumphteam.gui</pattern>
+              <shadedPattern>com.idk.essence.libs.gui</shadedPattern>
             </relocation>
           </relocations>
         </configuration>

@@ -19,7 +19,7 @@ public class MagicSignet {
 
     private final String internalName;
     private final ItemBuilder itemBuilder;
-    private Component displayName;
+    private final Component displayName;
     private final List<MagicDomain> domains;
     private final RoalkomEngine.AvailableRange availableRange;
 
