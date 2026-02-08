@@ -25,7 +25,6 @@ com\idk\essence\magics\MagicDomain.class
 com\idk\essence\outdated\WandHandler.class
 com\idk\essence\commands\essence_sub\SkillCommand.class
 com\idk\essence\utils\nodes\types\ItemNode.class
-com\idk\essence\menus\actions\ClickAction.class
 com\idk\essence\players\providers\ManaProvider$1.class
 com\idk\essence\commands\essence_sub\skill_sub\ForceCommand.class
 com\idk\essence\menus\providers\SignetMenuProvider.class
@@ -51,7 +50,6 @@ com\idk\essence\skills\SkillManager.class
 com\idk\essence\menus\providers\SkillMenuProvider.class
 com\idk\essence\skills\SkillTemplate.class
 com\idk\essence\utils\nodes\types\ActionNode.class
-com\idk\essence\menus\actions\CancelHolder.class
 com\idk\essence\items\arcana\types\SimpleRune$Builder.class
 com\idk\essence\utils\placeholders\PlaceholderProvider.class
 com\idk\essence\commands\essence_sub\WandCommand.class
@@ -68,7 +66,7 @@ com\idk\essence\mobs\MobManager.class
 com\idk\essence\magics_old\MagicHandler.class
 com\idk\essence\utils\particles\shapes\RotatingSquareEffect.class
 com\idk\essence\players\managers\MagicDataManager.class
-com\idk\essence\menus\actions\ShiftSpawnHolder.class
+com\idk\essence\menus\ClickAction.class
 com\idk\essence\players\providers\ManaProvider.class
 com\idk\essence\utils\messages\PlayerJoinQuitMessage.class
 com\idk\essence\commands\essence_sub\ElementCommand.class
@@ -104,7 +102,6 @@ com\idk\essence\Essence.class
 com\idk\essence\commands\essence_sub\MagicCommand.class
 com\idk\essence\outdated\ClickHandler.class
 com\idk\essence\utils\messages\SystemMessage.class
-com\idk\essence\menus\MenuListener.class
 com\idk\essence\menus\providers\ElementMenuProvider.class
 com\idk\essence\utils\ConditionManager.class
 com\idk\essence\magics\domains\FeatureDomain.class
@@ -116,14 +113,12 @@ com\idk\essence\magics\MagicManager.class
 com\idk\essence\items\arcana\Arcana.class
 com\idk\essence\utils\nodes\BaseNode.class
 com\idk\essence\elements\Element.class
-com\idk\essence\menus\actions\DetailInfoHolder.class
 com\idk\essence\commands\essence_sub\util_sub\GodCommand.class
 com\idk\essence\commands\essence_sub\wand_sub\GetCommand.class
 com\idk\essence\utils\damage\DamageManager.class
 com\idk\essence\players\managers\ManaManager.class
 com\idk\essence\magics_old\modifiers\Damage.class
 com\idk\essence\items\arcana\types\RuneArcana.class
-com\idk\essence\menus\actions\GetItemHolder.class
 com\idk\essence\commands\essence_sub\ReloadCommand.class
 com\idk\essence\utils\configs\ConfigManager$Folder.class
 com\idk\essence\items\artifacts\ArtifactBehavior.class

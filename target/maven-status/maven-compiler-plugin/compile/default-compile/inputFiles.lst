@@ -75,12 +75,7 @@ D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics_old\Mag
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics_old\MagicType.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics_old\Modifier.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics_old\modifiers\Damage.java
-D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\actions\CancelHolder.java
-D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\actions\ClickAction.java
-D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\actions\DetailInfoHolder.java
-D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\actions\GetItemHolder.java
-D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\actions\ShiftSpawnHolder.java
-D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\MenuListener.java
+D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\ClickAction.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\MenuManager.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\MenuProvider.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\menus\PaginatedProvider.java

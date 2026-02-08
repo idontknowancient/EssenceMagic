@@ -78,6 +78,7 @@ public class Register {
         register(SkillManager.getInstance());
         register(ArcanaFactory.getInstance());
         register(ArtifactFactory.getInstance());
+        register(MobManager.getInstance());
         register(ParticleManager.getInstance());
         register(NodeManager.getInstance());
         register(RecipeManager.getInstance());

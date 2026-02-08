@@ -11,6 +11,7 @@ send-message-when-join: true
 send-custom-message-when-join: true
 send-message-when-quit: true
 send-custom-message-when-quit: true
+cancel-enderman-moving-block: true
 
 
 

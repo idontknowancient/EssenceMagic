@@ -3,20 +3,35 @@ package com.idk.essence.mobs;
 import com.idk.essence.utils.Util;
 import com.idk.essence.utils.configs.ConfigManager;
 import com.idk.essence.utils.configs.EssenceConfig;
+import lombok.Getter;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 
 import java.util.*;
 
-public class MobManager {
+public class MobManager implements Listener {
 
+    @Getter private static final MobManager instance = new MobManager();
     private static final Map<String, MobTemplate> mobs = new LinkedHashMap<>();
+    private static boolean cancelEndermanMovingBlock;
 
     private MobManager() {}
 
     public static void initialize() {
         mobs.clear();
+        cancelEndermanMovingBlock = ConfigManager.DefaultFile.CONFIG.getBoolean("cancel-enderman-moving-block");
         ConfigManager.Folder.MOBS.load(MobManager::register);
         Util.System.info("Registered Mobs", mobs.size());
+    }
+
+    @EventHandler
+    public void onEndermanMoveBlock(EntityChangeBlockEvent event) {
+        if(event.getEntityType() == EntityType.ENDERMAN && cancelEndermanMovingBlock) {
+            event.setCancelled(true);
+        }
     }
 
     public static Collection<String> getAllKeys() {
