@@ -162,6 +162,16 @@ public class Key {
         public static final Type<Integer> WAND_SLOT = new Type<>("wand-slot-key", PersistentDataType.INTEGER);
 
         /**
+         * Wand max mana identifier. Type: double. Content: max mana.
+         */
+        public static final Type<Double> WAND_MAX_MANA = new Type<>("wand-max-mana-key", PersistentDataType.DOUBLE);
+
+        /**
+         * Wand mana infusion identifier. Type: double. Content: mana infusion.
+         */
+        public static final Type<Double> WAND_MANA_INFUSION = new Type<>("wand-mana-infusion-key", PersistentDataType.DOUBLE);
+
+        /**
          * Rune identifier. Type: string. Content: internalName.
          */
         public static final Type<String> ARCANA_RUNE = new Type<>("arcana-rune-key", PersistentDataType.STRING);

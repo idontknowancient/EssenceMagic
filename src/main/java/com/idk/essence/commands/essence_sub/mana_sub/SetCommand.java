@@ -2,6 +2,7 @@ package com.idk.essence.commands.essence_sub.mana_sub;
 
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
+import com.idk.essence.players.PlayerData;
 import com.idk.essence.players.PlayerDataManager;
 import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
@@ -47,7 +48,7 @@ public class SetCommand extends SubCommand {
     @Override
     public @Nullable List<String> getTabCompletion(Player p, String[] args) {
         if(args.length == 4)
-            return List.of("max");
+            return List.of("max", "infinite");
         return null;
     }
 
@@ -59,18 +60,21 @@ public class SetCommand extends SubCommand {
             SystemMessage.PLAYER_NOT_EXIST.send(sender);
             return;
         }
+        PlayerData data = PlayerDataManager.get(target);
         if(args[3].equalsIgnoreCase("max")) {
-            PlayerDataManager.get(target).setMana(-1);
+            data.setMana(-1);
+        } else if(args[3].equalsIgnoreCase("infinite")) {
+            data.setManaInfinite(true);
         } else {
-            double amount = 0;
+            double amount;
             try {
                 amount = Double.parseDouble(args[3]);
             } catch (NumberFormatException e) {
                 SystemMessage.NOT_NUMBER.send(sender);
                 return;
             }
-            PlayerDataManager.get(target).setMana(amount);
+            data.setMana(amount);
         }
-        SystemMessage.SET_MANA.send(sender, PlayerDataManager.get(target));
+        SystemMessage.SET_MANA.send(sender, data);
     }
 }

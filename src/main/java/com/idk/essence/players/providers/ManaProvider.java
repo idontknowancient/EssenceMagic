@@ -21,8 +21,10 @@ public interface ManaProvider extends DataProvider {
     int getManaRecoverySpeed();
     double getMaxMana();
     double getMana();
+    boolean isManaInfinite();
     void setMaxMana(double maxMana);
     void setMana(double mana);
+    void setManaInfinite(boolean manaInfinite);
     void deductMana(double amount);
 
     static double getDefaultMana() {
@@ -42,9 +44,11 @@ public interface ManaProvider extends DataProvider {
         // Only exact players can trigger
         if(getOnlinePlayer() == null) return;
         setMaxMana(getDefaultMana() + getManaLevel() * manaFile.getDouble("max-mana-modifier", 5));
-        setMana(getMaxMana());
+        if(!isManaInfinite()) {
+            setMana(getMaxMana());
+            recover();
+        }
         showInActionBar();
-        recover();
     }
 
     default void showInActionBar() {
@@ -65,6 +69,8 @@ public interface ManaProvider extends DataProvider {
             public void run() {
                 if(!naturallyRecover)
                     this.cancel();
+                if(isManaInfinite())
+                    return;
                 if(getMana() <= getMaxMana()) {
                     // e.g. interval = 5, speed = 100(tick per mana), so add 1/20 per interval
                     setMana(Math.min(getMana() + (double) interval / getManaRecoverySpeed(), getMaxMana()));

@@ -51,6 +51,8 @@ public enum Permission {
     COMMAND_UTIL("command.util"),
     COMMAND_UTIL_GOD("command.util.god"),
     COMMAND_UTIL_GOD_OTHERS("command.util.god.others"),
+    COMMAND_UTIL_HEAL("command.util.heal"),
+    COMMAND_UTIL_HEAL_OTHERS("command.util.heal.others"),
 
     COMMAND_WAND("command.wand"),
     COMMAND_WAND_GET("command.wand.get"),

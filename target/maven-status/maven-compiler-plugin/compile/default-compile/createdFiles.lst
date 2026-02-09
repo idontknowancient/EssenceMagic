@@ -24,6 +24,7 @@ com\idk\essence\magics\domains\ElementDomain.class
 com\idk\essence\magics\MagicDomain.class
 com\idk\essence\outdated\WandHandler.class
 com\idk\essence\commands\essence_sub\SkillCommand.class
+com\idk\essence\magics\individuals\ManaInfusion.class
 com\idk\essence\utils\nodes\types\ItemNode.class
 com\idk\essence\players\providers\ManaProvider$1.class
 com\idk\essence\commands\essence_sub\skill_sub\ForceCommand.class
@@ -78,6 +79,7 @@ com\idk\essence\commands\essence_sub\ManaCommand.class
 com\idk\essence\utils\Util.class
 com\idk\essence\magics\MagicSignet.class
 com\idk\essence\magics\domains\OriginDomain.class
+com\idk\essence\commands\essence_sub\util_sub\HealCommand.class
 com\idk\essence\commands\essence_sub\magic_sub\RemoveCommand.class
 com\idk\essence\commands\essence_sub\wand_sub\UpdateCommand.class
 com\idk\essence\utils\Key$Feature.class
@@ -117,6 +119,7 @@ com\idk\essence\commands\essence_sub\util_sub\GodCommand.class
 com\idk\essence\commands\essence_sub\wand_sub\GetCommand.class
 com\idk\essence\utils\damage\DamageManager.class
 com\idk\essence\players\managers\ManaManager.class
+com\idk\essence\magics\individuals\MPS$1.class
 com\idk\essence\magics_old\modifiers\Damage.class
 com\idk\essence\items\arcana\types\RuneArcana.class
 com\idk\essence\commands\essence_sub\ReloadCommand.class

@@ -101,86 +101,86 @@ domain:
     display-name: "&#fcc800強度"
     least-aptitude: 1
     F:
-      display-name: "&7F"
+      display-name: "&#4EBC97F"
       # By Roalkom's index
       range: "[0, 1)"
       # Chain, multiply from above.
       # For example, D is 1 * 0.95 * 0.9
       aptitude-chance: 1
     E:
-      display-name: "&7E"
+      display-name: "&#6bbe8bE"
       range: "[1, 2)"
       aptitude-chance: 0.95
     D:
-      display-name: "&7D"
+      display-name: "&#88c07fD"
       range: "[2, 3)"
       aptitude-chance: 0.9
     C:
-      display-name: "&7C"
+      display-name: "&#a5c273C"
       range: "[3, 4)"
       aptitude-chance: 0.85
     B:
-      display-name: "&7B"
+      display-name: "&#c2c467B"
       range: "[4, 5)"
       aptitude-chance: 0.8
     A:
-      display-name: "&7A"
+      display-name: "&#dfc65bA"
       range: "[5, 6)"
       aptitude-chance: 0.75
     S:
-      display-name: "&7S"
+      display-name: "&#fbca4dS"
       range: "[6, 7)"
       aptitude-chance: 0.7
     I:
-      display-name: "&7I"
+      display-name: "&#f4b3c2I"
       range: "[7, 8)"
       aptitude-chance: 0.65
     II:
-      display-name: "&7II"
+      display-name: "&#dfa6b8II"
       range: "[8, 9)"
       aptitude-chance: 0.6
     III:
-      display-name: "&7III"
+      display-name: "&#ca99aeIII"
       range: "[9, 10)"
       aptitude-chance: 0.55
     IV:
-      display-name: "&7IV"
+      display-name: "&#b58ca4IV"
       range: "[10, 11)"
       aptitude-chance: 0.5
     V:
-      display-name: "&7V"
+      display-name: "&#a07f9aV"
       range: "[11, 12)"
       aptitude-chance: 0.45
     VI:
-      display-name: "&7VI"
+      display-name: "&#8b7290VI"
       range: "[12, 13)"
       aptitude-chance: 0.4
     VII:
-      display-name: "&7VII"
+      display-name: "&#766586VII"
       range: "[13, 14)"
       aptitude-chance: 0.35
     VIII:
-      display-name: "&7VIII"
+      display-name: "&#61587cVIII"
       range: "[14, 15)"
       aptitude-chance: 0.3
     IX:
-      display-name: "&7IX"
+      display-name: "&#4c4b72IX"
       range: "[15, 16)"
       aptitude-chance: 0.25
     X:
-      display-name: "&7X"
+      display-name: "&#373e68X"
       range: "[16, 17)"
       aptitude-chance: 0.2
     XI:
-      display-name: "&7XI"
+      display-name: "&#22315eXI"
       range: "[17, 18)"
       aptitude-chance: 0.15
     XII:
-      display-name: "&7XII"
+      display-name: "&#0f2350XII"
       range: "[18, 19)"
       aptitude-chance: 0.1
     Firmament:
-      display-name: "&7●"
+      display-name: "&#83ccd2<shadow:#eaf4fc:0.35>●"
       range: "[19, 23)"
       # Whether the tier has level 0-9
       with-level: false

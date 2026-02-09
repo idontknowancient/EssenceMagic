@@ -20,6 +20,10 @@ public interface DataProvider extends PlaceholderProvider {
     Essence plugin = Essence.getPlugin();
 
     OfflinePlayer getOfflinePlayer();
+
+    /**
+     * Automatically save to config.
+     */
     void setToConfig();
 
     @NotNull

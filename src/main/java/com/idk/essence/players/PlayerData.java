@@ -4,7 +4,6 @@ import com.idk.essence.players.managers.MagicDataManager;
 import com.idk.essence.players.managers.ManaManager;
 import com.idk.essence.players.providers.MagicDataProvider;
 import com.idk.essence.players.providers.ManaProvider;
-import com.idk.essence.utils.Util;
 import lombok.Getter;
 import org.bukkit.OfflinePlayer;
 
@@ -46,13 +45,27 @@ public class PlayerData implements ManaProvider, MagicDataProvider {
     }
 
     @Override
+    public boolean isManaInfinite() {
+        return manaManager.isManaInfinite();
+    }
+
+    @Override
     public void setMaxMana(double maxMana) {
         manaManager.setMaxMana(Math.max(0, maxMana));
     }
 
+    /**
+     * -1 means max amount.
+     * Automatically set mana infinite to false.
+     */
     @Override
     public void setMana(double mana) {
         manaManager.setMana(mana);
+    }
+
+    @Override
+    public void setManaInfinite(boolean manaInfinite) {
+        manaManager.setManaInfinite(manaInfinite);
     }
 
     /**
@@ -102,8 +115,6 @@ public class PlayerData implements ManaProvider, MagicDataProvider {
         // Set data
         manaManager.setToConfig();
         magicDataManager.setToConfig();
-
-        getConfig().save();
     }
 
 }

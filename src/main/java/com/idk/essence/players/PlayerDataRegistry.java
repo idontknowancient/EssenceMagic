@@ -6,6 +6,7 @@ public enum PlayerDataRegistry {
     // Mana
     MANA_LEVEL("mana-level", "default-level"),
     MANA_RECOVERY_SPEED("mana-recovery-speed", "recovery-speed"),
+    MANA_INFINITE("mana-infinite", null),
 
     // Magic Data
     GOTTEN_APTITUDES("gotten-aptitudes", null),

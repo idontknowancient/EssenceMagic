@@ -3,6 +3,7 @@ package com.idk.essence.magics;
 import com.idk.essence.magics.domains.IntensityDomain;
 import com.idk.essence.utils.configs.ConfigManager;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,26 +68,38 @@ public class RoalkomEngine {
         return Math.log(outputMana) / LN_BASE;
     }
 
+    @Nullable
+    public static IntensityDomain indexToDomain(double roalkomIndex) {
+        if(roalkomIndex < 0) return null;
+        for(IntensityDomain domain : IntensityDomain.getDomains()) {
+            if(domain.getAvailableRange().contains(roalkomIndex)) {
+                return domain;
+            }
+        }
+        return null;
+    }
+
     /**
      * @param roalkomIndex >= 0
      * @return e.g. F7 if index is in [0.7, 0.8). "" if index < 0.
      */
     @NotNull
-    public static String format(double roalkomIndex) {
-        if(roalkomIndex < 0) return "";
+    public static Component format(double roalkomIndex) {
+        if(roalkomIndex < 0) return Component.empty();
 
-        StringBuilder format = new StringBuilder();
+        Component format = Component.empty();
         for(IntensityDomain domain : IntensityDomain.getDomains()) {
             if(domain.getAvailableRange().contains(roalkomIndex)) {
-                format.append(domain.getInternalName());
+                format = format.append(domain.getDisplayName());
                 break;
             }
         }
 
         // e.g. get 7 in index 3.72
         int level = (int) (Math.floor(roalkomIndex * 10) % 10);
+        format = format.append(Component.text(level + ""));
 
-        return format.append(level).toString();
+        return format;
     }
 
     /**

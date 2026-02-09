@@ -55,6 +55,7 @@ public class MagicDataManager extends AbstractDataManager implements MagicDataPr
         getConfig().set(PlayerDataRegistry.GOTTEN_APTITUDES.getName(), gottenAptitudes);
         getConfig().set(PlayerDataRegistry.LEARNED_DOMAINS.getName(), learnedDomains);
         getConfig().set(PlayerDataRegistry.LEARNED_SIGNETS.getName(), learnedSignets);
+        getConfig().save();
     }
 
     @Override

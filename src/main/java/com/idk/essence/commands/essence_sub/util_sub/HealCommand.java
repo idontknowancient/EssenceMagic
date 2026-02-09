@@ -6,28 +6,32 @@ import com.idk.essence.utils.messages.SystemMessage;
 import com.idk.essence.utils.permissions.Permission;
 import com.idk.essence.utils.permissions.SystemPermission;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GodCommand extends SubCommand {
+import java.util.Optional;
 
-    public GodCommand(String name) {
+public class HealCommand extends SubCommand {
+
+    public HealCommand(String name) {
         super(name);
     }
 
     @Override
     public String getDescription() {
-        return "Make a player invulnerable.";
+        return "Totally Heal a player.";
     }
 
     @Override
     public String getSyntax(CommandSender sender) {
-        return EssenceCommand.getSyntaxFromStrings("/essence util god", "player", true, false);
+        return EssenceCommand.getSyntaxFromStrings("/essence util heal", "player", true, false);
     }
 
     @Override
     public Permission getPermission() {
-        return Permission.COMMAND_UTIL_GOD;
+        return Permission.COMMAND_UTIL_HEAL;
     }
 
     @Override
@@ -48,12 +52,12 @@ public class GodCommand extends SubCommand {
                 SystemMessage.PLAYER_ONLY.send(sender);
                 return;
             }
-            switchGodMode(p);
+            heal(p);
             return;
         }
 
-        // Set other player's god mode
-        if(sender instanceof Player p && !SystemPermission.checkPerm(p, Permission.COMMAND_UTIL_GOD_OTHERS)) {
+        // Heal other player
+        if(sender instanceof Player p && !SystemPermission.checkPerm(p, Permission.COMMAND_UTIL_HEAL_OTHERS)) {
             SystemMessage.INADEQUATE_PERMISSION.send(p);
             return;
         }
@@ -62,16 +66,13 @@ public class GodCommand extends SubCommand {
             SystemMessage.PLAYER_NOT_EXIST.send(sender);
             return;
         }
-        switchGodMode(target);
+        heal(target);
     }
 
-    private void switchGodMode(Player p) {
-        if(p.isInvulnerable()) {
-            p.setInvulnerable(false);
-            SystemMessage.GOD_MODE_DISABLED.send(p);
-        } else {
-            p.setInvulnerable(true);
-            SystemMessage.GOD_MODE_ENABLED.send(p);
-        }
+    private void heal(Player player) {
+        player.setHealth(Optional.ofNullable(player.getAttribute(Attribute.MAX_HEALTH))
+                .map(AttributeInstance::getValue).orElse(20d));
+        player.setFoodLevel(20);
+        player.setSaturation(20);
     }
 }

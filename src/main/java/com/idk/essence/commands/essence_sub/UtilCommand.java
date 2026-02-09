@@ -3,6 +3,7 @@ package com.idk.essence.commands.essence_sub;
 import com.idk.essence.commands.EssenceCommand;
 import com.idk.essence.commands.SubCommand;
 import com.idk.essence.commands.essence_sub.util_sub.GodCommand;
+import com.idk.essence.commands.essence_sub.util_sub.HealCommand;
 import com.idk.essence.utils.permissions.Permission;
 import org.bukkit.command.CommandSender;
 
@@ -11,6 +12,7 @@ public class UtilCommand extends SubCommand {
     public UtilCommand(String name) {
         super(name);
         getSubCommands().put("god", new GodCommand("god"));
+        getSubCommands().put("heal", new HealCommand("heal"));
     }
 
     @Override

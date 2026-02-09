@@ -26,6 +26,7 @@ D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essen
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essence_sub\skill_sub\MenuCommand.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essence_sub\SkillCommand.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essence_sub\util_sub\GodCommand.java
+D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essence_sub\util_sub\HealCommand.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essence_sub\UtilCommand.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essence_sub\wand_sub\GetCommand.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\commands\essence_sub\wand_sub\InfoCommand.java
@@ -60,6 +61,7 @@ D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\domains
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\domains\FeatureDomain.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\domains\IntensityDomain.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\domains\OriginDomain.java
+D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\individuals\ManaInfusion.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\individuals\MECS.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\individuals\MPS.java
 D:\Desktop\Minecraft Plugin\Essence\src\main\java\com\idk\essence\magics\individuals\MS.java

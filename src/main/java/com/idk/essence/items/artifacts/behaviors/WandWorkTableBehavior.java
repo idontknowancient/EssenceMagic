@@ -44,7 +44,7 @@ public class WandWorkTableBehavior implements ArtifactBehavior, ParticleFeature,
                 return;
             }
 
-            int amount = Key.Type.WAND_SLOT.getContentOrDefault(item, 1);
+            int amount = Key.Type.WAND_SLOT.getContentOrDefault(item, 2);
             // Surrounding
             spawnNode(block, player.getLocation().getYaw(), amount);
             // Center
